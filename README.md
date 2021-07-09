@@ -1,5 +1,6 @@
 # what-todo.app
 
+This app allows you to input what you want to do in the nearest future and reminds you of them.
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 # Netlify Status
