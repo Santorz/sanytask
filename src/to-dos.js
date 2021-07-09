@@ -17,7 +17,6 @@ const Todos = () => {
   const markTodoAsDone = (id) => {
     // Send info to DB
     //Fade element out and delete it
-
     deleteTodo(id);
   };
 
@@ -58,7 +57,7 @@ const Todos = () => {
                 color="red"
                 icon="trash"
                 onClick={() => {
-                  markTodoAsDone(id, "todo" + id);
+                  markTodoAsDone(id);
                 }}
               ></Button>
             </div>
