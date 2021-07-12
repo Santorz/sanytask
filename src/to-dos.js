@@ -4,20 +4,26 @@ import { data } from "./data";
 
 // CSS
 import "semantic-ui-css/semantic.min.css";
-import "animate.css";
+// import "animate.css";
 import "./index.css";
 
 const Todos = () => {
   const [todos, setTodos] = React.useState(data);
 
   const deleteTodo = (id) => {
-    let newTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(newTodos);
+    let confirmation = window.confirm(
+      "Are you sure you want to delete this task?"
+    );
+    if (confirmation === true) {
+      let newTodos = todos.filter((todo) => todo.id !== id);
+      setTodos(newTodos);
+    }
   };
   const markTodoAsDone = (id) => {
     // Send info to DB
     //Fade element out and delete it
-    deleteTodo(id);
+    let newTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(newTodos);
   };
 
   return (
@@ -25,11 +31,7 @@ const Todos = () => {
       {todos.map((todo, index) => {
         const { id, text } = todo;
         return (
-          <Segment
-            className="each-todo d-flex-row animate__animated animate__fadeIn"
-            key={id}
-            id={"todo-" + id}
-          >
+          <Segment className="each-todo d-flex-row" key={id} id={"todo-" + id}>
             <h4 style={{ margin: "0" }} className="todo-sn">
               {index + 1}.
             </h4>
@@ -47,7 +49,7 @@ const Todos = () => {
                 color="green"
                 icon="check"
                 onClick={() => {
-                  deleteTodo(id);
+                  markTodoAsDone(id);
                 }}
               ></Button>
               <Button
@@ -57,7 +59,7 @@ const Todos = () => {
                 color="red"
                 icon="trash"
                 onClick={() => {
-                  markTodoAsDone(id);
+                  deleteTodo(id);
                 }}
               ></Button>
             </div>
