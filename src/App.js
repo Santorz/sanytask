@@ -59,11 +59,8 @@ const App = () => {
             className="animate__animated animate__fadeIn animate__fast"
           >
             <Header size="large" color="teal" style={{ marginTop: ".5rem" }}>
-              Basic Todo App
+              what-todo.app
             </Header>
-            <h4 style={{ margin: "1rem 0" }}>
-              All your todo items are displayed here
-            </h4>
             {/* Todos Part */}
             <Todos />
             {/* End of Todos Part */}

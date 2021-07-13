@@ -1,5 +1,5 @@
 import React from "react";
-import { Segment, Button } from "semantic-ui-react";
+import { Segment, Button, Header, Icon } from "semantic-ui-react";
 import { data } from "./data";
 
 // CSS
@@ -27,46 +27,74 @@ const Todos = () => {
   };
 
   return (
-    <div id="todos-container">
-      {todos.map((todo, index) => {
-        const { id, text } = todo;
-        return (
-          <Segment className="each-todo d-flex-row" key={id} id={"todo-" + id}>
-            <h4 style={{ margin: "0" }} className="todo-sn">
-              {index + 1}.
-            </h4>
-            <h4
-              style={{ margin: "0", textAlign: "center" }}
-              className="todo-text"
+    <>
+      {todos.length > 1 && (
+        <h4 style={{ margin: "1rem 0" }}>
+          You have {todos.length} upcoming tasks
+        </h4>
+      )}
+
+      {todos.length === 1 && (
+        <h4 style={{ margin: "1rem 0" }}>
+          You have {todos.length} upcoming task
+        </h4>
+      )}
+
+      {todos.length < 1 && (
+        <Segment padded placeholder>
+          <Header icon>
+            <Icon name="calendar check" />
+            You don't have any tasks yet.
+          </Header>
+          <Button color="teal">Create new </Button>
+        </Segment>
+      )}
+
+      <div id="todos-container">
+        {todos.map((todo, index) => {
+          const { id, text } = todo;
+          return (
+            <Segment
+              className="each-todo d-flex-row"
+              key={id}
+              id={"todo-" + id}
             >
-              {text}
-            </h4>
-            <div>
-              <Button
-                style={{ margin: "0 3px" }}
-                className="todo-done-btn"
-                basic
-                color="green"
-                icon="check"
-                onClick={() => {
-                  markTodoAsDone(id);
-                }}
-              ></Button>
-              <Button
-                style={{ margin: "0 3px" }}
-                className="todo-delete-btn"
-                basic
-                color="red"
-                icon="trash"
-                onClick={() => {
-                  deleteTodo(id);
-                }}
-              ></Button>
-            </div>
-          </Segment>
-        );
-      })}
-    </div>
+              <h4 style={{ margin: "0" }} className="todo-sn">
+                {index + 1}.
+              </h4>
+              <h4
+                style={{ margin: "0", textAlign: "center" }}
+                className="todo-text"
+              >
+                {text}
+              </h4>
+              <div>
+                <Button
+                  style={{ margin: "0 3px" }}
+                  className="todo-done-btn"
+                  basic
+                  color="green"
+                  icon="check"
+                  onClick={() => {
+                    markTodoAsDone(id);
+                  }}
+                ></Button>
+                <Button
+                  style={{ margin: "0 3px" }}
+                  className="todo-delete-btn"
+                  basic
+                  color="red"
+                  icon="trash"
+                  onClick={() => {
+                    deleteTodo(id);
+                  }}
+                ></Button>
+              </div>
+            </Segment>
+          );
+        })}
+      </div>
+    </>
   );
 };
 
