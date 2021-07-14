@@ -5,7 +5,7 @@ import { data } from "./data";
 // CSS
 import "semantic-ui-css/semantic.min.css";
 // import "animate.css";
-import "./index.css";
+import "../index.css";
 
 const Todos = () => {
   const [todos, setTodos] = React.useState(data);
@@ -29,24 +29,27 @@ const Todos = () => {
   return (
     <>
       {todos.length > 1 && (
-        <h4 style={{ margin: "1rem 0" }}>
-          You have {todos.length} upcoming tasks
+        <h4 style={{ margin: "1rem 0", color: "teal" }}>
+          You have {todos.length} tasks left to complete.
         </h4>
       )}
 
       {todos.length === 1 && (
-        <h4 style={{ margin: "1rem 0" }}>
-          You have {todos.length} upcoming task
+        <h4 style={{ margin: "1rem 0", color: "teal" }}>
+          You have {todos.length} task left to complete.
         </h4>
       )}
 
       {todos.length < 1 && (
-        <Segment padded placeholder>
+        <Segment padded placeholder style={{ userSelect: "none" }}>
           <Header icon>
-            <Icon name="calendar check" />
-            You don't have any tasks yet.
+            <Icon color="teal" name="calendar check" />
+            You're all done...
           </Header>
-          <Button color="teal">Create new </Button>
+          <Button basic color="black">
+            <Icon name="plus circle"></Icon>
+            Create new task
+          </Button>
         </Segment>
       )}
 

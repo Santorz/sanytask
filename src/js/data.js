@@ -4,4 +4,5 @@ export const data = [
   { id: 3, text: "Go to Stater Bros." },
   { id: 4, text: "Read my Bible" },
   { id: 5, text: "Do the laundry" },
+  { id: 5, text: "Visit Mrs. Lorris" },
 ];
