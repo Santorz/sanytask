@@ -54,6 +54,7 @@
   padding: 0 !important;
   position: relative;
   align-items: center !important;
+  margin: 0.35rem 0 !important;
 }
 .desktop-ul li {
   list-style-type: none !important;
