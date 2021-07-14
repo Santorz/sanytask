@@ -7,6 +7,7 @@
   z-index: 99 !important;
   border-top-left-radius: 1rem !important;
   border-top-right-radius: 1rem !important;
+  background-color: whitesmoke !important;
 }
 .mobile-ul {
   display: flex !important;
@@ -39,8 +40,7 @@
 
 /* Desktop */
 .desktop-nav-segment {
-  background-color: teal !important;
-  color: white;
+  background-color: whitesmoke !important;
   display: flex !important;
   justify-content: space-between !important;
   margin-bottom: 1rem !important;
@@ -61,7 +61,7 @@
   padding: 0 1.5rem !important;
 }
 #create-button-desktop {
-  background-color: white;
+  background-color: teal;
   border-radius: 3rem !important;
   padding: 0 2rem !important;
   box-shadow: 0 0 5px 0.1px rgb(50, 50, 50);
@@ -72,5 +72,5 @@
   text-align: center !important;
   justify-content: center;
   align-items: center;
-  color: white !important;
+  color: teal !important;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Segment, Header /*Accordion*/ } from "semantic-ui-react";
+import { Grid, Segment, Header, Icon } from "semantic-ui-react";
 import Navbar from "./navbar";
 import Todos from "./to-dos";
 
@@ -15,13 +15,19 @@ const App = () => {
       <Grid textAlign="center" stackable padded verticalAlign="middle">
         <Grid.Column mobile={14} tablet={8} computer={6}>
           <Segment
+            raised
             padded
             color="teal"
             className="animate__animated animate__fadeIn animate__fast"
           >
-            <Header size="large" color="black">
-              Pending tasks
+            <Header size="medium" color="black">
+              Pending Tasks
+              <Icon
+                name="list alternate outline"
+                style={{ marginRight: "1px" }}
+              ></Icon>
             </Header>
+
             {/* Todos Part */}
             <Todos />
             {/* End of Todos Part */}

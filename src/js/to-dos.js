@@ -28,25 +28,32 @@ const Todos = () => {
 
   return (
     <>
+      {/* This would be displayed if there is more than one task left */}
       {todos.length > 1 && (
         <h4 style={{ margin: "1rem 0", color: "teal" }}>
-          You have {todos.length} tasks left to complete.
+          You have {todos.length} tasks to complete.
         </h4>
       )}
 
+      {/* This would be displayed if there is only one task left */}
       {todos.length === 1 && (
         <h4 style={{ margin: "1rem 0", color: "teal" }}>
-          You have {todos.length} task left to complete.
+          You have {todos.length} task to complete.
         </h4>
       )}
 
+      {/* This would be displayed if there are no tasks left */}
       {todos.length < 1 && (
-        <Segment padded placeholder style={{ userSelect: "none" }}>
+        <Segment
+          padded
+          placeholder
+          style={{ userSelect: "none", backgroundColor: "whitesmoke" }}
+        >
           <Header icon>
             <Icon color="teal" name="calendar check" />
             You're all done...
           </Header>
-          <Button basic color="black">
+          <Button color="black">
             <Icon name="plus circle"></Icon>
             Create new task
           </Button>
