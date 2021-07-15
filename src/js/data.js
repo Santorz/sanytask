@@ -1,9 +1,9 @@
 export const data = [
   {
     id: 1,
-    text: "Say 'Hi' to Grandma",
+    text: "Visit Grandma today",
     details:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio aspernatur facilis corrupti. Nesciunt, recusandae odio! Eum adipisci ab minima autem, pariatur ipsa voluptates similique nisi natus, obcaecati debitis odio deleniti, dolore recusandae! Facere nemo, aspernatur dolorum aliquam laudantium quam molestiae.",
+      "It's been long since you visited grandma. She called yeterday and said you should be there by latest 12pm today. I hope you are ready.",
   },
   {
     id: 2,

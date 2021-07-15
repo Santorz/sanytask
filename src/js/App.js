@@ -31,7 +31,7 @@ const App = () => {
           <Segment
             raised
             padded
-            className="animate__animated animate__fadeIn animate__fast px-1 px-md-3"
+            className="animate__animated animate__fadeIn animate__fast px-2 px-md-3"
             style={{
               backgroundColor: "whitesmoke",
               border: "2px solid teal",

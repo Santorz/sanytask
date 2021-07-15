@@ -21,7 +21,7 @@ const Todo_Accordion = (props) => {
   const { snumber, id, title, children } = props;
 
   return (
-    <Segment className="accordion__section each-todo p-0" id={id}>
+    <Segment raised className="accordion__section each-todo p-0" id={id}>
       <button
         type="button"
         className={`accordion px-1 ${setActive}`}
