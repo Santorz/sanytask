@@ -1,0 +1,13 @@
+.each-todo {
+  margin: 0 !important;
+  margin-top: 0.5rem !important;
+  user-select: none !important;
+}
+.todo-action-btn {
+  font-weight: bolder !important;
+}
+.todo-done-btn {
+  color: rgb(0, 128, 85) !important;
+  border: 1.5px solid rgb(0, 128, 85) !important;
+  background-color: transparent !important;
+}

@@ -1,8 +1,32 @@
 export const data = [
-  { id: 1, text: "Say 'Hi' to Grandma" },
-  { id: 2, text: "Do the dishes" },
-  { id: 3, text: "Go to Stater Bros." },
-  { id: 4, text: "Read my Bible" },
-  { id: 5, text: "Do the laundry" },
-  { id: 6, text: "Visit Mrs. Lorris" },
+  {
+    id: 1,
+    text: "Say 'Hi' to Grandma",
+    details:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio aspernatur facilis corrupti. Nesciunt, recusandae odio! Eum adipisci ab minima autem, pariatur ipsa voluptates similique nisi natus, obcaecati debitis odio deleniti, dolore recusandae! Facere nemo, aspernatur dolorum aliquam laudantium quam molestiae.",
+  },
+  {
+    id: 2,
+    text: "Do the dishes",
+    details:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio aspernatur facilis corrupti. Nesciunt, recusandae odio! Eum adipisci ab minima autem, pariatur ipsa voluptates similique nisi natus, obcaecati debitis odio deleniti, dolore recusandae! Facere nemo, aspernatur dolorum aliquam laudantium quam molestiae.",
+  },
+  {
+    id: 3,
+    text: "Go to Stater Bros.",
+    details:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio aspernatur facilis corrupti. Nesciunt, recusandae odio! Eum adipisci ab minima autem, pariatur ipsa voluptates similique nisi natus, obcaecati debitis odio deleniti, dolore recusandae! Facere nemo, aspernatur dolorum aliquam laudantium quam molestiae.",
+  },
+  {
+    id: 4,
+    text: "Read my Bible",
+    details:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio aspernatur facilis corrupti. Nesciunt, recusandae odio! Eum adipisci ab minima autem, pariatur ipsa voluptates similique nisi natus, obcaecati debitis odio deleniti, dolore recusandae! Facere nemo, aspernatur dolorum aliquam laudantium quam molestiae.",
+  },
+  {
+    id: 5,
+    text: "Do the laundry",
+    details:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio aspernatur facilis corrupti. Nesciunt, recusandae odio! Eum adipisci ab minima autem, pariatur ipsa voluptates similique nisi natus, obcaecati debitis odio deleniti, dolore recusandae! Facere nemo, aspernatur dolorum aliquam laudantium quam molestiae.",
+  },
 ];

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Segment, Container } from "semantic-ui-react";
 import { Home, Plus, Bookmark, User, Archive } from "react-feather";
-import "../css/bootstrap-4-utilities.min.css";
+import "../css/bootstrap-utilities.min.css";
 import "../css/navbar.css";
 
 const Navbar = () => {
@@ -31,7 +31,7 @@ const Navbar = () => {
 const MobileNav = () => {
   return (
     <Container fluid className="px-0">
-      <Segment color="teal" className="p-0 mobile-nav-segment">
+      <Segment color="teal" className="p-0 mobile-nav-segment" id="mobile-nav">
         <ul className="mobile-ul p-0 mx-0">
           <li>
             <a href="./" className="mobile-link">
@@ -76,7 +76,7 @@ const DesktopNav = () => {
     <Container className="px-0" fluid>
       <Segment raised className="px-5 desktop-nav-segment py-0">
         <h2 className="m-0" style={{ color: "teal" }}>
-          what-todo.app
+          what-to-do.app
         </h2>
         <ul className="desktop-ul">
           <li>

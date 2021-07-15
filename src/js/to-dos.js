@@ -1,11 +1,12 @@
 import React from "react";
 import { Segment, Button, Header, Icon } from "semantic-ui-react";
 import { data } from "./data";
+import TodoAccordion from "./Todo_Accordion";
 
 // CSS
 import "semantic-ui-css/semantic.min.css";
 // import "animate.css";
-import "../index.css";
+import "../css/todos.css";
 
 const Todos = () => {
   const [todos, setTodos] = React.useState(data);
@@ -19,6 +20,7 @@ const Todos = () => {
       setTodos(newTodos);
     }
   };
+
   const markTodoAsDone = (id) => {
     // Send info to DB
     //Fade element out and delete it
@@ -47,7 +49,10 @@ const Todos = () => {
         <Segment
           padded
           placeholder
-          style={{ userSelect: "none", backgroundColor: "whitesmoke" }}
+          style={{
+            userSelect: "none",
+            backgroundColor: "transparent !important",
+          }}
         >
           <Header icon>
             <Icon color="teal" name="calendar check" />
@@ -62,36 +67,54 @@ const Todos = () => {
 
       <div id="todos-container">
         {todos.map((todo, index) => {
-          const { id, text } = todo;
+          const { id, text, details } = todo;
           return (
-            <Segment
-              className="each-todo d-flex-row"
+            <TodoAccordion
+              snumber={index + 1}
               key={id}
-              id={"todo-" + id}
+              title={text}
+              content={text}
+              id={`todo-${id}`}
             >
-              <h4 style={{ margin: "0" }} className="todo-sn">
-                {index + 1}.
-              </h4>
-              <h4
-                style={{ margin: "0", textAlign: "center" }}
-                className="todo-text"
+              <h3
+                className="mb-0"
+                style={{
+                  color: "teal",
+                  textAlign: "left",
+                  fontSize: "1.35rem",
+                }}
               >
-                {text}
+                Details :
+              </h3>
+              <h4 className="mt-1" style={{ textAlign: "left" }}>
+                {details}
               </h4>
-              <div>
+              <div className="d-flex flex-wrap justify-content-end">
                 <Button
                   style={{ margin: "0 3px" }}
-                  className="todo-done-btn"
-                  basic
-                  color="green"
+                  className="my-1 my-lg-0 todo-action-btn todo-done-btn"
                   icon="check"
+                  content="Done"
+                  labelPosition="left"
                   onClick={() => {
                     markTodoAsDone(id);
                   }}
                 ></Button>
                 <Button
                   style={{ margin: "0 3px" }}
-                  className="todo-delete-btn"
+                  className="my-1 my-lg-0 todo-action-btn todo-edit-btn"
+                  icon="pencil"
+                  content="Edit"
+                  labelPosition="left"
+                  basic
+                  color="black"
+                  onClick={() => {}}
+                ></Button>
+                <Button
+                  style={{ margin: "0 3px" }}
+                  className="my-1 my-lg-0 todo-action-btn todo-delete-btn"
+                  content="Delete"
+                  labelPosition="left"
                   basic
                   color="red"
                   icon="trash"
@@ -100,7 +123,7 @@ const Todos = () => {
                   }}
                 ></Button>
               </div>
-            </Segment>
+            </TodoAccordion>
           );
         })}
       </div>
