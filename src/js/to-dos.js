@@ -89,7 +89,7 @@ const Todos = () => {
               <h4 className="mt-1" style={{ textAlign: "left" }}>
                 {details}
               </h4>
-              <div className="d-flex flex-wrap justify-content-end">
+              <div className="d-flex flex-wrap justify-content-around">
                 <Button
                   style={{ margin: "0 3px" }}
                   className="my-1 my-lg-0 todo-action-btn todo-done-btn"

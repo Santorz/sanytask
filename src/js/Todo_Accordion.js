@@ -23,6 +23,7 @@ const Todo_Accordion = (props) => {
   return (
     <Segment className="accordion__section each-todo p-0" id={id}>
       <button
+        type="button"
         className={`accordion px-1 ${setActive}`}
         onClick={toggleAccordion}
       >
