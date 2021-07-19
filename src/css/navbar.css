@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap");
+.open-sans-font {
+  font-family: "Open Sans", sans-serif !important;
+}
 .mobile-nav-segment {
   width: 100vw !important;
   position: fixed !important;
@@ -5,8 +9,13 @@
   left: 0 !important;
   right: 0 !important;
   z-index: 99 !important;
-  border-top-left-radius: 1rem !important;
-  border-top-right-radius: 1rem !important;
+  border: none !important;
+  border-radius: 0 !important;
+  border-top: 2px solid #006976 !important;
+  border-left: 1.5px solid #006976 !important;
+  border-right: 1.5px solid #006976 !important;
+  border-top-left-radius: 1.5rem !important;
+  border-top-right-radius: 1.5rem !important;
   background-color: whitesmoke !important;
 }
 .mobile-ul {
@@ -29,13 +38,13 @@
 #create-button-mobile {
   position: absolute;
   bottom: 28.5px;
-  background-color: teal;
+  background-color: #006976;
   border-radius: 50% !important;
   padding: 0.65rem;
-  box-shadow: 0 0 5px 0.1px rgb(50, 50, 50);
+  box-shadow: 0 0 2px 0.1px rgb(50, 50, 50);
 }
 .mobile-link h5 {
-  color: teal;
+  color: #006976;
 }
 
 /* Desktop */
@@ -46,6 +55,9 @@
   margin-bottom: 1rem !important;
   border-radius: 0 !important;
   align-items: center !important;
+}
+.desktop-nav-segment h2 {
+  color: #006976 !important;
 }
 .desktop-ul {
   display: flex !important;
@@ -61,10 +73,10 @@
   padding: 0 1.5rem !important;
 }
 #create-button-desktop {
-  background-color: teal;
+  background-color: #006976;
   border-radius: 3rem !important;
   padding: 0 2rem !important;
-  box-shadow: 0 0 5px 0.1px rgb(50, 50, 50);
+  box-shadow: 0 0 2px 0.1px rgb(50, 50, 50);
 }
 .desktop-link {
   display: flex !important;
@@ -72,5 +84,5 @@
   text-align: center !important;
   justify-content: center;
   align-items: center;
-  color: teal !important;
+  color: #006976 !important;
 }

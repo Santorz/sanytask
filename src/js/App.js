@@ -27,14 +27,14 @@ const App = () => {
         verticalAlign="middle"
         id="app-main-body"
       >
-        <Grid.Column mobile={15} tablet={8} computer={6}>
+        <Grid.Column mobile={15} tablet={9} computer={6}>
           <Segment
             raised
             padded
             className="animate__animated animate__fadeIn animate__fast px-2 px-md-3"
             style={{
               backgroundColor: "whitesmoke",
-              border: "2px solid teal",
+              border: "2px solid #006976",
             }}
           >
             <Header size="medium" color="black">

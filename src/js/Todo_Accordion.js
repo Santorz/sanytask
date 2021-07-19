@@ -12,7 +12,7 @@ const Todo_Accordion = (props) => {
 
   function toggleAccordion() {
     setActiveState(setActive === "" ? "active" : "");
-    setHeightState(setActive === "active" ? "0px" : `${200}px`);
+    setHeightState(setActive === "active" ? "0px" : `${220}px`);
     setRotateState(
       setActive === "active" ? "accordion__icon" : "accordion__icon rotate"
     );
@@ -26,6 +26,7 @@ const Todo_Accordion = (props) => {
         type="button"
         className={`accordion px-1 ${setActive}`}
         onClick={toggleAccordion}
+        style={{ borderRadius: ".29rem" }}
       >
         <Header as="h4" className="m-0 pl-2 pe-5 todo-snumber">
           {snumber}.

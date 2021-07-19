@@ -1,24 +1,43 @@
-import React from "react";
-import { Segment, Button, Header, Icon } from "semantic-ui-react";
+import React, { useState } from "react";
+import { Segment, Button, Header, Icon, Confirm } from "semantic-ui-react";
 import { data } from "./data";
+// import DeleteModal from "./Components/Delete_Modal";
 import TodoAccordion from "./Todo_Accordion";
 
 // CSS
 import "semantic-ui-css/semantic.min.css";
+import "../css/bootstrap-utilities.min.css";
 // import "animate.css";
 import "../css/todos.css";
+import "../css/delete-modal.css";
 
+// TODOS COMPONENT
 const Todos = () => {
-  const [todos, setTodos] = React.useState(data);
+  const [todos, setTodos] = useState(data);
+  const [specificTodoID, setSpecificTodoID] = useState(null);
 
-  const deleteTodo = (id) => {
-    let confirmation = window.confirm(
-      "Are you sure you want to delete this task?"
-    );
-    if (confirmation === true) {
-      let newTodos = todos.filter((todo) => todo.id !== id);
-      setTodos(newTodos);
-    }
+  let deleteModalPreviousState = { open: false, result: "" };
+
+  const [deleteModalPresentState, setdeleteModalState] = useState(
+    deleteModalPreviousState
+  );
+
+  const deleteTodoMainAction = (id) => {
+    let newTodos = todos.filter((todo) => todo.id !== Number(id));
+    setTodos(newTodos);
+  };
+
+  const handleDeleteModalConfirm = () => {
+    let todo_id_num = specificTodoID;
+    setdeleteModalState({ result: "confirmed", open: false });
+    deleteTodoMainAction(todo_id_num);
+  };
+  const handleDeleteModalCancel = () =>
+    setdeleteModalState({ result: "cancelled", open: false });
+
+  const showdeleteTodoModal = (e) => {
+    setSpecificTodoID(e.target.id.split("-")[1]);
+    setdeleteModalState({ open: true, result: "" });
   };
 
   const markTodoAsDone = (id) => {
@@ -32,18 +51,16 @@ const Todos = () => {
     <>
       {/* This would be displayed if there is more than one task left */}
       {todos.length > 1 && (
-        <h4 style={{ margin: "1rem 0", color: "teal" }}>
+        <h4 style={{ margin: "1rem 0", color: "#006976" }}>
           You have {todos.length} tasks to complete.
         </h4>
       )}
-
       {/* This would be displayed if there is only one task left */}
       {todos.length === 1 && (
-        <h4 style={{ margin: "1rem 0", color: "teal" }}>
+        <h4 style={{ margin: "1rem 0", color: "#006976" }}>
           You have {todos.length} task to complete.
         </h4>
       )}
-
       {/* This would be displayed if there are no tasks left */}
       {todos.length < 1 && (
         <Segment
@@ -64,7 +81,6 @@ const Todos = () => {
           </Button>
         </Segment>
       )}
-
       <div id="todos-container">
         {todos.map((todo, index) => {
           const { id, text, details } = todo;
@@ -81,7 +97,7 @@ const Todos = () => {
                 style={{
                   color: "teal",
                   textAlign: "left",
-                  fontSize: "1.35rem",
+                  fontSize: "1.15rem",
                 }}
               >
                 Details :
@@ -118,16 +134,56 @@ const Todos = () => {
                   basic
                   color="red"
                   icon="trash"
-                  onClick={() => {
-                    deleteTodo(id);
-                  }}
+                  id={`delteBtn-${todo.id}`}
+                  onClick={showdeleteTodoModal}
                 ></Button>
               </div>
             </TodoAccordion>
           );
         })}
       </div>
+
+      {/* Delete Modal */}
+      <DeleteModal
+        PresentState={deleteModalPresentState.open}
+        onCancel={handleDeleteModalCancel}
+        onConfirm={handleDeleteModalConfirm}
+      >
+        <div className="px-3 pt-3 pb-2 d-flex flex-column">
+          <h3 className="open-sans-font red-text mb-0">
+            Are you sure you want to delete this task ?
+          </h3>
+          <h5 className="my-0 py-1 red-text">
+            Note: You can't undo this action.
+          </h5>
+          <h5 className="my-0 pt-3">
+            A record of this to-do can be found in your{" "}
+            <span style={{ borderBottom: "1.5px solid #006976" }}>
+              <a href="./" className="teal-text">
+                Archive.
+              </a>
+            </span>
+          </h5>
+        </div>
+      </DeleteModal>
+      {/* End of delete modal */}
     </>
+  );
+};
+
+const DeleteModal = (props) => {
+  const { PresentState, onCancel, onConfirm } = props;
+  return (
+    <Confirm
+      id="delete-modal"
+      open={PresentState}
+      onCancel={onCancel}
+      onConfirm={onConfirm}
+      cancelButton="No I don't"
+      confirmButton="Yes, proceed"
+      content={props.children}
+      size="tiny"
+    />
   );
 };
 

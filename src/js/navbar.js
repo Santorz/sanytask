@@ -31,17 +31,17 @@ const Navbar = () => {
 const MobileNav = () => {
   return (
     <Container fluid className="px-0">
-      <Segment color="teal" className="p-0 mobile-nav-segment" id="mobile-nav">
+      <Segment className="p-0 mobile-nav-segment" id="mobile-nav">
         <ul className="mobile-ul p-0 mx-0">
           <li>
             <a href="./" className="mobile-link">
-              <Home size={25} color="teal" />
+              <Home size={25} color="#006976" />
               <h5 className="p-0 m-0">Home</h5>
             </a>
           </li>
           <li>
             <a href="./" className="mobile-link">
-              <Archive size={25} color="teal" />
+              <Archive size={25} color="#006976" />
               <h5 className="p-0 m-0">Archive</h5>
             </a>
           </li>
@@ -55,13 +55,13 @@ const MobileNav = () => {
           </li>
           <li>
             <a href="./" className="mobile-link">
-              <Bookmark size={25} color="teal" />
+              <Bookmark size={25} color="#006976" />
               <h5 className="p-0 m-0">Blog</h5>
             </a>
           </li>
           <li>
             <a href="./" className="mobile-link">
-              <User size={25} color="teal" />
+              <User size={25} color="#006976" />
               <h5 className="p-0 m-0">Profile</h5>
             </a>
           </li>
@@ -75,19 +75,19 @@ const DesktopNav = () => {
   return (
     <Container className="px-0" fluid>
       <Segment raised className="px-5 desktop-nav-segment py-0">
-        <h2 className="m-0" style={{ color: "teal" }}>
+        <h2 className="m-0" style={{ color: "#006976" }}>
           what-to-do.app
         </h2>
         <ul className="desktop-ul">
           <li>
             <a href="./" className="desktop-link">
-              <Home size={32} color="teal" />
+              <Home size={32} color="#006976" />
               <h5 className="p-0 m-0">Home</h5>
             </a>
           </li>
           <li>
             <a href="./" className="desktop-link">
-              <Archive size={32} color="teal" />
+              <Archive size={32} color="#006976" />
               <h5 className="p-0 m-0">Archive</h5>
             </a>
           </li>
@@ -101,13 +101,13 @@ const DesktopNav = () => {
           </li>
           <li>
             <a href="./" className="desktop-link">
-              <Bookmark size={32} color="teal" />
+              <Bookmark size={32} color="#006976" />
               <h5 className="p-0 m-0">Blog</h5>
             </a>
           </li>
           <li>
             <a href="./" className="desktop-link">
-              <User size={32} color="teal" />
+              <User size={32} color="#006976" />
               <h5 className="p-0 m-0">Profile</h5>
             </a>
           </li>

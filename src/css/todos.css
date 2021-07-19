@@ -7,7 +7,7 @@
   font-weight: bolder !important;
 }
 .todo-done-btn {
-  color: rgb(0, 128, 85) !important;
-  border: 1.5px solid rgb(0, 128, 85) !important;
+  color: #006976 !important;
+  border: 1.95px solid #006976 !important;
   background-color: transparent !important;
 }
