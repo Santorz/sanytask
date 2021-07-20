@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Segment, Button, Header, Icon, Confirm } from "semantic-ui-react";
+import { Segment, Button, Header, Icon } from "semantic-ui-react";
 import { data } from "./data";
-// import DeleteModal from "./Components/Delete_Modal";
+import DeleteModal from "./Components/Delete_Modal";
 import TodoAccordion from "./Todo_Accordion";
 
 // CSS
@@ -9,7 +9,6 @@ import "semantic-ui-css/semantic.min.css";
 import "../css/bootstrap-utilities.min.css";
 // import "animate.css";
 import "../css/todos.css";
-import "../css/delete-modal.css";
 
 // TODOS COMPONENT
 const Todos = () => {
@@ -23,7 +22,8 @@ const Todos = () => {
   );
 
   const deleteTodoMainAction = (id) => {
-    let newTodos = todos.filter((todo) => todo.id !== Number(id));
+    console.log(Number(id));
+    let newTodos = todos.filter((todo) => Number(todo.id) !== Number(id));
     setTodos(newTodos);
   };
 
@@ -72,10 +72,10 @@ const Todos = () => {
           }}
         >
           <Header icon>
-            <Icon color="teal" name="calendar check" />
+            <Icon name="check" style={{ color: "#006975" }} />
             You're all done...
           </Header>
-          <Button color="black">
+          <Button basic color="black">
             <Icon name="plus circle"></Icon>
             Create new task
           </Button>
@@ -168,22 +168,6 @@ const Todos = () => {
       </DeleteModal>
       {/* End of delete modal */}
     </>
-  );
-};
-
-const DeleteModal = (props) => {
-  const { PresentState, onCancel, onConfirm } = props;
-  return (
-    <Confirm
-      id="delete-modal"
-      open={PresentState}
-      onCancel={onCancel}
-      onConfirm={onConfirm}
-      cancelButton="No I don't"
-      confirmButton="Yes, proceed"
-      content={props.children}
-      size="tiny"
-    />
   );
 };
 
