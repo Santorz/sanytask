@@ -1,51 +1,80 @@
 import React, { useState } from "react";
 import { Segment, Button, Header, Icon } from "semantic-ui-react";
 import { data } from "./data";
-import DeleteModal from "./Components/Delete_Modal";
 import TodoAccordion from "./Todo_Accordion";
+import DeleteModal from "./Components/Delete_Modal";
+import MarkDoneModal from "./Components/Mark_Done_Modal";
+import CustomNotificationManager, {
+  createNotification,
+} from "./Components/Notification_Manager";
 
 // CSS
 import "semantic-ui-css/semantic.min.css";
 import "../css/bootstrap-utilities.min.css";
 // import "animate.css";
 import "../css/todos.css";
+import "react-notifications/lib/notifications.css";
 
 // TODOS COMPONENT
 const Todos = () => {
   const [todos, setTodos] = useState(data);
-  const [specificTodoID, setSpecificTodoID] = useState(null);
+  const [specificTodoID, setSpecificTodoID] = useState(null); //To hold ID of todo to delete
 
   let deleteModalPreviousState = { open: false, result: "" };
+  let markDoneModalPreviousState = { open: false, result: "" };
 
   const [deleteModalPresentState, setdeleteModalState] = useState(
     deleteModalPreviousState
   );
+  const [markDoneModalPresentState, setmarkDoneModalState] = useState(
+    markDoneModalPreviousState
+  );
 
-  const deleteTodoMainAction = (id) => {
-    console.log(Number(id));
-    let newTodos = todos.filter((todo) => Number(todo.id) !== Number(id));
-    setTodos(newTodos);
+  // Deletion functions
+  const showdeleteTodoModal = (e) => {
+    setSpecificTodoID(Number(e.currentTarget.id.split("-")[1]));
+    setdeleteModalState({ open: true, result: "" });
   };
-
   const handleDeleteModalConfirm = () => {
     let todo_id_num = specificTodoID;
     setdeleteModalState({ result: "confirmed", open: false });
     deleteTodoMainAction(todo_id_num);
   };
-  const handleDeleteModalCancel = () =>
+  const handleDeleteModalCancel = () => {
     setdeleteModalState({ result: "cancelled", open: false });
-
-  const showdeleteTodoModal = (e) => {
-    setSpecificTodoID(e.target.id.split("-")[1]);
-    setdeleteModalState({ open: true, result: "" });
   };
-
-  const markTodoAsDone = (id) => {
-    // Send info to DB
-    //Fade element out and delete it
+  const deleteTodoMainAction = (id) => {
     let newTodos = todos.filter((todo) => todo.id !== id);
     setTodos(newTodos);
+    createNotification("delete-success", () => {
+      alert("Cannot be reversed...");
+    });
+    setSpecificTodoID(null);
   };
+  // End of deletion functions
+
+  // Mark as Done functions
+  const showMarkDoneModal = (e) => {
+    setSpecificTodoID(Number(e.currentTarget.id.split("-")[1]));
+    setmarkDoneModalState({ open: true, result: "" });
+  };
+  const handleMarkDoneModalConfirm = () => {
+    let todo_id_num = specificTodoID;
+    setmarkDoneModalState({ result: "confirmed", open: false });
+    markDoneMainAction(todo_id_num);
+  };
+  const handleMarkDoneModalCancel = () => {
+    setmarkDoneModalState({ result: "cancelled", open: false });
+  };
+  const markDoneMainAction = (id) => {
+    let newTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(newTodos);
+    createNotification("mark-done-success", () => {
+      alert("Cannot be reversed...");
+    });
+    setSpecificTodoID(null);
+  };
+  // End of mark as done functions
 
   return (
     <>
@@ -112,9 +141,8 @@ const Todos = () => {
                   icon="check"
                   content="Done"
                   labelPosition="left"
-                  onClick={() => {
-                    markTodoAsDone(id);
-                  }}
+                  id={`markDoneBtn-${todo.id}`}
+                  onClick={showMarkDoneModal}
                 ></Button>
                 <Button
                   style={{ margin: "0 3px" }}
@@ -124,7 +152,9 @@ const Todos = () => {
                   labelPosition="left"
                   basic
                   color="black"
-                  onClick={() => {}}
+                  onClick={() => {
+                    createNotification("info", null, "Feature coming soon !");
+                  }}
                 ></Button>
                 <Button
                   style={{ margin: "0 3px" }}
@@ -134,7 +164,7 @@ const Todos = () => {
                   basic
                   color="red"
                   icon="trash"
-                  id={`delteBtn-${todo.id}`}
+                  id={`deleteBtn-${todo.id}`}
                   onClick={showdeleteTodoModal}
                 ></Button>
               </div>
@@ -167,6 +197,32 @@ const Todos = () => {
         </div>
       </DeleteModal>
       {/* End of delete modal */}
+
+      {/* Mark as Done Modal */}
+      <MarkDoneModal
+        PresentState={markDoneModalPresentState.open}
+        onCancel={handleMarkDoneModalCancel}
+        onConfirm={handleMarkDoneModalConfirm}
+      >
+        <div className="px-3 pt-3 pb-2 d-flex flex-column">
+          <h3 className="open-sans-font teal-text mb-0">
+            Mark this to-do as done ?
+          </h3>
+          <h5 className="my-0 pt-3">
+            A record of this to-do can be found in your{" "}
+            <span style={{ borderBottom: "1.5px solid #006976" }}>
+              <a href="./" className="teal-text">
+                Archive.
+              </a>
+            </span>
+          </h5>
+        </div>
+      </MarkDoneModal>
+      {/* End of Mark as done modal */}
+
+      {/* Notification Manager Container */}
+      <CustomNotificationManager />
+      {/* End of Notification Manager Container */}
     </>
   );
 };
