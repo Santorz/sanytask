@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Segment, Button, Header, Icon } from "semantic-ui-react";
 import { data } from "./data";
 import TodoAccordion from "./Todo_Accordion";
-import DeleteModal from "./Components/Delete_Modal";
-import MarkDoneModal from "./Components/Mark_Done_Modal";
+import DeleteModal from "./utils/Delete_Modal";
+import MarkDoneModal from "./utils/Mark_Done_Modal";
 import CustomNotificationManager, {
   createNotification,
-} from "./Components/Notification_Manager";
+} from "./utils/Notification_Manager";
 
 // CSS
 import "semantic-ui-css/semantic.min.css";

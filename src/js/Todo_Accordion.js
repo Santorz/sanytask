@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Segment, Header } from "semantic-ui-react";
-import Chevron from "./Components/Chevron";
+import Chevron from "./utils/Chevron";
 
 // CSS
 import "../css/todo-accordion.css";
