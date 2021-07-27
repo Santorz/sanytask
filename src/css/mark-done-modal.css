@@ -4,6 +4,8 @@
 }
 #mark-done-modal {
   user-select: none !important;
+  background: rgba(255, 255, 255, 0.93) !important;
+  backdrop-filter: blur(3px);
 }
 #mark-done-modal .actions {
   padding: 0.5rem 1rem !important;

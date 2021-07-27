@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Segment, Container } from "semantic-ui-react";
 import { Home, Plus, Bookmark, User, Archive } from "react-feather";
 import "../css/bootstrap-utilities.min.css";
 import "../css/navbar.css";
+
+const openCreateNewTodoModal = (ref) => {
+  window._handleNewTodoModalTrigger_(ref);
+};
 
 const Navbar = () => {
   const [windowDimension, setWindowDimension] = useState(null);
@@ -29,6 +33,8 @@ const Navbar = () => {
 };
 
 const MobileNav = () => {
+  const triggerCreateNewTodoModalRef = useRef(null);
+
   return (
     <Container fluid className="px-0">
       <Segment className="p-0 mobile-nav-segment" id="mobile-nav">
@@ -45,13 +51,21 @@ const MobileNav = () => {
               <h5 className="p-0 m-0">Archive</h5>
             </a>
           </li>
-          <li id="create-button-mobile">
-            <a href="./" className="mobile-link">
+          <li id="create-button-mobile-li">
+            <button
+              ref={triggerCreateNewTodoModalRef}
+              id="create-button-mobile"
+              className="mobile-link"
+              style={{ backgroundColor: "#006976" }}
+              onClick={() =>
+                openCreateNewTodoModal(triggerCreateNewTodoModalRef)
+              }
+            >
               <Plus size={25} color="white" />
               <h5 className="p-0 m-0" style={{ color: "white" }}>
                 Create
               </h5>
-            </a>
+            </button>
           </li>
           <li>
             <a href="./" className="mobile-link">
@@ -72,6 +86,8 @@ const MobileNav = () => {
 };
 
 const DesktopNav = () => {
+  const triggerCreateNewTodoModalRef = useRef(null);
+
   return (
     <Container className="px-0" fluid>
       <Segment raised className="px-5 desktop-nav-segment py-0">
@@ -91,14 +107,23 @@ const DesktopNav = () => {
               <h5 className="p-0 m-0">Archive</h5>
             </a>
           </li>
-          <li id="create-button-desktop">
-            <a href="./" className="desktop-link py-2">
+          <li id="create-button-desktop-li">
+            <button
+              ref={triggerCreateNewTodoModalRef}
+              className="desktop-link py-2"
+              id="create-button-desktop"
+              style={{ backgroundColor: "#006976" }}
+              onClick={() =>
+                openCreateNewTodoModal(triggerCreateNewTodoModalRef)
+              }
+            >
               <Plus size={25} color="white" />
               <h5 className="p-0 m-0" style={{ color: "white" }}>
                 Create
               </h5>
-            </a>
+            </button>
           </li>
+
           <li>
             <a href="./" className="desktop-link">
               <Bookmark size={32} color="#006976" />

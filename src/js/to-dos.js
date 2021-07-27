@@ -206,7 +206,7 @@ const Todos = () => {
       >
         <div className="px-3 pt-3 pb-2 d-flex flex-column">
           <h3 className="open-sans-font teal-text mb-0">
-            Mark this to-do as done ?
+            Sure you want to mark this to-do as done ?
           </h3>
           <h5 className="my-0 pt-3">
             A record of this to-do can be found in your{" "}
