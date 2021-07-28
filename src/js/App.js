@@ -15,15 +15,22 @@ const App = () => {
   const mobileNavRef = useRef(null);
   const todosContainerRef = useRef(null);
 
-  useEffect(() => {
-    if (isMobileOnly) {
+  const adjustMarginBottom = () => {
+    if (document.readyState === "complete") {
       let mobileNavHeight = mobileNavRef.current.clientHeight;
       todosContainerRef.current.style.marginBottom = `${
         mobileNavHeight + 20
       }px`;
       console.log(todosContainerRef.current.style.marginBottom);
     }
-  });
+  };
+  useEffect(() => {
+    if (isMobileOnly) {
+      document.addEventListener("readystatechange", adjustMarginBottom);
+    }
+    return () =>
+      document.removeEventListener("readystatechange", adjustMarginBottom);
+  }, [isMobileOnly]);
 
   return (
     <>
