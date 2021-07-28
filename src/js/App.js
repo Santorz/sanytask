@@ -1,5 +1,5 @@
-import React from "react";
-import { Grid, Segment, Header } from "semantic-ui-react";
+import React, { useRef, useEffect } from "react";
+import { Grid, Segment, Header, Ref } from "semantic-ui-react";
 import { useMediaQuery } from "react-responsive";
 import Navbar from "./navbar";
 import Todos from "./to-dos";
@@ -12,6 +12,18 @@ import "../index.css";
 
 const App = () => {
   const isMobileOnly = useMediaQuery({ query: "(max-width:768px)" });
+  const mobileNavRef = useRef(null);
+  const todosContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (isMobileOnly) {
+      let mobileNavHeight = mobileNavRef.current.clientHeight;
+      todosContainerRef.current.style.marginBottom = `${
+        mobileNavHeight + 20
+      }px`;
+      console.log(todosContainerRef.current.style.marginBottom);
+    }
+  });
 
   return (
     <>
@@ -20,7 +32,7 @@ const App = () => {
           what-to-do.app
         </Header>
       )}
-      <Navbar />
+      <Navbar ref={mobileNavRef} />
       <Grid
         textAlign="center"
         stackable
@@ -29,23 +41,25 @@ const App = () => {
         id="app-main-body"
       >
         <Grid.Column mobile={15} tablet={9} computer={6}>
-          <Segment
-            raised
-            padded
-            className="animate__animated animate__fadeIn animate__fast px-2 px-md-3"
-            style={{
-              backgroundColor: "whitesmoke",
-              border: "2px solid #006976",
-            }}
-          >
-            <Header size="medium" color="black">
-              Pending Tasks
-            </Header>
+          <Ref innerRef={todosContainerRef}>
+            <Segment
+              raised
+              padded
+              className="animate__animated animate__fadeIn animate__fast px-2 px-md-3"
+              style={{
+                backgroundColor: "whitesmoke",
+                border: "2px solid #006976",
+              }}
+            >
+              <Header size="medium" color="black">
+                Pending Tasks
+              </Header>
 
-            {/* Todos Part */}
-            <Todos />
-            {/* End of Todos Part */}
-          </Segment>
+              {/* Todos Part */}
+              <Todos />
+              {/* End of Todos Part */}
+            </Segment>
+          </Ref>
         </Grid.Column>
       </Grid>
 
