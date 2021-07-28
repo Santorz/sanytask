@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Segment, Button, Header, Icon } from "semantic-ui-react";
+import React, { useState, useRef } from "react";
+import { Segment, Button, Header, Icon, Ref } from "semantic-ui-react";
 import { data } from "./data";
 import TodoAccordion from "./Todo_Accordion";
 import DeleteModal from "./utils/Delete_Modal";
@@ -15,8 +15,16 @@ import "../css/bootstrap-utilities.min.css";
 import "../css/todos.css";
 import "react-notifications/lib/notifications.css";
 
+// Funcs
+const openCreateNewTodoModal = (ref) => {
+  window._handleNewTodoModalTrigger_(ref);
+};
+
 // TODOS COMPONENT
 const Todos = () => {
+  // UseRef for opening CreateNewTodoModal
+  const triggerCreateNewTodoModalRef = useRef(null);
+
   const [todos, setTodos] = useState(data);
   const [specificTodoID, setSpecificTodoID] = useState(null); //To hold ID of todo to delete
 
@@ -104,10 +112,19 @@ const Todos = () => {
             <Icon name="check" style={{ color: "#006975" }} />
             You're all done...
           </Header>
-          <Button basic color="black">
-            <Icon name="plus circle"></Icon>
-            Create new task
-          </Button>
+          <Ref innerRef={triggerCreateNewTodoModalRef}>
+            <Button
+              basic
+              color="black"
+              type="button"
+              onClick={() =>
+                openCreateNewTodoModal(triggerCreateNewTodoModalRef)
+              }
+            >
+              <Icon name="plus circle"></Icon>
+              Create new task
+            </Button>
+          </Ref>
         </Segment>
       )}
       <div id="todos-container">

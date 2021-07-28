@@ -11,9 +11,10 @@ const CreateNewTodoModal = () => {
     document.title = docTitle;
   }, [docTitle]);
 
-  const { modalProps, open } = useModal({
+  const { modalProps, open, close } = useModal({
     background:
-      "linear-gradient(90deg, rgba(0,36,41,1) 0%, rgba(0,105,118,1) 51%, rgba(1,182,204,1) 100%)",
+      // "linear-gradient(90deg, rgba(0,36,41,1) 0%, rgba(0,105,118,1) 50%, rgba(1,182,204,1) 100%)"
+      "#006976",
     onOpen() {
       setDocTitle("Create new to-do | what-to-do.app");
       // alert("Opened");
@@ -23,14 +24,25 @@ const CreateNewTodoModal = () => {
       // alert("Closed");
     },
   });
-  // const triggerCreateNewTodoModalRef = useRef(null);
+  // The main opener function
   const handleNewTodoModalTrigger = (ref) => {
     open(ref, "create-new-todo-modal");
   };
   window._handleNewTodoModalTrigger_ = handleNewTodoModalTrigger;
 
+  // Closer function
+  const closeNewTodoModal = () => {
+    close();
+  };
+  window._closeNewTodoModal_ = closeNewTodoModal;
+
   return (
-    <Modal id="create-new-todo-modal" {...modalProps}>
+    <Modal
+      id="create-new-todo-modal"
+      {...modalProps}
+      padding={false}
+      closeButton={false}
+    >
       <NewTodoForm />
     </Modal>
   );
