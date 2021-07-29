@@ -7,7 +7,11 @@ import {
   Button,
   Form,
 } from "semantic-ui-react";
-import DateTimePicker from "react-datetime-picker";
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns"; // choose your lib
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { ThemeProvider } from "@material-ui/styles";
+import CustMaterialTheme from "./custDateTimePickerTheme";
 // import { data } from "../data";
 import { PlusSquare } from "react-feather";
 
@@ -16,7 +20,9 @@ import "../../css/new-todo-form.css";
 
 const NewTodoForm = () => {
   // Variables relating to date
-  const [dueDateVal, setDueDateVal] = useState("");
+  const [dueDateVal, setDueDateVal] = useState(
+    new Date().getTime() + 5 * 60000
+  );
 
   /*UseEffect to update time input
   useEffect(() => {
@@ -52,16 +58,16 @@ const NewTodoForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Check if due date is equal or less than presnt dtae and time
-    if (dueDateVal < new Date(new Date().getTime() + 10 * 60000)) {
+    if (new Date(dueDateVal) < new Date(new Date().getTime() + 2 * 60000)) {
       alert(
-        "Update due date's time to at least ten minutes from current time "
+        "Update due date to at least two minutes from current date and time "
       );
     } else {
-      newTodoObj.dueDate = dueDateVal.toUTCString();
+      newTodoObj.dueDate = dueDateVal.toString();
       console.log(newTodoObj);
       // setAllTodos({ ...allTodos, newTodoObj})
       // After everything, reset form
-      setDueDateVal("");
+      setDueDateVal(new Date().getTime() + 5 * 60000);
       setNewTodoObj(originalTodoObjFormat);
     }
   };
@@ -121,18 +127,22 @@ const NewTodoForm = () => {
             {/* Due date Input Field */}
             <Form.Field>
               <label className="ps-2 todo-form-label">due date:</label>
-              <DateTimePicker
-                id="dueDateInputContainer"
-                onChange={(e) => setDueDateVal(new Date(e))}
-                value={dueDateVal}
-                required={true}
-                minDate={new Date(new Date().getTime() + 10 * 60000)}
-                yearPlaceholder="YYYY"
-                monthPlaceholder="MM"
-                dayPlaceholder="DD"
-                hourPlaceholder="hour(24h)"
-                minutePlaceholder="minute"
-              />
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <ThemeProvider theme={CustMaterialTheme}>
+                  <DateTimePicker
+                    label="DateTimePicker"
+                    inputVariant="outlined"
+                    value={dueDateVal}
+                    onChange={(e) => {
+                      setDueDateVal(new Date(e).toUTCString());
+                    }}
+                    minDate={new Date()}
+                    maxDate={new Date(new Date().getTime() + 135000 * 60000)}
+                    animateYearScrolling={true}
+                    disablePast={true}
+                  />
+                </ThemeProvider>
+              </MuiPickersUtilsProvider>
             </Form.Field>
 
             <div className="pb-2 px-1 d-flex justify-content-around">

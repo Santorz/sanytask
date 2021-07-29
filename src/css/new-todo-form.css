@@ -4,9 +4,33 @@
     padding: 2rem 3% !important;
   }
 }
+.RMM__container {
+  z-index: 999 !important;
+}
 .RMM__body {
   overflow: hidden !important;
 }
+
+/* For Material UI datepicker*/
+.MuiPickersToolbar-toolbar,
+.MuiPickersClock-pin,
+.MuiPickersClockPointer-pointer {
+  background-color: #006976 !important;
+}
+.MuiButton-label {
+  color: #006976 !important;
+}
+.MuiPickerDTTabs-tabs {
+  background-color: #006976 !important;
+}
+.MuiTab-wrapper .MuiSvgIcon-root {
+  fill: #ffffff !important;
+}
+.MuiFormLabel-root {
+  display: none !important;
+}
+/*  */
+
 #newTodoForm {
   border-radius: 5px;
   background: #ecf0f3;

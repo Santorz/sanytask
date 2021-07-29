@@ -21,7 +21,6 @@ const App = () => {
       todosContainerRef.current.style.marginBottom = `${
         mobileNavHeight + 20
       }px`;
-      console.log(todosContainerRef.current.style.marginBottom);
     }
   };
   useEffect(() => {
