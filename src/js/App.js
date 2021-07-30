@@ -12,6 +12,7 @@ import "../index.css";
 
 const App = () => {
   const isMobileOnly = useMediaQuery({ query: "(max-width:768px)" });
+  const isTabletandAbove = useMediaQuery({ query: "(min-width:768px)" });
   const mobileNavRef = useRef(null);
   const todosContainerRef = useRef(null);
 
@@ -34,11 +35,16 @@ const App = () => {
   return (
     <>
       {isMobileOnly && (
-        <Header size="large" className="mt-2 my-0 text-teal" textAlign="center">
-          what-to-do.app
+        <Header size="large" className="pt-4 my-0 text-teal" textAlign="center">
+          Task Dashboard
         </Header>
       )}
       <Navbar ref={mobileNavRef} />
+      {isTabletandAbove && (
+        <Header size="large" className="pt-4 my-0 text-teal" textAlign="center">
+          Task Dashboard
+        </Header>
+      )}
       <Grid
         textAlign="center"
         stackable
@@ -55,12 +61,9 @@ const App = () => {
               style={{
                 backgroundColor: "whitesmoke",
                 border: "2px solid #006976",
+                boxShadow: "0 0 7px .9px gray",
               }}
             >
-              <Header size="medium" color="black">
-                Pending Tasks
-              </Header>
-
               {/* Todos Part */}
               <Todos />
               {/* End of Todos Part */}

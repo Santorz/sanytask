@@ -4,8 +4,7 @@
 }
 #delete-modal {
   user-select: none !important;
-  background: rgba(255, 255, 255, 0.93) !important;
-  backdrop-filter: blur(3px);
+  background: white !important;
 }
 #delete-modal .actions {
   padding: 0.5rem 1rem !important;

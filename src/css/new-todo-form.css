@@ -14,14 +14,16 @@
 /* For Material UI datepicker*/
 .MuiPickersToolbar-toolbar,
 .MuiPickersClock-pin,
-.MuiPickersClockPointer-pointer {
+.MuiPickersClockPointer-pointer,
+.MuiPickersClockPointer-noPoint,
+.MuiPickerDTTabs-tabs {
   background-color: #006976 !important;
 }
 .MuiButton-label {
   color: #006976 !important;
 }
-.MuiPickerDTTabs-tabs {
-  background-color: #006976 !important;
+.MuiPickersClockPointer-thumb {
+  border: 14px solid #006976 !important;
 }
 .MuiTab-wrapper .MuiSvgIcon-root {
   fill: #ffffff !important;

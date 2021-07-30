@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { Segment, Button, Header, Icon, Ref } from "semantic-ui-react";
 import { data } from "./data";
-import TodoAccordion from "./Todo_Accordion";
+import TodoAccordion from "./utils/Todo_Accordion";
 import DeleteModal from "./utils/Delete_Modal";
 import MarkDoneModal from "./utils/Mark_Done_Modal";
 import CustomNotificationManager, {
@@ -88,15 +88,15 @@ const Todos = () => {
     <>
       {/* This would be displayed if there is more than one task left */}
       {todos.length > 1 && (
-        <h4 style={{ margin: "1rem 0", color: "#006976" }}>
-          You have {todos.length} tasks to complete.
-        </h4>
+        <Header size="medium" color="black">
+          {todos.length} Pending Tasks
+        </Header>
       )}
       {/* This would be displayed if there is only one task left */}
       {todos.length === 1 && (
-        <h4 style={{ margin: "1rem 0", color: "#006976" }}>
-          You have {todos.length} task to complete.
-        </h4>
+        <Header size="medium" color="black">
+          {todos.length} Pending Task
+        </Header>
       )}
       {/* This would be displayed if there are no tasks left */}
       {todos.length < 1 && (

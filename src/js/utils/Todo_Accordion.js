@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Segment, Header } from "semantic-ui-react";
-import Chevron from "./utils/Chevron";
+import Chevron from "./Chevron";
 
 // CSS
-import "../css/todo-accordion.css";
+import "../../css/todo-accordion.css";
 
 const Todo_Accordion = (props) => {
   const [setActive, setActiveState] = useState("");
@@ -35,7 +35,7 @@ const Todo_Accordion = (props) => {
         <Chevron
           className={`accordion__icon ${setRotate}`}
           width={10}
-          fill={"#444"}
+          fill={"#006976"}
         />
       </button>
 
