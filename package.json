@@ -12,6 +12,8 @@
     "animate.css": "^4.1.1",
     "date-fns": "^2.23.0",
     "joi": "^17.4.0",
+    "json-server": "^0.16.3",
+    "parse": "^3.3.0",
     "react": "^17.0.2",
     "react-datetime-picker": "^3.3.0",
     "react-dom": "^17.0.2",
@@ -29,7 +31,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev-server": "json-server -p 8080 db.json"
   },
   "eslintConfig": {
     "extends": [

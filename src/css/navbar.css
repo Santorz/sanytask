@@ -42,7 +42,7 @@
   padding: 0.65rem;
 }
 #create-button-mobile {
-  background-color: #006976;
+  background-color: #006976 !important;
   border-radius: 50% !important;
   padding: 0.65rem;
   border: none !important;

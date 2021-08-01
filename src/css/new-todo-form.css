@@ -51,6 +51,15 @@
   box-shadow: inset 4px 4px 4px #cbced1, inset -4px -4px 4px #ffffff;
 }
 
+#taskHeading:hover,
+.MuiInputBase-input:hover,
+#newTodoForm textarea:hover,
+#taskHeading:focus,
+.MuiInputBase-input:focus,
+#newTodoForm textarea:focus {
+  border: 1px solid #006976 !important;
+}
+
 #newTodoForm label {
   font-size: 1.05rem;
   margin-top: 5px;
@@ -58,6 +67,10 @@
 
 #todoDescription {
   resize: none;
+}
+
+#taskDetails {
+  resize: none !important;
 }
 
 /* For date input */

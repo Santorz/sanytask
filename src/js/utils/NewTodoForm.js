@@ -18,27 +18,36 @@ import { PlusSquare } from "react-feather";
 // CSS
 import "../../css/new-todo-form.css";
 
+// FUNCTIONS
+const submitTask = (taskObj) => {
+  fetch("http://localhost:8080/todos", {
+    method: "POST", // or 'PUT'
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(taskObj),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success:", data);
+      window._closeNewTodoModal_();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+};
+
 const NewTodoForm = () => {
   // Variables relating to date
-  const [dueDateVal, setDueDateVal] = useState(
-    new Date().getTime() + 5 * 60000
-  );
-
-  /*UseEffect to update time input
-  useEffect(() => {
-    let interval = setInterval(() => {
-      setDueDateVal(new Date(new Date().getTime() + 10 * 60000));
-    }, 1000);
-    return () => clearInterval(interval);
-  }); */
+  const [dueDateVal, setDueDateVal] = useState(null);
 
   // Variables relating to to-do
   const originalTodoObjFormat = {
     dateCreated: "",
     dueDate: "",
     id: null,
-    todoDescription: "",
-    todoHeading: "",
+    taskDetails: "",
+    taskHeading: "",
   };
   const [newTodoObj, setNewTodoObj] = useState(originalTodoObjFormat);
   // const [allTodos, setAllTodos] = useState(data);
@@ -65,9 +74,12 @@ const NewTodoForm = () => {
     } else {
       newTodoObj.dueDate = dueDateVal.toString();
       console.log(newTodoObj);
-      // setAllTodos({ ...allTodos, newTodoObj})
+
+      // Update DB
+      submitTask(newTodoObj);
+
       // After everything, reset form
-      setDueDateVal(new Date().getTime() + 5 * 60000);
+      setDueDateVal(null);
       setNewTodoObj(originalTodoObjFormat);
     }
   };
@@ -94,32 +106,32 @@ const NewTodoForm = () => {
         >
           <Form id="newTodoForm" className="px-2 py-3" onSubmit={handleSubmit}>
             <Form.Field>
-              <label className="ps-2 todo-form-label" htmlFor="todoHeading">
+              <label className="ps-2 todo-form-label" htmlFor="taskHeading">
                 to-do header:
               </label>
               <input
                 type="text"
-                name="todoHeading"
-                id="todoHeading"
+                name="taskHeading"
+                id="taskHeading"
                 placeholder="Enter a brief header..."
                 required={true}
                 maxLength={40}
-                value={newTodoObj.todoHeading}
+                value={newTodoObj.taskHeading}
                 onChange={handleChange}
               />
             </Form.Field>
 
             <Form.Field>
-              <label className="ps-2 todo-form-label" htmlFor="todoDescription">
-                description:
+              <label className="ps-2 todo-form-label" htmlFor="taskDetails">
+                detailed description:
               </label>
               <textarea
-                name="todoDescription"
-                id="todoDescription"
+                name="taskDetails"
+                id="taskDetails"
                 rows="5"
                 required={true}
                 placeholder="Enter to-do description..."
-                value={newTodoObj.todoDescription}
+                value={newTodoObj.taskDetails}
                 onChange={handleChange}
               ></textarea>
             </Form.Field>
@@ -155,6 +167,9 @@ const NewTodoForm = () => {
                     "Sure you want to cancel?"
                   );
                   if (closeConfirmation) {
+                    // Reset form
+                    setDueDateVal(null);
+                    setNewTodoObj(originalTodoObjFormat);
                     window._closeNewTodoModal_();
                   }
                 }}

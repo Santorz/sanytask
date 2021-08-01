@@ -5,6 +5,7 @@ import { Container } from "semantic-ui-react";
 
 // CSS
 import "semantic-ui-css/semantic.min.css";
+import "./css/bootstrap-utilities.min.css";
 
 const MainContainer = () => {
   return (

@@ -6,7 +6,7 @@ import Todos from "./to-dos";
 import CreateNewTodoModal from "./createNewTodo";
 
 // CSS
-import "semantic-ui-css/semantic.min.css";
+// import "semantic-ui-css/semantic.min.css";
 import "animate.css";
 import "../index.css";
 
@@ -61,7 +61,7 @@ const App = () => {
               style={{
                 backgroundColor: "whitesmoke",
                 border: "2px solid #006976",
-                boxShadow: "0 0 7px .9px gray",
+                boxShadow: "0 0 7px .1px gray",
               }}
             >
               {/* Todos Part */}

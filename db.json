@@ -1,0 +1,42 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "typicode"
+    },
+    {
+      "id": 2,
+      "name": "saint"
+    }
+  ],
+  "todos": [
+    {
+      "dateCreated": "Sun, 01 Aug 2021 13:19:21 GMT",
+      "dueDate": "Sun, 01 Aug 2021 18:00:58 GMT",
+      "id": 1627823961330,
+      "taskDetails": "Remember to set quiz questions for the online classes you're hosting tomorrow as soon as it's dusk.",
+      "taskHeading": "Set quiz questions for online classes"
+    },
+    {
+      "dateCreated": "Sun, 01 Aug 2021 13:35:43 GMT",
+      "dueDate": "Sun, 01 Aug 2021 22:30:54 GMT",
+      "id": 1627824943788,
+      "taskDetails": "Bakes some cakes in preparation for Max's birthday party.",
+      "taskHeading": "Bake some cakes"
+    },
+    {
+      "dateCreated": "Sun, 01 Aug 2021 19:44:42 GMT",
+      "dueDate": "Mon, 09 Aug 2021 20:00:00 GMT",
+      "id": 1627847082597,
+      "taskDetails": "Create PowerPoint slides for presentation tomorrow",
+      "taskHeading": "Create PowerPoint slides"
+    },
+    {
+      "dateCreated": "Sun, 01 Aug 2021 20:01:23 GMT",
+      "dueDate": "Sun, 01 Aug 2021 20:05:34 GMT",
+      "id": 1627848083120,
+      "taskDetails": "Borrow lecture notes from Josh and update yours because there's a test on Monday.",
+      "taskHeading": "Borrow Josh's Notes"
+    }
+  ]
+}

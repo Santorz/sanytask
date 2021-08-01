@@ -1,5 +1,12 @@
 import React, { useState, useRef } from "react";
-import { Segment, Button, Header, Icon, Ref } from "semantic-ui-react";
+import {
+  Segment,
+  Button,
+  Header,
+  Icon,
+  Ref,
+  Placeholder,
+} from "semantic-ui-react";
 import { data } from "./data";
 import TodoAccordion from "./utils/Todo_Accordion";
 import DeleteModal from "./utils/Delete_Modal";
@@ -9,8 +16,8 @@ import CustomNotificationManager, {
 } from "./utils/Notification_Manager";
 
 // CSS
-import "semantic-ui-css/semantic.min.css";
-import "../css/bootstrap-utilities.min.css";
+// import "semantic-ui-css/semantic.min.css";
+// import "../css/bootstrap-utilities.min.css";
 // import "animate.css";
 import "../css/todos.css";
 import "react-notifications/lib/notifications.css";
@@ -22,11 +29,36 @@ const openCreateNewTodoModal = (ref) => {
 
 // TODOS COMPONENT
 const Todos = () => {
+  // State for user fetching
+  const [userLoading, setUserLoading] = useState(true);
+  const [usersTasks, setUsersTasks] = useState(null);
+
+  React.useEffect(() => {
+    // Demo fetch for fake db
+    fetch("http://localhost:8080/todos")
+      .then((response) => response.json())
+      .then((data) => {
+        data.sort((a, b) => {
+          let da = new Date(a.dueDate);
+          let db = new Date(b.dueDate);
+          if (da > db) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+        setTimeout(() => {
+          setUsersTasks(data);
+          setUserLoading(false);
+        }, 3000);
+      });
+  });
+
   // UseRef for opening CreateNewTodoModal
   const triggerCreateNewTodoModalRef = useRef(null);
 
   const [todos, setTodos] = useState(data);
-  const [specificTodoID, setSpecificTodoID] = useState(null); //To hold ID of todo to delete
+  const [specificTaskID, setSpecificTaskID] = useState(null); //To hold ID of todo to delete
 
   let deleteModalPreviousState = { open: false, result: "" };
   let markDoneModalPreviousState = { open: false, result: "" };
@@ -40,11 +72,11 @@ const Todos = () => {
 
   // Deletion functions
   const showdeleteTodoModal = (e) => {
-    setSpecificTodoID(Number(e.currentTarget.id.split("-")[1]));
+    setSpecificTaskID(Number(e.currentTarget.id.split("-")[1]));
     setdeleteModalState({ open: true, result: "" });
   };
   const handleDeleteModalConfirm = () => {
-    let todo_id_num = specificTodoID;
+    let todo_id_num = specificTaskID;
     setdeleteModalState({ result: "confirmed", open: false });
     deleteTodoMainAction(todo_id_num);
   };
@@ -52,22 +84,34 @@ const Todos = () => {
     setdeleteModalState({ result: "cancelled", open: false });
   };
   const deleteTodoMainAction = (id) => {
-    let newTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(newTodos);
+    fetch(`http://localhost:8080/todos/${id}`, {
+      method: "DELETE", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
     createNotification("delete-success", () => {
       alert("Cannot be reversed...");
     });
-    setSpecificTodoID(null);
+
+    setSpecificTaskID(null);
   };
   // End of deletion functions
 
   // Mark as Done functions
   const showMarkDoneModal = (e) => {
-    setSpecificTodoID(Number(e.currentTarget.id.split("-")[1]));
+    setSpecificTaskID(Number(e.currentTarget.id.split("-")[1]));
     setmarkDoneModalState({ open: true, result: "" });
   };
   const handleMarkDoneModalConfirm = () => {
-    let todo_id_num = specificTodoID;
+    let todo_id_num = specificTaskID;
     setmarkDoneModalState({ result: "confirmed", open: false });
     markDoneMainAction(todo_id_num);
   };
@@ -80,26 +124,26 @@ const Todos = () => {
     createNotification("mark-done-success", () => {
       alert("Cannot be reversed...");
     });
-    setSpecificTodoID(null);
+    setSpecificTaskID(null);
   };
   // End of mark as done functions
 
   return (
     <>
       {/* This would be displayed if there is more than one task left */}
-      {todos.length > 1 && (
+      {!userLoading && usersTasks.length > 1 && (
         <Header size="medium" color="black">
-          {todos.length} Pending Tasks
+          {usersTasks.length} Pending Tasks
         </Header>
       )}
       {/* This would be displayed if there is only one task left */}
-      {todos.length === 1 && (
+      {!userLoading && usersTasks.length === 1 && (
         <Header size="medium" color="black">
-          {todos.length} Pending Task
+          {usersTasks.length} Pending Task
         </Header>
       )}
       {/* This would be displayed if there are no tasks left */}
-      {todos.length < 1 && (
+      {!userLoading && usersTasks.length < 1 && (
         <Segment
           padded
           placeholder
@@ -128,66 +172,92 @@ const Todos = () => {
         </Segment>
       )}
       <div id="todos-container">
-        {todos.map((todo, index) => {
-          const { id, text, details } = todo;
-          return (
-            <TodoAccordion
-              snumber={index + 1}
-              key={id}
-              title={text}
-              content={text}
-              id={`todo-${id}`}
-            >
-              <h3
-                className="mb-0"
-                style={{
-                  color: "teal",
-                  textAlign: "left",
-                  fontSize: "1.15rem",
-                }}
+        {userLoading ? (
+          <>
+            <h3>Loading tasks</h3>
+            <Placeholder fluid className="my-2 rounded border">
+              <Placeholder.Header></Placeholder.Header>
+              <Placeholder.Line length="full"></Placeholder.Line>
+              <Placeholder.Line length="full"></Placeholder.Line>
+            </Placeholder>
+            <Placeholder fluid className="my-2 rounded border">
+              <Placeholder.Header></Placeholder.Header>
+              <Placeholder.Line length="full"></Placeholder.Line>
+              <Placeholder.Line length="full"></Placeholder.Line>
+            </Placeholder>
+            <Placeholder fluid className="my-2 rounded border">
+              <Placeholder.Header></Placeholder.Header>
+              <Placeholder.Line length="full"></Placeholder.Line>
+              <Placeholder.Line length="full"></Placeholder.Line>
+            </Placeholder>
+            <Placeholder fluid className="my-2 rounded border">
+              <Placeholder.Header></Placeholder.Header>
+              <Placeholder.Line length="full"></Placeholder.Line>
+              <Placeholder.Line length="full"></Placeholder.Line>
+            </Placeholder>
+          </>
+        ) : (
+          usersTasks.map((task, index) => {
+            const { id, dateCreated, dueDate, taskDetails, taskHeading } = task;
+            return (
+              <TodoAccordion
+                snumber={index + 1}
+                key={id}
+                title={taskHeading}
+                content={taskDetails}
+                id={`todo-${id}`}
               >
-                Details :
-              </h3>
-              <h4 className="mt-1" style={{ textAlign: "left" }}>
-                {details}
-              </h4>
-              <div className="d-flex flex-wrap justify-content-end">
-                <Button
-                  style={{ margin: "0 3px" }}
-                  className="my-1 my-lg-0 todo-action-btn todo-done-btn"
-                  icon="check"
-                  content="Done"
-                  labelPosition="left"
-                  id={`markDoneBtn-${todo.id}`}
-                  onClick={showMarkDoneModal}
-                ></Button>
-                <Button
-                  style={{ margin: "0 3px" }}
-                  className="my-1 my-lg-0 todo-action-btn todo-edit-btn"
-                  icon="pencil"
-                  content="Edit"
-                  labelPosition="left"
-                  basic
-                  color="black"
-                  onClick={() => {
-                    createNotification("info", null, "Feature coming soon !");
+                <h3
+                  className="mb-0"
+                  style={{
+                    color: "teal",
+                    textAlign: "left",
+                    fontSize: "1.15rem",
                   }}
-                ></Button>
-                <Button
-                  style={{ margin: "0 3px" }}
-                  className="my-1 my-lg-0 todo-action-btn todo-delete-btn"
-                  content="Delete"
-                  labelPosition="left"
-                  basic
-                  color="red"
-                  icon="trash"
-                  id={`deleteBtn-${todo.id}`}
-                  onClick={showdeleteTodoModal}
-                ></Button>
-              </div>
-            </TodoAccordion>
-          );
-        })}
+                >
+                  Details :
+                </h3>
+                <h4 className="mt-1" style={{ textAlign: "left" }}>
+                  {taskDetails}
+                </h4>
+                <div className="d-flex flex-wrap justify-content-end">
+                  <Button
+                    style={{ margin: "0 3px" }}
+                    className="my-1 my-lg-0 todo-action-btn todo-done-btn"
+                    icon="check"
+                    content="Done"
+                    labelPosition="left"
+                    id={`markDoneBtn-${task.id}`}
+                    onClick={showMarkDoneModal}
+                  ></Button>
+                  <Button
+                    style={{ margin: "0 3px" }}
+                    className="my-1 my-lg-0 todo-action-btn todo-edit-btn"
+                    icon="pencil"
+                    content="Edit"
+                    labelPosition="left"
+                    basic
+                    color="black"
+                    onClick={() => {
+                      createNotification("info", null, "Feature coming soon !");
+                    }}
+                  ></Button>
+                  <Button
+                    style={{ margin: "0 3px" }}
+                    className="my-1 my-lg-0 todo-action-btn todo-delete-btn"
+                    content="Delete"
+                    labelPosition="left"
+                    basic
+                    color="red"
+                    icon="trash"
+                    id={`deleteBtn-${task.id}`}
+                    onClick={showdeleteTodoModal}
+                  ></Button>
+                </div>
+              </TodoAccordion>
+            );
+          })
+        )}
       </div>
 
       {/* Delete Modal */}
