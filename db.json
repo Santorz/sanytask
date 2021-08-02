@@ -23,6 +23,20 @@
       "id": 1627915156581,
       "taskDetails": "Head downtown LA and get to Papa Joe's auto to get the brakes fixed, oil changed and engine serviced",
       "taskHeading": "Service Car at Downtown LA"
+    },
+    {
+      "dateCreated": "Mon, 02 Aug 2021 15:27:28 GMT",
+      "dueDate": "Mon, 02 Aug 2021 16:00:42 GMT",
+      "id": 1627918048797,
+      "taskDetails": "Visit the grocery on your way back from school to get the ingredients for the pizza to be made at home. ",
+      "taskHeading": "Get ingredients for pizza"
+    },
+    {
+      "dateCreated": "Mon, 02 Aug 2021 15:30:53 GMT",
+      "dueDate": "Tue, 03 Aug 2021 11:30:00 GMT",
+      "id": 1627918253219,
+      "taskDetails": "Go to the thrift store and get clothes for Jenny tomorrow",
+      "taskHeading": "Get some clothes for Jenny"
     }
   ]
 }

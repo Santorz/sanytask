@@ -15,8 +15,8 @@ import {
   differenceInMinutes,
   differenceInHours,
   differenceInSeconds,
+  format,
 } from "date-fns";
-import { enGB } from "date-fns/locale";
 import TodoAccordion from "./utils/Todo_Accordion";
 import DeleteModal from "./utils/Delete_Modal";
 import MarkDoneModal from "./utils/Mark_Done_Modal";
@@ -48,11 +48,15 @@ const getShorthandDistanceDiff = (dueDate) => {
   const days = Math.abs(differenceInDays(date1, date2));
   const months = Math.abs(differenceInMonths(date1, date2));
   if (seconds < 60) {
-    result = `${seconds}secs `;
+    result = `${seconds} secs `;
+  } else if (minutes === 1) {
+    result = `${minutes} min`;
   } else if (minutes < 60) {
-    result = `${minutes}mins `;
+    result = `${minutes} mins `;
+  } else if (hours === 1) {
+    result = `${hours} hour `;
   } else if (hours < 24) {
-    result = `${hours}hrs `;
+    result = `${hours} hrs `;
   } else if (months < 1) {
     result = `${days} days `;
   } else if (months === 1) {
@@ -60,7 +64,6 @@ const getShorthandDistanceDiff = (dueDate) => {
   } else {
     result = `${months} months `;
   }
-
   return result;
 };
 
@@ -84,6 +87,13 @@ const addRedColorOnLateTask = (dueDate) => {
   } else {
     return "";
   }
+};
+
+// Get relative date
+const getRelativeDate = (date, baseDate, options) => {
+  return Math.abs(differenceInDays(date, baseDate)) < 6
+    ? formatRelative(date, baseDate, options)
+    : format(date, `dd/MM/yyyy 'by' p`);
 };
 
 // TODOS COMPONENT
@@ -286,7 +296,7 @@ const Todos = () => {
                   <span
                     className="mb-0"
                     style={{
-                      color: "teal",
+                      color: "#006976",
                       fontSize: "1.15rem",
                       fontWeight: "bold",
                     }}
@@ -299,10 +309,7 @@ const Todos = () => {
                       fontSize: "1rem",
                     }}
                   >
-                    due{" "}
-                    {formatRelative(new Date(dueDate), new Date(), {
-                      locale: enGB,
-                    })}
+                    due {getRelativeDate(new Date(dueDate), new Date())}
                   </span>
                 </div>
                 <h4 className="mt-1" style={{ textAlign: "left" }}>

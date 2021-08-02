@@ -4,7 +4,7 @@ This app allows you to input what you want to do in the nearest future and remin
 
 ### Current version = version 0.3
 
-#### Note: This version won't work on Netlify.
+##### Note: This version won't work properly on Netlify if you don't have the 'json-server' npm package installed on your system.
 
 # Netlify Status
 
