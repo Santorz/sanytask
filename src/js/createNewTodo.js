@@ -12,16 +12,12 @@ const CreateNewTodoModal = () => {
   }, [docTitle]);
 
   const { modalProps, open, close } = useModal({
-    background:
-      // "linear-gradient(90deg, rgba(0,36,41,1) 0%, rgba(0,105,118,1) 50%, rgba(1,182,204,1) 100%)"
-      "#006976",
+    background: "#006976",
     onOpen() {
-      setDocTitle("Create new to-do | what-to-do.app");
-      // alert("Opened");
+      setDocTitle("Create new task | My Next Task");
     },
     onClose() {
-      setDocTitle("Dashboard | what-to-do.app");
-      // alert("Closed");
+      setDocTitle("Dashboard | My Next Task");
     },
   });
   // The main opener function

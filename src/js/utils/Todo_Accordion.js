@@ -18,18 +18,18 @@ const Todo_Accordion = (props) => {
     );
   }
 
-  const { snumber, id, title, children } = props;
+  const { snumber, id, title, children, className } = props;
 
   return (
     <Segment raised className="accordion__section each-todo p-0" id={id}>
       <button
         type="button"
-        className={`accordion px-1 ${setActive}`}
+        className={`accordion px-1 ${setActive} `}
         onClick={toggleAccordion}
         style={{ borderRadius: ".29rem" }}
       >
-        <Header as="h4" className="m-0 pl-2 pe-5 todo-snumber">
-          {snumber}.
+        <Header className={`mx-1 mx-md-2 my-0 todo-snumber ${className}`}>
+          {snumber}
         </Header>
         <h4 className="accordion__title my-0">{title}</h4>
         <Chevron

@@ -11,3 +11,6 @@
   border: 1.95px solid #006976 !important;
   background-color: transparent !important;
 }
+.bordered-placeholder-loader {
+  border: 1px solid rgb(200, 200, 200) !important;
+}

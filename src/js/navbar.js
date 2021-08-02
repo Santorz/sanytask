@@ -95,19 +95,19 @@ const DesktopNav = () => {
   return (
     <Container className="px-0" fluid>
       <Segment raised className="px-5 desktop-nav-segment py-0">
-        <h2 className="m-0" style={{ color: "#006976" }}>
-          what-to-do.app
+        <h2 className="m-0" style={{ color: "#006976", userSelect: "none" }}>
+          My Next Task
         </h2>
         <ul className="desktop-ul">
           <li>
             <a href="./" className="desktop-link">
-              <Home size={32} color="#006976" />
+              <Home size={28} color="#006976" />
               <h5 className="p-0 m-0">Home</h5>
             </a>
           </li>
           <li>
             <a href="./" className="desktop-link">
-              <Archive size={32} color="#006976" />
+              <Archive size={28} color="#006976" />
               <h5 className="p-0 m-0">Archive</h5>
             </a>
           </li>
@@ -121,7 +121,7 @@ const DesktopNav = () => {
                 openCreateNewTodoModal(triggerCreateNewTodoModalRef)
               }
             >
-              <Plus size={25} color="white" />
+              <Plus size={23} color="white" />
               <h5 className="p-0 m-0" style={{ color: "white" }}>
                 Create
               </h5>
@@ -130,13 +130,13 @@ const DesktopNav = () => {
 
           <li>
             <a href="./" className="desktop-link">
-              <Bookmark size={32} color="#006976" />
+              <Bookmark size={28} color="#006976" />
               <h5 className="p-0 m-0">Blog</h5>
             </a>
           </li>
           <li>
             <a href="./" className="desktop-link">
-              <User size={32} color="#006976" />
+              <User size={28} color="#006976" />
               <h5 className="p-0 m-0">Profile</h5>
             </a>
           </li>

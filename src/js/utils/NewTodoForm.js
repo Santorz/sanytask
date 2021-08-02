@@ -85,14 +85,14 @@ const NewTodoForm = () => {
   };
 
   return (
-    <Container fluid className="px-0 px-sm-2 mx-0 mt-2 mt-md-4">
+    <Container fluid className="px-0 px-sm-2 mx-0 mt-3 mt-md-4">
       <Header
         as="h2"
         className="d-flex mx-auto align-items-center justify-content-center"
         textAlign="center"
         style={{ color: "white", userSelect: "none" }}
       >
-        Create new to-do &nbsp;&nbsp;
+        Create new task &nbsp;&nbsp;
         <PlusSquare color="white" />
       </Header>
       <Grid stackable padded verticalAlign="top">
@@ -107,15 +107,15 @@ const NewTodoForm = () => {
           <Form id="newTodoForm" className="px-2 py-3" onSubmit={handleSubmit}>
             <Form.Field>
               <label className="ps-2 todo-form-label" htmlFor="taskHeading">
-                to-do header:
+                task heading:
               </label>
               <input
                 type="text"
                 name="taskHeading"
                 id="taskHeading"
-                placeholder="Enter a brief header..."
+                placeholder="Enter a brief heading..."
                 required={true}
-                maxLength={40}
+                maxLength={35}
                 value={newTodoObj.taskHeading}
                 onChange={handleChange}
               />

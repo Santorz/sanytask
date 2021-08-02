@@ -8,6 +8,14 @@ import {
   Placeholder,
 } from "semantic-ui-react";
 import { data } from "./data";
+import {
+  formatRelative,
+  isBefore,
+  isAfter,
+  differenceInMinutes,
+  formatDistanceStrict,
+} from "date-fns";
+import { enGB } from "date-fns/locale";
 import TodoAccordion from "./utils/Todo_Accordion";
 import DeleteModal from "./utils/Delete_Modal";
 import MarkDoneModal from "./utils/Mark_Done_Modal";
@@ -27,12 +35,52 @@ const openCreateNewTodoModal = (ref) => {
   window._handleNewTodoModalTrigger_(ref);
 };
 
+// Shorthand date difference
+const getShorthandDistanceDiff = (dueDate) => {
+  let result;
+
+  const date1 = new Date(dueDate);
+  const date2 = new Date();
+
+  const minutes = Math.abs(differenceInMinutes(date1, date2));
+
+  if (minutes < 60) {
+    result = formatDistanceStrict(date1, date2, { unit: "minute" });
+  } else {
+    result = formatDistanceStrict(date1, date2, { unit: "hour" });
+    result = result.replace(/ hours?/, `h ${minutes % 60}m `);
+  }
+
+  return result;
+};
+
+// Check if date is before or after
+const checkBeforeorAfter = (dueDate) => {
+  let presentDate = new Date();
+  let dueDateMain = new Date(dueDate);
+  if (isBefore(presentDate, dueDateMain)) {
+    return " left";
+  } else if (isAfter(presentDate, dueDateMain)) {
+    return " late";
+  }
+};
+
+// Check if date is after and add red color
+const addRedColorOnLateTask = (dueDate) => {
+  let presentDate = new Date();
+  let dueDateMain = new Date(dueDate);
+  if (isAfter(presentDate, dueDateMain)) {
+    return "late-todo-snumber";
+  }
+};
+
 // TODOS COMPONENT
 const Todos = () => {
   // State for user fetching
   const [userLoading, setUserLoading] = useState(true);
   const [usersTasks, setUsersTasks] = useState(null);
 
+  // The main fetcher of tasks
   React.useEffect(() => {
     // Demo fetch for fake db
     fetch("http://localhost:8080/todos")
@@ -174,23 +222,35 @@ const Todos = () => {
       <div id="todos-container">
         {userLoading ? (
           <>
-            <h3>Loading tasks</h3>
-            <Placeholder fluid className="my-2 rounded border">
+            <h3 className="mb-3">Loading tasks</h3>
+            <Placeholder
+              fluid
+              className="my-2 rounded bordered-placeholder-loader"
+            >
               <Placeholder.Header></Placeholder.Header>
               <Placeholder.Line length="full"></Placeholder.Line>
               <Placeholder.Line length="full"></Placeholder.Line>
             </Placeholder>
-            <Placeholder fluid className="my-2 rounded border">
+            <Placeholder
+              fluid
+              className="my-2 rounded bordered-placeholder-loader"
+            >
               <Placeholder.Header></Placeholder.Header>
               <Placeholder.Line length="full"></Placeholder.Line>
               <Placeholder.Line length="full"></Placeholder.Line>
             </Placeholder>
-            <Placeholder fluid className="my-2 rounded border">
+            <Placeholder
+              fluid
+              className="my-2 rounded bordered-placeholder-loader"
+            >
               <Placeholder.Header></Placeholder.Header>
               <Placeholder.Line length="full"></Placeholder.Line>
               <Placeholder.Line length="full"></Placeholder.Line>
             </Placeholder>
-            <Placeholder fluid className="my-2 rounded border">
+            <Placeholder
+              fluid
+              className="my-2 rounded bordered-placeholder-loader"
+            >
               <Placeholder.Header></Placeholder.Header>
               <Placeholder.Line length="full"></Placeholder.Line>
               <Placeholder.Line length="full"></Placeholder.Line>
@@ -198,25 +258,43 @@ const Todos = () => {
           </>
         ) : (
           usersTasks.map((task, index) => {
-            const { id, dateCreated, dueDate, taskDetails, taskHeading } = task;
+            const { id, dueDate, taskDetails, taskHeading } = task;
             return (
               <TodoAccordion
-                snumber={index + 1}
+                snumber={
+                  getShorthandDistanceDiff(dueDate) +
+                  checkBeforeorAfter(dueDate)
+                }
                 key={id}
                 title={taskHeading}
                 content={taskDetails}
                 id={`todo-${id}`}
+                className={`${addRedColorOnLateTask(dueDate)}`}
               >
-                <h3
-                  className="mb-0"
-                  style={{
-                    color: "teal",
-                    textAlign: "left",
-                    fontSize: "1.15rem",
-                  }}
-                >
-                  Details :
-                </h3>
+                <div className="d-flex align-items-center justify-content-between mb-0">
+                  <span
+                    className="mb-0"
+                    style={{
+                      color: "teal",
+                      fontSize: "1.15rem",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Details :
+                  </span>
+                  <span
+                    className="mb-0"
+                    style={{
+                      color: "black",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    due{" "}
+                    {formatRelative(new Date(dueDate), new Date(), {
+                      locale: enGB,
+                    })}
+                  </span>
+                </div>
                 <h4 className="mt-1" style={{ textAlign: "left" }}>
                   {taskDetails}
                 </h4>
