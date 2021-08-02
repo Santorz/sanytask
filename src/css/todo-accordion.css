@@ -5,9 +5,10 @@
   color: #006976 !important;
   width: 20% !important;
   text-align: left !important;
+  align-self: center !important;
 }
 .late-todo-snumber {
-  color: red !important;
+  color: #db2828 !important;
 }
 /* Style the accordion section */
 .accordion__section {
@@ -29,7 +30,7 @@
   outline: none;
   transition: background-color 0.6s ease;
   height: max-content !important;
-  padding: 15px !important;
+  padding: 15px 10px !important;
 }
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 .accordion:hover,

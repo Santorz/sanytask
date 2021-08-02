@@ -13,7 +13,8 @@ import {
   isBefore,
   isAfter,
   differenceInMinutes,
-  formatDistanceStrict,
+  differenceInHours,
+  differenceInSeconds,
 } from "date-fns";
 import { enGB } from "date-fns/locale";
 import TodoAccordion from "./utils/Todo_Accordion";
@@ -29,6 +30,7 @@ import CustomNotificationManager, {
 // import "animate.css";
 import "../css/todos.css";
 import "react-notifications/lib/notifications.css";
+import { differenceInDays, differenceInMonths } from "date-fns/esm";
 
 // Funcs
 const openCreateNewTodoModal = (ref) => {
@@ -38,17 +40,25 @@ const openCreateNewTodoModal = (ref) => {
 // Shorthand date difference
 const getShorthandDistanceDiff = (dueDate) => {
   let result;
-
   const date1 = new Date(dueDate);
   const date2 = new Date();
-
+  const seconds = Math.abs(differenceInSeconds(date1, date2));
   const minutes = Math.abs(differenceInMinutes(date1, date2));
-
-  if (minutes < 60) {
-    result = formatDistanceStrict(date1, date2, { unit: "minute" });
+  const hours = Math.abs(differenceInHours(date1, date2));
+  const days = Math.abs(differenceInDays(date1, date2));
+  const months = Math.abs(differenceInMonths(date1, date2));
+  if (seconds < 60) {
+    result = `${seconds}secs `;
+  } else if (minutes < 60) {
+    result = `${minutes}mins `;
+  } else if (hours < 24) {
+    result = `${hours}hrs `;
+  } else if (months < 1) {
+    result = `${days} days `;
+  } else if (months === 1) {
+    result = `${months} month `;
   } else {
-    result = formatDistanceStrict(date1, date2, { unit: "hour" });
-    result = result.replace(/ hours?/, `h ${minutes % 60}m `);
+    result = `${months} months `;
   }
 
   return result;
@@ -71,6 +81,8 @@ const addRedColorOnLateTask = (dueDate) => {
   let dueDateMain = new Date(dueDate);
   if (isAfter(presentDate, dueDateMain)) {
     return "late-todo-snumber";
+  } else {
+    return "";
   }
 };
 
@@ -148,7 +160,6 @@ const Todos = () => {
     createNotification("delete-success", () => {
       alert("Cannot be reversed...");
     });
-
     setSpecificTaskID(null);
   };
   // End of deletion functions
@@ -283,9 +294,8 @@ const Todos = () => {
                     Details :
                   </span>
                   <span
-                    className="mb-0"
+                    className={`mb-0 ${addRedColorOnLateTask(dueDate)}`}
                     style={{
-                      color: "black",
                       fontSize: "1rem",
                     }}
                   >

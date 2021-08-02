@@ -28,7 +28,7 @@ const Todo_Accordion = (props) => {
         onClick={toggleAccordion}
         style={{ borderRadius: ".29rem" }}
       >
-        <Header className={`mx-1 mx-md-2 my-0 todo-snumber ${className}`}>
+        <Header className={`mr-1 mr-md-2 my-0 todo-snumber ${className}`}>
           {snumber}
         </Header>
         <h4 className="accordion__title my-0">{title}</h4>

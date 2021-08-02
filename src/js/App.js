@@ -52,7 +52,13 @@ const App = () => {
         verticalAlign="middle"
         id="app-main-body"
       >
-        <Grid.Column mobile={15} tablet={9} computer={6}>
+        <Grid.Column
+          mobile={15}
+          tablet={10}
+          computer={7}
+          largeScreen={6}
+          widescreen={5}
+        >
           <Ref innerRef={todosContainerRef}>
             <Segment
               raised
