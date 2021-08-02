@@ -2,7 +2,9 @@
 
 This app allows you to input what you want to do in the nearest future and reminds you of them.
 
-### Current version = version 0.2
+### Current version = version 0.3
+
+#### Note: This version won't work on Netlify.
 
 # Netlify Status
 
