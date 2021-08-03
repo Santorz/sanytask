@@ -1,6 +1,6 @@
-# what-to-do.app
+# my next task
 
-This app allows you to input what you want to do in the nearest future and reminds you of them.
+This app allows you to input tasks you have to complete in the nearest future and reminds you of them.
 
 ### Current version = version 0.3
 
