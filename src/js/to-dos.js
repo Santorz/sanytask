@@ -60,9 +60,9 @@ const getShorthandDistanceDiff = (dueDate) => {
   } else if (months < 1) {
     result = `${days} days `;
   } else if (months === 1) {
-    result = `${months} month `;
+    result = `${months} mth `;
   } else {
-    result = `${months} months `;
+    result = `${months} mths `;
   }
   return result;
 };

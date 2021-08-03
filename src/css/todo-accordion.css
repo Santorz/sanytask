@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap");
 
 .todo-snumber {
-  font-size: 13.5px !important;
+  font-size: 1.025rem !important;
   color: #006976 !important;
   width: 20% !important;
   text-align: left !important;
@@ -35,14 +35,14 @@
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 .accordion:hover,
 .active {
-  background-color: #ccc;
+  background-color: #eee !important;
 }
 /* Style the accordion content title */
 .accordion__title {
   align-self: center !important;
   font-family: "Open Sans", sans-serif !important;
   font-weight: 600;
-  font-size: 15.5px;
+  font-size: 1.2rem;
   height: max-content !important;
   text-align: left !important;
 }
@@ -62,7 +62,7 @@
   width: 100% !important;
   overflow: hidden;
   overflow-y: auto !important;
-  transition: max-height 0.5s ease !important;
+  transition: max-height 0.7s ease !important;
 }
 /* Style the accordion content text */
 .accordion_content_container {
@@ -70,4 +70,14 @@
   font-family: "Open Sans", sans-serif !important;
   font-weight: normal !important;
   flex-direction: column !important;
+}
+
+/* Media queries */
+@media screen and (max-width: 768px) {
+  .accordion__title {
+    font-size: 1.05rem !important;
+  }
+  .todo-snumber {
+    font-size: 0.9rem !important;
+  }
 }
