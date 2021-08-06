@@ -65,6 +65,8 @@ const NewTodoForm = () => {
   const [submissionStarted, setSubmissionStarted] = useState(false);
   const [submissionFailure, setSubmissionFailure] = useState(false);
   const [submissionErrorName, setSubmissionErrorName] = useState(null);
+  const [showCloseConfirmationDimmer, setShowCloseConfirmationDimmer] =
+    useState(false);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
   // Handler functions relating to submission action
@@ -105,7 +107,8 @@ const NewTodoForm = () => {
     }
   };
 
-  // Clear form, close Modal and visit dashboard
+  // Clear form, close Modal and return to dashboard
+  // Make sure all use States are reset to initial state here
   const goBackToDashboard = () => {
     setDueDateVal(null);
     setNewTodoObj(originalTodoObjFormat);
@@ -113,6 +116,7 @@ const NewTodoForm = () => {
     setSubmissionFailure(false);
     setSubmissionErrorName(null);
     setSubmissionSuccess(false);
+    setShowCloseConfirmationDimmer(false);
     window._closeNewTodoModal_();
   };
 
@@ -137,6 +141,25 @@ const NewTodoForm = () => {
           widescreen={4}
           className=" pb-0 px-0 rounded mx-auto"
         >
+          {/* Close confirmation Dimmer */}
+          {showCloseConfirmationDimmer && (
+            <Dimmer active className="rounded">
+              <h2>Are you sure you want to Close?</h2>
+              <h4 className="mt-2">N/B: All changes will be lost</h4>
+              <Button inverted type="button" onClick={goBackToDashboard}>
+                Yes, proceed
+              </Button>
+              <Button
+                inverted
+                type="button"
+                onClick={() => setShowCloseConfirmationDimmer(false)}
+              >
+                No I dont
+              </Button>
+            </Dimmer>
+          )}
+
+          {/* Submission process dimmer */}
           {submissionStarted === true && (
             <Dimmer active className="rounded">
               {submissionStarted && !submissionSuccess && !submissionFailure && (
@@ -282,16 +305,10 @@ const NewTodoForm = () => {
                   type="button"
                   color="red"
                   onClick={() => {
-                    let closeConfirmation = window.confirm(
-                      "Sure you want to cancel?"
-                    );
-                    if (closeConfirmation) {
-                      // Reset form
-                      goBackToDashboard();
-                    }
+                    setShowCloseConfirmationDimmer(true);
                   }}
                 >
-                  Cancel
+                  Close
                 </Button>
                 <Button basic color="blue" type="button">
                   Save as draft
