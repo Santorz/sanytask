@@ -7,7 +7,7 @@ import {
   Button,
   Form,
 } from "semantic-ui-react";
-import "date-fns";
+// import "date-fns";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/styles";

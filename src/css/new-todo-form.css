@@ -154,3 +154,14 @@ input[name="datetime"] {
     box-shadow: inset 0px 0px 0px 30px #006976;
   }
 }
+
+/* Blurred dimmer */
+.custom-blurred-dimmer {
+  backdrop-filter: blur(5px) !important;
+}
+.duedate-error-text {
+  color: red;
+}
+.duedate-error-border {
+  border: 2px solid red !important;
+}

@@ -10,7 +10,7 @@ import {
   Loader,
   Icon,
 } from "semantic-ui-react";
-import "date-fns";
+// import "date-fns";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/styles";
@@ -68,6 +68,7 @@ const NewTodoForm = () => {
   const [showCloseConfirmationDimmer, setShowCloseConfirmationDimmer] =
     useState(false);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
+  const [showDueDateErr, setShowDueDateErr] = useState(false);
 
   // Handler functions relating to submission action
   const handleChange = (e) => {
@@ -85,9 +86,7 @@ const NewTodoForm = () => {
     e.preventDefault();
     // Check if due date is equal or less than presnt date and time
     if (new Date(dueDateVal) < new Date(new Date().getTime() + 2 * 60000)) {
-      alert(
-        "Update due date to at least two minutes from current date and time "
-      );
+      setShowDueDateErr(true);
     } else {
       // Set due date
       newTodoObj.dueDate = dueDateVal;
@@ -108,7 +107,7 @@ const NewTodoForm = () => {
   };
 
   // Clear form, close Modal and return to dashboard
-  // Make sure all use States are reset to initial state here
+  // Make sure all useStates are reset to initial state here
   const goBackToDashboard = () => {
     setDueDateVal(null);
     setNewTodoObj(originalTodoObjFormat);
@@ -117,6 +116,7 @@ const NewTodoForm = () => {
     setSubmissionErrorName(null);
     setSubmissionSuccess(false);
     setShowCloseConfirmationDimmer(false);
+    setShowDueDateErr(false);
     window._closeNewTodoModal_();
   };
 
@@ -161,7 +161,7 @@ const NewTodoForm = () => {
 
           {/* Submission process dimmer */}
           {submissionStarted === true && (
-            <Dimmer active className="rounded">
+            <Dimmer active className="rounded custom-blurred-dimmer">
               {submissionStarted && !submissionSuccess && !submissionFailure && (
                 <Loader style={{ userSelect: "none", cursor: "progress" }}>
                   <h3>
@@ -213,19 +213,19 @@ const NewTodoForm = () => {
               {submissionStarted && submissionSuccess && !submissionFailure && (
                 <>
                   <svg
-                    class="checkmark"
+                    className="checkmark"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 52 52"
                   >
                     <circle
-                      class="checkmark__circle"
+                      className="checkmark__circle"
                       cx="26"
                       cy="26"
                       r="25"
                       fill="none"
                     />
                     <path
-                      class="checkmark__check"
+                      className="checkmark__check"
                       fill="none"
                       d="M14.1 27.2l7.1 7.2 16.7-16.8"
                     />
@@ -288,15 +288,25 @@ const NewTodoForm = () => {
                       inputVariant="standard"
                       value={dueDateVal}
                       onChange={(e) => {
+                        setShowDueDateErr(false);
                         setDueDateVal(new Date(e).toUTCString());
                       }}
                       minDate={new Date()}
                       maxDate={new Date(new Date().getTime() + 135000 * 60000)}
                       animateYearScrolling={true}
                       disablePast={true}
+                      className={`rounded ${
+                        showDueDateErr &&
+                        "duedate-error-border animate__animated animate__shakeX animate__fast"
+                      }`}
                     />
                   </ThemeProvider>
                 </MuiPickersUtilsProvider>
+                {showDueDateErr && (
+                  <h5 className="d-block my-0 duedate-error-text">
+                    Please update time to at least two minutes from current time
+                  </h5>
+                )}
               </Form.Field>
 
               <div className="pb-2 px-1 d-flex justify-content-around">
