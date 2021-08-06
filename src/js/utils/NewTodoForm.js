@@ -3,9 +3,12 @@ import {
   Container,
   Header,
   Grid,
-  // Segment,
+  Ref,
   Button,
   Form,
+  Dimmer,
+  Loader,
+  Icon,
 } from "semantic-ui-react";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
@@ -19,27 +22,36 @@ import { PlusSquare } from "react-feather";
 import "../../css/new-todo-form.css";
 
 // FUNCTIONS
-const submitTask = (taskObj) => {
-  fetch("http://localhost:8080/todos", {
+const submitTask = async (taskObj) => {
+  let data = await fetch("http://localhost:8080/todos", {
     method: "POST", // or 'PUT'
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(taskObj),
   })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Success:", data);
-      window._closeNewTodoModal_();
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.statusText);
+      }
+    })
+    .then((_data) => {
+      return _data;
     })
     .catch((error) => {
-      console.error("Error:", error);
+      return "err" + error;
     });
+  return data;
 };
 
 const NewTodoForm = () => {
   // Variables relating to date
   const [dueDateVal, setDueDateVal] = useState(null);
+
+  // Ref for new task form
+  const newTaskFormRef = React.useRef(null);
 
   // Variables relating to to-do
   const originalTodoObjFormat = {
@@ -50,7 +62,10 @@ const NewTodoForm = () => {
     taskHeading: "",
   };
   const [newTodoObj, setNewTodoObj] = useState(originalTodoObjFormat);
-  // const [allTodos, setAllTodos] = useState(data);
+  const [submissionStarted, setSubmissionStarted] = useState(false);
+  const [submissionFailure, setSubmissionFailure] = useState(false);
+  const [submissionErrorName, setSubmissionErrorName] = useState(null);
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
   // Handler functions relating to submission action
   const handleChange = (e) => {
@@ -64,24 +79,41 @@ const NewTodoForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Check if due date is equal or less than presnt dtae and time
+    // Check if due date is equal or less than presnt date and time
     if (new Date(dueDateVal) < new Date(new Date().getTime() + 2 * 60000)) {
       alert(
         "Update due date to at least two minutes from current date and time "
       );
     } else {
-      newTodoObj.dueDate = dueDateVal.toString();
-      console.log(newTodoObj);
+      // Set due date
+      newTodoObj.dueDate = dueDateVal;
+      // Show loader
+      setSubmissionStarted(true);
 
       // Update DB
-      submitTask(newTodoObj);
-
-      // After everything, reset form
-      setDueDateVal(null);
-      setNewTodoObj(originalTodoObjFormat);
+      const taskSubmissionStatus = await submitTask(newTodoObj);
+      if (typeof taskSubmissionStatus !== "object") {
+        setSubmissionFailure(true);
+        let err_name = taskSubmissionStatus.split("err")[1];
+        setSubmissionErrorName(err_name);
+      } else if (typeof taskSubmissionStatus === "object") {
+        setSubmissionFailure(false);
+        setSubmissionSuccess(true);
+      }
     }
+  };
+
+  // Clear form, close Modal and visit dashboard
+  const goBackToDashboard = () => {
+    setDueDateVal(null);
+    setNewTodoObj(originalTodoObjFormat);
+    setSubmissionStarted(false);
+    setSubmissionFailure(false);
+    setSubmissionErrorName(null);
+    setSubmissionSuccess(false);
+    window._closeNewTodoModal_();
   };
 
   return (
@@ -95,6 +127,7 @@ const NewTodoForm = () => {
         Create new task &nbsp;&nbsp;
         <PlusSquare color="white" />
       </Header>
+
       <Grid stackable padded verticalAlign="top">
         <Grid.Column
           mobile={16}
@@ -104,86 +137,172 @@ const NewTodoForm = () => {
           widescreen={4}
           className=" pb-0 px-0 rounded mx-auto"
         >
-          <Form id="newTodoForm" className="px-2 py-3" onSubmit={handleSubmit}>
-            <Form.Field>
-              <label className="ps-2 todo-form-label" htmlFor="taskHeading">
-                task heading:
-              </label>
-              <input
-                type="text"
-                name="taskHeading"
-                id="taskHeading"
-                placeholder="Enter a brief heading..."
-                required={true}
-                maxLength={35}
-                value={newTodoObj.taskHeading}
-                onChange={handleChange}
-              />
-            </Form.Field>
-
-            <Form.Field>
-              <label className="ps-2 todo-form-label" htmlFor="taskDetails">
-                detailed description:
-              </label>
-              <textarea
-                name="taskDetails"
-                id="taskDetails"
-                rows="5"
-                required={true}
-                placeholder="Enter to-do description..."
-                value={newTodoObj.taskDetails}
-                onChange={handleChange}
-              ></textarea>
-            </Form.Field>
-
-            {/* Due date Input Field */}
-            <Form.Field>
-              <label className="ps-2 todo-form-label">due date:</label>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <ThemeProvider theme={CustMaterialTheme}>
-                  <DateTimePicker
-                    label="DateTimePicker"
-                    inputVariant="outlined"
-                    value={dueDateVal}
-                    onChange={(e) => {
-                      setDueDateVal(new Date(e).toUTCString());
+          {submissionStarted === true && (
+            <Dimmer active className="rounded">
+              {submissionStarted && !submissionSuccess && !submissionFailure && (
+                <Loader style={{ userSelect: "none", cursor: "progress" }}>
+                  <h3>
+                    Submitting task <br />
+                    Please wait...
+                  </h3>
+                </Loader>
+              )}
+              {submissionStarted && !submissionSuccess && submissionFailure && (
+                <>
+                  <Icon name="warning sign" size="huge"></Icon>
+                  <h3 className="mb-1">
+                    An error occured while submitting task
+                  </h3>
+                  <h5 className="mt-0">
+                    Error details: {""}
+                    <span style={{ color: "#ffa4a4" }}>
+                      '{submissionErrorName}'
+                    </span>
+                  </h5>
+                  <Button
+                    type="button"
+                    inverted
+                    onClick={() => {
+                      setSubmissionFailure(false);
+                      newTaskFormRef.current.dispatchEvent(
+                        new Event("submit", {
+                          cancellable: true,
+                          bubbles: true,
+                        })
+                      );
                     }}
-                    minDate={new Date()}
-                    maxDate={new Date(new Date().getTime() + 135000 * 60000)}
-                    animateYearScrolling={true}
-                    disablePast={true}
-                  />
-                </ThemeProvider>
-              </MuiPickersUtilsProvider>
-            </Form.Field>
+                  >
+                    <Icon name="undo alternate"></Icon>
+                    Retry
+                  </Button>
+                  <Button
+                    type="button"
+                    inverted
+                    onClick={() => {
+                      setSubmissionStarted(false);
+                    }}
+                  >
+                    <Icon name="close"></Icon>
+                    Cancel
+                  </Button>
+                </>
+              )}
+              {submissionStarted && submissionSuccess && !submissionFailure && (
+                <>
+                  <svg
+                    class="checkmark"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 52 52"
+                  >
+                    <circle
+                      class="checkmark__circle"
+                      cx="26"
+                      cy="26"
+                      r="25"
+                      fill="none"
+                    />
+                    <path
+                      class="checkmark__check"
+                      fill="none"
+                      d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                    />
+                  </svg>
+                  <h3 className="mb-1">Task submitted successfully</h3>
+                  <h5 className="mt-0">
+                    You can now view it in your dashboard
+                  </h5>
+                  <Button inverted onClick={goBackToDashboard}>
+                    Visit Dashboard
+                  </Button>
+                </>
+              )}
+            </Dimmer>
+          )}
 
-            <div className="pb-2 px-1 d-flex justify-content-around">
-              <Button
-                basic
-                type="button"
-                color="red"
-                onClick={() => {
-                  let closeConfirmation = window.confirm(
-                    "Sure you want to cancel?"
-                  );
-                  if (closeConfirmation) {
-                    // Reset form
-                    setDueDateVal(null);
-                    setNewTodoObj(originalTodoObjFormat);
-                    window._closeNewTodoModal_();
-                  }
-                }}
-              >
-                Cancel
-              </Button>
-              <Button basic color="blue" type="button">
-                Save as draft
-              </Button>
-              <Button basic color="green" type="submit">
-                Submit
-              </Button>
-            </div>
-          </Form>
+          <Ref innerRef={newTaskFormRef}>
+            <Form
+              id="newTodoForm"
+              className="px-2 py-3"
+              onSubmit={handleSubmit}
+            >
+              <Form.Field>
+                <label className="ps-2 todo-form-label" htmlFor="taskHeading">
+                  task heading:
+                </label>
+                <input
+                  type="text"
+                  name="taskHeading"
+                  id="taskHeading"
+                  placeholder="Enter a brief heading..."
+                  required={true}
+                  maxLength={35}
+                  value={newTodoObj.taskHeading}
+                  onChange={handleChange}
+                />
+              </Form.Field>
+
+              <Form.Field>
+                <label className="ps-2 todo-form-label" htmlFor="taskDetails">
+                  detailed description:
+                </label>
+                <textarea
+                  name="taskDetails"
+                  id="taskDetails"
+                  rows="5"
+                  required={true}
+                  placeholder="Enter to-do description..."
+                  value={newTodoObj.taskDetails}
+                  onChange={handleChange}
+                ></textarea>
+              </Form.Field>
+
+              {/* Due date Input Field */}
+              <Form.Field>
+                <label className="ps-2 todo-form-label">due date:</label>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <ThemeProvider theme={CustMaterialTheme}>
+                    <DateTimePicker
+                      inputVariant="standard"
+                      value={dueDateVal}
+                      onChange={(e) => {
+                        setDueDateVal(new Date(e).toUTCString());
+                      }}
+                      minDate={new Date()}
+                      maxDate={new Date(new Date().getTime() + 135000 * 60000)}
+                      animateYearScrolling={true}
+                      disablePast={true}
+                    />
+                  </ThemeProvider>
+                </MuiPickersUtilsProvider>
+              </Form.Field>
+
+              <div className="pb-2 px-1 d-flex justify-content-around">
+                <Button
+                  basic
+                  type="button"
+                  color="red"
+                  onClick={() => {
+                    let closeConfirmation = window.confirm(
+                      "Sure you want to cancel?"
+                    );
+                    if (closeConfirmation) {
+                      // Reset form
+                      goBackToDashboard();
+                    }
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button basic color="blue" type="button">
+                  Save as draft
+                </Button>
+                <Button basic color="green" type="submit">
+                  Submit
+                </Button>
+              </div>
+            </Form>
+          </Ref>
+          {/*  */}
         </Grid.Column>
       </Grid>
     </Container>

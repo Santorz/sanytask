@@ -3,7 +3,8 @@ import { Grid, Segment, Header, Ref } from "semantic-ui-react";
 import { useMediaQuery } from "react-responsive";
 import Navbar from "./navbar";
 import Todos from "./to-dos";
-import CreateNewTodoModal from "./createNewTodo";
+import CreateNewTodoModal from "./createNewTask";
+import EditModal from "./editTask";
 
 // CSS
 // import "semantic-ui-css/semantic.min.css";
@@ -79,6 +80,7 @@ const App = () => {
       </Grid>
 
       <CreateNewTodoModal />
+      <EditModal />
     </>
   );
 };

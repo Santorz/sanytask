@@ -57,6 +57,8 @@ const getShorthandDistanceDiff = (dueDate) => {
     result = `${hours} hour `;
   } else if (hours < 24) {
     result = `${hours} hrs `;
+  } else if (days === 1) {
+    result = `${days} day `;
   } else if (months < 1) {
     result = `${days} days `;
   } else if (months === 1) {
@@ -96,6 +98,11 @@ const getRelativeDate = (date, baseDate, options) => {
     : format(date, `dd/MM/yyyy 'by' p`);
 };
 
+// Edit modal opener function
+const openEditTaskModal = (ref) => {
+  window._handleEditTaskModalTrigger_(ref);
+};
+
 // TODOS COMPONENT
 const Todos = () => {
   // State for user fetching
@@ -126,6 +133,9 @@ const Todos = () => {
 
   // UseRef for opening CreateNewTodoModal
   const triggerCreateNewTodoModalRef = useRef(null);
+
+  // UseRef for opening EditModal
+  const triggerEditModalRef = useRef(null);
 
   const [todos, setTodos] = useState(data);
   const [specificTaskID, setSpecificTaskID] = useState(null); //To hold ID of todo to delete
@@ -325,18 +335,21 @@ const Todos = () => {
                     id={`markDoneBtn-${task.id}`}
                     onClick={showMarkDoneModal}
                   ></Button>
-                  <Button
-                    style={{ margin: "0 3px" }}
-                    className="my-1 my-lg-0 todo-action-btn todo-edit-btn"
-                    icon="pencil"
-                    content="Edit"
-                    labelPosition="left"
-                    basic
-                    color="black"
-                    onClick={() => {
-                      createNotification("info", null, "Feature coming soon !");
-                    }}
-                  ></Button>
+                  <Ref innerRef={triggerEditModalRef}>
+                    <Button
+                      style={{ margin: "0 3px" }}
+                      className="my-1 my-lg-0 todo-action-btn todo-edit-btn"
+                      icon="pencil"
+                      content="Edit"
+                      labelPosition="left"
+                      basic
+                      color="black"
+                      id={`editBtn-${task.id}`}
+                      onClick={() => {
+                        openEditTaskModal(triggerEditModalRef);
+                      }}
+                    ></Button>
+                  </Ref>
                   <Button
                     style={{ margin: "0 3px" }}
                     className="my-1 my-lg-0 todo-action-btn todo-delete-btn"

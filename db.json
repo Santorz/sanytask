@@ -32,11 +32,25 @@
       "taskHeading": "Get ingredients for pizza"
     },
     {
-      "dateCreated": "Mon, 02 Aug 2021 15:30:53 GMT",
-      "dueDate": "Tue, 03 Aug 2021 11:30:00 GMT",
-      "id": 1627918253219,
-      "taskDetails": "Go to the thrift store and get clothes for Jenny tomorrow",
-      "taskHeading": "Get some clothes for Jenny"
+      "dateCreated": "Wed, 04 Aug 2021 13:59:21 GMT",
+      "dueDate": "Tue, 04 Aug 2021 23:30:00 GMT",
+      "id": 1628085561743,
+      "taskDetails": "Wash those plates bruh...",
+      "taskHeading": "Do the dishes"
+    },
+    {
+      "dateCreated": "Wed, 04 Aug 2021 14:07:48 GMT",
+      "dueDate": "Thu, 05 Aug 2021 14:45:00 GMT",
+      "id": 1628086068978,
+      "taskDetails": "Visit the grocery and get the ingredients required to make Papa's spacial Cappuccino",
+      "taskHeading": "Get Ingredients for Cappuccino"
+    },
+    {
+      "dateCreated": "Fri, 06 Aug 2021 02:25:08 GMT",
+      "dueDate": "Sat, 07 Aug 2021 01:39:00 GMT",
+      "id": 1628216708851,
+      "taskDetails": "uivfuvhrjtsnvuhsuvtsnsurivjbrds",
+      "taskHeading": "8ubhttubvtbntus"
     }
   ]
 }

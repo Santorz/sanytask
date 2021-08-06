@@ -32,11 +32,11 @@
   height: max-content !important;
   padding: 15px 10px !important;
 }
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover)
 .accordion:hover,
 .active {
   background-color: #eee !important;
-}
+} */
 /* Style the accordion content title */
 .accordion__title {
   align-self: center !important;

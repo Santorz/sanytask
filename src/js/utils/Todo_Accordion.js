@@ -10,6 +10,7 @@ const Todo_Accordion = (props) => {
   // const [setHeight, setHeightState] = useState("0px");
   // const [setRotate, setRotateState] = useState("accordion__icon");
 
+  // Toggle accordion functionality
   const toggleAccordion = (e) => {
     let accordionInFocus = e.currentTarget;
     let allOtherAccordionsParents = Array.from(

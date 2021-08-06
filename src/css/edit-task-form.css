@@ -19,6 +19,12 @@
 .MuiPickerDTTabs-tabs {
   background-color: #006976 !important;
 }
+.MuiInput-underline:before,
+.MuiInput-underline:after,
+.MuiInput-underline:hover,
+.MuiInput-underline:focus {
+  border-bottom: 0 !important;
+}
 .MuiButton-label {
   color: #006976 !important;
 }
@@ -33,19 +39,19 @@
 }
 /*  */
 
-#newTodoForm {
+#editTaskForm {
   border-radius: 5px;
   background: #ecf0f3;
   box-shadow: 0 0 10px 0.1px #000000;
 }
 
-#newTodoForm button {
+#editTaskForm button {
   font-weight: bolder;
   border: 1px solid;
 }
 
-#newTodoForm input[type="text"],
-#newTodoForm textarea {
+#editTaskForm input[type="text"],
+#editTaskForm textarea {
   font-family: "Open Sans", sans-serif !important;
   font-size: 1.15rem !important;
   box-shadow: inset 4px 4px 4px #cbced1, inset -4px -4px 4px #ffffff;
@@ -53,22 +59,26 @@
 
 #taskHeading:hover,
 .MuiInputBase-input:hover,
-#newTodoForm textarea:hover,
+#editTaskForm textarea:hover,
 #taskHeading:focus,
 .MuiInputBase-input:focus,
-#newTodoForm textarea:focus {
+#editTaskForm textarea:focus {
   border: 1px solid #006976 !important;
 }
-#newTodoForm label {
+
+#editTaskForm label {
   font-size: 1.05rem;
   margin-top: 5px;
 }
+
 #todoDescription {
   resize: none;
 }
+
 #taskDetails {
   resize: none !important;
 }
+
 /* For date input */
 .react-datetime-picker {
   width: 100% !important;
@@ -103,54 +113,4 @@ input[name="datetime"] {
 .react-datetime-picker__clear-button,
 .react-datetime-picker__calendar-button {
   display: none !important;
-}
-
-/*For checkmark SVG  */
-.checkmark__circle {
-  stroke-dasharray: 166;
-  stroke-dashoffset: 166;
-  stroke-width: 2;
-  stroke-miterlimit: 10;
-  stroke: #006976;
-  fill: none;
-  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-}
-.checkmark {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: block;
-  stroke-width: 5;
-  stroke: #fff;
-  stroke-miterlimit: 10;
-  margin: 10% auto;
-  box-shadow: inset 0px 0px 0px #006976;
-  animation: fill 0.4s ease-in-out 0.4s forwards,
-    scale 0.3s ease-in-out 0.9s both;
-}
-.checkmark__check {
-  transform-origin: 50% 50%;
-  stroke-dasharray: 48;
-  stroke-dashoffset: 48;
-  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-}
-
-@keyframes stroke {
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes scale {
-  0%,
-  100% {
-    transform: none;
-  }
-  50% {
-    transform: scale3d(1.1, 1.1, 1);
-  }
-}
-@keyframes fill {
-  100% {
-    box-shadow: inset 0px 0px 0px 30px #006976;
-  }
 }
