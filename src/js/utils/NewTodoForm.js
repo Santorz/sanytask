@@ -195,7 +195,7 @@ const NewTodoForm = () => {
                       );
                     }}
                   >
-                    <Icon name="undo alternate"></Icon>
+                    <Icon name="refresh"></Icon>
                     Retry
                   </Button>
                   <Button

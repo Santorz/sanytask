@@ -17,6 +17,7 @@ import {
   differenceInSeconds,
   format,
 } from "date-fns";
+import { differenceInDays, differenceInMonths } from "date-fns/esm";
 import TodoAccordion from "./utils/Todo_Accordion";
 import DeleteModal from "./utils/Delete_Modal";
 import MarkDoneModal from "./utils/Mark_Done_Modal";
@@ -25,12 +26,11 @@ import CustomNotificationManager, {
 } from "./utils/Notification_Manager";
 
 // CSS
-// import "semantic-ui-css/semantic.min.css";
-// import "../css/bootstrap-utilities.min.css";
-// import "animate.css";
 import "../css/todos.css";
 import "react-notifications/lib/notifications.css";
-import { differenceInDays, differenceInMonths } from "date-fns/esm";
+
+// MEDIA
+import tasksFetchErrorPic from "./media/404-error-main.svg";
 
 // Funcs
 const openCreateNewTodoModal = (ref) => {
@@ -106,14 +106,21 @@ const openEditTaskModal = (ref) => {
 // TODOS COMPONENT
 const Todos = () => {
   // State for user fetching
-  const [userLoading, setUserLoading] = useState(true);
+  const [tasksLoading, setTasksLoading] = useState(true);
   const [usersTasks, setUsersTasks] = useState(null);
+  const [isTasksFetchErr, setIsTasksFetchErr] = useState(false);
 
-  // The main fetcher of tasks
+  // The main fetcher of tasks at page load
   React.useEffect(() => {
     // Demo fetch for fake db
     fetch("http://localhost:8080/todos")
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error(response.statusText);
+        }
+      })
       .then((data) => {
         data.sort((a, b) => {
           let da = new Date(a.dueDate);
@@ -126,10 +133,47 @@ const Todos = () => {
         });
         setTimeout(() => {
           setUsersTasks(data);
-          setUserLoading(false);
-        }, 3000);
+          setTasksLoading(false);
+        }, 500);
+      })
+      .catch((error) => {
+        setTasksLoading(false);
+        setIsTasksFetchErr(true);
       });
-  });
+  }, []);
+
+  // The fetch function for fetching tasks dynamically
+  const fetchTasksDynamic = () => {
+    setIsTasksFetchErr(false);
+    setTasksLoading(true);
+    fetch("http://localhost:8080/todos")
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error(response.statusText);
+        }
+      })
+      .then((data) => {
+        data.sort((a, b) => {
+          let da = new Date(a.dueDate);
+          let db = new Date(b.dueDate);
+          if (da > db) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+        setTimeout(() => {
+          setUsersTasks(data);
+          setTasksLoading(false);
+        }, 500);
+      })
+      .catch((error) => {
+        setTasksLoading(false);
+        setIsTasksFetchErr(true);
+      });
+  };
 
   // UseRef for opening CreateNewTodoModal
   const triggerCreateNewTodoModalRef = useRef(null);
@@ -210,19 +254,22 @@ const Todos = () => {
   return (
     <>
       {/* This would be displayed if there is more than one task left */}
-      {!userLoading && usersTasks.length > 1 && (
-        <Header size="medium" color="black">
-          {usersTasks.length} Pending Tasks
-        </Header>
-      )}
+      {!tasksLoading &&
+        !isTasksFetchErr &&
+        usersTasks &&
+        usersTasks.length > 1 && (
+          <Header size="medium" color="black">
+            {usersTasks.length} Pending Tasks
+          </Header>
+        )}
       {/* This would be displayed if there is only one task left */}
-      {!userLoading && usersTasks.length === 1 && (
+      {!tasksLoading && usersTasks && usersTasks.length === 1 && (
         <Header size="medium" color="black">
           {usersTasks.length} Pending Task
         </Header>
       )}
       {/* This would be displayed if there are no tasks left */}
-      {!userLoading && usersTasks.length < 1 && (
+      {!tasksLoading && usersTasks && usersTasks.length < 1 && (
         <Segment
           padded
           placeholder
@@ -251,7 +298,7 @@ const Todos = () => {
         </Segment>
       )}
       <div id="todos-container">
-        {userLoading ? (
+        {tasksLoading && !usersTasks && (
           <>
             <h3 className="mb-3">Loading tasks</h3>
             <Placeholder
@@ -287,7 +334,31 @@ const Todos = () => {
               <Placeholder.Line length="full"></Placeholder.Line>
             </Placeholder>
           </>
-        ) : (
+        )}
+        {isTasksFetchErr && !tasksLoading && (
+          <div style={{ userSelect: "none" }} className="mt-3 mb-5">
+            <img
+              style={{ cursor: "not-allowed" }}
+              src={tasksFetchErrorPic}
+              alt="Error fetching tasks"
+              width="150"
+              height="150"
+              onContextMenu={(e) => e.preventDefault()}
+            />
+            <h3 className="my-2 red-text">Something went wrong...</h3>
+            <h4 className="mt-2">There was a problem getting your tasks.</h4>
+            <Button
+              type="button"
+              className="shadow"
+              color="black"
+              onClick={fetchTasksDynamic}
+            >
+              <Icon name="refresh"></Icon>
+              Retry
+            </Button>
+          </div>
+        )}
+        {usersTasks &&
           usersTasks.map((task, index) => {
             const { id, dueDate, taskDetails, taskHeading } = task;
             return (
@@ -364,8 +435,7 @@ const Todos = () => {
                 </div>
               </TodoAccordion>
             );
-          })
-        )}
+          })}
       </div>
 
       {/* Delete Modal */}

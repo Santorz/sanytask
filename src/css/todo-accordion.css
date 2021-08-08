@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap");
-
+.red-text {
+  color: #db2828;
+}
 .todo-snumber {
   font-size: 1.025rem !important;
   color: #006976 !important;
