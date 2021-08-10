@@ -258,6 +258,7 @@ const NewTodoForm = () => {
                   id="taskHeading"
                   placeholder="Enter a brief heading..."
                   required={true}
+                  minLength={10}
                   maxLength={35}
                   value={newTodoObj.taskHeading}
                   onChange={handleChange}

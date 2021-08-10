@@ -30,7 +30,7 @@ import "../css/todos.css";
 import "react-notifications/lib/notifications.css";
 
 // MEDIA
-import tasksFetchErrorPic from "./media/404-error-main.svg";
+import tasksFetchErrorPic from "../media/404-error-main.svg";
 
 // Funcs
 const openCreateNewTodoModal = (ref) => {
@@ -390,7 +390,11 @@ const Todos = () => {
                       fontSize: "1rem",
                     }}
                   >
-                    due {getRelativeDate(new Date(dueDate), new Date())}
+                    due{" "}
+                    {getRelativeDate(new Date(dueDate), new Date()).replace(
+                      "at",
+                      "by"
+                    )}
                   </span>
                 </div>
                 <h4 className="mt-1" style={{ textAlign: "left" }}>

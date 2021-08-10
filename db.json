@@ -37,6 +37,13 @@
       "id": 1628086068978,
       "taskDetails": "Visit the grocery and get the ingredients required to make Papa's spacial Cappuccino",
       "taskHeading": "Get Ingredients for Cappuccino"
+    },
+    {
+      "dateCreated": "Sun, 08 Aug 2021 22:46:41 GMT",
+      "dueDate": "Tue, 10 Aug 2021 09:45:00 GMT",
+      "id": 1628462801518,
+      "taskDetails": "Email the company's secretary and obtain the minutes from the last feature proposal meeting in order to access key points discussed.",
+      "taskHeading": "Get meeting minutes from secretary"
     }
   ]
 }
