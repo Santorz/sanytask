@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Segment, Container, Ref } from "semantic-ui-react";
 import { Home, Plus, Bookmark, User, Archive } from "react-feather";
-import "../css/bootstrap-utilities.min.css";
 import "../css/navbar.css";
 
 const openCreateNewTodoModal = (ref) => {
