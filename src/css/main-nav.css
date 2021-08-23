@@ -9,6 +9,12 @@
   background: rgba(0, 0, 0, 0.5) !important;
 }
 .mobile-menu-backdrop {
+  width: 50% !important;
+  max-width: 300px !important;
+  margin-left: auto;
+  justify-content: right !important;
+  position: relative !important;
+  border-radius: 0.5rem !important;
   background: rgba(0, 0, 0, 0.5) !important;
   backdrop-filter: blur(4px);
 }

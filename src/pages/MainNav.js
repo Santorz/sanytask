@@ -29,7 +29,7 @@ const MainNav = React.forwardRef((props, ref) => {
         <nav>
           <Ref innerRef={ref}>
             <Segment
-              className=" d-flex flex-column position-absolute px-0 pb-1 pb-md-3 px-md-3 px-lg-4 px-xl-5 my-0 w-100 rounded-0"
+              className=" d-flex flex-column position-absolute px-0 pb-0 pb-md-3 px-md-3 px-lg-4 px-xl-5 my-0 w-100 rounded-0"
               id="landing-page-nav"
               raised
             >
@@ -50,6 +50,7 @@ const MainNav = React.forwardRef((props, ref) => {
                     {openMobileNavMenu && <X size={32} />}
                   </button>
                 )}
+                {/* Nav ul for Tablet and above only */}
                 {isTabletandAbove && (
                   <MainNavUl isMainPageNavBool={isMainPageNav} />
                 )}
@@ -61,6 +62,7 @@ const MainNav = React.forwardRef((props, ref) => {
                     openMobileNavMenu
                   )}`}
                 >
+                  {/* Nav ul for mobile only */}
                   <MainNavUl isMainPageNavBool={isMainPageNav} />
                 </section>
               )}
@@ -94,14 +96,21 @@ const MainNav = React.forwardRef((props, ref) => {
                   {openMobileNavMenu && <X size={32} />}
                 </button>
               )}
+              {/* Nav ul for Tablet and above only */}
+              {isTabletandAbove && (
+                <MainNavUl isMainPageNavBool={isMainPageNav} />
+              )}
             </div>
 
             {isMobileOnly && (
               <section
-                className={`p-5 mobile-menu-normal ${setMobileNavDynamicClassName(
+                className={`py-2 px-0 mobile-menu-normal ${setMobileNavDynamicClassName(
                   openMobileNavMenu
                 )}`}
-              ></section>
+              >
+                {/* Nav ul for mobile only */}
+                <MainNavUl isMainPageNavBool={isMainPageNav} />
+              </section>
             )}
           </Segment>
         </nav>

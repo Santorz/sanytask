@@ -1,0 +1,36 @@
+#login-div {
+  background-color: rgba(235, 235, 235, 0.777) !important;
+  backdrop-filter: blur(4px);
+  user-select: none !important;
+}
+#login-div h3 {
+  cursor: pointer !important;
+}
+#login-form input:focus {
+  border: 1px solid #006976 !important;
+}
+.login-form-label {
+  text-align: left !important;
+  font-size: 1.2rem !important;
+  margin-top: 0.75rem !important;
+}
+#forgot-password-text {
+  text-align: left !important;
+}
+#login-btn-main {
+  background-color: #00899b !important;
+  color: whitesmoke !important;
+  font-family: "Open Sans", sans-serif !important;
+  font-size: 1.15rem !important;
+}
+#login-btn-main:hover,
+#login-btn-main:focus {
+  background-color: #006976 !important;
+  color: white !important;
+  box-shadow: 0 0 5px 0.1px gray;
+}
+.login-page-error-text {
+  display: block !important;
+  color: rgb(231, 0, 0) !important;
+  text-align: left !important;
+}

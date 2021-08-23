@@ -11,7 +11,7 @@
 }
 #landing-page-nav {
   user-select: none !important;
-  background-color: rgba(0, 0, 0, 0.3) !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
   backdrop-filter: blur(7px);
   width: 100vw !important;
   z-index: 99 !important;
