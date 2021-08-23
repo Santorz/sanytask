@@ -95,7 +95,7 @@ const DesktopNav = () => {
     <Container className="px-0" fluid>
       <Segment raised className="px-5 desktop-nav-segment py-0">
         <h2 className="m-0" style={{ color: "#006976", userSelect: "none" }}>
-          my next task
+          my-next-task
         </h2>
         <ul className="desktop-ul">
           <li>

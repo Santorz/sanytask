@@ -1,0 +1,20 @@
+.mobile-nav-hamburger-button {
+  background: transparent !important;
+  color: whitesmoke !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  cursor: pointer;
+}
+.mobile-menu {
+  background: transparent !important;
+}
+.mobile-menu-backdrop {
+  background: transparent !important;
+  /* backdrop-filter: blur(40px); */
+}
+.mobile-menu-closed {
+  display: none !important;
+}
+.mobile-menu-open {
+  display: block !important;
+}

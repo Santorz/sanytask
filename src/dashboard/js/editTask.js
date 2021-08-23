@@ -15,7 +15,7 @@ const EditTaskModal = () => {
   const { modalProps, open, close } = useModal({
     background: "#006976",
     onOpen() {
-      setDocTitle("Edit task | my next task");
+      setDocTitle("Edit task | my-next-task");
     },
     onClose() {
       setDocTitle(initialDocTitle);

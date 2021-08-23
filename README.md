@@ -1,4 +1,4 @@
-# my next task
+# my-next-task
 
 This app allows you to input tasks you have to complete in the nearest future and reminds you of them.
 

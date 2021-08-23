@@ -14,10 +14,10 @@ const CreateNewTodoModal = () => {
   const { modalProps, open, close } = useModal({
     background: "#006976",
     onOpen() {
-      setDocTitle("Create new task | my next task");
+      setDocTitle("Create new task | my-next-task");
     },
     onClose() {
-      setDocTitle("Dashboard | my next task");
+      setDocTitle("Dashboard | my-next-task");
     },
   });
   // The main opener function

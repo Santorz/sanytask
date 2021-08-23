@@ -4,15 +4,17 @@
 #landing-page-text-bg {
   height: 42rem !important;
   z-index: -2 !important;
+  animation-duration: 1.3s !important;
 }
 #nav-and-app-details-container {
   top: 0 !important;
 }
 #landing-page-nav {
   user-select: none !important;
-  background-color: rgba(0, 0, 0, 0.25) !important;
-  backdrop-filter: blur(3px);
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: blur(7px);
   width: 100vw !important;
+  z-index: 99 !important;
 }
 #landing-page-nav-app-name {
   color: whitesmoke !important;
