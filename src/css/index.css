@@ -11,7 +11,7 @@
 }
 #landing-page-nav {
   user-select: none !important;
-  background-color: rgba(0, 0, 0, 0.45) !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
   backdrop-filter: blur(7px);
   width: 100vw !important;
   z-index: 99 !important;
@@ -39,6 +39,7 @@
   text-align: center;
   text-decoration: none;
   border-radius: 0.28571429rem;
+  font-size: 1.2rem !important;
 }
 .landing-page-main-action-link:hover,
 .landing-page-main-action-link:focus {

@@ -1,6 +1,6 @@
 import React from "react";
 import MainNav from "./MainNav";
-import { Image } from "semantic-ui-react";
+import { Container, Image } from "semantic-ui-react";
 
 // CSS
 import "../css/404-page.css";
@@ -15,13 +15,17 @@ const Body = () => {
   return (
     <>
       <MainNav isMainPageNav={false} />
-      <h2 className="text-center user-select-none">Error Page</h2>
-      <Image
-        src={error404Pic}
-        onContextMenu={(e) => e.preventDefault()}
-        id="error-404-image"
-        className="mx-auto"
-      />
+      <Container fluid className="mt-3">
+        <h2 className="text-center user-select-none">Page not found</h2>
+        <Image
+          src={error404Pic}
+          onContextMenu={(e) => e.preventDefault()}
+          onDragStart={(e) => e.preventDefault()}
+          id="error-404-image"
+          className="mx-auto"
+          style={{ cursor: "not-allowed" }}
+        />
+      </Container>
     </>
   );
 };

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./dashboard";
+import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/404-page";
 
 // CSS
@@ -24,6 +25,9 @@ const MainBodyContainer = () => {
           </Route>
           <Route path="/dashboard">
             <Dashboard />
+          </Route>
+          <Route path="/login">
+            <LoginPage />
           </Route>
           <Route path="*">
             <ErrorPage />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { Segment, Container, Ref } from "semantic-ui-react";
 import { Home, Plus, Bookmark, User, Archive } from "react-feather";
 import "../css/navbar.css";
@@ -42,16 +43,16 @@ const MobileNav = React.forwardRef((props, ref) => {
         <Segment className="p-0 mobile-nav-segment" id="mobile-nav">
           <ul className="mobile-ul p-0 mx-0">
             <li>
-              <a href="./" className="mobile-link">
+              <Link to="./" className="mobile-link">
                 <Home size={25} color="#006976" />
                 <h5 className="p-0 m-0">Home</h5>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="./" className="mobile-link">
+              <Link to="./" className="mobile-link">
                 <Archive size={25} color="#006976" />
                 <h5 className="p-0 m-0">Archive</h5>
-              </a>
+              </Link>
             </li>
             <li id="create-button-mobile-li">
               <button
@@ -70,16 +71,16 @@ const MobileNav = React.forwardRef((props, ref) => {
               </button>
             </li>
             <li>
-              <a href="./" className="mobile-link">
+              <Link to="./" className="mobile-link">
                 <Bookmark size={25} color="#006976" />
                 <h5 className="p-0 m-0">Blog</h5>
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="./" className="mobile-link">
+              <Link to="./" className="mobile-link">
                 <User size={25} color="#006976" />
                 <h5 className="p-0 m-0">Profile</h5>
-              </a>
+              </Link>
             </li>
           </ul>
         </Segment>
@@ -99,16 +100,16 @@ const DesktopNav = () => {
         </h2>
         <ul className="desktop-ul">
           <li>
-            <a href="./" className="desktop-link">
+            <Link to="./" className="desktop-link">
               <Home size={28} color="#006976" />
               <h5 className="p-0 m-0">Home</h5>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="./" className="desktop-link">
+            <Link to="./" className="desktop-link">
               <Archive size={28} color="#006976" />
               <h5 className="p-0 m-0">Archive</h5>
-            </a>
+            </Link>
           </li>
           <li id="create-button-desktop-li">
             <button
@@ -128,16 +129,16 @@ const DesktopNav = () => {
           </li>
 
           <li>
-            <a href="./" className="desktop-link">
+            <Link to="./" className="desktop-link">
               <Bookmark size={28} color="#006976" />
               <h5 className="p-0 m-0">Blog</h5>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="./" className="desktop-link">
+            <Link to="./" className="desktop-link">
               <User size={28} color="#006976" />
               <h5 className="p-0 m-0">Profile</h5>
-            </a>
+            </Link>
           </li>
         </ul>
       </Segment>

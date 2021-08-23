@@ -5,16 +5,41 @@
   border: 0 !important;
   cursor: pointer;
 }
-.mobile-menu {
-  background: transparent !important;
+.mobile-menu-normal {
+  background: rgba(0, 0, 0, 0.5) !important;
 }
 .mobile-menu-backdrop {
-  background: transparent !important;
-  /* backdrop-filter: blur(40px); */
+  background: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(4px);
 }
 .mobile-menu-closed {
   display: none !important;
 }
 .mobile-menu-open {
   display: block !important;
+}
+#main-nav-ul {
+  position: relative;
+}
+#main-nav-ul li {
+  list-style-type: none !important;
+  margin: 0 !important;
+}
+.main-nav-link {
+  text-decoration: none !important;
+  font-size: 1.2rem;
+  color: whitesmoke !important;
+  font-family: "Open Sans", sans-serif !important;
+  font-weight: bold;
+  padding: 0 1rem;
+}
+
+/* Tablet and above */
+@media screen and (max-width: 768px) {
+  .main-nav-link {
+    padding: 0 !important;
+  }
+  #main-nav-ul li {
+    margin: 1rem 0 !important;
+  }
 }
