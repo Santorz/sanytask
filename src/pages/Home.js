@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { Container, Image, Header } from "semantic-ui-react";
-import { Clipboard } from "react-feather";
 import MainNav from "./MainNav";
 
 // MEDIA
@@ -36,7 +35,7 @@ const Home = () => {
           src={landingPageTextBg}
           className={`animate__animated animate__slideInDown animate__slow`}
           id="landing-page-text-bg"
-          style={{ boxShadow: "0 0 3px 3px black" }}
+          // style={{ boxShadow: "0 0 3px 3px black" }}
         />
         <div
           className="position-absolute d-flex flex-column"
@@ -47,6 +46,7 @@ const Home = () => {
             className="d-flex position-relative justify-content-around user-select-none align-items-start"
             id="app-details-container"
             ref={appDetailsContainerRef}
+            style={{ width: "100vw" }}
           >
             <section className="position-relative px-3 pt-4 pt-sm-5 pt-md-4 pt-lg-4 px-md-4 px-lg-5 text-left align-self-start">
               <Header
@@ -56,8 +56,9 @@ const Home = () => {
                 Organize your tasks with ease.
               </Header>
               <h3 className="mt-1 mb-2 text-whitesmoke">
-                A seamless solution to activity management. In just a few
-                clicks, you can get your activity planning done.
+                A seamless solution to activity management.{" "}
+                <br className="d-none d-lg-block" /> In just a few clicks, you
+                can get your activity planning done.
               </h3>
               <div className="d-flex pt-3 pt-md-1 pt-lg-5">
                 <Link
@@ -75,7 +76,7 @@ const Home = () => {
               </div>
             </section>
             {isTabletandAbove && (
-              <section className="px-5 text-left align-self-center">
+              <section className="px-5 text-center">
                 <Image src={phoneMockupImg} width="100%" height="500" />
               </section>
             )}
