@@ -29,8 +29,18 @@
   color: white !important;
   box-shadow: 0 0 5px 0.1px gray;
 }
-.login-page-error-text {
+.login-page-email-error-text {
   display: block !important;
   color: rgb(231, 0, 0) !important;
   text-align: left !important;
+  visibility: collapse !important;
+}
+.login-page-password-error-text {
+  display: block !important;
+  color: rgb(231, 0, 0) !important;
+  text-align: left !important;
+  visibility: collapse !important;
+}
+.error-message-visible {
+  visibility: visible !important;
 }

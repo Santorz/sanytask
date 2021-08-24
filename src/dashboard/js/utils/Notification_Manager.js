@@ -53,9 +53,9 @@ export const createNotification = (type, optional_func, msg) => {
       );
       break;
     case "error":
-      NotificationManager.error("Error message", "Click me!", 5000, () => {
-        alert("callback");
-      });
+      if (!optional_func) {
+        NotificationManager.error(msg, "Error", 2000);
+      }
       break;
     default:
       console.log("Unkown Command");
