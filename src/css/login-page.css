@@ -33,13 +33,13 @@
   display: block !important;
   color: rgb(231, 0, 0) !important;
   text-align: left !important;
-  visibility: collapse !important;
+  visibility: hidden !important;
 }
 .login-page-password-error-text {
   display: block !important;
   color: rgb(231, 0, 0) !important;
   text-align: left !important;
-  visibility: collapse !important;
+  visibility: hidden !important;
 }
 .error-message-visible {
   visibility: visible !important;

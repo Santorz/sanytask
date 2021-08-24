@@ -28,10 +28,17 @@ const LoginPage = () => {
   }, []);
 
   //Validate each input
-  const validateEachInput = (fieldValue, respectiveRegex, setIsInvalidBool) => {
-    if (!fieldValue.match(respectiveRegex)) {
-      //If regex doesn't match
-      setIsInvalidBool(true);
+  const validateEachInput = (
+    fieldValue,
+    respectiveRegex,
+    isInvalidBool,
+    setIsInvalidBool
+  ) => {
+    if (!isInvalidBool) {
+      if (!fieldValue.match(respectiveRegex)) {
+        //If regex doesn't match
+        setIsInvalidBool(true);
+      }
     }
   };
 
@@ -44,7 +51,7 @@ const LoginPage = () => {
       userEmailValue.match(emailRegex) &&
       userPasswordValue.match(passwordRegex)
     ) {
-      alert("Correct detils, fully validated");
+      alert("Correct details, fully validated");
       // Perform the main submission
     }
 
@@ -113,6 +120,7 @@ const LoginPage = () => {
                       validateEachInput(
                         userEmailValue,
                         emailRegex,
+                        isEmailInvalid,
                         setIsEmailInvalid
                       )
                     }
@@ -145,6 +153,7 @@ const LoginPage = () => {
                       validateEachInput(
                         userPasswordValue,
                         passwordRegex,
+                        isPasswordInvalid,
                         setIsPasswordInvalid
                       )
                     }
