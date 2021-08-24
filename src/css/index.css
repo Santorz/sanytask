@@ -1,3 +1,6 @@
+body {
+  min-width: 250px !important;
+}
 #main-part-container {
   margin: auto 0 !important;
 }
