@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import Home from "./pages/Home";
 import Dashboard from "./dashboard";
 import LoginPage from "./pages/LoginPage";
@@ -42,6 +43,9 @@ const MainBodyContainer = () => {
             <Dashboard />
           </Route>
           <Route path="/login">
+            <Helmet>
+              <title>Login | my-next-task</title>
+            </Helmet>
             <LoginPage />
           </Route>
           <Route path="/parse-demo">
