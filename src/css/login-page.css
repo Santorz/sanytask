@@ -1,6 +1,5 @@
 #login-div {
-  background-color: rgba(235, 235, 235, 0.777) !important;
-  backdrop-filter: blur(4px);
+  background-color: rgb(245, 245, 245) !important;
   user-select: none !important;
 }
 #login-div h3 {

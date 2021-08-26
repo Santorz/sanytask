@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import Home from "./pages/Home";
 import Dashboard from "./dashboard";
 import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 import ErrorPage from "./pages/404-page";
 import { PersonComponent } from "./pages/Parse_Demo";
 
@@ -47,6 +48,12 @@ const MainBodyContainer = () => {
               <title>Login | my-next-task</title>
             </Helmet>
             <LoginPage />
+          </Route>
+          <Route path="/signup">
+            <Helmet>
+              <title>Sign up for an account | my-next-task</title>
+            </Helmet>
+            <SignupPage />
           </Route>
           <Route path="/parse-demo">
             <PersonComponent />

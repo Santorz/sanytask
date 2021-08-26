@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import MainNav from "./MainNav";
 import { ArrowRightCircle } from "react-feather";
@@ -21,11 +21,6 @@ const LoginPage = () => {
   const [userPasswordValue, setUserPasswordValue] = useState("");
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(false);
-
-  // UseEffect for document title
-  useEffect(() => {
-    document.title = "Login | my-next-task";
-  }, []);
 
   //Validate each input
   const validateEachInput = (
@@ -176,8 +171,8 @@ const LoginPage = () => {
                     </Link>
                   </h4>
                   <h4 className="form-alt-links d-inline my-0 py-0">
-                    <Link to="/register" className="text-teal">
-                      Register an account
+                    <Link to="/signup" className="text-teal">
+                      Sign up instead
                     </Link>
                   </h4>
                 </div>
