@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Home from "./pages/Home";
 import Dashboard from "./dashboard";
@@ -34,7 +34,7 @@ const MainBodyContainer = () => {
   return (
     <>
       {/* router setup */}
-      <Router>
+      <Router hashType="noslash">
         <Switch>
           <Route exact path="/">
             <Home />
