@@ -25,3 +25,12 @@
   color: white !important;
   box-shadow: 0 0 5px 0.1px gray;
 }
+.signup-page-error-text {
+  display: block !important;
+  color: rgb(231, 0, 0) !important;
+  text-align: left !important;
+  visibility: hidden !important;
+}
+.error-message-visible {
+  visibility: visible !important;
+}

@@ -154,16 +154,15 @@ const LoginPage = () => {
                     }
                   />
                 </Form.Field>
-                {isPasswordInvalid && (
-                  <p
-                    className={`my-0 login-page-password-error-text ${
-                      isPasswordInvalid && "error-message-visible"
-                    }`}
-                  >
-                    Password must at least be 8 chars long, have one or more
-                    UPPERCASE letter and symbol (* , !).
-                  </p>
-                )}
+                <p
+                  className={`my-0 login-page-password-error-text ${
+                    isPasswordInvalid && "error-message-visible"
+                  }`}
+                >
+                  Password must at least be 8 chars long, have one or more
+                  UPPERCASE letter and symbol (* , !).
+                </p>
+
                 <div className="d-flex py-4 justify-content-between align-items-center">
                   <h4 className="form-alt-links d-inline my-0 py-0">
                     <Link to="/forgot-password" className="text-teal">

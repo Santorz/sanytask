@@ -28,12 +28,8 @@
   color: white !important;
   box-shadow: 0 0 5px 0.1px gray;
 }
-.login-page-email-error-text {
-  display: block !important;
-  color: rgb(231, 0, 0) !important;
-  text-align: left !important;
-  visibility: hidden !important;
-}
+
+.login-page-email-error-text,
 .login-page-password-error-text {
   display: block !important;
   color: rgb(231, 0, 0) !important;
