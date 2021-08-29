@@ -34,3 +34,11 @@
 .error-message-visible {
   visibility: visible !important;
 }
+#signup-success-btn {
+  background-color: #00899b !important;
+  color: white !important;
+  font-family: "Open Sans", sans-serif !important;
+  font-size: 1.1rem !important;
+  padding: 0.65rem 1.5rem !important;
+  font-weight: bold !important;
+}
