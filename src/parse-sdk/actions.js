@@ -2,6 +2,7 @@
 // Import Parse minified version
 import Parse from "parse/dist/parse.min.js";
 
+// Sign up Func
 export const registerNewUser = async function (
   firstName,
   lastName,
@@ -32,6 +33,30 @@ export const registerNewUser = async function (
     return {
       status: "failure",
       message: `Error! ${error}`,
+    };
+  }
+};
+
+// Login Func
+export const loginUserIn = async function (username, password) {
+  // Note that these values come from state variables that we've declared before
+  const usernameValue = username;
+  const passwordValue = password;
+  try {
+    // logIn returns the corresponding ParseUser object
+    const loggedInUser = await Parse.User.logIn(usernameValue, passwordValue);
+    return {
+      status: "success",
+      result: loggedInUser,
+    };
+    // To verify that this is in fact the current user, `current` can be used
+    // const currentUser = await Parse.User.current();
+    // console.log(loggedInUser === currentUser);
+  } catch (error) {
+    // Error can be caused by wrong parameters or lack of Internet connection
+    return {
+      status: "failure",
+      result: error.message,
     };
   }
 };
