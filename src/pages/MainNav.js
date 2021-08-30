@@ -4,11 +4,25 @@ import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { Menu, X } from "react-feather";
 import { Segment, Ref } from "semantic-ui-react";
+import {
+  // getCurrentLoggedInUser,
+  checkIfUserIsLoggedIn,
+} from "../parse-sdk/userVars";
 
 // CSS
 import "../css/main-nav.css";
 
 const MainNav = React.forwardRef((props, ref) => {
+  // State value for user logged in boolean
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  // UseEffect for setting all state values relating to user and its status
+  React.useEffect(() => {
+    checkIfUserIsLoggedIn().then((resp) => {
+      setIsUserLoggedIn(resp);
+    });
+  }, []);
+
   const { isMainPageNav } = props;
   // State value to open mobile nav menu or not
   const [openMobileNavMenu, setOpenMobileNavMenu] = useState(false);
@@ -63,7 +77,10 @@ const MainNav = React.forwardRef((props, ref) => {
                   )}`}
                 >
                   {/* Nav ul for mobile only */}
-                  <MainNavUl isMainPageNavBool={isMainPageNav} />
+                  <MainNavUl
+                    isMainPageNavBool={isMainPageNav}
+                    isUserLoggedIn={isUserLoggedIn}
+                  />
                 </section>
               )}
             </Segment>
@@ -124,13 +141,13 @@ MainNav.propTypes = {
 };
 
 //MainNavUl
-const MainNavUl = ({ isMainPageNavBool }) => {
+const MainNavUl = ({ isMainPageNavBool, isUserLoggedIn }) => {
   return (
     <ul
       id="main-nav-ul"
       className="d-flex d-md-inline-flex flex-column my-0 flex-md-row justify-content-between px-3 pt-3 pt-md-0"
     >
-      {isMainPageNavBool && (
+      {isMainPageNavBool && isUserLoggedIn && (
         <li>
           <Link to="/dashboard" className="main-nav-link">
             Dashboard

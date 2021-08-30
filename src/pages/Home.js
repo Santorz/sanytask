@@ -1,6 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
+import {
+  // getCurrentLoggedInUser,
+  checkIfUserIsLoggedIn,
+} from "../parse-sdk/userVars";
 import { Container, Image, Header } from "semantic-ui-react";
 import MainNav from "./MainNav";
 
@@ -10,12 +14,20 @@ import phoneMockupImg from "../media/phone-mockup.png";
 
 // Home
 const Home = () => {
+  // State values
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  // const [currentUserAttributes, setCurrentUserAttributes] = useState(null);
+
   const absNavRef = useRef(null);
   const appDetailsContainerRef = useRef(null);
-  // UseEffect for doc_title
+
+  // UseEffect for setting all state values relating to user and its status
   React.useEffect(() => {
-    document.title = "my-next-task - Organize your tasks with ease.";
+    checkIfUserIsLoggedIn().then((resp) => {
+      setIsUserLoggedIn(resp);
+    });
   }, []);
+
   // UseEfftect for marginTop
   React.useEffect(() => {
     appDetailsContainerRef.current.style.marginTop = `${
@@ -61,18 +73,30 @@ const Home = () => {
                 can get your activity planning done.
               </h3>
               <div className="d-flex pt-3 pt-md-1 pt-lg-5">
-                <Link
-                  to="/login"
-                  className="d-block text-whitesmoke me-3 landing-page-main-action-link"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className="d-block text-whitesmoke ms-3 landing-page-main-action-link"
-                >
-                  Sign up
-                </Link>
+                {!isUserLoggedIn && (
+                  <>
+                    <Link
+                      to="/login"
+                      className="d-block text-whitesmoke me-3 landing-page-main-action-link"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/signup"
+                      className="d-block text-whitesmoke ms-3 landing-page-main-action-link"
+                    >
+                      Sign up
+                    </Link>
+                  </>
+                )}
+                {isUserLoggedIn && (
+                  <Link
+                    to="/dashboard"
+                    className="d-block text-whitesmoke me-3 landing-page-main-action-link"
+                  >
+                    Go to Dashboard
+                  </Link>
+                )}
               </div>
             </section>
             {isTabletandAbove && (
@@ -84,9 +108,7 @@ const Home = () => {
         </div>
       </Container>
 
-      <Container>
-        <h1>Veracity</h1>
-      </Container>
+      <Container>{isUserLoggedIn && <h1>Veracity</h1>}</Container>
     </>
   );
 };

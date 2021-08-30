@@ -38,6 +38,9 @@ const MainBodyContainer = () => {
       <Router hashType="noslash">
         <Switch>
           <Route exact path="/">
+            <Helmet>
+              <title>my-next-task - Organize your tasks with ease</title>
+            </Helmet>
             <Home />
           </Route>
           <Route path="/dashboard">

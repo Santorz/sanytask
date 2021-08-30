@@ -13,6 +13,9 @@ Parse.serverURL = PARSE_HOST_URL;
 export const getCurrentLoggedInUser = async () => {
   return await Parse.User.current();
 };
+export const getCurrentLoggedInUserAttributes = async () => {
+  return await Parse.User.current().attributes;
+};
 
 export const checkIfUserIsLoggedIn = async () => {
   return (
