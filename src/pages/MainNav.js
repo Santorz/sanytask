@@ -24,7 +24,7 @@ const MainNav = React.forwardRef((props, ref) => {
     checkIfUserIsLoggedIn().then((resp) => {
       setIsUserLoggedIn(resp);
     });
-  }, []);
+  });
 
   const { isMainPageNav } = props;
   // State value to open mobile nav menu or not
@@ -184,7 +184,7 @@ const MainNavUl = ({ isMainPageNavBool, isUserLoggedIn }) => {
               try {
                 await Parse.User.logOut();
                 alert("Logged out successfully");
-                window.location.reload();
+                window.location.reload("false");
               } catch (err) {
                 alert(`An error occured while logging you out: ${err}`);
               }

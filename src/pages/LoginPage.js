@@ -28,11 +28,25 @@ import "../css/login-page.css";
 const LoginPage = () => {
   // UseEffects
   React.useEffect(() => {
+    // If user is logged in already, redirect to dashboard
     checkIfUserIsLoggedIn().then((resp) => {
-      if (resp === true) {
-        window.history.pushState(null, "dashboard");
-      }
+      resp === true && window.history.pushState(null, "dashboard");
     });
+    // Check url for src parameter and create notification to tell user that the page
+    // in the src attribute requires login to be accessed
+    if (
+      window.location.href.indexOf("?") !== -1 &&
+      window.location.href.indexOf("src") !== -1
+    ) {
+      switch (window.location.href.split("=")[1]) {
+        case "dashboard":
+          alert("You need to login to access the dashboard");
+          break;
+
+        default:
+          break;
+      }
+    }
   }, []);
 
   // useStates

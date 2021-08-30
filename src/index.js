@@ -51,7 +51,7 @@ const MainBodyContainer = () => {
     checkIfUserIsLoggedIn().then((resp) => {
       setIsUserLoggedIn(resp);
     });
-  }, []);
+  });
   return (
     <>
       {/* router setup */}
@@ -63,19 +63,25 @@ const MainBodyContainer = () => {
             </Helmet>
             <Home />
           </Route>
-          <Route path="/dashboard">
-            <Helmet>
-              <title>Dashboard | my-next-task</title>
-            </Helmet>
-            <Dashboard />
+
+          {/* Route path for dashboard*/}
+          <Route exact path="/dashboard">
+            {isUserLoggedIn && (
+              <>
+                <Helmet>
+                  <title>Dashboard | my-next-task</title>
+                </Helmet>
+                <Dashboard />
+              </>
+            )}
+            {!isUserLoggedIn && <Redirect to="/login?src=dashboard" />}
           </Route>
+          {/* end of dashboard route path */}
 
           {/* Route Path for login */}
           <Route path="/login">
             {isUserLoggedIn ? (
-              <>
-                <Redirect to="/dashboard" />
-              </>
+              <Redirect to="/dashboard" />
             ) : (
               <>
                 <Helmet>
@@ -90,9 +96,7 @@ const MainBodyContainer = () => {
           {/* Route path for signup page*/}
           <Route path="/signup">
             {isUserLoggedIn ? (
-              <>
-                <Redirect to="/dashboard" />
-              </>
+              <Redirect to="/dashboard" />
             ) : (
               <>
                 <Helmet>

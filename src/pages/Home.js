@@ -26,7 +26,7 @@ const Home = () => {
     checkIfUserIsLoggedIn().then((resp) => {
       setIsUserLoggedIn(resp);
     });
-  }, []);
+  });
 
   // Func for setting dynamic margin top
   const setDynamicMarginTop = () => {
