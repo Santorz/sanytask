@@ -28,11 +28,25 @@ const Home = () => {
     });
   }, []);
 
-  // UseEfftect for marginTop
+  // Func for setting dynamic margin top
+  const setDynamicMarginTop = () => {
+    setTimeout(() => {
+      appDetailsContainerRef.current.style.marginTop = `${
+        absNavRef.current.offsetHeight + 2
+      }px`;
+    }, 50);
+  };
+  // UseEffect for marginTop
   React.useEffect(() => {
     appDetailsContainerRef.current.style.marginTop = `${
       absNavRef.current.offsetHeight + 2
     }px`;
+  }, []);
+  React.useEffect(() => {
+    window.addEventListener("resize", setDynamicMarginTop);
+    return () => {
+      window.removeEventListener("resize", setDynamicMarginTop);
+    };
   });
 
   // VARS
@@ -94,7 +108,7 @@ const Home = () => {
                     to="/dashboard"
                     className="d-block text-whitesmoke me-3 landing-page-main-action-link"
                   >
-                    Go to Dashboard
+                    Visit Dashboard
                   </Link>
                 )}
               </div>

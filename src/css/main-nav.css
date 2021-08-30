@@ -33,11 +33,12 @@
 }
 .main-nav-link {
   text-decoration: none !important;
-  font-size: 1.2rem;
+  font-size: 1.2rem !important;
   color: whitesmoke !important;
   font-family: "Open Sans", sans-serif !important;
   font-weight: bold;
   padding: 0 1rem;
+  background: transparent !important;
 }
 
 /* Tablet and above */
@@ -46,6 +47,6 @@
     padding: 0 !important;
   }
   #main-nav-ul li {
-    margin: 1rem 0 !important;
+    margin: 0.75rem 0 !important;
   }
 }

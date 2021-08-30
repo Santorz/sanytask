@@ -3,11 +3,14 @@ import propTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { Menu, X } from "react-feather";
-import { Segment, Ref } from "semantic-ui-react";
+import { Segment, Ref, Button, Icon } from "semantic-ui-react";
 import {
   // getCurrentLoggedInUser,
   checkIfUserIsLoggedIn,
 } from "../parse-sdk/userVars";
+// Parse SDK
+// Import Parse minified version
+import Parse from "parse/dist/parse.min.js";
 
 // CSS
 import "../css/main-nav.css";
@@ -66,7 +69,10 @@ const MainNav = React.forwardRef((props, ref) => {
                 )}
                 {/* Nav ul for Tablet and above only */}
                 {isTabletandAbove && (
-                  <MainNavUl isMainPageNavBool={isMainPageNav} />
+                  <MainNavUl
+                    isMainPageNavBool={isMainPageNav}
+                    isUserLoggedIn={isUserLoggedIn}
+                  />
                 )}
               </div>
 
@@ -92,7 +98,7 @@ const MainNav = React.forwardRef((props, ref) => {
       {isMainPageNav === false && (
         <nav
           className="position-relative"
-          style={{ backgroundColor: "#006976" }}
+          style={{ backgroundColor: "#006976", top: "0" }}
         >
           <Segment
             className=" d-flex flex-column position-relative px-0 pb-0 pb-md-3 px-md-3 px-lg-4 px-xl-5 my-0 w-100 rounded-0"
@@ -145,7 +151,7 @@ const MainNavUl = ({ isMainPageNavBool, isUserLoggedIn }) => {
   return (
     <ul
       id="main-nav-ul"
-      className="d-flex d-md-inline-flex flex-column my-0 flex-md-row justify-content-between px-3 pt-3 pt-md-0"
+      className="d-flex d-md-inline-flex flex-column my-0 flex-md-row justify-content-between px-3 pt-3 pt-md-0 align-items-md-center"
     >
       {isMainPageNavBool && isUserLoggedIn && (
         <li>
@@ -169,6 +175,26 @@ const MainNavUl = ({ isMainPageNavBool, isUserLoggedIn }) => {
           Contact
         </Link>
       </li>
+      {isUserLoggedIn && (
+        <li>
+          <Button
+            className="main-nav-link"
+            onClick={async () => {
+              alert("Logging you out in a jiffy... \n(P.S. fake one for now)");
+              try {
+                await Parse.User.logOut();
+                alert("Logged out successfully");
+                window.location.reload();
+              } catch (err) {
+                alert(`An error occured while logging you out: ${err}`);
+              }
+            }}
+          >
+            Log out &nbsp;
+            <Icon name="power off"></Icon>
+          </Button>
+        </li>
+      )}
     </ul>
   );
 };

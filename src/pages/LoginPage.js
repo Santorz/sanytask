@@ -17,15 +17,24 @@ import {
 import { emailRegex, passwordRegex } from "../utils/regexValidator";
 import { PARSE_APPLICATION_ID } from "../parse-sdk/config";
 import { loginUserIn } from "../parse-sdk/actions";
-// import {
-//   getCurrentLoggedInUser,
-//   checkIfUserIsLoggedIn,
-// } from "../parse-sdk/userVars";
+import {
+  //   getCurrentLoggedInUser,
+  checkIfUserIsLoggedIn,
+} from "../parse-sdk/userVars";
 
 // CSS
 import "../css/login-page.css";
 
 const LoginPage = () => {
+  // UseEffects
+  React.useEffect(() => {
+    checkIfUserIsLoggedIn().then((resp) => {
+      if (resp === true) {
+        window.history.pushState(null, "dashboard");
+      }
+    });
+  }, []);
+
   // useStates
   const [userEmailValue, setUserEmailValue] = useState("");
   const [userPasswordValue, setUserPasswordValue] = useState("");

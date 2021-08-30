@@ -1,6 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  Redirect,
+  HashRouter as Router,
+  Route,
+  Switch,
+} from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Home from "./pages/Home";
 import Dashboard from "./dashboard";
@@ -18,6 +23,11 @@ import {
   PARSE_HOST_URL,
 } from "./parse-sdk/config";
 
+import {
+  // getCurrentLoggedInUser,
+  checkIfUserIsLoggedIn,
+} from "./parse-sdk/userVars";
+
 // CSS
 import "semantic-ui-css/semantic.min.css";
 import "./css/bootstrap-utilities.min.css";
@@ -32,6 +42,16 @@ const MainBodyContainer = () => {
     Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
     Parse.serverURL = PARSE_HOST_URL;
   }, []);
+
+  // State values
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+  // UseEffect for setting all state values relating to user and its status
+  React.useEffect(() => {
+    checkIfUserIsLoggedIn().then((resp) => {
+      setIsUserLoggedIn(resp);
+    });
+  }, []);
   return (
     <>
       {/* router setup */}
@@ -44,20 +64,46 @@ const MainBodyContainer = () => {
             <Home />
           </Route>
           <Route path="/dashboard">
+            <Helmet>
+              <title>Dashboard | my-next-task</title>
+            </Helmet>
             <Dashboard />
           </Route>
+
+          {/* Route Path for login */}
           <Route path="/login">
-            <Helmet>
-              <title>Login | my-next-task</title>
-            </Helmet>
-            <LoginPage />
+            {isUserLoggedIn ? (
+              <>
+                <Redirect to="/dashboard" />
+              </>
+            ) : (
+              <>
+                <Helmet>
+                  <title>Login | my-next-task</title>
+                </Helmet>
+                <LoginPage />
+              </>
+            )}
           </Route>
+          {/* end of login route path */}
+
+          {/* Route path for signup page*/}
           <Route path="/signup">
-            <Helmet>
-              <title>Sign up for an account | my-next-task</title>
-            </Helmet>
-            <SignupPage />
+            {isUserLoggedIn ? (
+              <>
+                <Redirect to="/dashboard" />
+              </>
+            ) : (
+              <>
+                <Helmet>
+                  <title>Sign up for an account | my-next-task</title>
+                </Helmet>
+                <SignupPage />
+              </>
+            )}
           </Route>
+          {/* end of signup route path */}
+
           <Route path="/parse-demo">
             <PersonComponent />
           </Route>
