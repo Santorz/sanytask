@@ -30,7 +30,10 @@ const LoginPage = () => {
   React.useEffect(() => {
     // If user is logged in already, redirect to dashboard
     checkIfUserIsLoggedIn().then((resp) => {
-      resp === true && window.history.pushState(null, "dashboard");
+      resp === true &&
+        setTimeout(() => {
+          window.history.pushState("/", "dashboard");
+        }, 3000);
     });
     // Check url for src parameter and create notification to tell user that the page
     // in the src attribute requires login to be accessed
@@ -57,6 +60,7 @@ const LoginPage = () => {
   const [loginStarted, setLoginStarted] = useState(false);
   const [loginSucess, setLoginSuccess] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
+  const [failureMsg, setFailureMsg] = useState("");
 
   // UseRefs
   const loginFormRef = useRef(null);
@@ -96,6 +100,7 @@ const LoginPage = () => {
             setLoginSuccess(true);
           } else if (resp.status === "failure") {
             setLoginFailed(true);
+            setFailureMsg(resp.result);
           }
         })
         .catch((err) => {
@@ -162,8 +167,11 @@ const LoginPage = () => {
                   )}
                   {!loginSucess && loginFailed && (
                     <>
-                      <Icon size="huge" name="warning"></Icon>
+                      <Icon size="huge" name="warning sign"></Icon>
                       <h3>Oops... something went wrong.</h3>
+                      <h4 className="mt-0 open-sans-font">
+                        Error: {failureMsg}
+                      </h4>
                       <Button
                         inverted
                         onClick={() => {

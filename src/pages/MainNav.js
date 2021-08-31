@@ -53,7 +53,7 @@ const MainNav = React.forwardRef((props, ref) => {
               <div className="d-inline-flex justify-content-between px-2 align-items-center">
                 <h2
                   id="landing-page-nav-app-name"
-                  className="mb-0 pb-2 align-self-center"
+                  className="mb-0 pb-2 align-self-center open-sans-font"
                 >
                   my-next-task
                 </h2>
@@ -107,7 +107,7 @@ const MainNav = React.forwardRef((props, ref) => {
           >
             <div className="d-flex justify-content-between px-2">
               <Link to="/" id="landing-page-nav-app-name" className="mb-0 pb-2">
-                <h2>my-next-task</h2>
+                <h2 className="open-sans-font">my-next-task</h2>
               </Link>
               {isMobileOnly && (
                 <button
@@ -184,7 +184,7 @@ const MainNavUl = ({ isMainPageNavBool, isUserLoggedIn }) => {
               try {
                 await Parse.User.logOut();
                 alert("Logged out successfully");
-                window.location.reload("false");
+                // window.location.reload("false");
               } catch (err) {
                 alert(`An error occured while logging you out: ${err}`);
               }

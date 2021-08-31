@@ -48,10 +48,12 @@ const MainBodyContainer = () => {
 
   // UseEffect for setting all state values relating to user and its status
   React.useEffect(() => {
-    checkIfUserIsLoggedIn().then((resp) => {
-      setIsUserLoggedIn(resp);
-    });
-  });
+    setInterval(() => {
+      checkIfUserIsLoggedIn().then((resp) => {
+        setIsUserLoggedIn(resp);
+      });
+    }, 1000);
+  }, []);
   return (
     <>
       {/* router setup */}
@@ -59,7 +61,7 @@ const MainBodyContainer = () => {
         <Switch>
           <Route exact path="/">
             <Helmet>
-              <title>my-next-task - Organize your tasks with ease</title>
+              <title>Organize your tasks with ease | my-next-task</title>
             </Helmet>
             <Home />
           </Route>
