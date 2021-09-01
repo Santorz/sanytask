@@ -187,7 +187,7 @@ const Todos = () => {
 
   // Deletion functions
   const showdeleteTodoModal = (e) => {
-    setSpecificTaskID(Number(e.currentTarget.id.split("-")[1]));
+    setSpecificTaskID(e.currentTarget.id.split("deleteBtn-")[1]);
     setdeleteModalState({ open: true, result: "" });
   };
   const handleDeleteModalConfirm = () => {
@@ -198,23 +198,21 @@ const Todos = () => {
   const handleDeleteModalCancel = () => {
     setdeleteModalState({ result: "cancelled", open: false });
   };
-  const deleteTodoMainAction = (id) => {
-    fetch(`http://localhost:8080/todos/${id}`, {
-      method: "DELETE", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        return data;
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-    createNotification("delete-success", () => {
-      alert("Cannot be reversed...");
-    });
+  const deleteTodoMainAction = async (taskID) => {
+    console.log(taskID);
+
+    let tasktoDel = new Parse.Object("Task");
+    tasktoDel.set("objectId", taskID);
+    try {
+      await tasktoDel.destroy();
+      console.log("Task deleted");
+      createNotification("delete-success");
+      // Ref-fetch tasks
+      fetchTasksDynamic();
+    } catch (err) {
+      console.log(err);
+    }
+
     setSpecificTaskID(null);
   };
   // End of deletion functions
@@ -327,7 +325,7 @@ const Todos = () => {
           </>
         )}
         {isTasksFetchErr && !tasksLoading && (
-          <div style={{ userSelect: "none" }} className="mt-3 mb-5">
+          <div style={{ userSelect: "none" }} className="mt-3 mb-2">
             <img
               style={{ cursor: "not-allowed" }}
               src={tasksFetchErrorPic}

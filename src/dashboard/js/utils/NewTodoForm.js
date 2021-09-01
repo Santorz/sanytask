@@ -139,7 +139,7 @@ const NewTodoForm = () => {
           computer={6}
           largeScreen={5}
           widescreen={4}
-          className=" pb-0 px-0 rounded mx-auto"
+          className="rounded mx-auto"
         >
           {/* Close confirmation Dimmer */}
           {showCloseConfirmationDimmer && (

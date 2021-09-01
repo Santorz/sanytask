@@ -13,7 +13,7 @@ export const createNotification = (type, optional_func, msg) => {
       NotificationManager.info(
         "You have successfully deleted this to-do. Click to undo action",
         "Removed to-do",
-        5000,
+        3500,
         () => {
           if (optional_func) {
             optional_func();
