@@ -44,7 +44,9 @@ const MainBodyContainer = () => {
   }, []);
 
   // State values
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(
+    Parse.User.current() !== null && Parse.User.current() !== undefined
+  );
 
   // UseEffect for setting all state values relating to user and its status
   React.useEffect(() => {
@@ -67,7 +69,7 @@ const MainBodyContainer = () => {
           </Route>
 
           {/* Route path for dashboard*/}
-          <Route exact path="/dashboard">
+          <Route path="/dashboard">
             {isUserLoggedIn && (
               <>
                 <Helmet>

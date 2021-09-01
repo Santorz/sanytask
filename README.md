@@ -2,9 +2,9 @@
 
 This app allows you to input tasks you have to complete in the nearest future and reminds you of them.
 
-### Current version = version 0.4
+### Current version = version 0.5
 
-##### Note: This version won't work properly on Netlify if you don't have the 'json-server' npm package installed on your system.
+##### Note: This version works only for pulling data from remote server
 
 # Netlify Status
 

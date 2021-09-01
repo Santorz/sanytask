@@ -7,7 +7,9 @@ import {
   Ref,
   Placeholder,
 } from "semantic-ui-react";
-import { data } from "./data";
+// Parse SDK
+// Import Parse minified version
+import Parse from "parse/dist/parse.min.js";
 import {
   formatRelative,
   isBefore,
@@ -109,34 +111,29 @@ const Todos = () => {
   const [tasksLoading, setTasksLoading] = useState(true);
   const [usersTasks, setUsersTasks] = useState(null);
   const [isTasksFetchErr, setIsTasksFetchErr] = useState(false);
+  const [fetchErrMsg, setFetchErrMsg] = useState("");
 
   // The main fetcher of tasks at page load
   React.useEffect(() => {
-    // Demo fetch for fake db
-    fetch("http://localhost:8080/todos")
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error(response.statusText);
-        }
-      })
+    const parseQuery = new Parse.Query("Task");
+    parseQuery
+      .equalTo("user", Parse.User.current())
+      .find()
       .then((data) => {
         data.sort((a, b) => {
-          let da = new Date(a.dueDate);
-          let db = new Date(b.dueDate);
+          let da = new Date(a.attributes.dueDate);
+          let db = new Date(b.attributes.dueDate);
           if (da > db) {
             return 1;
           } else {
             return -1;
           }
         });
-        setTimeout(() => {
-          setUsersTasks(data);
-          setTasksLoading(false);
-        }, 500);
+        setUsersTasks(data);
+        setTasksLoading(false);
       })
       .catch((error) => {
+        setFetchErrMsg(error.message);
         setTasksLoading(false);
         setIsTasksFetchErr(true);
       });
@@ -146,30 +143,25 @@ const Todos = () => {
   const fetchTasksDynamic = () => {
     setIsTasksFetchErr(false);
     setTasksLoading(true);
-    fetch("http://localhost:8080/todos")
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error(response.statusText);
-        }
-      })
+    const parseQuery = new Parse.Query("Task");
+    parseQuery
+      .equalTo("user", Parse.User.current())
+      .find()
       .then((data) => {
         data.sort((a, b) => {
-          let da = new Date(a.dueDate);
-          let db = new Date(b.dueDate);
+          let da = new Date(a.attributes.dueDate);
+          let db = new Date(b.attributes.dueDate);
           if (da > db) {
             return 1;
           } else {
             return -1;
           }
         });
-        setTimeout(() => {
-          setUsersTasks(data);
-          setTasksLoading(false);
-        }, 500);
+        setUsersTasks(data);
+        setTasksLoading(false);
       })
       .catch((error) => {
+        setFetchErrMsg(error.message);
         setTasksLoading(false);
         setIsTasksFetchErr(true);
       });
@@ -181,7 +173,6 @@ const Todos = () => {
   // UseRef for opening EditModal
   const triggerEditModalRef = useRef(null);
 
-  const [todos, setTodos] = useState(data);
   const [specificTaskID, setSpecificTaskID] = useState(null); //To hold ID of todo to delete
 
   let deleteModalPreviousState = { open: false, result: "" };
@@ -242,8 +233,8 @@ const Todos = () => {
     setmarkDoneModalState({ result: "cancelled", open: false });
   };
   const markDoneMainAction = (id) => {
-    let newTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(newTodos);
+    // let newTodos = todos.filter((todo) => todo.id !== id);
+    // setTodos(newTodos);
     createNotification("mark-done-success", () => {
       alert("Cannot be reversed...");
     });
@@ -346,7 +337,10 @@ const Todos = () => {
               onContextMenu={(e) => e.preventDefault()}
             />
             <h3 className="my-2 red-text">Something went wrong...</h3>
-            <h4 className="mt-2">There was a problem getting your tasks.</h4>
+            <h4 className="mt-2 mb-1">
+              There was a problem getting your tasks.
+            </h4>
+            <h5 className="red-text mt-0">{fetchErrMsg}</h5>
             <Button
               type="button"
               className="shadow"
@@ -360,7 +354,8 @@ const Todos = () => {
         )}
         {usersTasks &&
           usersTasks.map((task, index) => {
-            const { id, dueDate, taskDetails, taskHeading } = task;
+            const { id, attributes } = task;
+            const { dueDate, title, details } = attributes;
             return (
               <TodoAccordion
                 snumber={
@@ -368,8 +363,8 @@ const Todos = () => {
                   checkBeforeorAfter(dueDate)
                 }
                 key={id}
-                title={taskHeading}
-                content={taskDetails}
+                title={title}
+                content={details}
                 id={`todo-${id}`}
                 className={`${addRedColorOnLateTask(dueDate)}`}
               >
@@ -398,7 +393,7 @@ const Todos = () => {
                   </span>
                 </div>
                 <h4 className="mt-1" style={{ textAlign: "left" }}>
-                  {taskDetails}
+                  {details}
                 </h4>
                 <div className="d-flex flex-wrap justify-content-end">
                   <Button

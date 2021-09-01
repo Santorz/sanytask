@@ -54,7 +54,7 @@ const Todo_Accordion = (props) => {
     <Segment raised className="accordion__section each-todo p-0" id={id}>
       <button
         type="button"
-        className={`accordion px-1  `}
+        className={`accordion px-2  `}
         // *${setActive}
         onClick={toggleAccordion}
         style={{ borderRadius: ".29rem" }}
