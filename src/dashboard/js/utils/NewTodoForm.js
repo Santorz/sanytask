@@ -10,6 +10,9 @@ import {
   Loader,
   Icon,
 } from "semantic-ui-react";
+// Parse SDK
+// Import Parse minified version
+import Parse from "parse/dist/parse.min.js";
 // import "date-fns";
 import DateFnsUtils from "@date-io/date-fns"; // choose your lib
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -23,27 +26,29 @@ import "../../css/new-todo-form.css";
 
 // FUNCTIONS
 const submitTask = async (taskObj) => {
-  let data = await fetch("http://localhost:8080/todos", {
-    method: "POST", // or 'PUT'
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(taskObj),
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw new Error(response.statusText);
-      }
-    })
-    .then((_data) => {
-      return _data;
-    })
-    .catch((error) => {
-      return "err" + error;
-    });
-  return data;
+  const { createdAt, dueDate, details, title } = taskObj;
+  let tasktoSubmit = new Parse.Object("Task");
+
+  tasktoSubmit.set("title", title);
+  tasktoSubmit.set("createdAt", createdAt);
+  tasktoSubmit.set("dueDate", dueDate);
+  tasktoSubmit.set("details", details);
+  tasktoSubmit.set("user", Parse.User.current());
+
+  console.log(tasktoSubmit);
+
+  try {
+    await tasktoSubmit.save();
+    return {
+      status: "success",
+      message: "Submission successful",
+    };
+  } catch (err) {
+    return {
+      status: "failure",
+      message: err,
+    };
+  }
 };
 
 const NewTodoForm = () => {
@@ -55,11 +60,10 @@ const NewTodoForm = () => {
 
   // Variables relating to to-do
   const originalTodoObjFormat = {
-    dateCreated: "",
+    createdAt: "",
     dueDate: "",
-    id: null,
-    taskDetails: "",
-    taskHeading: "",
+    details: "",
+    title: "",
   };
   const [newTodoObj, setNewTodoObj] = useState(originalTodoObjFormat);
   const [submissionStarted, setSubmissionStarted] = useState(false);
@@ -76,8 +80,7 @@ const NewTodoForm = () => {
     const value = e.target.value;
     setNewTodoObj({
       ...newTodoObj,
-      dateCreated: new Date().toUTCString(),
-      id: Number(new Date().getTime().toString()),
+      createdAt: new Date(),
       [name]: value,
     });
   };
@@ -90,16 +93,18 @@ const NewTodoForm = () => {
     } else {
       // Set due date
       newTodoObj.dueDate = dueDateVal;
+      console.log(newTodoObj);
       // Show loader
       setSubmissionStarted(true);
 
       // Update DB
       const taskSubmissionStatus = await submitTask(newTodoObj);
-      if (typeof taskSubmissionStatus !== "object") {
+      console.log(taskSubmissionStatus);
+      if (taskSubmissionStatus.status === "failure") {
         setSubmissionFailure(true);
-        let err_name = taskSubmissionStatus.split("err")[1];
-        setSubmissionErrorName(err_name);
-      } else if (typeof taskSubmissionStatus === "object") {
+        let errMsg = taskSubmissionStatus.message;
+        setSubmissionErrorName(errMsg);
+      } else if (taskSubmissionStatus.status === "success") {
         setSubmissionFailure(false);
         setSubmissionSuccess(true);
       }
@@ -249,33 +254,33 @@ const NewTodoForm = () => {
               onSubmit={handleSubmit}
             >
               <Form.Field>
-                <label className="ps-2 todo-form-label" htmlFor="taskHeading">
+                <label className="ps-2 todo-form-label" htmlFor="title">
                   task heading:
                 </label>
                 <input
                   type="text"
-                  name="taskHeading"
+                  name="title"
                   id="taskHeading"
                   placeholder="Enter a brief heading..."
                   required={true}
                   minLength={10}
                   maxLength={35}
-                  value={newTodoObj.taskHeading}
+                  value={newTodoObj.title}
                   onChange={handleChange}
                 />
               </Form.Field>
 
               <Form.Field>
-                <label className="ps-2 todo-form-label" htmlFor="taskDetails">
+                <label className="ps-2 todo-form-label" htmlFor="details">
                   detailed description:
                 </label>
                 <textarea
-                  name="taskDetails"
+                  name="details"
                   id="taskDetails"
                   rows="5"
                   required={true}
                   placeholder="Enter to-do description..."
-                  value={newTodoObj.taskDetails}
+                  value={newTodoObj.details}
                   onChange={handleChange}
                 ></textarea>
               </Form.Field>
@@ -290,7 +295,7 @@ const NewTodoForm = () => {
                       value={dueDateVal}
                       onChange={(e) => {
                         setShowDueDateErr(false);
-                        setDueDateVal(new Date(e).toUTCString());
+                        setDueDateVal(new Date(e));
                       }}
                       minDate={new Date()}
                       maxDate={new Date(new Date().getTime() + 135000 * 60000)}
