@@ -54,7 +54,7 @@ const MainBodyContainer = () => {
       checkIfUserIsLoggedIn().then((resp) => {
         setIsUserLoggedIn(resp);
       });
-    }, 1000);
+    }, 500);
   }, []);
   return (
     <>
