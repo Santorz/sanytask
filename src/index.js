@@ -59,7 +59,9 @@ const MainBodyContainer = () => {
     });
     if (Parse.User.current() !== null && Parse.User.current() !== undefined) {
       Parse.Session.current().then((resp) => {
-        resp.get("expiresAt") <= Date.now() && Parse.User.logOut();
+        resp.get("expiresAt") <= Date.now() &&
+          setIsUserLoggedIn(false) &&
+          Parse.User.logOut();
       });
     }
   };

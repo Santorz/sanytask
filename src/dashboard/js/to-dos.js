@@ -215,10 +215,10 @@ const Todos = () => {
     try {
       await tasktoDel.destroy();
       setTimeout(createNotification("delete-success"), 700);
-      // Ref-fetch tasks
+      // Re-fetch tasks
       fetchTasksDynamic();
     } catch (err) {
-      console.log(err);
+      createNotification("error", null, err.message);
     }
 
     setSpecificTaskID(null);
@@ -239,19 +239,29 @@ const Todos = () => {
     setmarkDoneModalState({ result: "cancelled", open: false });
   };
   const markDoneMainAction = async (id) => {
-    // let newTodos = todos.filter((todo) => todo.id !== id);
-    // setTodos(newTodos);
     await getTaskWithID(id)
-      .then((task) => {
+      .then(async (task) => {
         console.log(task);
-        console.log(task.get("title"));
-        console.log(new Date());
-        setTimeout(() => {
-          createNotification("mark-done-success", () => {
-            alert("Cannot be reversed...");
-          });
-          setSpecificTaskID(null);
-        }, 300);
+        let title = task.get("title");
+        let date = new Date();
+        let historyTask = new Parse.Object("HistoryTask");
+        historyTask.set("user", Parse.User.current());
+        historyTask.set("title", title);
+        historyTask.set("date", date);
+        try {
+          await historyTask.save();
+          await task.destroy();
+          setTimeout(() => {
+            createNotification("mark-done-success", () => {
+              alert("Cannot be reversed...");
+            });
+            setSpecificTaskID(null);
+          }, 500);
+          // Re-fetch tasks
+          fetchTasksDynamic();
+        } catch (err) {
+          createNotification("error", null, err.message);
+        }
       })
       .catch((err) => {
         createNotification("error", null, err.message);

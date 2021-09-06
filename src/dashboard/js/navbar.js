@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Segment, Container, Ref } from "semantic-ui-react";
-import { Home, Plus, Bookmark, User, Archive } from "react-feather";
+import { Segment, Container, Ref, Button } from "semantic-ui-react";
+import { Home, Plus, Bookmark, User, FileText } from "react-feather";
 import "../css/navbar.css";
 
 const openCreateNewTodoModal = (ref) => {
@@ -50,8 +50,8 @@ const MobileNav = React.forwardRef((props, ref) => {
             </li>
             <li>
               <Link to="./" className="mobile-link">
-                <Archive size={25} color="#006976" />
-                <h5 className="p-0 m-0">Archive</h5>
+                <FileText size={25} color="#006976" />
+                <h5 className="p-0 m-0">Drafts</h5>
               </Link>
             </li>
             <li id="create-button-mobile-li">
@@ -77,10 +77,10 @@ const MobileNav = React.forwardRef((props, ref) => {
               </Link>
             </li>
             <li>
-              <Link to="./" className="mobile-link">
+              <Button className="mobile-link">
                 <User size={25} color="#006976" />
                 <h5 className="p-0 m-0">Profile</h5>
-              </Link>
+              </Button>
             </li>
           </ul>
         </Segment>
@@ -107,8 +107,8 @@ const DesktopNav = () => {
           </li>
           <li>
             <Link to="./" className="desktop-link">
-              <Archive size={28} color="#006976" />
-              <h5 className="p-0 m-0">Archive</h5>
+              <FileText size={28} color="#006976" />
+              <h5 className="p-0 m-0">Drafts</h5>
             </Link>
           </li>
           <li id="create-button-desktop-li">
@@ -135,10 +135,10 @@ const DesktopNav = () => {
             </Link>
           </li>
           <li>
-            <Link to="./" className="desktop-link">
+            <Button className="desktop-link">
               <User size={28} color="#006976" />
               <h5 className="p-0 m-0">Profile</h5>
-            </Link>
+            </Button>
           </li>
         </ul>
       </Segment>

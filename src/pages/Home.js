@@ -83,9 +83,9 @@ const Home = () => {
                 Organize your tasks with ease.
               </Header>
               <h3 className="mt-1 mb-2 text-whitesmoke">
-                A seamless solution to activity management.{" "}
-                <br className="d-none d-lg-block" /> In just a few clicks, you
-                can get your activity planning done.
+                A seamless solution to activity management.
+                <br className="d-none d-lg-block" /> Get your task planning done
+                with just a few clicks.
               </h3>
               <div className="d-flex pt-3 pt-md-1 pt-lg-5">
                 {!isUserLoggedIn && (
