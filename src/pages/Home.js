@@ -5,6 +5,7 @@ import {
   // getCurrentLoggedInUser,
   checkIfUserIsLoggedIn,
 } from "../parse-sdk/userVars";
+// Import Parse minified version
 import { Container, Image, Header } from "semantic-ui-react";
 import MainNav from "./MainNav";
 

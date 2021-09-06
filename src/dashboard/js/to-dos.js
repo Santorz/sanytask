@@ -105,6 +105,15 @@ const openEditTaskModal = (ref) => {
   window._handleEditTaskModalTrigger_(ref);
 };
 
+// Get taskwithID
+const getTaskWithID = (specificTaskID) => {
+  let taskToGet = new Parse.Query("Task")
+    .equalTo("user", Parse.User.current())
+    .equalTo("objectId", specificTaskID)
+    .first();
+  return taskToGet;
+};
+
 // TODOS COMPONENT
 const Todos = () => {
   // State for user fetching
@@ -205,8 +214,7 @@ const Todos = () => {
     tasktoDel.set("objectId", taskID);
     try {
       await tasktoDel.destroy();
-      console.log("Task deleted");
-      createNotification("delete-success");
+      setTimeout(createNotification("delete-success"), 700);
       // Ref-fetch tasks
       fetchTasksDynamic();
     } catch (err) {
@@ -219,7 +227,7 @@ const Todos = () => {
 
   // Mark as Done functions
   const showMarkDoneModal = (e) => {
-    setSpecificTaskID(Number(e.currentTarget.id.split("-")[1]));
+    setSpecificTaskID(e.currentTarget.id.split("-")[1]);
     setmarkDoneModalState({ open: true, result: "" });
   };
   const handleMarkDoneModalConfirm = () => {
@@ -230,13 +238,24 @@ const Todos = () => {
   const handleMarkDoneModalCancel = () => {
     setmarkDoneModalState({ result: "cancelled", open: false });
   };
-  const markDoneMainAction = (id) => {
+  const markDoneMainAction = async (id) => {
     // let newTodos = todos.filter((todo) => todo.id !== id);
     // setTodos(newTodos);
-    createNotification("mark-done-success", () => {
-      alert("Cannot be reversed...");
-    });
-    setSpecificTaskID(null);
+    await getTaskWithID(id)
+      .then((task) => {
+        console.log(task);
+        console.log(task.get("title"));
+        console.log(new Date());
+        setTimeout(() => {
+          createNotification("mark-done-success", () => {
+            alert("Cannot be reversed...");
+          });
+          setSpecificTaskID(null);
+        }, 300);
+      })
+      .catch((err) => {
+        createNotification("error", null, err.message);
+      });
   };
   // End of mark as done functions
 

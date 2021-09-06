@@ -35,6 +35,11 @@ import "./css/index.css";
 import "./css/cust-utils.css";
 
 // FUNCS
+export const setIntervalAsync = (fn, ms) => {
+  fn().then(() => {
+    setTimeout(() => setIntervalAsync(fn, ms), ms);
+  });
+};
 
 const MainBodyContainer = () => {
   // Initialize Parse
@@ -48,14 +53,22 @@ const MainBodyContainer = () => {
     Parse.User.current() !== null && Parse.User.current() !== undefined
   );
 
-  // UseEffect for setting all state values relating to user and its status
-  React.useEffect(() => {
-    setInterval(() => {
-      checkIfUserIsLoggedIn().then((resp) => {
-        setIsUserLoggedIn(resp);
+  const performLoggedInCheck = async () => {
+    await checkIfUserIsLoggedIn().then((resp) => {
+      setIsUserLoggedIn(resp);
+    });
+    if (Parse.User.current() !== null && Parse.User.current() !== undefined) {
+      Parse.Session.current().then((resp) => {
+        resp.get("expiresAt") <= Date.now() && Parse.User.logOut();
       });
-    }, 500);
+    }
+  };
+
+  // UseEffect for checking and resetting login stats
+  React.useEffect(() => {
+    setIntervalAsync(performLoggedInCheck, 1000);
   }, []);
+
   return (
     <>
       {/* router setup */}
