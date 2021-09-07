@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Segment,
   Button,
@@ -6,10 +6,10 @@ import {
   Icon,
   Ref,
   Placeholder,
-} from "semantic-ui-react";
+} from 'semantic-ui-react';
 // Parse SDK
 // Import Parse minified version
-import Parse from "parse/dist/parse.min.js";
+import Parse from 'parse/dist/parse.min.js';
 import {
   formatRelative,
   isBefore,
@@ -18,21 +18,21 @@ import {
   differenceInHours,
   differenceInSeconds,
   format,
-} from "date-fns";
-import { differenceInDays, differenceInMonths } from "date-fns/esm";
-import TodoAccordion from "./utils/Todo_Accordion";
-import DeleteModal from "./utils/Delete_Modal";
-import MarkDoneModal from "./utils/Mark_Done_Modal";
+} from 'date-fns';
+import { differenceInDays, differenceInMonths } from 'date-fns/esm';
+import TodoAccordion from './utils/Todo_Accordion';
+import DeleteModal from './utils/Delete_Modal';
+import MarkDoneModal from './utils/Mark_Done_Modal';
 import CustomNotificationManager, {
   createNotification,
-} from "./utils/Notification_Manager";
+} from './utils/Notification_Manager';
 
 // CSS
-import "../css/todos.css";
-import "react-notifications/lib/notifications.css";
+import '../css/todos.css';
+import 'react-notifications/lib/notifications.css';
 
 // MEDIA
-import tasksFetchErrorPic from "../media/404-error-main.svg";
+import tasksFetchErrorPic from '../media/404-error-main.svg';
 
 // Funcs
 const openCreateNewTodoModal = (ref) => {
@@ -76,9 +76,9 @@ const checkBeforeorAfter = (dueDate) => {
   let presentDate = new Date();
   let dueDateMain = new Date(dueDate);
   if (isBefore(presentDate, dueDateMain)) {
-    return " left";
+    return ' left';
   } else if (isAfter(presentDate, dueDateMain)) {
-    return " late";
+    return ' late';
   }
 };
 
@@ -87,9 +87,9 @@ const addRedColorOnLateTask = (dueDate) => {
   let presentDate = new Date();
   let dueDateMain = new Date(dueDate);
   if (isAfter(presentDate, dueDateMain)) {
-    return "late-todo-snumber";
+    return 'late-todo-snumber';
   } else {
-    return "";
+    return '';
   }
 };
 
@@ -107,9 +107,9 @@ const openEditTaskModal = (ref) => {
 
 // Get taskwithID
 const getTaskWithID = (specificTaskID) => {
-  let taskToGet = new Parse.Query("Task")
-    .equalTo("user", Parse.User.current())
-    .equalTo("objectId", specificTaskID)
+  let taskToGet = new Parse.Query('Task')
+    .equalTo('user', Parse.User.current())
+    .equalTo('objectId', specificTaskID)
     .first();
   return taskToGet;
 };
@@ -120,13 +120,14 @@ const Todos = () => {
   const [tasksLoading, setTasksLoading] = useState(true);
   const [usersTasks, setUsersTasks] = useState(null);
   const [isTasksFetchErr, setIsTasksFetchErr] = useState(false);
-  const [fetchErrMsg, setFetchErrMsg] = useState("");
+  const [fetchErrMsg, setFetchErrMsg] = useState('');
 
   // The main fetcher of tasks at page load
   React.useEffect(() => {
-    const parseQuery = new Parse.Query("Task");
+    let isMounted = true;
+    const parseQuery = new Parse.Query('Task');
     parseQuery
-      .equalTo("user", Parse.User.current())
+      .equalTo('user', Parse.User.current())
       .find()
       .then((data) => {
         data.sort((a, b) => {
@@ -138,23 +139,31 @@ const Todos = () => {
             return -1;
           }
         });
-        setUsersTasks(data);
-        setTasksLoading(false);
+        if (isMounted) {
+          setUsersTasks(data);
+          setTasksLoading(false);
+        }
       })
       .catch((error) => {
-        setFetchErrMsg(error.message);
-        setTasksLoading(false);
-        setIsTasksFetchErr(true);
+        if (isMounted) {
+          setFetchErrMsg(error.message);
+          setTasksLoading(false);
+          setIsTasksFetchErr(true);
+        }
       });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // The fetch function for fetching tasks dynamically
   const fetchTasksDynamic = () => {
     setIsTasksFetchErr(false);
     setTasksLoading(true);
-    const parseQuery = new Parse.Query("Task");
+    const parseQuery = new Parse.Query('Task');
     parseQuery
-      .equalTo("user", Parse.User.current())
+      .equalTo('user', Parse.User.current())
       .find()
       .then((data) => {
         data.sort((a, b) => {
@@ -184,8 +193,8 @@ const Todos = () => {
 
   const [specificTaskID, setSpecificTaskID] = useState(null); //To hold ID of todo to delete
 
-  let deleteModalPreviousState = { open: false, result: "" };
-  let markDoneModalPreviousState = { open: false, result: "" };
+  let deleteModalPreviousState = { open: false, result: '' };
+  let markDoneModalPreviousState = { open: false, result: '' };
 
   const [deleteModalPresentState, setdeleteModalState] = useState(
     deleteModalPreviousState
@@ -196,29 +205,29 @@ const Todos = () => {
 
   // Deletion functions
   const showdeleteTodoModal = (e) => {
-    setSpecificTaskID(e.currentTarget.id.split("deleteBtn-")[1]);
-    setdeleteModalState({ open: true, result: "" });
+    setSpecificTaskID(e.currentTarget.id.split('deleteBtn-')[1]);
+    setdeleteModalState({ open: true, result: '' });
   };
   const handleDeleteModalConfirm = () => {
     let todo_id_num = specificTaskID;
-    setdeleteModalState({ result: "confirmed", open: false });
+    setdeleteModalState({ result: 'confirmed', open: false });
     deleteTodoMainAction(todo_id_num);
   };
   const handleDeleteModalCancel = () => {
-    setdeleteModalState({ result: "cancelled", open: false });
+    setdeleteModalState({ result: 'cancelled', open: false });
   };
   const deleteTodoMainAction = async (taskID) => {
     console.log(taskID);
 
-    let tasktoDel = new Parse.Object("Task");
-    tasktoDel.set("objectId", taskID);
+    let tasktoDel = new Parse.Object('Task');
+    tasktoDel.set('objectId', taskID);
     try {
       await tasktoDel.destroy();
-      setTimeout(createNotification("delete-success"), 700);
+      setTimeout(createNotification('delete-success'), 700);
       // Re-fetch tasks
       fetchTasksDynamic();
     } catch (err) {
-      createNotification("error", null, err.message);
+      createNotification('error', null, err.message);
     }
 
     setSpecificTaskID(null);
@@ -227,44 +236,43 @@ const Todos = () => {
 
   // Mark as Done functions
   const showMarkDoneModal = (e) => {
-    setSpecificTaskID(e.currentTarget.id.split("-")[1]);
-    setmarkDoneModalState({ open: true, result: "" });
+    setSpecificTaskID(e.currentTarget.id.split('-')[1]);
+    setmarkDoneModalState({ open: true, result: '' });
   };
   const handleMarkDoneModalConfirm = () => {
     let todo_id_num = specificTaskID;
-    setmarkDoneModalState({ result: "confirmed", open: false });
+    setmarkDoneModalState({ result: 'confirmed', open: false });
     markDoneMainAction(todo_id_num);
   };
   const handleMarkDoneModalCancel = () => {
-    setmarkDoneModalState({ result: "cancelled", open: false });
+    setmarkDoneModalState({ result: 'cancelled', open: false });
   };
   const markDoneMainAction = async (id) => {
     await getTaskWithID(id)
       .then(async (task) => {
-        console.log(task);
-        let title = task.get("title");
+        let title = task.get('title');
         let date = new Date();
-        let historyTask = new Parse.Object("HistoryTask");
-        historyTask.set("user", Parse.User.current());
-        historyTask.set("title", title);
-        historyTask.set("date", date);
+        let historyTask = new Parse.Object('HistoryTask');
+        historyTask.set('user', Parse.User.current());
+        historyTask.set('title', title);
+        historyTask.set('date', date);
         try {
           await historyTask.save();
           await task.destroy();
           setTimeout(() => {
-            createNotification("mark-done-success", () => {
-              alert("Cannot be reversed...");
+            createNotification('mark-done-success', () => {
+              alert('Cannot be reversed...');
             });
             setSpecificTaskID(null);
           }, 500);
           // Re-fetch tasks
           fetchTasksDynamic();
         } catch (err) {
-          createNotification("error", null, err.message);
+          createNotification('error', null, err.message);
         }
       })
       .catch((err) => {
-        createNotification("error", null, err.message);
+        createNotification('error', null, err.message);
       });
   };
   // End of mark as done functions
@@ -276,13 +284,13 @@ const Todos = () => {
         !isTasksFetchErr &&
         usersTasks &&
         usersTasks.length > 1 && (
-          <Header size="medium" color="black">
+          <Header size='medium' color='black'>
             {usersTasks.length} Pending Tasks
           </Header>
         )}
       {/* This would be displayed if there is only one task left */}
       {!tasksLoading && usersTasks && usersTasks.length === 1 && (
-        <Header size="medium" color="black">
+        <Header size='medium' color='black'>
           {usersTasks.length} Pending Task
         </Header>
       )}
@@ -292,89 +300,89 @@ const Todos = () => {
           padded
           placeholder
           style={{
-            userSelect: "none",
-            backgroundColor: "transparent !important",
+            userSelect: 'none',
+            backgroundColor: 'transparent !important',
           }}
         >
           <Header icon>
-            <Icon name="check" style={{ color: "#006975" }} />
+            <Icon name='check' style={{ color: '#006975' }} />
             You're all done...
           </Header>
           <Ref innerRef={triggerCreateNewTodoModalRef}>
             <Button
               basic
-              color="black"
-              type="button"
+              color='black'
+              type='button'
               onClick={() =>
                 openCreateNewTodoModal(triggerCreateNewTodoModalRef)
               }
             >
-              <Icon name="plus circle"></Icon>
+              <Icon name='plus circle'></Icon>
               Create new task
             </Button>
           </Ref>
         </Segment>
       )}
-      <div id="todos-container">
+      <div id='todos-container'>
         {tasksLoading && !usersTasks && (
           <>
-            <h3 className="mb-3">Loading tasks</h3>
+            <h3 className='mb-3'>Loading tasks</h3>
             <Placeholder
               fluid
-              className="my-2 rounded bordered-placeholder-loader"
+              className='my-2 rounded bordered-placeholder-loader'
             >
               <Placeholder.Header></Placeholder.Header>
-              <Placeholder.Line length="full"></Placeholder.Line>
-              <Placeholder.Line length="full"></Placeholder.Line>
+              <Placeholder.Line length='full'></Placeholder.Line>
+              <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
             <Placeholder
               fluid
-              className="my-2 rounded bordered-placeholder-loader"
+              className='my-2 rounded bordered-placeholder-loader'
             >
               <Placeholder.Header></Placeholder.Header>
-              <Placeholder.Line length="full"></Placeholder.Line>
-              <Placeholder.Line length="full"></Placeholder.Line>
+              <Placeholder.Line length='full'></Placeholder.Line>
+              <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
             <Placeholder
               fluid
-              className="my-2 rounded bordered-placeholder-loader"
+              className='my-2 rounded bordered-placeholder-loader'
             >
               <Placeholder.Header></Placeholder.Header>
-              <Placeholder.Line length="full"></Placeholder.Line>
-              <Placeholder.Line length="full"></Placeholder.Line>
+              <Placeholder.Line length='full'></Placeholder.Line>
+              <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
             <Placeholder
               fluid
-              className="my-2 rounded bordered-placeholder-loader"
+              className='my-2 rounded bordered-placeholder-loader'
             >
               <Placeholder.Header></Placeholder.Header>
-              <Placeholder.Line length="full"></Placeholder.Line>
-              <Placeholder.Line length="full"></Placeholder.Line>
+              <Placeholder.Line length='full'></Placeholder.Line>
+              <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
           </>
         )}
         {isTasksFetchErr && !tasksLoading && (
-          <div style={{ userSelect: "none" }} className="mt-3 mb-2">
+          <div style={{ userSelect: 'none' }} className='mt-3 mb-2'>
             <img
-              style={{ cursor: "not-allowed" }}
+              style={{ cursor: 'not-allowed' }}
               src={tasksFetchErrorPic}
-              alt="Error fetching tasks"
-              width="150"
-              height="150"
+              alt='Error fetching tasks'
+              width='150'
+              height='150'
               onContextMenu={(e) => e.preventDefault()}
             />
-            <h3 className="my-2 red-text">Something went wrong...</h3>
-            <h4 className="mt-2 mb-1">
+            <h3 className='my-2 red-text'>Something went wrong...</h3>
+            <h4 className='mt-2 mb-1'>
               There was a problem getting your tasks.
             </h4>
-            <h5 className="red-text mt-0">{fetchErrMsg}</h5>
+            <h5 className='red-text mt-0'>{fetchErrMsg}</h5>
             <Button
-              type="button"
-              className="shadow"
-              color="black"
+              type='button'
+              className='shadow'
+              color='black'
               onClick={fetchTasksDynamic}
             >
-              <Icon name="refresh"></Icon>
+              <Icon name='refresh'></Icon>
               Retry
             </Button>
           </div>
@@ -395,13 +403,13 @@ const Todos = () => {
                 id={`todo-${id}`}
                 className={`${addRedColorOnLateTask(dueDate)}`}
               >
-                <div className="d-flex align-items-center justify-content-between mb-0">
+                <div className='d-flex align-items-center justify-content-between mb-0'>
                   <span
-                    className="mb-0"
+                    className='mb-0'
                     style={{
-                      color: "#006976",
-                      fontSize: "1.15rem",
-                      fontWeight: "bold",
+                      color: '#006976',
+                      fontSize: '1.15rem',
+                      fontWeight: 'bold',
                     }}
                   >
                     Details :
@@ -409,38 +417,38 @@ const Todos = () => {
                   <span
                     className={`mb-0 ${addRedColorOnLateTask(dueDate)}`}
                     style={{
-                      fontSize: "1rem",
+                      fontSize: '1rem',
                     }}
                   >
-                    due{" "}
+                    due{' '}
                     {getRelativeDate(new Date(dueDate), new Date()).replace(
-                      "at",
-                      "by"
+                      'at',
+                      'by'
                     )}
                   </span>
                 </div>
-                <h4 className="mt-1" style={{ textAlign: "left" }}>
+                <h4 className='mt-1' style={{ textAlign: 'left' }}>
                   {details}
                 </h4>
-                <div className="d-flex flex-wrap justify-content-end">
+                <div className='d-flex flex-wrap justify-content-end'>
                   <Button
-                    style={{ margin: "0 3px" }}
-                    className="my-1 my-lg-0 todo-action-btn todo-done-btn"
-                    icon="check"
-                    content="Done"
-                    labelPosition="left"
+                    style={{ margin: '0 3px' }}
+                    className='my-1 my-lg-0 todo-action-btn todo-done-btn'
+                    icon='check'
+                    content='Done'
+                    labelPosition='left'
                     id={`markDoneBtn-${task.id}`}
                     onClick={showMarkDoneModal}
                   ></Button>
                   <Ref innerRef={triggerEditModalRef}>
                     <Button
-                      style={{ margin: "0 3px" }}
-                      className="my-1 my-lg-0 todo-action-btn todo-edit-btn"
-                      icon="pencil"
-                      content="Edit"
-                      labelPosition="left"
+                      style={{ margin: '0 3px' }}
+                      className='my-1 my-lg-0 todo-action-btn todo-edit-btn'
+                      icon='pencil'
+                      content='Edit'
+                      labelPosition='left'
                       basic
-                      color="black"
+                      color='black'
                       id={`editBtn-${task.id}`}
                       onClick={() => {
                         openEditTaskModal(triggerEditModalRef);
@@ -448,13 +456,13 @@ const Todos = () => {
                     ></Button>
                   </Ref>
                   <Button
-                    style={{ margin: "0 3px" }}
-                    className="my-1 my-lg-0 todo-action-btn todo-delete-btn"
-                    content="Delete"
-                    labelPosition="left"
+                    style={{ margin: '0 3px' }}
+                    className='my-1 my-lg-0 todo-action-btn todo-delete-btn'
+                    content='Delete'
+                    labelPosition='left'
                     basic
-                    color="red"
-                    icon="trash"
+                    color='red'
+                    icon='trash'
                     id={`deleteBtn-${task.id}`}
                     onClick={showdeleteTodoModal}
                   ></Button>
@@ -470,17 +478,17 @@ const Todos = () => {
         onCancel={handleDeleteModalCancel}
         onConfirm={handleDeleteModalConfirm}
       >
-        <div className="px-3 pt-3 pb-2 d-flex flex-column">
-          <h3 className="open-sans-font red-text mb-0">
+        <div className='px-3 pt-3 pb-2 d-flex flex-column'>
+          <h3 className='open-sans-font red-text mb-0'>
             Are you sure you want to delete this task ?
           </h3>
-          <h5 className="my-0 py-1 red-text">
+          <h5 className='my-0 py-1 red-text'>
             Note: You can't undo this action.
           </h5>
-          <h5 className="my-0 pt-3">
-            A record of this to-do can be found in your{" "}
-            <span style={{ borderBottom: "1.5px solid #006976" }}>
-              <a href="./" className="teal-text">
+          <h5 className='my-0 pt-3'>
+            A record of this to-do can be found in your{' '}
+            <span style={{ borderBottom: '1.5px solid #006976' }}>
+              <a href='./' className='teal-text'>
                 Archive.
               </a>
             </span>
@@ -495,14 +503,14 @@ const Todos = () => {
         onCancel={handleMarkDoneModalCancel}
         onConfirm={handleMarkDoneModalConfirm}
       >
-        <div className="px-3 pt-3 pb-2 d-flex flex-column">
-          <h3 className="open-sans-font teal-text mb-0">
+        <div className='px-3 pt-3 pb-2 d-flex flex-column'>
+          <h3 className='open-sans-font teal-text mb-0'>
             Sure you want to mark this to-do as done ?
           </h3>
-          <h5 className="my-0 pt-3">
-            A record of this to-do can be found in your{" "}
-            <span style={{ borderBottom: "1.5px solid #006976" }}>
-              <a href="./" className="teal-text">
+          <h5 className='my-0 pt-3'>
+            A record of this to-do can be found in your{' '}
+            <span style={{ borderBottom: '1.5px solid #006976' }}>
+              <a href='./' className='teal-text'>
                 Archive.
               </a>
             </span>

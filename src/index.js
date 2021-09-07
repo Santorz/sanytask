@@ -1,45 +1,36 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import {
   Redirect,
   HashRouter as Router,
   Route,
   Switch,
-} from "react-router-dom";
-import { Helmet } from "react-helmet";
-import Home from "./pages/Home";
-import Dashboard from "./dashboard";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import ErrorPage from "./pages/404-page";
-import { PersonComponent } from "./pages/Parse_Demo";
+} from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import Home from './pages/Home';
+import Dashboard from './dashboard';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import ErrorPage from './pages/404-page';
+import { PersonComponent } from './pages/Parse_Demo';
+import { setIntervalAsync } from './utils/customSchedulers';
 
 // Parse SDK
 // Import Parse minified version
-import Parse from "parse/dist/parse.min.js";
+import Parse from 'parse/dist/parse.min.js';
 import {
   PARSE_APPLICATION_ID,
   PARSE_JAVASCRIPT_KEY,
   PARSE_HOST_URL,
-} from "./parse-sdk/config";
+} from './parse-sdk/config';
 
-import {
-  // getCurrentLoggedInUser,
-  checkIfUserIsLoggedIn,
-} from "./parse-sdk/userVars";
+import { checkIfUserIsLoggedIn } from './parse-sdk/userVars';
 
 // CSS
-import "semantic-ui-css/semantic.min.css";
-import "./css/bootstrap-utilities.min.css";
-import "./css/index.css";
-import "./css/cust-utils.css";
-
-// FUNCS
-export const setIntervalAsync = (fn, ms) => {
-  fn().then(() => {
-    setTimeout(() => setIntervalAsync(fn, ms), ms);
-  });
-};
+import 'semantic-ui-css/semantic.min.css';
+import './css/bootstrap-utilities.min.css';
+import './css/index.css';
+import './css/cust-utils.css';
 
 const MainBodyContainer = () => {
   // Initialize Parse
@@ -57,13 +48,13 @@ const MainBodyContainer = () => {
     await checkIfUserIsLoggedIn().then((resp) => {
       setIsUserLoggedIn(resp);
     });
-    if (Parse.User.current() !== null && Parse.User.current() !== undefined) {
-      Parse.Session.current().then((resp) => {
-        resp.get("expiresAt") <= Date.now() &&
-          setIsUserLoggedIn(false) &&
-          Parse.User.logOut();
-      });
-    }
+    // if (Parse.User.current && navigator.onLine) {
+    //   Parse.Session.current().then((resp) => {
+    //     resp.get('expiresAt') <= Date.now() &&
+    //       setIsUserLoggedIn(false) &&
+    //       Parse.User.logOut();
+    //   });
+    // }
   };
 
   // UseEffect for checking and resetting login stats
@@ -74,9 +65,9 @@ const MainBodyContainer = () => {
   return (
     <>
       {/* router setup */}
-      <Router hashType="noslash">
+      <Router hashType='noslash'>
         <Switch>
-          <Route exact path="/">
+          <Route exact path='/'>
             <Helmet>
               <title>Organize your tasks with ease | my-next-task</title>
             </Helmet>
@@ -84,7 +75,7 @@ const MainBodyContainer = () => {
           </Route>
 
           {/* Route path for dashboard*/}
-          <Route path="/dashboard">
+          <Route path='/dashboard'>
             {isUserLoggedIn && (
               <>
                 <Helmet>
@@ -93,14 +84,14 @@ const MainBodyContainer = () => {
                 <Dashboard />
               </>
             )}
-            {!isUserLoggedIn && <Redirect to="/login?src=dashboard" />}
+            {!isUserLoggedIn && <Redirect to='/login?src=dashboard' />}
           </Route>
           {/* end of dashboard route path */}
 
           {/* Route Path for login */}
-          <Route path="/login">
+          <Route path='/login'>
             {isUserLoggedIn ? (
-              <Redirect to="/dashboard" />
+              <Redirect to='/dashboard' />
             ) : (
               <>
                 <Helmet>
@@ -113,9 +104,9 @@ const MainBodyContainer = () => {
           {/* end of login route path */}
 
           {/* Route path for signup page*/}
-          <Route path="/signup">
+          <Route path='/signup'>
             {isUserLoggedIn ? (
-              <Redirect to="/dashboard" />
+              <Redirect to='/dashboard' />
             ) : (
               <>
                 <Helmet>
@@ -127,11 +118,11 @@ const MainBodyContainer = () => {
           </Route>
           {/* end of signup route path */}
 
-          <Route path="/parse-demo">
+          <Route path='/parse-demo'>
             <PersonComponent />
           </Route>
 
-          <Route path="*">
+          <Route path='*'>
             <ErrorPage />
           </Route>
         </Switch>
@@ -141,4 +132,4 @@ const MainBodyContainer = () => {
   );
 };
 
-ReactDOM.render(<MainBodyContainer />, document.getElementById("root"));
+ReactDOM.render(<MainBodyContainer />, document.getElementById('root'));
