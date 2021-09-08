@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 // Parse SDK
 // Import Parse minified version
-import Parse from "parse/dist/parse.min.js";
+import Parse from 'parse/dist/parse.min.js';
+import { isLocalUserPresent, currentLocalUser } from './userVars';
 
 // Sign up Func
 export const registerNewUser = async function (
@@ -25,13 +27,13 @@ export const registerNewUser = async function (
     Parse.User.logOut();
     // When successful
     return {
-      status: "success",
+      status: 'success',
       message: `Email: ${createdUser.getUsername()} was successfully registered.`,
     };
   } catch (error) {
     // signUp can fail if any parameter is blank or failed an uniqueness check on the server
     return {
-      status: "failure",
+      status: 'failure',
       message: `Error! ${error}`,
     };
   }
@@ -46,7 +48,7 @@ export const loginUserIn = async function (username, password) {
     // logIn returns the corresponding ParseUser object
     const loggedInUser = await Parse.User.logIn(usernameValue, passwordValue);
     return {
-      status: "success",
+      status: 'success',
       result: loggedInUser,
     };
     // To verify that this is in fact the current user, `current` can be used
@@ -55,8 +57,23 @@ export const loginUserIn = async function (username, password) {
   } catch (error) {
     // Error can be caused by wrong parameters or lack of Internet connection
     return {
-      status: "failure",
+      status: 'failure',
       result: error.message,
     };
   }
+};
+
+// Hook to return user logged in staus and user object
+export const useCheckUserStatus = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(isLocalUserPresent);
+  const [localUser, setLocalUser] = useState(currentLocalUser);
+  const refreshStatus = () => {
+    setIsLoggedIn(isLocalUserPresent);
+    setLocalUser(currentLocalUser);
+  };
+  useEffect(() => {
+    let refreshInterval = setInterval(refreshStatus, 1000);
+    return () => clearInterval(refreshInterval);
+  });
+  return [isLoggedIn, localUser];
 };

@@ -26,6 +26,11 @@ import MarkDoneModal from './utils/Mark_Done_Modal';
 import CustomNotificationManager, {
   createNotification,
 } from './utils/Notification_Manager';
+import {
+  PARSE_APPLICATION_ID,
+  PARSE_JAVASCRIPT_KEY,
+  PARSE_HOST_URL,
+} from '../../parse-sdk/config';
 
 // CSS
 import '../css/todos.css';
@@ -121,6 +126,12 @@ const Todos = () => {
   const [usersTasks, setUsersTasks] = useState(null);
   const [isTasksFetchErr, setIsTasksFetchErr] = useState(false);
   const [fetchErrMsg, setFetchErrMsg] = useState('');
+
+  // Initialize Parse
+  React.useEffect(() => {
+    Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+    Parse.serverURL = PARSE_HOST_URL;
+  }, []);
 
   // The main fetcher of tasks at page load
   React.useEffect(() => {

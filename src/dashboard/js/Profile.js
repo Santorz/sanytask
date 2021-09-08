@@ -1,33 +1,172 @@
-import React from 'react';
-import { Grid, Segment, Icon } from 'semantic-ui-react';
+import React, { useEffect } from 'react';
+import { Grid, Segment, Icon, Header, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { currentLocalUser } from '../../parse-sdk/userVars';
+
+// CSS
+import '../css/profile.css';
+// Media
+import defaultUserAvatar from '../../media/avatar.png';
+
+const { firstName, lastName, email } = currentLocalUser();
 
 const Profile = ({ subHash }) => {
+  useEffect(() => {
+    // document.title = 'My Account | my-next-task';
+  });
   return (
     /* Profile Container */
     subHash === 'profile' && (
       <Grid
         textAlign='center'
-        className='flex-column'
+        className='flex-column align-items-center'
         padded
         verticalAlign='middle'
         id='profile-body'
       >
-        <Segment
-          raised
-          className='rounded-0 d-flex justify-content-between justify-content-md-around align-items-center'
+        <Grid.Column
+          mobile={16}
+          tablet={11}
+          computer={9}
+          largeScreen={8}
+          widescreen={7}
         >
-          <Link to='/dashboard'>
-            <Icon name='arrow left' className='text-teal' size='big' />
-          </Link>
-          <h2 className='text-teal my-0 open-sans-font user-select-none'>
-            My Profile
-          </h2>
-          <Icon name='dot circle' size='big' className='text-teal' />
-        </Segment>
-        {/* End of profile Heading */}
+          <Segment
+            className='d-flex justify-content-between align-items-center mt-0'
+            style={{ border: 'none', boxShadow: 'none' }}
+          >
+            <section className='d-flex align-items-center'>
+              <Link
+                to='/dashboard'
+                className='p-1 rounded shadow-sm'
+                style={{ backgroundColor: '#f0f0f0' }}
+              >
+                <Icon name='angle left' className='text-dark' size='big' />
+              </Link>
+              <Header
+                as='h2'
+                className='my-0 open-sans-font user-select-none ms-4'
+              >
+                My Account
+              </Header>
+            </section>
+            <Icon name='ellipsis horizontal' size='big' />
+          </Segment>
+          {/* End of profile Heading */}
 
-        <Grid.Column></Grid.Column>
+          {/* Use info part */}
+          <Segment
+            className='d-flex mt-0 align-items-center pt-1'
+            style={{ border: 'none', boxShadow: 'none' }}
+          >
+            <section id='user-account-pic-section' className='d-flex'>
+              <Image
+                circular
+                src={defaultUserAvatar}
+                width={50}
+                id='user-account-pic'
+              />
+            </section>
+            <section className='d-flex flex-column ms-3'>
+              <h3 className='open-sans-font' style={{ fontSize: '1.45rem' }}>
+                {firstName} {lastName}
+              </h3>
+              <div
+                className='user-plan-status-div'
+                style={{ textAlign: 'left' }}
+              >
+                <h4 className='my-0'>{'FREE'}</h4>
+              </div>
+            </section>
+            {/*  */}
+          </Segment>
+          {/* Profile main body */}
+          <Segment
+            raised
+            className='d-flex mt-3 flex-column'
+            id='profile-main-body'
+            style={{ border: 'none' }}
+          >
+            <section className='profile-detail-section'>
+              <span>
+                <h5 className='mb-0 pb-1 text-teal'>Display Name</h5>
+                <h3 className='open-sans-font my-0'>
+                  {firstName} {lastName}
+                </h3>
+              </span>
+              <span>
+                <Button className='profile-detail-edit-button'>
+                  Request Edit
+                </Button>
+              </span>
+            </section>
+
+            <section className='profile-detail-section'>
+              <span>
+                <h5 className='mb-0 pb-1 text-teal'>Email Address</h5>
+                <h3 className='open-sans-font my-0'>{email}</h3>
+              </span>
+              <span>
+                <Button className='profile-detail-edit-button'>Edit</Button>
+              </span>
+            </section>
+
+            <section className='profile-detail-section'>
+              <span>
+                <h5 className='mb-0 pb-1 text-teal'>Password</h5>
+                <h3
+                  className='open-sans-font my-0'
+                  dangerouslySetInnerHTML={{ __html: '&#8226;'.repeat(22) }}
+                />
+              </span>
+              <span>
+                <Button className='profile-detail-edit-button'>Edit</Button>
+              </span>
+            </section>
+          </Segment>
+          {/*  */}
+          {/* Pro plan segment */}
+          <Segment
+            raised
+            className='d-flex mt-3 flex-column px-0 pb-0'
+            style={{
+              backgroundColor: '#f0f0f0',
+              border: 'none',
+              borderBottomLeftRadius: '0.7rem',
+              borderBottomRightRadius: '0.7rem',
+            }}
+          >
+            <section className='profile-detail-section subscription-section px-3'>
+              <span>
+                <h5 className='mb-0 pb-1 text-teal'>Subscription</h5>
+                <h3 className='open-sans-font my-0'>Free Plan</h3>
+              </span>
+              <span>
+                <Button
+                  toggle
+                  className='profile-detail-edit-button'
+                  id='pro-upgrade-btn'
+                >
+                  Upgrade to Pro
+                </Button>
+              </span>
+            </section>
+            <section
+              className='text-center mt-2'
+              style={{
+                backgroundColor: '#d7d7d7',
+                borderBottomLeftRadius: '0.7rem',
+                borderBottomRightRadius: '0.7rem',
+              }}
+            >
+              <Link to='/pricing' className='text-teal d-block py-3'>
+                <h3>
+                  See the Pro Features &nbsp; <Icon name='external' />
+                </h3>
+              </Link>
+            </section>
+          </Segment>
+        </Grid.Column>
       </Grid>
     )
   );

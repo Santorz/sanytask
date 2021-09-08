@@ -12,8 +12,8 @@ import Dashboard from './dashboard';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ErrorPage from './pages/404-page';
-import { PersonComponent } from './pages/Parse_Demo';
-import { setIntervalAsync } from './utils/customSchedulers';
+// import { setIntervalAsync } from './utils/customSchedulers';
+import { useCheckUserStatus } from './parse-sdk/actions';
 
 // Parse SDK
 // Import Parse minified version
@@ -23,8 +23,7 @@ import {
   PARSE_JAVASCRIPT_KEY,
   PARSE_HOST_URL,
 } from './parse-sdk/config';
-
-import { checkIfUserIsLoggedIn } from './parse-sdk/userVars';
+// import { isLocalUserPresent } from './parse-sdk/userVars';
 
 // CSS
 import 'semantic-ui-css/semantic.min.css';
@@ -38,29 +37,16 @@ const MainBodyContainer = () => {
     Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
     Parse.serverURL = PARSE_HOST_URL;
   }, []);
+  // Hooks
+  const [isLoggedIn] = useCheckUserStatus();
 
   // State values
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(
-    Parse.User.current() !== null && Parse.User.current() !== undefined
-  );
-
-  const performLoggedInCheck = async () => {
-    await checkIfUserIsLoggedIn().then((resp) => {
-      setIsUserLoggedIn(resp);
-    });
-    // if (Parse.User.current && navigator.onLine) {
-    //   Parse.Session.current().then((resp) => {
-    //     resp.get('expiresAt') <= Date.now() &&
-    //       setIsUserLoggedIn(false) &&
-    //       Parse.User.logOut();
-    //   });
-    // }
-  };
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(isLoggedIn);
 
   // UseEffect for checking and resetting login stats
   React.useEffect(() => {
-    setIntervalAsync(performLoggedInCheck, 1000);
-  }, []);
+    setIsUserLoggedIn(isLoggedIn);
+  }, [isLoggedIn]);
 
   return (
     <>
@@ -117,10 +103,6 @@ const MainBodyContainer = () => {
             )}
           </Route>
           {/* end of signup route path */}
-
-          <Route path='/parse-demo'>
-            <PersonComponent />
-          </Route>
 
           <Route path='*'>
             <ErrorPage />

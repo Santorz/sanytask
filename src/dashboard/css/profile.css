@@ -1,0 +1,62 @@
+#user-account-pic {
+  width: 6rem;
+  border: 2px solid #006976 !important;
+}
+div.user-plan-status-div {
+  user-select: none !important;
+  display: flex;
+  align-items: center;
+}
+div.user-plan-status-div h4 {
+  display: inline;
+  padding: 0.25rem 1rem;
+  border: 2px solid #006976 !important;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+#profile-main-body {
+  border-radius: 0.7rem !important;
+  background-color: #f0f0f0 !important;
+}
+section.profile-detail-section {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  text-align: left !important;
+}
+section.profile-detail-section:last-child {
+  margin-bottom: 0 !important;
+}
+section.profile-detail-section h3 {
+  font-size: 1.11rem;
+}
+button.profile-detail-edit-button {
+  color: #006976 !important;
+  background-color: white !important;
+  border: 1px solid #006976 !important;
+  font-family: 'Open Sans', sans-serif !important;
+}
+button.profile-detail-edit-button#pro-upgrade-btn {
+  background-color: #006976 !important;
+  color: white !important;
+  font-size: 1.075rem;
+}
+
+@media screen and (max-width: 768px) {
+  #user-account-pic {
+    width: 5.75rem;
+  }
+}
+@media screen and (min-width: 768px) {
+  section.profile-detail-section {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+  section.profile-detail-section.subscription-section {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+    border-bottom-right-radius: 0.7rem !important;
+    border-bottom-left-radius: 0.7rem !important;
+  }
+}
