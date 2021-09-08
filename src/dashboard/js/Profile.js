@@ -8,7 +8,7 @@ import '../css/profile.css';
 // Media
 import defaultUserAvatar from '../../media/avatar.png';
 
-const { firstName, lastName, email } = currentLocalUser();
+const { firstName, lastName, email } = currentLocalUser() || {};
 
 const Profile = ({ subHash }) => {
   useEffect(() => {
@@ -16,7 +16,8 @@ const Profile = ({ subHash }) => {
   });
   return (
     /* Profile Container */
-    subHash === 'profile' && (
+    subHash === 'profile' &&
+    currentLocalUser() && (
       <Grid
         textAlign='center'
         className='flex-column align-items-center'
