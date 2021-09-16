@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Grid, Segment, Icon, Header, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { currentLocalUser } from '../../parse-sdk/userVars';
@@ -6,17 +6,16 @@ import { currentLocalUser } from '../../parse-sdk/userVars';
 // CSS
 import '../css/profile.css';
 // Media
-import defaultUserAvatar from '../../media/avatar.png';
+// import defaultUserAvatar from '../../media/avatar.png';
+import saintAvatar from '../../media/saintAvatar.png';
 
 const { firstName, lastName, email } = currentLocalUser() || {};
 
 const Profile = ({ subHash }) => {
-  useEffect(() => {
-    // document.title = 'My Account | my-next-task';
-  });
+  // Main return
   return (
     /* Profile Container */
-    subHash === 'profile' &&
+    subHash === 'account' &&
     currentLocalUser() && (
       <Grid
         textAlign='center'
@@ -28,9 +27,10 @@ const Profile = ({ subHash }) => {
         <Grid.Column
           mobile={16}
           tablet={11}
-          computer={9}
-          largeScreen={8}
-          widescreen={7}
+          computer={10}
+          largeScreen={9}
+          widescreen={8}
+          id='profile-main-grid'
         >
           <Segment
             className='d-flex justify-content-between align-items-center mt-0'
@@ -57,13 +57,13 @@ const Profile = ({ subHash }) => {
 
           {/* Use info part */}
           <Segment
-            className='d-flex mt-0 align-items-center pt-1'
+            className='d-flex mt-4 align-items-center pt-0'
             style={{ border: 'none', boxShadow: 'none' }}
           >
             <section id='user-account-pic-section' className='d-flex'>
               <Image
                 circular
-                src={defaultUserAvatar}
+                src={saintAvatar}
                 width={50}
                 id='user-account-pic'
               />
@@ -121,7 +121,7 @@ const Profile = ({ subHash }) => {
                 />
               </span>
               <span>
-                <Button className='profile-detail-edit-button'>Edit</Button>
+                <Button className='profile-detail-edit-button'>Change</Button>
               </span>
             </section>
           </Segment>
@@ -131,10 +131,10 @@ const Profile = ({ subHash }) => {
             raised
             className='d-flex mt-3 flex-column px-0 pb-0'
             style={{
-              backgroundColor: '#f0f0f0',
               border: 'none',
               borderBottomLeftRadius: '0.7rem',
               borderBottomRightRadius: '0.7rem',
+              backgroundColor: '#f0f0f0',
             }}
           >
             <section className='profile-detail-section subscription-section px-3'>
@@ -155,7 +155,7 @@ const Profile = ({ subHash }) => {
             <section
               className='text-center mt-2'
               style={{
-                backgroundColor: '#d7d7d7',
+                backgroundColor: '#ffffff',
                 borderBottomLeftRadius: '0.7rem',
                 borderBottomRightRadius: '0.7rem',
               }}
@@ -167,6 +167,10 @@ const Profile = ({ subHash }) => {
               </Link>
             </section>
           </Segment>
+          {/*  */}
+          <Button size='big' className='text-dark' id='profile-signout-btn'>
+            Sign out
+          </Button>
         </Grid.Column>
       </Grid>
     )

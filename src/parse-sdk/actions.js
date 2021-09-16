@@ -66,10 +66,17 @@ export const loginUserIn = async function (username, password) {
 // Hook to return user logged in staus and user object
 export const useCheckUserStatus = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(isLocalUserPresent);
-  const [localUser, setLocalUser] = useState(currentLocalUser);
+  const [localUser, setLocalUser] = useState(currentLocalUser());
   const refreshStatus = () => {
     setIsLoggedIn(isLocalUserPresent);
     setLocalUser(currentLocalUser);
+    Parse.Session.current()
+      .then((session) => {
+        console.log(session);
+      })
+      .catch((error) => {
+        error.code === 209 && Parse.User.logOut();
+      });
   };
   useEffect(() => {
     let refreshInterval = setInterval(refreshStatus, 1000);

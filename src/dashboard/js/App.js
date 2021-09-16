@@ -24,7 +24,7 @@ const App = () => {
     let subHash = currentLocation.hash;
     if (subHash.indexOf('#') !== -1) {
       let subHashSplit = subHash.split('#')[1];
-      if (subHashSplit === 'profile' || subHashSplit === 'drafts') {
+      if (subHashSplit === 'account' || subHashSplit === 'drafts') {
         setSubHash(subHashSplit);
       } else {
         history.push({
