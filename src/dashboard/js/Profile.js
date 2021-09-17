@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Segment, Icon, Header, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { currentLocalUser } from '../../parse-sdk/userVars';
+import { invokeSignOut } from '../../parse-sdk/actions';
 
 // CSS
 import '../css/profile.css';
@@ -9,7 +10,7 @@ import '../css/profile.css';
 // import defaultUserAvatar from '../../media/avatar.png';
 import saintAvatar from '../../media/saintAvatar.png';
 
-const { firstName, lastName, email } = currentLocalUser() || {};
+const { firstName, lastName, email, accountType } = currentLocalUser() || {};
 
 const Profile = ({ subHash }) => {
   // Main return
@@ -76,7 +77,9 @@ const Profile = ({ subHash }) => {
                 className='user-plan-status-div'
                 style={{ textAlign: 'left' }}
               >
-                <h4 className='my-0'>{'FREE'}</h4>
+                <h4 className='my-0'>
+                  {accountType && accountType.toUpperCase()}
+                </h4>
               </div>
             </section>
             {/*  */}
@@ -127,48 +130,58 @@ const Profile = ({ subHash }) => {
           </Segment>
           {/*  */}
           {/* Pro plan segment */}
-          <Segment
-            raised
-            className='d-flex mt-3 flex-column px-0 pb-0'
-            style={{
-              border: 'none',
-              borderBottomLeftRadius: '0.7rem',
-              borderBottomRightRadius: '0.7rem',
-              backgroundColor: '#f0f0f0',
-            }}
-          >
-            <section className='profile-detail-section subscription-section px-3'>
-              <span>
-                <h5 className='mb-0 pb-1 text-teal'>Subscription</h5>
-                <h3 className='open-sans-font my-0'>Free Plan</h3>
-              </span>
-              <span>
-                <Button
-                  toggle
-                  className='profile-detail-edit-button'
-                  id='pro-upgrade-btn'
-                >
-                  Upgrade to Pro
-                </Button>
-              </span>
-            </section>
-            <section
-              className='text-center mt-2'
+          {accountType === 'free' && (
+            <Segment
+              raised
+              className='d-flex mt-3 flex-column px-0 pb-0'
               style={{
-                backgroundColor: '#ffffff',
+                border: 'none',
                 borderBottomLeftRadius: '0.7rem',
                 borderBottomRightRadius: '0.7rem',
+                backgroundColor: '#f0f0f0',
               }}
             >
-              <Link to='/pricing' className='text-teal d-block py-3'>
-                <h3>
-                  See the Pro Features &nbsp; <Icon name='external' />
-                </h3>
-              </Link>
-            </section>
-          </Segment>
+              <section className='profile-detail-section subscription-section px-3'>
+                <span>
+                  <h5 className='mb-0 pb-1 text-teal'>Subscription</h5>
+                  <h3 className='open-sans-font my-0'>Free Plan</h3>
+                </span>
+                <span>
+                  <Button
+                    toggle
+                    className='profile-detail-edit-button'
+                    id='pro-upgrade-btn'
+                  >
+                    Upgrade to Pro
+                  </Button>
+                </span>
+              </section>
+              <section
+                className='text-center mt-2'
+                style={{
+                  backgroundColor: '#ffffff',
+                  borderBottomLeftRadius: '0.7rem',
+                  borderBottomRightRadius: '0.7rem',
+                }}
+              >
+                <Link to='/pricing' className='text-teal d-block py-3'>
+                  <h3>
+                    See the Pro Features &nbsp; <Icon name='external' />
+                  </h3>
+                </Link>
+              </section>
+            </Segment>
+          )}
+
           {/*  */}
-          <Button size='big' className='text-dark' id='profile-signout-btn'>
+          <Button
+            size='big'
+            className='text-dark'
+            id='profile-signout-btn'
+            onClick={() => {
+              invokeSignOut();
+            }}
+          >
             Sign out
           </Button>
         </Grid.Column>

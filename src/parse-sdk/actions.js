@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-// Parse SDK
-// Import Parse minified version
 import Parse from 'parse/dist/parse.min.js';
 import { isLocalUserPresent, currentLocalUser } from './userVars';
 
@@ -70,17 +68,15 @@ export const useCheckUserStatus = () => {
   const refreshStatus = () => {
     setIsLoggedIn(isLocalUserPresent);
     setLocalUser(currentLocalUser);
-    Parse.Session.current()
-      .then((session) => {
-        console.log(session);
-      })
-      .catch((error) => {
-        error.code === 209 && Parse.User.logOut();
-      });
   };
   useEffect(() => {
     let refreshInterval = setInterval(refreshStatus, 1000);
     return () => clearInterval(refreshInterval);
   });
   return [isLoggedIn, localUser];
+};
+
+export const invokeSignOut = () => {
+  Parse.User.logOut();
+  window.history.pushState('/', '/');
 };
