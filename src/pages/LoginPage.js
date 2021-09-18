@@ -15,7 +15,7 @@ import {
   Ref,
 } from 'semantic-ui-react';
 import { emailRegex, passwordRegex } from '../utils/regexValidator';
-import { PARSE_APPLICATION_ID } from '../parse-sdk/config';
+// import { PARSE_APPLICATION_ID } from '../parse-sdk/config';
 import { loginUserIn } from '../parse-sdk/actions';
 import {
   //   getCurrentLoggedInUser,
@@ -90,7 +90,7 @@ const LoginPage = () => {
       userPasswordValue.match(passwordRegex)
     ) {
       // Perform manual logout first of all
-      localStorage.removeItem(`Parse/${PARSE_APPLICATION_ID}/currentUser`);
+      // localStorage.removeItem(`Parse/${PARSE_APPLICATION_ID}/currentUser`);
 
       // Perform main login action
       setLoginStarted(true);
@@ -105,6 +105,7 @@ const LoginPage = () => {
         })
         .catch((err) => {
           setLoginFailed(true);
+          setFailureMsg(err.message);
         });
     }
 

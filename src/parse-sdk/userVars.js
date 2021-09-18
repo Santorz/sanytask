@@ -7,9 +7,9 @@ export const isLocalUserPresent = () => {
   let user = localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/currentUser`);
   return user !== null && user !== undefined;
 };
-export const currentLocalUser = () => {
+export const getCurrentLocalUser = () => {
   let user = localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/currentUser`);
-  if (user !== null && user !== undefined) {
+  if (user) {
     return JSON.parse(
       localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/currentUser`)
     );

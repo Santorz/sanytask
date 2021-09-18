@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, Segment, Icon, Header, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { currentLocalUser } from '../../parse-sdk/userVars';
-import { invokeSignOut } from '../../parse-sdk/actions';
+import { getCurrentLocalUser } from '../../parse-sdk/userVars';
+import { invokeSignOut, useCheckUserStatus } from '../../parse-sdk/actions';
 
 // CSS
 import '../css/profile.css';
@@ -10,14 +10,17 @@ import '../css/profile.css';
 // import defaultUserAvatar from '../../media/avatar.png';
 import saintAvatar from '../../media/saintAvatar.png';
 
-const { firstName, lastName, email, accountType } = currentLocalUser() || {};
-
 const Profile = ({ subHash }) => {
+  const [, localUser] = useCheckUserStatus();
+
+  const { firstName, lastName, email, accountType } = localUser
+    ? localUser
+    : {};
   // Main return
   return (
     /* Profile Container */
     subHash === 'account' &&
-    currentLocalUser() && (
+    getCurrentLocalUser() && (
       <Grid
         textAlign='center'
         className='flex-column align-items-center'

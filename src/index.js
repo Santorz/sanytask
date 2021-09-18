@@ -32,17 +32,13 @@ import './css/index.css';
 import './css/cust-utils.css';
 
 const MainBodyContainer = () => {
+  // Hooks
+  const [isLoggedIn] = useCheckUserStatus();
   // Initialize Parse
   useEffect(() => {
     Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
     Parse.serverURL = PARSE_HOST_URL;
-    // Check session and logout if expired
-    Parse.Session.current().catch((error) => {
-      error.code === 209 && Parse.User.logOut();
-    });
   }, []);
-  // Hooks
-  const [isLoggedIn] = useCheckUserStatus();
 
   // State values
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(isLoggedIn);

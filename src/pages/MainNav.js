@@ -5,11 +5,11 @@ import { useMediaQuery } from 'react-responsive';
 import { Menu, X } from 'react-feather';
 import { Segment, Ref, Button, Icon } from 'semantic-ui-react';
 // import { isLocalUserPresent } from '../parse-sdk/userVars';
-import { useCheckUserStatus } from '../parse-sdk/actions';
+import { useCheckUserStatus, invokeSignOut } from '../parse-sdk/actions';
 
 // Parse SDK
 // Import Parse minified version
-import Parse from 'parse/dist/parse.min.js';
+// import Parse from 'parse/dist/parse.min.js';
 
 // CSS
 import '../css/main-nav.css';
@@ -181,9 +181,7 @@ const MainNavUl = ({ isMainPageNavBool, isUserLoggedIn }) => {
             onClick={async () => {
               alert('Logging you out in a jiffy... \n(P.S. fake one for now)');
               try {
-                await Parse.User.logOut();
-                alert('Logged out successfully');
-                // window.location.reload("false");
+                invokeSignOut();
               } catch (err) {
                 alert(`An error occured while logging you out: ${err}`);
               }

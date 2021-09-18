@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Parse from 'parse/dist/parse.min.js';
-import { isLocalUserPresent, currentLocalUser } from './userVars';
+import { isLocalUserPresent, getCurrentLocalUser } from './userVars';
 
 // Sign up Func
 export const registerNewUser = async function (
@@ -45,13 +45,20 @@ export const loginUserIn = async function (username, password) {
   try {
     // logIn returns the corresponding ParseUser object
     const loggedInUser = await Parse.User.logIn(usernameValue, passwordValue);
+    Parse.Session.current()
+      .then((session) => {
+        localStorage.setItem(
+          'sessionExpDate',
+          session.attributes.expiresAt.toUTCString()
+        );
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
     return {
       status: 'success',
       result: loggedInUser,
     };
-    // To verify that this is in fact the current user, `current` can be used
-    // const currentUser = await Parse.User.current();
-    // console.log(loggedInUser === currentUser);
   } catch (error) {
     // Error can be caused by wrong parameters or lack of Internet connection
     return {
@@ -61,22 +68,38 @@ export const loginUserIn = async function (username, password) {
   }
 };
 
+export const invokeSignOut = () => {
+  localStorage.removeItem('sessionExpDate');
+  window.history.pushState('', '', '/#');
+  Parse.User.logOut();
+};
+
 // Hook to return user logged in staus and user object
 export const useCheckUserStatus = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(isLocalUserPresent);
-  const [localUser, setLocalUser] = useState(currentLocalUser());
+  const [localUser, setLocalUser] = useState(getCurrentLocalUser());
   const refreshStatus = () => {
     setIsLoggedIn(isLocalUserPresent);
-    setLocalUser(currentLocalUser);
+    setLocalUser(getCurrentLocalUser);
+    let sessionExpDate = localStorage.getItem('sessionExpDate');
+    if (sessionExpDate && Date.now() > new Date(sessionExpDate)) {
+      invokeSignOut();
+    } else if (
+      !sessionExpDate &&
+      getCurrentLocalUser() !== null &&
+      getCurrentLocalUser() !== undefined
+    ) {
+      invokeSignOut();
+    } else if (
+      sessionExpDate &&
+      (getCurrentLocalUser() === null || getCurrentLocalUser() === undefined)
+    ) {
+      invokeSignOut();
+    }
   };
   useEffect(() => {
-    let refreshInterval = setInterval(refreshStatus, 1000);
+    let refreshInterval = setInterval(refreshStatus, 2000);
     return () => clearInterval(refreshInterval);
   });
   return [isLoggedIn, localUser];
-};
-
-export const invokeSignOut = () => {
-  Parse.User.logOut();
-  window.history.pushState('/', '/');
 };
