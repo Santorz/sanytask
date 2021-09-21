@@ -14,8 +14,12 @@ import 'animate.css';
 import '../index.css';
 
 const App = () => {
+  // Hooks
+
   // Use States
   const [subHash, setSubHash] = useState('');
+
+  // useEffect for redirecting to home page if user is not logged in
 
   // Use effect for setting subHash state value
   let currentLocation = useLocation();
@@ -41,6 +45,7 @@ const App = () => {
   const mobileNavRef = useRef(null);
   const todosSegmentRef = useRef(null);
 
+  // useEffect and function for adjusting margin bottom if it's mobile only
   const adjustMarginBottom = () => {
     if (document.readyState === 'complete') {
       if (mobileNavRef.current) {

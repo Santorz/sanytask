@@ -3,7 +3,7 @@
 // import Parse from 'parse/dist/parse.min.js';
 import { PARSE_APPLICATION_ID } from '../parse-sdk/config';
 
-export const isLocalUserPresent = () => {
+export const isLocalUserPresentFunc = () => {
   let user = localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/currentUser`);
   return user !== null && user !== undefined;
 };

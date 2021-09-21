@@ -19,7 +19,7 @@ import { emailRegex, passwordRegex } from '../utils/regexValidator';
 import { loginUserIn } from '../parse-sdk/actions';
 import {
   //   getCurrentLoggedInUser,
-  isLocalUserPresent,
+  isLocalUserPresentFunc,
 } from '../parse-sdk/userVars';
 
 // CSS
@@ -29,7 +29,7 @@ const LoginPage = () => {
   // UseEffects
   React.useEffect(() => {
     // If user is logged in already, redirect to dashboard
-    let resp = isLocalUserPresent();
+    let resp = isLocalUserPresentFunc();
     resp === true &&
       setTimeout(() => {
         window.history.pushState('/', 'dashboard');

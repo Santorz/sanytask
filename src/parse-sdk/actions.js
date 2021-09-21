@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Parse from 'parse/dist/parse.min.js';
-import { isLocalUserPresent, getCurrentLocalUser } from './userVars';
+import { isLocalUserPresentFunc, getCurrentLocalUser } from './userVars';
 
 // Sign up Func
 export const registerNewUser = async function (
@@ -47,10 +47,12 @@ export const loginUserIn = async function (username, password) {
     const loggedInUser = await Parse.User.logIn(usernameValue, passwordValue);
     Parse.Session.current()
       .then((session) => {
-        localStorage.setItem(
-          'sessionExpDate',
-          session.attributes.expiresAt.toUTCString()
-        );
+        if (isLocalUserPresentFunc()) {
+          localStorage.setItem(
+            'sessionExpDate',
+            session.attributes.expiresAt.toUTCString()
+          );
+        }
       })
       .catch((err) => {
         throw new Error(err);
@@ -70,16 +72,16 @@ export const loginUserIn = async function (username, password) {
 
 export const invokeSignOut = () => {
   localStorage.removeItem('sessionExpDate');
-  window.history.pushState('', '', '/#');
+  // window.history.pushState('', '', '/#');
   Parse.User.logOut();
 };
 
 // Hook to return user logged in staus and user object
 export const useCheckUserStatus = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(isLocalUserPresent);
+  const [isLoggedIn, setIsLoggedIn] = useState(isLocalUserPresentFunc());
   const [localUser, setLocalUser] = useState(getCurrentLocalUser());
   const refreshStatus = () => {
-    setIsLoggedIn(isLocalUserPresent);
+    setIsLoggedIn(isLocalUserPresentFunc());
     setLocalUser(getCurrentLocalUser);
     let sessionExpDate = localStorage.getItem('sessionExpDate');
     if (sessionExpDate && Date.now() > new Date(sessionExpDate)) {

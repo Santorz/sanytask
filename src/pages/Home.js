@@ -1,9 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
-// import { isLocalUserPresent } from '../parse-sdk/userVars';
+// import { isLocalUserPresentFunc } from '../parse-sdk/userVars';
 import { useCheckUserStatus } from '../parse-sdk/actions';
-// Import Parse minified version
 import { Container, Image, Header } from 'semantic-ui-react';
 import MainNav from './MainNav';
 

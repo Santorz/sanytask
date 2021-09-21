@@ -23,7 +23,7 @@ import {
   PARSE_JAVASCRIPT_KEY,
   PARSE_HOST_URL,
 } from './parse-sdk/config';
-// import { isLocalUserPresent } from './parse-sdk/userVars';
+// import { isLocalUserPresentFunc } from './parse-sdk/userVars';
 
 // CSS
 import 'semantic-ui-css/semantic.min.css';

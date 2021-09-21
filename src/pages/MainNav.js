@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { Menu, X } from 'react-feather';
 import { Segment, Ref, Button, Icon } from 'semantic-ui-react';
-// import { isLocalUserPresent } from '../parse-sdk/userVars';
+// import { isLocalUserPresentFunc } from '../parse-sdk/userVars';
 import { useCheckUserStatus, invokeSignOut } from '../parse-sdk/actions';
 
 // Parse SDK
