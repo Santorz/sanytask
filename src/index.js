@@ -36,8 +36,12 @@ const MainBodyContainer = () => {
   const [isLoggedIn] = useCheckUserStatus();
   // Initialize Parse
   useEffect(() => {
-    Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
-    Parse.serverURL = PARSE_HOST_URL;
+    if (!localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/installationId`)) {
+      Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+      Parse.serverURL = PARSE_HOST_URL;
+    } else {
+      console.log('Parse already exists');
+    }
   }, []);
 
   // State values

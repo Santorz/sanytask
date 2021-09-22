@@ -3,7 +3,7 @@ import { Grid, Segment, Icon, Header, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { getCurrentLocalUser } from '../../parse-sdk/userVars';
 import { invokeSignOut, useCheckUserStatus } from '../../parse-sdk/actions';
-import { X } from 'react-feather';
+import { X, Settings } from 'react-feather';
 
 // CSS
 import '../css/profile.css';
@@ -66,7 +66,7 @@ const Profile = ({ subHash }) => {
                 onClick={() => setIsSidebarOpen(true)}
                 className='p-0 m-0 bg-transparent text-dark'
               >
-                <Icon name='ellipsis horizontal' size='big' />
+                <Settings size={37}></Settings>
               </Button>
             </Segment>
             {/* End of profile Heading */}
@@ -216,7 +216,10 @@ const Profile = ({ subHash }) => {
               className='d-flex flex-column animate__animated animate__slideInRight animate__faster'
             >
               <div className='d-flex justify-content-between pt-4'>
-                <h1 className='text-teal m-0'>Settings</h1>
+                <h1 className='text-teal m-0'>
+                  Settings &nbsp;
+                  <Icon name='setting' size='small' />
+                </h1>
                 <Button
                   className='red-text m-0 p-0 bg-transparent'
                   onClick={() => setIsSidebarOpen(false)}
