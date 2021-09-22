@@ -6,6 +6,9 @@ import { useCheckUserStatus } from '../parse-sdk/actions';
 import { Container, Image, Header } from 'semantic-ui-react';
 import MainNav from './MainNav';
 
+// CSS
+import '../css/home.css';
+
 // MEDIA
 import landingPageTextBg from '../media/landing-page-text-bg.png';
 import phoneMockupImg from '../media/phone-mockup.png';
@@ -85,7 +88,7 @@ const Home = () => {
                 <br className='d-none d-lg-block' /> Get your task planning done
                 with just a few clicks.
               </h3>
-              <div className='d-flex pt-3 pt-md-1 pt-lg-5'>
+              <div className='d-flex pt-2 pt-md-1 pt-lg-5'>
                 {!isUserLoggedIn && (
                   <>
                     <Link

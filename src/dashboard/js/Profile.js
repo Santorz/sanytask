@@ -3,8 +3,8 @@ import { Grid, Segment, Icon, Header, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { getCurrentLocalUser } from '../../parse-sdk/userVars';
 import { invokeSignOut, useCheckUserStatus } from '../../parse-sdk/actions';
-import { X, Settings } from 'react-feather';
-
+import { X, Menu } from 'react-feather';
+import { DarkModeToggle, useColorScheme } from '../../utils/DarkModeToggle';
 // CSS
 import '../css/profile.css';
 // Media
@@ -14,6 +14,11 @@ import saintAvatar from '../../media/saintAvatar.png';
 const Profile = ({ subHash }) => {
   // Hooks
   const [, localUser] = useCheckUserStatus();
+  const { isDarkMode } = useColorScheme();
+
+  React.useEffect(() => {
+    console.log(isDarkMode);
+  }, [isDarkMode]);
 
   // States
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -22,6 +27,7 @@ const Profile = ({ subHash }) => {
   const { firstName, lastName, email, accountType } = localUser
     ? localUser
     : {};
+
   // Main return
   return (
     /* Profile Container */
@@ -66,7 +72,7 @@ const Profile = ({ subHash }) => {
                 onClick={() => setIsSidebarOpen(true)}
                 className='p-0 m-0 bg-transparent text-dark'
               >
-                <Settings size={37}></Settings>
+                <Menu size={37}></Menu>
               </Button>
             </Segment>
             {/* End of profile Heading */}
@@ -210,13 +216,13 @@ const Profile = ({ subHash }) => {
             padded
             id='profile-sidebar'
           >
-            <section id='backdrop' onClick={() => setIsSidebarOpen(false)} />
+            <section id='backdrop' />
             <section
               id='content'
-              className='d-flex flex-column animate__animated animate__slideInRight animate__faster'
+              className='d-flex flex-column animate__animated animate__slideInRight animate__faster my-primary-bg'
             >
               <div className='d-flex justify-content-between pt-4'>
-                <h1 className='text-teal m-0'>
+                <h1 className='my-teal-text m-0'>
                   Settings &nbsp;
                   <Icon name='setting' size='small' />
                 </h1>
@@ -227,6 +233,20 @@ const Profile = ({ subHash }) => {
                   <X size={40} strokeWidth={3}></X>
                 </Button>
               </div>
+
+              <Segment
+                className='d-flex justify-content-between'
+                inverted={isDarkMode}
+              >
+                <h3 className='open-sans-font my-0 my-primary-text'>
+                  App Theme
+                </h3>
+                <section className='d-flex align-items-center my-primary-text'>
+                  <h4 className='my-0 me-2'>Light</h4>
+                  <DarkModeToggle />
+                  <h4 className='my-0 ms-2'>Dark</h4>
+                </section>
+              </Segment>
             </section>
           </Grid>
         )}

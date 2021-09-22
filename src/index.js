@@ -39,8 +39,6 @@ const MainBodyContainer = () => {
     if (!localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/installationId`)) {
       Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
       Parse.serverURL = PARSE_HOST_URL;
-    } else {
-      console.log('Parse already exists');
     }
   }, []);
 

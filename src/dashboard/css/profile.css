@@ -59,8 +59,11 @@ button#profile-signout-btn {
 }
 #profile-sidebar #content {
   width: 40% !important;
-  background-color: whitesmoke;
   box-shadow: -3px 0px 10px 1px #000000 !important;
+}
+
+.testing-h3 {
+  color: var(--my-teal);
 }
 
 /* Smartphones only */
