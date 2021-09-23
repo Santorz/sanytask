@@ -82,7 +82,7 @@ export const useCheckUserStatus = () => {
   const [localUser, setLocalUser] = useState(getCurrentLocalUser());
   const refreshStatus = () => {
     setIsLoggedIn(isLocalUserPresentFunc());
-    setLocalUser(getCurrentLocalUser);
+    setLocalUser(getCurrentLocalUser());
     let sessionExpDate = localStorage.getItem('sessionExpDate');
     if (sessionExpDate && Date.now() > new Date(sessionExpDate)) {
       invokeSignOut();
