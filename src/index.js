@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import ReactDOM from 'react-dom';
 import {
   Redirect,
@@ -14,6 +14,9 @@ import SignupPage from './pages/SignupPage';
 import ErrorPage from './pages/404-page';
 // import { setIntervalAsync } from './utils/customSchedulers';
 import { useCheckUserStatus } from './parse-sdk/actions';
+import { useLocalstorageState } from 'rooks';
+import { useMediaQuery } from 'react-responsive';
+import useDarkMode from 'use-dark-mode';
 
 // Parse SDK
 // Import Parse minified version
@@ -31,12 +34,29 @@ import './css/bootstrap-utilities.min.css';
 import './css/index.css';
 import './css/cust-utils.css';
 
+export const DarkThemeContext = createContext(null);
+
+// Main Component
 const MainBodyContainer = () => {
   // Hooks
   const [isLoggedIn] = useCheckUserStatus();
+  const [darkThemeVar] = useLocalstorageState('darkTheme');
+  const systemPrefersDark = useMediaQuery({
+    query: '(prefers-color-scheme: dark)',
+    undefined,
+  });
+  const darkThemeObject = useDarkMode(
+    typeof darkThemeVar === 'boolean' ? darkThemeVar : systemPrefersDark,
+    {
+      onChange: () => {
+        document.body.setAttribute('darkTheme', darkThemeObject.value);
+      },
+    }
+  );
+  // useEffects
   // Initialize Parse
   useEffect(() => {
-    if (!localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/installationId`)) {
+    if (!Parse.applicationId) {
       Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
       Parse.serverURL = PARSE_HOST_URL;
     }
@@ -51,7 +71,12 @@ const MainBodyContainer = () => {
   }, [isLoggedIn]);
 
   return (
-    <>
+    <DarkThemeContext.Provider
+      value={{
+        isDarkTheme: darkThemeObject.value,
+        darkThemeToggle: darkThemeObject.toggle,
+      }}
+    >
       {/* router setup */}
       <Router hashType='noslash'>
         <Switch>
@@ -112,7 +137,7 @@ const MainBodyContainer = () => {
         </Switch>
       </Router>
       {/* end of router setup */}
-    </>
+    </DarkThemeContext.Provider>
   );
 };
 

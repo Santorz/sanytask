@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Grid, Segment, Icon, Header, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { getCurrentLocalUser } from '../../parse-sdk/userVars';
 import { invokeSignOut, useCheckUserStatus } from '../../parse-sdk/actions';
 import { X, Menu } from 'react-feather';
-import { DarkModeToggle, useColorScheme } from '../../utils/DarkModeToggle';
+import { DarkModeToggle } from '../../utils/DarkModeToggle';
+import { DarkThemeContext } from '../..';
+
 // CSS
 import '../css/profile.css';
 // Media
@@ -14,11 +16,9 @@ import saintAvatar from '../../media/saintAvatar.png';
 const Profile = ({ subHash }) => {
   // Hooks
   const [, localUser] = useCheckUserStatus();
-  const [isDarkMode] = useColorScheme();
+  const { isDarkTheme, darkThemeToggle } = useContext(DarkThemeContext);
 
-  React.useEffect(() => {
-    console.log(isDarkMode);
-  }, [isDarkMode]);
+  // useEffects
 
   // States
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -236,17 +236,29 @@ const Profile = ({ subHash }) => {
 
               <Segment
                 className='d-flex justify-content-between'
-                inverted={isDarkMode}
+                inverted={isDarkTheme}
               >
                 <h3 className='open-sans-font my-0 my-primary-text'>
                   App Theme
                 </h3>
                 <section className='d-flex align-items-center my-primary-text'>
                   <h4 className='my-0 me-2'>Light</h4>
-                  <DarkModeToggle />
+                  <DarkModeToggle
+                    isDarkTheme={isDarkTheme}
+                    toggleIsDarkMode={darkThemeToggle}
+                  />
                   <h4 className='my-0 ms-2'>Dark</h4>
                 </section>
               </Segment>
+              <Button
+                className='mx-auto'
+                inverted={isDarkTheme}
+                onClick={() => {
+                  darkThemeToggle();
+                }}
+              >
+                {`Activate ${isDarkTheme.value ? 'light' : 'dark'} theme`}
+              </Button>
             </section>
           </Grid>
         )}

@@ -1,16 +1,16 @@
 import React, { useMemo, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { useLocalstorage } from 'rooks';
+import { useLocalstorageState } from 'rooks';
 import Toggle from 'react-toggle';
 import '../css/react-toggle.css';
 
 export const useColorScheme = () => {
+  const [isDarkMode, setIsDarkMode /*,removeThemeState*/] =
+    useLocalstorageState('isDarkTheme');
   const systemPrefersDark = useMediaQuery({
     query: '(prefers-color-scheme: dark)',
+    undefined,
   });
-
-  const [isDarkMode, setIsDarkMode /*,removeThemeState*/] =
-    useLocalstorage('isDarkTheme');
 
   const value = useMemo(
     () =>
@@ -32,17 +32,19 @@ export const useColorScheme = () => {
       document.body.removeAttribute('darkTheme');
     }
   }, [value]);
-  return [value, setIsDarkMode];
+  return [isDarkMode, setIsDarkMode];
 };
 
-export const DarkModeToggle = () => {
-  const [isDarkMode, setIsDarkMode] = useColorScheme();
+export const DarkModeToggle = (props) => {
+  const { isDarkMode, toggleIsDarkMode } = props ? props : {};
 
   return (
     <Toggle
       className='app-theme-toggle'
       checked={isDarkMode}
-      onChange={({ target }) => setIsDarkMode(target.checked)}
+      onChange={({ target }) => {
+        toggleIsDarkMode();
+      }}
       icons={{ checked: '🌙', unchecked: '🔆' }}
       aria-label='App theme toggle'
     />
