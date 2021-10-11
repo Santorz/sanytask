@@ -1,7 +1,13 @@
+#profile-container {
+  min-height: 100vh;
+}
 #user-account-pic {
   width: 6rem;
-  border: 2px solid #006976 !important;
+  border: 2px solid var(--my-teal) !important;
 }
+/* body[darkTheme='true'] #user-account-pic {
+  filter: grayscale(3px);
+} */
 div.user-plan-status-div {
   user-select: none !important;
   display: flex;
@@ -10,13 +16,12 @@ div.user-plan-status-div {
 div.user-plan-status-div h4 {
   display: inline;
   padding: 0.25rem 1rem;
-  border: 2px solid #006976 !important;
+  border: 2px solid var(--my-teal) !important;
   border-radius: 0.4rem;
   cursor: pointer;
 }
 #profile-main-body {
   border-radius: 0.7rem !important;
-  background-color: #f0f0f0 !important;
 }
 section.profile-detail-section {
   margin-bottom: 2rem;
@@ -32,14 +37,26 @@ section.profile-detail-section h3 {
   font-size: 1.11rem;
 }
 button.profile-detail-edit-button {
-  color: #006976 !important;
-  background-color: #ffffff !important;
+  color: var(--my-teal) !important;
   font-family: 'Open Sans', sans-serif !important;
 }
+body[darkTheme='true'] button.profile-detail-edit-button {
+  color: whitesmoke !important;
+}
+body[darkTheme='true'] button.profile-detail-edit-button:hover,
+body[darkTheme='true'] button.profile-detail-edit-button:focus {
+  color: black !important;
+}
 button.profile-detail-edit-button#pro-upgrade-btn {
-  background-color: #006976 !important;
-  color: white !important;
+  color: var(--my-teal) !important;
   font-size: 1.075rem;
+}
+body[darkTheme='true'] button.profile-detail-edit-button#pro-upgrade-btn {
+  color: whitesmoke !important;
+}
+body[darkTheme='true'] button.profile-detail-edit-button#pro-upgrade-btn:hover,
+body[darkTheme='true'] button.profile-detail-edit-button#pro-upgrade-btn:focus {
+  color: black !important;
 }
 button#profile-signout-btn {
   margin-top: 0.75rem;

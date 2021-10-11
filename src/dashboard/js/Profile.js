@@ -33,7 +33,7 @@ const Profile = ({ subHash }) => {
     /* Profile Container */
     subHash === 'account' &&
     getCurrentLocalUser() && (
-      <div id='profile-container'>
+      <div id='profile-container' className='my-primary-bg'>
         <Grid
           textAlign='center'
           className='flex-column align-items-center'
@@ -52,25 +52,29 @@ const Profile = ({ subHash }) => {
             <Segment
               className='d-flex justify-content-between align-items-center mt-0'
               style={{ border: 'none', boxShadow: 'none' }}
+              inverted={isDarkTheme}
             >
               <section className='d-flex align-items-center'>
                 <Link
                   to='/dashboard'
-                  className='p-1 rounded shadow-sm'
-                  style={{ backgroundColor: '#f0f0f0' }}
+                  className='p-1 rounded shadow-sm my-primary-bg'
                 >
-                  <Icon name='angle left' className='text-dark' size='big' />
+                  <Icon
+                    name='angle left'
+                    className='my-primary-text'
+                    size='big'
+                  />
                 </Link>
                 <Header
                   as='h2'
-                  className='my-0 open-sans-font user-select-none ms-4'
+                  className='my-0 open-sans-font user-select-none ms-4 my-primary-text'
                 >
                   My Account
                 </Header>
               </section>
               <Button
                 onClick={() => setIsSidebarOpen(true)}
-                className='p-0 m-0 bg-transparent text-dark'
+                className='p-0 m-0 bg-transparent my-primary-text'
               >
                 <Menu size={37}></Menu>
               </Button>
@@ -81,8 +85,9 @@ const Profile = ({ subHash }) => {
             <Segment
               className='d-flex mt-4 align-items-center pt-0'
               style={{ border: 'none', boxShadow: 'none' }}
+              inverted={isDarkTheme}
             >
-              <section id='user-account-pic-section' className='d-flex'>
+              <section id='user-account-pic-section' className='d-flex mt-2'>
                 <Image
                   circular
                   src={saintAvatar}
@@ -111,16 +116,20 @@ const Profile = ({ subHash }) => {
               className='d-flex mt-3 flex-column'
               id='profile-main-body'
               style={{ border: 'none' }}
+              inverted={isDarkTheme}
             >
               <section className='profile-detail-section'>
                 <span>
-                  <h5 className='mb-0 pb-1 text-teal'>Display Name</h5>
+                  <h5 className='mb-0 pb-1 my-teal-text'>Display Name</h5>
                   <h3 className='open-sans-font my-0'>
                     {firstName} {lastName}
                   </h3>
                 </span>
                 <span>
-                  <Button className='profile-detail-edit-button'>
+                  <Button
+                    className='profile-detail-edit-button'
+                    inverted={isDarkTheme}
+                  >
                     Request Edit
                   </Button>
                 </span>
@@ -128,24 +137,34 @@ const Profile = ({ subHash }) => {
 
               <section className='profile-detail-section'>
                 <span>
-                  <h5 className='mb-0 pb-1 text-teal'>Email Address</h5>
+                  <h5 className='mb-0 pb-1 my-teal-text'>Email Address</h5>
                   <h3 className='open-sans-font my-0'>{email}</h3>
                 </span>
                 <span>
-                  <Button className='profile-detail-edit-button'>Edit</Button>
+                  <Button
+                    className='profile-detail-edit-button'
+                    inverted={isDarkTheme}
+                  >
+                    Edit
+                  </Button>
                 </span>
               </section>
 
               <section className='profile-detail-section'>
                 <span>
-                  <h5 className='mb-0 pb-1 text-teal'>Password</h5>
+                  <h5 className='mb-0 pb-1 my-teal-text'>Password</h5>
                   <h3
                     className='open-sans-font my-0'
                     dangerouslySetInnerHTML={{ __html: '&#8226;'.repeat(22) }}
                   />
                 </span>
                 <span>
-                  <Button className='profile-detail-edit-button'>Change</Button>
+                  <Button
+                    className='profile-detail-edit-button'
+                    inverted={isDarkTheme}
+                  >
+                    Change
+                  </Button>
                 </span>
               </section>
             </Segment>
@@ -159,45 +178,52 @@ const Profile = ({ subHash }) => {
                   border: 'none',
                   borderBottomLeftRadius: '0.7rem',
                   borderBottomRightRadius: '0.7rem',
-                  backgroundColor: '#f0f0f0',
                 }}
+                inverted={isDarkTheme}
               >
-                <section className='profile-detail-section subscription-section px-3'>
+                <section
+                  className='profile-detail-section subscription-section px-3'
+                  style={{
+                    marginBottom: '1rem',
+                  }}
+                >
                   <span>
-                    <h5 className='mb-0 pb-1 text-teal'>Subscription</h5>
+                    <h5 className='mb-0 pb-1 my-teal-text'>Subscription</h5>
                     <h3 className='open-sans-font my-0'>Free Plan</h3>
                   </span>
                   <span>
                     <Button
                       toggle
                       className='profile-detail-edit-button'
+                      inverted={isDarkTheme}
                       id='pro-upgrade-btn'
                     >
                       Upgrade to Pro
                     </Button>
                   </span>
                 </section>
-                <section
-                  className='text-center mt-2'
+                <Segment
+                  as='section'
+                  inverted={isDarkTheme}
+                  className='text-center mt-2 py-0'
                   style={{
-                    backgroundColor: '#ffffff',
                     borderBottomLeftRadius: '0.7rem',
                     borderBottomRightRadius: '0.7rem',
                   }}
                 >
-                  <Link to='/pricing' className='text-teal d-block py-3'>
+                  <Link to='/pricing' className='my-teal-text d-block py-3'>
                     <h3>
                       See the Pro Features &nbsp; <Icon name='external' />
                     </h3>
                   </Link>
-                </section>
+                </Segment>
               </Segment>
             )}
 
             {/*  */}
             <Button
+              inverted={isDarkTheme}
               size='big'
-              className='text-dark'
               id='profile-signout-btn'
               onClick={() => {
                 invokeSignOut();
@@ -227,10 +253,10 @@ const Profile = ({ subHash }) => {
                   <Icon name='setting' size='small' />
                 </h1>
                 <Button
-                  className='red-text m-0 p-0 bg-transparent'
+                  className='my-red-text m-0 p-0 bg-transparent'
                   onClick={() => setIsSidebarOpen(false)}
                 >
-                  <X size={40} strokeWidth={3}></X>
+                  <X size={30} strokeWidth={3}></X>
                 </Button>
               </div>
 
@@ -245,7 +271,7 @@ const Profile = ({ subHash }) => {
                   <h4 className='my-0 me-2'>Light</h4>
                   <DarkModeToggle
                     isDarkTheme={isDarkTheme}
-                    toggleIsDarkMode={darkThemeToggle}
+                    darkThemeToggle={darkThemeToggle}
                   />
                   <h4 className='my-0 ms-2'>Dark</h4>
                 </section>
@@ -257,7 +283,7 @@ const Profile = ({ subHash }) => {
                   darkThemeToggle();
                 }}
               >
-                {`Activate ${isDarkTheme.value ? 'light' : 'dark'} theme`}
+                {`Activate ${isDarkTheme ? 'light' : 'dark'} theme`}
               </Button>
             </section>
           </Grid>

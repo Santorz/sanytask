@@ -36,14 +36,15 @@ export const useColorScheme = () => {
 };
 
 export const DarkModeToggle = (props) => {
-  const { isDarkMode, toggleIsDarkMode } = props ? props : {};
+  const { isDarkTheme, darkThemeToggle } = props ? props : {};
+  // const { isDarkTheme, darkThemeToggle } = useContext(DarkThemeContext);
 
   return (
     <Toggle
       className='app-theme-toggle'
-      checked={isDarkMode}
-      onChange={({ target }) => {
-        toggleIsDarkMode();
+      checked={isDarkTheme}
+      onChange={() => {
+        darkThemeToggle();
       }}
       icons={{ checked: '🌙', unchecked: '🔆' }}
       aria-label='App theme toggle'

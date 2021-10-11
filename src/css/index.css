@@ -1,15 +1,17 @@
 body {
   min-width: 250px !important;
 }
-body {
+:root body {
   --my-teal: #006976;
   --my-white: #f4f4f4;
   --my-black: #000000;
+  --my-red: #cc0000;
 }
-body[darkTheme='true'] {
-  --my-teal: #00c1d9;
+:root body[darkTheme='true'] {
+  --my-teal: #00e1ff;
   --my-white: #efefef;
-  --my-black: #1f2023;
+  --my-black: #101010;
+  --my-red: #ff4444;
 }
 
 body .my-primary-bg {
@@ -21,6 +23,10 @@ body[darkTheme='true'] .my-primary-bg {
 body .my-teal-text,
 body[darkTheme='true'] .my-teal-text {
   color: var(--my-teal) !important;
+}
+body .my-red-text,
+body[darkTheme='true'] .my-red-text {
+  color: var(--my-red) !important;
 }
 body .my-primary-text {
   color: var(--my-black) !important;
