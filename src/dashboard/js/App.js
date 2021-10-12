@@ -1,7 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Grid, Segment, Header, Ref } from 'semantic-ui-react';
+import { Plus } from 'react-feather';
 import { useLocation, useHistory } from 'react-router';
 import { useMediaQuery } from 'react-responsive';
+import { DarkThemeContext } from '../..';
 
 import Navbar from './navbar';
 import Todos from './to-dos';
@@ -13,8 +15,14 @@ import EditModal from './editTask';
 import 'animate.css';
 import '../index.css';
 
+// Vars
+const openCreateNewTodoModal = (ref) => {
+  window._handleNewTodoModalTrigger_(ref);
+};
+
 const App = () => {
   // Hooks
+  const { isDarkTheme, tealColorString } = useContext(DarkThemeContext);
 
   // Use States
   const [subHash, setSubHash] = useState('');
@@ -41,9 +49,10 @@ const App = () => {
   }, [currentLocation, subHash, history]);
 
   const isMobileOnly = useMediaQuery({ query: '(max-width:768px)' });
-  // const isTabletandAbove = useMediaQuery({ query: "(min-width:768px)" });
+  const isTabletandAbove = useMediaQuery({ query: '(min-width:768px)' });
   const mobileNavRef = useRef(null);
   const todosSegmentRef = useRef(null);
+  const triggerCreateNewTodoModalRef = useRef(null);
 
   // useEffect and function for adjusting margin bottom if it's mobile only
   const adjustMarginBottom = () => {
@@ -79,7 +88,7 @@ const App = () => {
           >
             <Header
               size='large'
-              className='pt-4 my-0 text-teal'
+              className='pt-4 my-0 my-teal-text'
               textAlign='center'
             >
               My Dashboard
@@ -95,12 +104,8 @@ const App = () => {
                 <Segment
                   raised
                   padded
+                  inverted={isDarkTheme}
                   className='animate__animated animate__fadeIn animate__fast px-2 px-md-3'
-                  style={{
-                    backgroundColor: 'whitesmoke',
-                    border: '2px solid #006976',
-                    boxShadow: '0 0 7px .1px gray',
-                  }}
                 >
                   {/* Todos Part */}
                   <Todos />
@@ -109,10 +114,23 @@ const App = () => {
               </Ref>
             </Grid.Column>
           </Grid>
+
+          {isTabletandAbove && (
+            <button
+              ref={triggerCreateNewTodoModalRef}
+              className='desktop-link py-2 mx-auto my-primary-bg mt-4'
+              id='create-button-desktop'
+              onClick={() =>
+                openCreateNewTodoModal(triggerCreateNewTodoModalRef)
+              }
+            >
+              <Plus size={40} color={`${tealColorString}`} />
+            </button>
+          )}
         </>
       )}
 
-      <Profile subHash={subHash}></Profile>
+      <Profile subHash={subHash} />
 
       <CreateNewTodoModal />
       <EditModal />

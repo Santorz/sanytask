@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap');
 .open-sans-font {
-  font-family: "Open Sans", sans-serif !important;
+  font-family: 'Open Sans', sans-serif !important;
 }
 .mobile-nav-segment {
   width: 100vw !important;
@@ -11,12 +11,11 @@
   z-index: 99 !important;
   border: none !important;
   border-radius: 0 !important;
-  border-top: 2px solid #006976 !important;
-  border-left: 1.5px solid #006976 !important;
-  border-right: 1.5px solid #006976 !important;
+  border-top: 2px solid var(--my-teal) !important;
+  border-left: 1.5px solid var(--my-teal) !important;
+  border-right: 1.5px solid var(--my-teal) !important;
   border-top-left-radius: 1.5rem !important;
   border-top-right-radius: 1.5rem !important;
-  background-color: whitesmoke !important;
 }
 .mobile-ul {
   display: flex !important;
@@ -44,20 +43,18 @@
   padding: 0.65rem;
 }
 #create-button-mobile {
-  background-color: #006976 !important;
   border-radius: 50% !important;
   padding: 0.65rem !important;
-  border: none !important;
+  border: 2px solid var(--my-teal) !important;
   box-shadow: 0 0 2px 0.1px rgb(50, 50, 50);
   cursor: pointer;
 }
 .mobile-link h5 {
-  color: #006976;
+  color: var(--my-teal);
 }
 
 /* Desktop */
 .desktop-nav-segment {
-  background-color: whitesmoke !important;
   display: flex !important;
   justify-content: space-between !important;
   margin-bottom: 1rem !important;
@@ -65,7 +62,7 @@
   align-items: center !important;
 }
 .desktop-nav-segment h2 {
-  color: #006976 !important;
+  color: var(--my-teal) !important;
 }
 .desktop-ul {
   display: flex !important;
@@ -81,10 +78,9 @@
   padding: 0 1.5rem !important;
 }
 #create-button-desktop {
-  background-color: #006976 !important;
   border-radius: 3rem !important;
   padding: 0.5rem 2.2rem !important;
-  border: none !important;
+  border: 2px solid var(--my-teal) !important;
   cursor: pointer;
   box-shadow: 0 0 2px 0.1px rgb(50, 50, 50);
 }
@@ -94,7 +90,7 @@
   text-align: center !important;
   justify-content: center;
   align-items: center;
-  color: #006976 !important;
+  color: var(--my-teal) !important;
   padding: 0 !important;
   background-color: transparent !important;
 }

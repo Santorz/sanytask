@@ -4,7 +4,11 @@ import { Container } from 'semantic-ui-react';
 
 const Dashboard = () => {
   return (
-    <Container fluid className='force-margin-0' id='dashboard-container'>
+    <Container
+      fluid
+      className='force-margin-0 my-primary-bg min-vh-100'
+      id='dashboard-container'
+    >
       <App />
     </Container>
   );
