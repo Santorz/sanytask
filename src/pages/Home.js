@@ -63,7 +63,6 @@ const Home = () => {
           src={landingPageTextBg}
           className={`animate__animated animate__slideInDown animate__slow`}
           id='landing-page-text-bg'
-          // style={{ boxShadow: "0 0 3px 3px black" }}
         />
         <div
           className='position-absolute d-flex flex-column'
@@ -88,7 +87,7 @@ const Home = () => {
                 <br className='d-none d-lg-block' /> Get your task planning done
                 with just a few clicks.
               </h3>
-              <div className='d-flex pt-2 pt-md-1 pt-lg-5'>
+              <div className='d-flex pt-2 pt-md-1 pt-lg-2 pt-xl-5'>
                 {!isUserLoggedIn && (
                   <>
                     <Link
@@ -117,14 +116,16 @@ const Home = () => {
             </section>
             {isTabletandAbove && (
               <section className='px-5 text-center'>
-                <Image src={phoneMockupImg} width='100%' height='500' />
+                <Image src={phoneMockupImg} width='300' height='500' />
               </section>
             )}
           </div>
         </div>
       </Container>
 
-      <Container>{isUserLoggedIn && <h1>Veracity</h1>}</Container>
+      <Container className='force-margin-0'>
+        {isUserLoggedIn && <h1 className='px-3'>Veracity</h1>}
+      </Container>
     </>
   );
 };

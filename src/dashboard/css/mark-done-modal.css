@@ -1,33 +1,39 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap');
 .open-sans-font {
-  font-family: "Open Sans", sans-serif !important;
+  font-family: 'Open Sans', sans-serif !important;
 }
 #mark-done-modal {
   user-select: none !important;
-  background: white !important;
 }
 #mark-done-modal .actions {
   padding: 0.5rem 1rem !important;
+  background-color: var(--my-white) !important;
+}
+body[darkTheme='true'] #mark-done-modal .actions {
+  background-color: var(--my-black) !important;
+  border-top: 1px solid gray !important;
 }
 #mark-done-modal .actions button:first-of-type {
   background-color: rgb(27, 27, 27);
   color: white !important;
 }
+body[darkTheme='true'] #mark-done-modal .actions button:first-of-type {
+  color: rgb(27, 27, 27) !important;
+  background-color: whitesmoke !important;
+}
 #mark-done-modal .actions button:first-of-type:focus,
 #mark-done-modal .actions button:first-of-type:hover {
   background-color: rgb(0, 0, 0);
 }
+body[darkTheme='true'] #mark-done-modal .actions button:nth-of-type(2) {
+  background-color: var(--my-teal) !important;
+  color: black !important;
+}
 #mark-done-modal .actions button:nth-of-type(2) {
-  background-color: #006976;
+  background-color: var(--my-teal) !important;
   color: white !important;
 }
 #mark-done-modal .actions button:nth-of-type(2):focus,
 #mark-done-modal .actions button:nth-of-type(2):hover {
-  background-color: #004c55;
-}
-.red-text {
-  color: rgb(190, 0, 0) !important;
-}
-.teal-text {
-  color: #006976 !important;
+  background-color: var(--my-teal);
 }

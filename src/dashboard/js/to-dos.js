@@ -314,11 +314,12 @@ const Todos = () => {
       {/* This would be displayed if there are no tasks left */}
       {!tasksLoading && usersTasks && usersTasks.length < 1 && (
         <Segment
+          inverted={isDarkTheme}
           padded
           placeholder
           style={{
             userSelect: 'none',
-            backgroundColor: 'transparent !important',
+            border: 'none',
           }}
         >
           <Header icon>
@@ -327,8 +328,7 @@ const Todos = () => {
           </Header>
           <Ref innerRef={triggerCreateNewTodoModalRef}>
             <Button
-              basic
-              color='black'
+              inverted={isDarkTheme}
               type='button'
               onClick={() =>
                 openCreateNewTodoModal(triggerCreateNewTodoModalRef)
@@ -344,6 +344,15 @@ const Todos = () => {
         {tasksLoading && !usersTasks && (
           <>
             <h3 className='mb-3'>Loading tasks</h3>
+            <Placeholder
+              inverted={isDarkTheme}
+              fluid
+              className='my-2 rounded bordered-placeholder-loader'
+            >
+              <Placeholder.Header />
+              <Placeholder.Line length='full'></Placeholder.Line>
+              <Placeholder.Line length='full'></Placeholder.Line>
+            </Placeholder>
             <Placeholder
               inverted={isDarkTheme}
               fluid
@@ -428,7 +437,7 @@ const Todos = () => {
                   <span
                     className='mb-0'
                     style={{
-                      color: '#006976',
+                      color: `${tealColorString}`,
                       fontSize: '1.15rem',
                       fontWeight: 'bold',
                     }}
@@ -460,9 +469,10 @@ const Todos = () => {
                     labelPosition='left'
                     id={`markDoneBtn-${task.id}`}
                     onClick={showMarkDoneModal}
-                  ></Button>
+                  />
                   <Ref innerRef={triggerEditModalRef}>
                     <Button
+                      inverted={isDarkTheme}
                       style={{ margin: '0 3px' }}
                       className='my-1 my-lg-0 todo-action-btn todo-edit-btn'
                       icon='pencil'
@@ -474,15 +484,13 @@ const Todos = () => {
                       onClick={() => {
                         openEditTaskModal(triggerEditModalRef);
                       }}
-                    ></Button>
+                    />
                   </Ref>
                   <Button
                     style={{ margin: '0 3px' }}
                     className='my-1 my-lg-0 todo-action-btn todo-delete-btn'
                     content='Delete'
                     labelPosition='left'
-                    basic
-                    color='red'
                     icon='trash'
                     id={`deleteBtn-${task.id}`}
                     onClick={showdeleteTodoModal}
@@ -499,17 +507,17 @@ const Todos = () => {
         onCancel={handleDeleteModalCancel}
         onConfirm={handleDeleteModalConfirm}
       >
-        <div className='px-3 pt-3 pb-2 d-flex flex-column'>
-          <h3 className='open-sans-font red-text mb-0'>
-            Are you sure you want to delete this task ?
+        <div className='px-3 pt-3 pb-2 d-flex flex-column my-primary-bg'>
+          <h3 className='open-sans-font my-red-text mb-0'>
+            Sure you want to delete this task ?
           </h3>
-          <h5 className='my-0 py-1 red-text'>
+          <h5 className='my-0 py-1 my-red-text'>
             Note: You can't undo this action.
           </h5>
-          <h5 className='my-0 pt-3'>
+          <h5 className='my-0 pt-3 my-primary-text'>
             A record of this to-do can be found in your{' '}
-            <span style={{ borderBottom: '1.5px solid #006976' }}>
-              <a href='./' className='teal-text'>
+            <span style={{ borderBottom: `1.5px solid ${tealColorString}` }}>
+              <a href='./' className='my-teal-text'>
                 Archive.
               </a>
             </span>
@@ -525,13 +533,13 @@ const Todos = () => {
         onConfirm={handleMarkDoneModalConfirm}
       >
         <div className='px-3 pt-3 pb-2 d-flex flex-column'>
-          <h3 className='open-sans-font teal-text mb-0'>
-            Sure you want to mark this to-do as done ?
+          <h3 className='open-sans-font my-teal-text mb-0'>
+            Sure you want to mark this task as done ?
           </h3>
-          <h5 className='my-0 pt-3'>
-            A record of this to-do can be found in your{' '}
-            <span style={{ borderBottom: '1.5px solid #006976' }}>
-              <a href='./' className='teal-text'>
+          <h5 className='my-0 pt-3 my-primary-text'>
+            A record of this task can be found in your{' '}
+            <span style={{ borderBottom: `1.5px solid ${tealColorString}` }}>
+              <a href='./' className='my-teal-text'>
                 Archive.
               </a>
             </span>

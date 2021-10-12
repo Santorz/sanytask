@@ -1,33 +1,37 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap');
 .open-sans-font {
-  font-family: "Open Sans", sans-serif !important;
+  font-family: 'Open Sans', sans-serif !important;
 }
 #delete-modal {
   user-select: none !important;
-  background: white !important;
 }
 #delete-modal .actions {
   padding: 0.5rem 1rem !important;
+  background-color: var(--my-white) !important;
+}
+body[darkTheme='true'] #delete-modal .actions {
+  background-color: var(--my-black) !important;
+  border-top: 1px solid gray !important;
 }
 #delete-modal .actions button:first-of-type {
-  background-color: #006976;
-  color: white !important;
+  background-color: var(--my-teal) !important;
+  color: whitesmoke !important;
+}
+body[darkTheme='true'] #delete-modal .actions button:first-of-type {
+  color: black !important;
 }
 #delete-modal .actions button:first-of-type:focus,
 #delete-modal .actions button:first-of-type:hover {
   background-color: #004c55;
 }
 #delete-modal .actions button:nth-of-type(2) {
-  background-color: rgb(190, 0, 0);
+  background-color: var(--my-red) !important;
   color: white !important;
+}
+body[darkTheme='true'] #delete-modal .actions button:nth-of-type(2) {
+  color: black !important;
 }
 #delete-modal .actions button:nth-of-type(2):focus,
 #delete-modal .actions button:nth-of-type(2):hover {
   background-color: rgb(150, 0, 0);
-}
-.red-text {
-  color: rgb(190, 0, 0) !important;
-}
-.teal-text {
-  color: #006976 !important;
 }

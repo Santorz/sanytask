@@ -1,14 +1,18 @@
-import React from "react";
-import { Segment, Header } from "semantic-ui-react";
-import Chevron from "./Chevron";
+import React, { useContext } from 'react';
+import { Segment, Header } from 'semantic-ui-react';
+import Chevron from './Chevron';
+import { DarkThemeContext } from '../../..';
 
 // CSS
-import "../../css/todo-accordion.css";
+import '../../css/todo-accordion.css';
 
 const Todo_Accordion = (props) => {
   // const [setActive, setActiveState] = useState("");
   // const [setHeight, setHeightState] = useState("0px");
   // const [setRotate, setRotateState] = useState("accordion__icon");
+
+  // Hooks
+  const { isDarkTheme, tealColorString } = useContext(DarkThemeContext);
 
   // Toggle accordion functionality
   const toggleAccordion = (e) => {
@@ -21,25 +25,25 @@ const Todo_Accordion = (props) => {
     );
 
     for (let i of allOtherAccordions) {
-      if (i.classList.contains("active")) {
-        i.classList.remove("active");
-        i.nextElementSibling.style.maxHeight = "0px";
-        i.querySelector(".accordion__icon").classList.remove("rotate");
+      if (i.classList.contains('active')) {
+        i.classList.remove('active');
+        i.nextElementSibling.style.maxHeight = '0px';
+        i.querySelector('.accordion__icon').classList.remove('rotate');
       }
     }
 
-    if (!accordionInFocus.classList.contains("active")) {
-      accordionInFocus.classList.add("active");
-      accordionInFocus.nextElementSibling.style.maxHeight = "200px";
+    if (!accordionInFocus.classList.contains('active')) {
+      accordionInFocus.classList.add('active');
+      accordionInFocus.nextElementSibling.style.maxHeight = '200px';
       accordionInFocus
-        .querySelector(".accordion__icon")
-        .classList.add("rotate");
+        .querySelector('.accordion__icon')
+        .classList.add('rotate');
     } else {
-      accordionInFocus.classList.remove("active");
-      accordionInFocus.nextElementSibling.style.maxHeight = "0px";
+      accordionInFocus.classList.remove('active');
+      accordionInFocus.nextElementSibling.style.maxHeight = '0px';
       accordionInFocus
-        .querySelector(".accordion__icon")
-        .classList.remove("rotate");
+        .querySelector('.accordion__icon')
+        .classList.remove('rotate');
     }
     // setActiveState(setActive === "" ? "active" : "");
     // setHeightState(setActive === "active" ? "0px" : `${220}px`);
@@ -51,30 +55,38 @@ const Todo_Accordion = (props) => {
   const { snumber, id, title, children, className } = props;
 
   return (
-    <Segment raised className="accordion__section each-todo p-0" id={id}>
+    <Segment
+      inverted={isDarkTheme}
+      raised
+      className='accordion__section each-todo p-0'
+      id={id}
+    >
       <button
-        type="button"
-        className={`accordion px-2  `}
+        type='button'
+        className={`accordion px-2 my-primary-bg `}
         // *${setActive}
         onClick={toggleAccordion}
-        style={{ borderRadius: ".29rem" }}
+        style={{ borderRadius: '.29rem' }}
       >
         <Header
           className={`me-2 me-md-2 me-xl-3 my-0 todo-snumber ${className}`}
         >
           {snumber}
         </Header>
-        <h4 className="accordion__title my-0">{title}</h4>
+        <h4 className='accordion__title my-0 my-primary-text'>{title}</h4>
         <Chevron
           className={`accordion__icon `}
           // ${setRotate}
           width={10}
-          fill={"#006976"}
+          fill={tealColorString}
         />
       </button>
 
-      <div className="accordion__content" style={{ maxHeight: "0px" }}>
-        <div className="px-3 py-2 accordion_content_container">{children}</div>
+      <div
+        className='accordion__content my-primary-bg'
+        style={{ maxHeight: '0px' }}
+      >
+        <div className='px-3 py-2 accordion_content_container'>{children}</div>
       </div>
     </Segment>
   );

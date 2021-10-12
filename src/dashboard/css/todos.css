@@ -11,6 +11,11 @@
   border: 1.95px solid var(--my-teal) !important;
   background-color: transparent !important;
 }
+.todo-delete-btn {
+  color: var(--my-red) !important;
+  border: 1.95px solid var(--my-red) !important;
+  background-color: transparent !important;
+}
 .bordered-placeholder-loader {
   border: 1px solid var(--my-teal) !important;
 }

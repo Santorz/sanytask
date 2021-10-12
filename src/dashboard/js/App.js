@@ -106,6 +106,7 @@ const App = () => {
                   padded
                   inverted={isDarkTheme}
                   className='animate__animated animate__fadeIn animate__fast px-2 px-md-3'
+                  style={{ minHeight: '350px' }}
                 >
                   {/* Todos Part */}
                   <Todos />
