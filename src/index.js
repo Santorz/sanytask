@@ -56,10 +56,8 @@ const MainBodyContainer = () => {
   // useEffects
   // Initialize Parse
   useEffect(() => {
-    if (!Parse.applicationId) {
-      Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
-      Parse.serverURL = PARSE_HOST_URL;
-    }
+    Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+    Parse.serverURL = PARSE_HOST_URL;
   }, []);
 
   // State values
@@ -75,7 +73,7 @@ const MainBodyContainer = () => {
       value={{
         isDarkTheme: darkThemeObject.value,
         darkThemeToggle: darkThemeObject.toggle,
-        tealColorString: darkThemeObject.value ? '#00e1ff' : '#006976',
+        tealColorString: darkThemeObject.value ? '#00d9ff' : '#006976',
       }}
     >
       {/* router setup */}

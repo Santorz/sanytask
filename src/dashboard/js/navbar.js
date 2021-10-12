@@ -45,6 +45,7 @@ const MobileNav = React.forwardRef((props, ref) => {
     <Container fluid className='px-0'>
       <Ref innerRef={ref}>
         <Segment
+          raised
           inverted={isDarkTheme}
           className='p-0 mobile-nav-segment'
           id='mobile-nav'
@@ -66,7 +67,7 @@ const MobileNav = React.forwardRef((props, ref) => {
               <button
                 ref={triggerCreateNewTodoModalRef}
                 id='create-button-mobile'
-                className='mobile-link my-primary-bg my-teal-text'
+                className='mobile-link my-primary-bg my-teal-text shadow'
                 onClick={() =>
                   openCreateNewTodoModal(triggerCreateNewTodoModalRef)
                 }

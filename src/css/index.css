@@ -8,10 +8,10 @@ body {
   --my-red: #cc0000;
 }
 :root body[darkTheme='true'] {
-  --my-teal: #00e1ff;
+  --my-teal: #00d9ff;
   --my-white: #efefef;
   --my-black: #101010;
-  --my-red: #ff4444;
+  --my-red: #ff7575;
 }
 
 body .my-primary-bg {

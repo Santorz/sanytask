@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import {
   Segment,
   Button,
@@ -26,6 +26,8 @@ import MarkDoneModal from './utils/Mark_Done_Modal';
 import CustomNotificationManager, {
   createNotification,
 } from './utils/Notification_Manager';
+import { DarkThemeContext } from '../..';
+
 import {
   PARSE_APPLICATION_ID,
   PARSE_JAVASCRIPT_KEY,
@@ -121,12 +123,16 @@ const getTaskWithID = (specificTaskID) => {
 
 // TODOS COMPONENT
 const Todos = () => {
+  // Hooks
+  const { isDarkTheme, tealColorString } = useContext(DarkThemeContext);
+
   // State for user fetching
   const [tasksLoading, setTasksLoading] = useState(true);
   const [usersTasks, setUsersTasks] = useState(null);
   const [isTasksFetchErr, setIsTasksFetchErr] = useState(false);
   const [fetchErrMsg, setFetchErrMsg] = useState('');
 
+  // useEffects
   // Initialize Parse
   React.useEffect(() => {
     Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
@@ -295,13 +301,13 @@ const Todos = () => {
         !isTasksFetchErr &&
         usersTasks &&
         usersTasks.length > 1 && (
-          <Header size='medium' color='black'>
+          <Header size='medium' inverted={isDarkTheme}>
             {usersTasks.length} Pending Tasks
           </Header>
         )}
       {/* This would be displayed if there is only one task left */}
       {!tasksLoading && usersTasks && usersTasks.length === 1 && (
-        <Header size='medium' color='black'>
+        <Header size='medium' inverted={isDarkTheme}>
           {usersTasks.length} Pending Task
         </Header>
       )}
@@ -316,7 +322,7 @@ const Todos = () => {
           }}
         >
           <Header icon>
-            <Icon name='check' style={{ color: '#006975' }} />
+            <Icon name='check' style={{ color: `${tealColorString}` }} />
             You're all done...
           </Header>
           <Ref innerRef={triggerCreateNewTodoModalRef}>
@@ -339,34 +345,38 @@ const Todos = () => {
           <>
             <h3 className='mb-3'>Loading tasks</h3>
             <Placeholder
+              inverted={isDarkTheme}
               fluid
               className='my-2 rounded bordered-placeholder-loader'
             >
-              <Placeholder.Header></Placeholder.Header>
+              <Placeholder.Header />
               <Placeholder.Line length='full'></Placeholder.Line>
               <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
             <Placeholder
+              inverted={isDarkTheme}
               fluid
               className='my-2 rounded bordered-placeholder-loader'
             >
-              <Placeholder.Header></Placeholder.Header>
+              <Placeholder.Header />
               <Placeholder.Line length='full'></Placeholder.Line>
               <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
             <Placeholder
+              inverted={isDarkTheme}
               fluid
               className='my-2 rounded bordered-placeholder-loader'
             >
-              <Placeholder.Header></Placeholder.Header>
+              <Placeholder.Header />
               <Placeholder.Line length='full'></Placeholder.Line>
               <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
             <Placeholder
+              inverted={isDarkTheme}
               fluid
               className='my-2 rounded bordered-placeholder-loader'
             >
-              <Placeholder.Header></Placeholder.Header>
+              <Placeholder.Header />
               <Placeholder.Line length='full'></Placeholder.Line>
               <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
@@ -382,14 +392,14 @@ const Todos = () => {
               height='150'
               onContextMenu={(e) => e.preventDefault()}
             />
-            <h3 className='my-2 red-text'>Something went wrong...</h3>
+            <h3 className='my-2 my-red-text'>Something went wrong...</h3>
             <h4 className='mt-2 mb-1'>
               There was a problem getting your tasks.
             </h4>
-            <h5 className='red-text mt-0'>{fetchErrMsg}</h5>
+            <h5 className='my-red-text mt-0'>{fetchErrMsg}</h5>
             <Button
+              inverted={isDarkTheme}
               type='button'
-              className='shadow'
               color='black'
               onClick={fetchTasksDynamic}
             >

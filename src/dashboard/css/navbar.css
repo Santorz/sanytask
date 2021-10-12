@@ -11,9 +11,6 @@
   z-index: 99 !important;
   border: none !important;
   border-radius: 0 !important;
-  border-top: 2px solid var(--my-teal) !important;
-  border-left: 1.5px solid var(--my-teal) !important;
-  border-right: 1.5px solid var(--my-teal) !important;
   border-top-left-radius: 1.5rem !important;
   border-top-right-radius: 1.5rem !important;
 }

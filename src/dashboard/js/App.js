@@ -115,6 +115,7 @@ const App = () => {
             </Grid.Column>
           </Grid>
 
+          {/* Create button for tablet and above */}
           {isTabletandAbove && (
             <button
               ref={triggerCreateNewTodoModalRef}
@@ -124,7 +125,7 @@ const App = () => {
                 openCreateNewTodoModal(triggerCreateNewTodoModalRef)
               }
             >
-              <Plus size={40} color={`${tealColorString}`} />
+              <Plus size={42} color={`${tealColorString}`} strokeWidth={2.5} />
             </button>
           )}
         </>
