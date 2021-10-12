@@ -73,7 +73,7 @@ const MainBodyContainer = () => {
       value={{
         isDarkTheme: darkThemeObject.value,
         darkThemeToggle: darkThemeObject.toggle,
-        tealColorString: darkThemeObject.value ? '#00d9ff' : '#006976',
+        tealColorString: darkThemeObject.value ? '#00d4ff' : '#00637f',
       }}
     >
       {/* router setup */}

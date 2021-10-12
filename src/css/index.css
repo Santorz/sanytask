@@ -2,13 +2,13 @@ body {
   min-width: 250px !important;
 }
 :root body {
-  --my-teal: #006976;
+  --my-teal: #00637f;
   --my-white: #f4f4f4;
   --my-black: #000000;
   --my-red: #cc0000;
 }
 :root body[darkTheme='true'] {
-  --my-teal: #00d9ff;
+  --my-teal: #00d4ff;
   --my-white: #efefef;
   --my-black: #101010;
   --my-red: #ff6b6b;

@@ -344,47 +344,27 @@ const Todos = () => {
         {tasksLoading && !usersTasks && (
           <>
             <h3 className='mb-3'>Loading tasks</h3>
-            <Placeholder
-              inverted={isDarkTheme}
-              fluid
-              className='my-2 rounded bordered-placeholder-loader'
-            >
+            <Placeholder inverted={isDarkTheme} fluid className='my-2 rounded '>
               <Placeholder.Header />
               <Placeholder.Line length='full'></Placeholder.Line>
               <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
-            <Placeholder
-              inverted={isDarkTheme}
-              fluid
-              className='my-2 rounded bordered-placeholder-loader'
-            >
+            <Placeholder inverted={isDarkTheme} fluid className='my-2 rounded '>
               <Placeholder.Header />
               <Placeholder.Line length='full'></Placeholder.Line>
               <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
-            <Placeholder
-              inverted={isDarkTheme}
-              fluid
-              className='my-2 rounded bordered-placeholder-loader'
-            >
+            <Placeholder inverted={isDarkTheme} fluid className='my-2 rounded '>
               <Placeholder.Header />
               <Placeholder.Line length='full'></Placeholder.Line>
               <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
-            <Placeholder
-              inverted={isDarkTheme}
-              fluid
-              className='my-2 rounded bordered-placeholder-loader'
-            >
+            <Placeholder inverted={isDarkTheme} fluid className='my-2 rounded '>
               <Placeholder.Header />
               <Placeholder.Line length='full'></Placeholder.Line>
               <Placeholder.Line length='full'></Placeholder.Line>
             </Placeholder>
-            <Placeholder
-              inverted={isDarkTheme}
-              fluid
-              className='my-2 rounded bordered-placeholder-loader'
-            >
+            <Placeholder inverted={isDarkTheme} fluid className='my-2 rounded '>
               <Placeholder.Header />
               <Placeholder.Line length='full'></Placeholder.Line>
               <Placeholder.Line length='full'></Placeholder.Line>

@@ -120,13 +120,14 @@ const App = () => {
           {isTabletandAbove && (
             <button
               ref={triggerCreateNewTodoModalRef}
-              className='desktop-link py-2 mx-auto my-primary-bg mt-4'
+              className='desktop-link py-2 mx-auto my-primary-bg mt-4 d-flex flex-row align-items-center'
               id='create-button-desktop'
               onClick={() =>
                 openCreateNewTodoModal(triggerCreateNewTodoModalRef)
               }
             >
-              <Plus size={42} color={`${tealColorString}`} strokeWidth={2.5} />
+              <Plus size={37} color={`${tealColorString}`} strokeWidth={2.5} />
+              <h3 className='my-0'>Create</h3>
             </button>
           )}
         </>
