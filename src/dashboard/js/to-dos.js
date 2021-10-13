@@ -135,8 +135,10 @@ const Todos = () => {
   // useEffects
   // Initialize Parse
   React.useEffect(() => {
-    Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
-    Parse.serverURL = PARSE_HOST_URL;
+    if (!Parse.applicationId) {
+      Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+      Parse.serverURL = PARSE_HOST_URL;
+    }
   }, []);
 
   // The main fetcher of tasks at page load

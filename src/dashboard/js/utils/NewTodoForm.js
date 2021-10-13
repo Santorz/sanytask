@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from 'react';
 import {
   Container,
   Header,
@@ -9,49 +9,51 @@ import {
   Dimmer,
   Loader,
   Icon,
-} from "semantic-ui-react";
+} from 'semantic-ui-react';
 // Parse SDK
-// Import Parse minified version
-import Parse from "parse/dist/parse.min.js";
-// import "date-fns";
-import DateFnsUtils from "@date-io/date-fns"; // choose your lib
-import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { ThemeProvider } from "@material-ui/styles";
-import CustMaterialTheme from "./custDateTimePickerTheme";
+import Parse from 'parse/dist/parse.min.js';
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { ThemeProvider } from '@material-ui/styles';
+import { DarkThemeContext } from '../../..';
+import CustMaterialTheme from './custDateTimePickerTheme';
 // import { data } from "../data";
-import { PlusSquare } from "react-feather";
+import { PlusSquare } from 'react-feather';
 
 // CSS
-import "../../css/new-todo-form.css";
+import '../../css/new-todo-form.css';
 
 // FUNCTIONS
 const submitTask = async (taskObj) => {
   const { createdAt, dueDate, details, title } = taskObj;
-  let tasktoSubmit = new Parse.Object("Task");
+  let tasktoSubmit = new Parse.Object('Task');
 
-  tasktoSubmit.set("title", title);
-  tasktoSubmit.set("createdAt", createdAt);
-  tasktoSubmit.set("dueDate", dueDate);
-  tasktoSubmit.set("details", details);
-  tasktoSubmit.set("user", Parse.User.current());
+  tasktoSubmit.set('title', title);
+  tasktoSubmit.set('createdAt', createdAt);
+  tasktoSubmit.set('dueDate', dueDate);
+  tasktoSubmit.set('details', details);
+  tasktoSubmit.set('user', Parse.User.current());
 
   console.log(tasktoSubmit);
 
   try {
     await tasktoSubmit.save();
     return {
-      status: "success",
-      message: "Submission successful",
+      status: 'success',
+      message: 'Submission successful',
     };
   } catch (err) {
     return {
-      status: "failure",
+      status: 'failure',
       message: err,
     };
   }
 };
 
 const NewTodoForm = () => {
+  // Hooks
+  const { isDarkTheme, tealColorString } = useContext(DarkThemeContext);
+
   // Variables relating to date
   const [dueDateVal, setDueDateVal] = useState(null);
 
@@ -60,10 +62,10 @@ const NewTodoForm = () => {
 
   // Variables relating to to-do
   const originalTodoObjFormat = {
-    createdAt: "",
-    dueDate: "",
-    details: "",
-    title: "",
+    createdAt: '',
+    dueDate: '',
+    details: '',
+    title: '',
   };
   const [newTodoObj, setNewTodoObj] = useState(originalTodoObjFormat);
   const [submissionStarted, setSubmissionStarted] = useState(false);
@@ -93,18 +95,16 @@ const NewTodoForm = () => {
     } else {
       // Set due date
       newTodoObj.dueDate = dueDateVal;
-      console.log(newTodoObj);
       // Show loader
       setSubmissionStarted(true);
 
       // Update DB
       const taskSubmissionStatus = await submitTask(newTodoObj);
-      console.log(taskSubmissionStatus);
-      if (taskSubmissionStatus.status === "failure") {
+      if (taskSubmissionStatus.status === 'failure') {
         setSubmissionFailure(true);
         let errMsg = taskSubmissionStatus.message;
-        setSubmissionErrorName(errMsg);
-      } else if (taskSubmissionStatus.status === "success") {
+        setSubmissionErrorName(errMsg.message);
+      } else if (taskSubmissionStatus.status === 'success') {
         setSubmissionFailure(false);
         setSubmissionSuccess(true);
       }
@@ -126,37 +126,37 @@ const NewTodoForm = () => {
   };
 
   return (
-    <Container fluid className="px-0 px-sm-2 mx-0 mt-3 mt-md-4">
+    <Container fluid className='px-0 px-sm-2 mx-0 mt-3 mt-md-4'>
       <Header
-        as="h2"
-        className="d-flex mx-auto align-items-center justify-content-center"
-        textAlign="center"
-        style={{ color: "white", userSelect: "none" }}
+        as='h2'
+        className='d-flex mx-auto align-items-center justify-content-center text-light'
+        textAlign='center'
+        style={{ userSelect: 'none' }}
       >
         Create new task &nbsp;&nbsp;
-        <PlusSquare color="white" />
+        <PlusSquare />
       </Header>
 
-      <Grid stackable padded verticalAlign="top">
+      <Grid padded verticalAlign='top'>
         <Grid.Column
           mobile={16}
           tablet={8}
           computer={6}
           largeScreen={5}
           widescreen={4}
-          className="rounded mx-auto"
+          className='rounded mx-auto p-0 force-padding-0'
         >
           {/* Close confirmation Dimmer */}
           {showCloseConfirmationDimmer && (
-            <Dimmer active className="rounded">
+            <Dimmer active className='rounded custom-blurred-dimmer'>
               <h2>Are you sure you want to Close?</h2>
-              <h4 className="mt-2">N/B: All changes will be lost</h4>
-              <Button inverted type="button" onClick={goBackToDashboard}>
+              <h4 className='mt-2'>N/B: All changes will be lost</h4>
+              <Button inverted type='button' onClick={goBackToDashboard}>
                 Yes, proceed
               </Button>
               <Button
                 inverted
-                type="button"
+                type='button'
                 onClick={() => setShowCloseConfirmationDimmer(false)}
               >
                 No I dont
@@ -166,9 +166,9 @@ const NewTodoForm = () => {
 
           {/* Submission process dimmer */}
           {submissionStarted === true && (
-            <Dimmer active className="rounded custom-blurred-dimmer">
+            <Dimmer active className='rounded custom-blurred-dimmer'>
               {submissionStarted && !submissionSuccess && !submissionFailure && (
-                <Loader style={{ userSelect: "none", cursor: "progress" }}>
+                <Loader style={{ userSelect: 'none', cursor: 'progress' }}>
                   <h3>
                     Submitting task <br />
                     Please wait...
@@ -177,40 +177,40 @@ const NewTodoForm = () => {
               )}
               {submissionStarted && !submissionSuccess && submissionFailure && (
                 <>
-                  <Icon name="warning sign" size="huge"></Icon>
-                  <h3 className="mb-1">
+                  <Icon name='warning sign' size='huge'></Icon>
+                  <h3 className='mb-1'>
                     An error occured while submitting task
                   </h3>
-                  <h5 className="mt-0">
-                    Error details: {""}
-                    <span style={{ color: "#ffa4a4" }}>
+                  <h5 className='mt-0'>
+                    Error details: {''}
+                    <span style={{ color: '#ffa4a4' }}>
                       '{submissionErrorName}'
                     </span>
                   </h5>
                   <Button
-                    type="button"
+                    type='button'
                     inverted
                     onClick={() => {
                       setSubmissionFailure(false);
                       newTaskFormRef.current.dispatchEvent(
-                        new Event("submit", {
+                        new Event('submit', {
                           cancellable: true,
                           bubbles: true,
                         })
                       );
                     }}
                   >
-                    <Icon name="refresh"></Icon>
+                    <Icon name='refresh'></Icon>
                     Retry
                   </Button>
                   <Button
-                    type="button"
+                    type='button'
                     inverted
                     onClick={() => {
                       setSubmissionStarted(false);
                     }}
                   >
-                    <Icon name="close"></Icon>
+                    <Icon name='close'></Icon>
                     Cancel
                   </Button>
                 </>
@@ -218,25 +218,25 @@ const NewTodoForm = () => {
               {submissionStarted && submissionSuccess && !submissionFailure && (
                 <>
                   <svg
-                    className="checkmark"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 52 52"
+                    className='checkmark'
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 52 52'
                   >
                     <circle
-                      className="checkmark__circle"
-                      cx="26"
-                      cy="26"
-                      r="25"
-                      fill="none"
+                      className='checkmark__circle'
+                      cx='26'
+                      cy='26'
+                      r='25'
+                      fill='none'
                     />
                     <path
-                      className="checkmark__check"
-                      fill="none"
-                      d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                      className='checkmark__check'
+                      fill='none'
+                      d='M14.1 27.2l7.1 7.2 16.7-16.8'
                     />
                   </svg>
-                  <h3 className="mb-1">Task submitted successfully</h3>
-                  <h5 className="mt-0">
+                  <h3 className='mb-1'>Task submitted successfully</h3>
+                  <h5 className='mt-0'>
                     You can now view it in your dashboard
                   </h5>
                   <Button inverted onClick={goBackToDashboard}>
@@ -249,37 +249,45 @@ const NewTodoForm = () => {
 
           <Ref innerRef={newTaskFormRef}>
             <Form
-              id="newTodoForm"
-              className="px-2 py-3"
+              id='newTodoForm'
+              className='px-2 py-3 my-primary-bg'
               onSubmit={handleSubmit}
             >
               <Form.Field>
-                <label className="ps-2 todo-form-label" htmlFor="title">
+                <label
+                  className='ps-2 todo-form-label my-primary-text'
+                  htmlFor='title'
+                >
                   task heading:
                 </label>
                 <input
-                  type="text"
-                  name="title"
-                  id="taskHeading"
-                  placeholder="Enter a brief heading..."
+                  type='text'
+                  name='title'
+                  id='taskHeading'
+                  placeholder='Enter a brief heading...'
                   required={true}
                   minLength={10}
                   maxLength={35}
                   value={newTodoObj.title}
                   onChange={handleChange}
+                  className='my-primary-bg my-primary-text'
                 />
               </Form.Field>
 
               <Form.Field>
-                <label className="ps-2 todo-form-label" htmlFor="details">
+                <label
+                  className='ps-2 todo-form-label my-primary-text'
+                  htmlFor='details'
+                >
                   detailed description:
                 </label>
                 <textarea
-                  name="details"
-                  id="taskDetails"
-                  rows="5"
+                  className='my-primary-bg my-primary-text'
+                  name='details'
+                  id='taskDetails'
+                  rows='5'
                   required={true}
-                  placeholder="Enter to-do description..."
+                  placeholder='Enter to-do description...'
                   value={newTodoObj.details}
                   onChange={handleChange}
                 ></textarea>
@@ -287,11 +295,13 @@ const NewTodoForm = () => {
 
               {/* Due date Input Field */}
               <Form.Field>
-                <label className="ps-2 todo-form-label">due date:</label>
+                <label className='ps-2 todo-form-label my-primary-text'>
+                  due date:
+                </label>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <ThemeProvider theme={CustMaterialTheme}>
                     <DateTimePicker
-                      inputVariant="standard"
+                      inputVariant='standard'
                       value={dueDateVal}
                       onChange={(e) => {
                         setShowDueDateErr(false);
@@ -303,33 +313,44 @@ const NewTodoForm = () => {
                       disablePast={true}
                       className={`rounded ${
                         showDueDateErr &&
-                        "duedate-error-border animate__animated animate__shakeX animate__fast"
+                        'duedate-error-border animate__animated animate__shakeX animate__fast'
                       }`}
                     />
                   </ThemeProvider>
                 </MuiPickersUtilsProvider>
                 {showDueDateErr && (
-                  <h5 className="d-block my-0 duedate-error-text">
+                  <h5 className='d-block my-0 duedate-error-text'>
                     Please update time to at least two minutes from current time
                   </h5>
                 )}
               </Form.Field>
 
-              <div className="pb-2 px-1 d-flex justify-content-around">
+              <div className='pb-2 px-1 d-flex justify-content-around'>
                 <Button
-                  basic
-                  type="button"
-                  color="red"
+                  basic={!isDarkTheme && 'true'}
+                  type='button'
+                  inverted={isDarkTheme}
+                  color='red'
                   onClick={() => {
                     setShowCloseConfirmationDimmer(true);
                   }}
                 >
                   Close
                 </Button>
-                <Button basic color="blue" type="button">
+                <Button
+                  basic={!isDarkTheme && 'true'}
+                  type='button'
+                  inverted={isDarkTheme}
+                  color='blue'
+                >
                   Save as draft
                 </Button>
-                <Button basic color="green" type="submit">
+                <Button
+                  basic={!isDarkTheme && 'true'}
+                  inverted={isDarkTheme}
+                  color='green'
+                  type='submit'
+                >
                   Submit
                 </Button>
               </div>
