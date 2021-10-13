@@ -52,7 +52,7 @@ const submitTask = async (taskObj) => {
 
 const NewTodoForm = () => {
   // Hooks
-  const { isDarkTheme, tealColorString } = useContext(DarkThemeContext);
+  const { isDarkTheme } = useContext(DarkThemeContext);
 
   // Variables relating to date
   const [dueDateVal, setDueDateVal] = useState(null);
