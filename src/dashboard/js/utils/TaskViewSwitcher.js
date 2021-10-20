@@ -24,6 +24,7 @@ export const TaskViewSwitcher = () => {
         className={`task-view-switch-button ${
           taskViewString === 'listView' ? 'active' : ''
         }`}
+        type='button'
         icon='list layout'
         style={{
           color: `${!isDarkTheme && '#222'}`,
@@ -41,6 +42,7 @@ export const TaskViewSwitcher = () => {
         compact
         attached='right'
         as='button'
+        type='button'
         content='Calendar View'
         id='calendar-view-switch-button'
         labelPosition='right'

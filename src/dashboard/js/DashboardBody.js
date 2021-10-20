@@ -3,9 +3,12 @@ import { Grid, Segment, Header, Ref } from 'semantic-ui-react';
 import { Plus } from 'react-feather';
 import { useMediaQuery } from 'react-responsive';
 import { DarkThemeContext } from '../..';
+import { TaskViewContext } from './App';
 
+// Components
 import Navbar from './navbar';
-import Todos from './to-dos';
+import ListViewTasks from './Tasks_ListView';
+import CalendarViewTasks from './Tasks_CalendarView';
 import CreateNewTodoModal from './createNewTask';
 import EditModal from './editTask';
 import { TaskViewSwitcher } from './utils/TaskViewSwitcher';
@@ -18,6 +21,7 @@ const openCreateNewTodoModal = (ref) => {
 const DashboardBody = (props) => {
   // Hooks
   const { isDarkTheme, tealColorString } = useContext(DarkThemeContext);
+  const { taskViewString } = useContext(TaskViewContext);
   const isTabletandAbove = useMediaQuery({ query: '(min-width:768px)' });
 
   // Refs
@@ -63,12 +67,16 @@ const DashboardBody = (props) => {
                   raised
                   padded
                   inverted={isDarkTheme}
-                  className='animate__animated animate__fadeIn animate__fast px-2 px-md-3'
+                  className='animate__animated animate__fadeIn animate__fast px-2 px-md-3 d-flex flex-column justify-content-center'
                   style={{ minHeight: '350px' }}
                 >
-                  {/* Todos Part */}
-                  <Todos />
-                  {/* End of Todos Part */}
+                  {/* List view tasks */}
+                  <ListViewTasks taskViewString={taskViewString} />
+                  {/* */}
+
+                  {/* Calendar view tasks */}
+                  <CalendarViewTasks taskViewString={taskViewString} />
+                  {/*  */}
                 </Segment>
               </Ref>
             </Grid.Column>

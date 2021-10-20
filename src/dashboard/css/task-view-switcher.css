@@ -1,6 +1,11 @@
+body[darkTheme='true'] .task-view-switch-button {
+  background-color: #f0f0f0 !important;
+  color: black !important;
+}
+body[darkTheme='true'] .task-view-switch-button.active,
 .task-view-switch-button.active {
   background-color: #00637f !important;
-  color: white !important;
+  color: #f0f0f0 !important;
   transition: background-color 0.35s ease !important;
 }
 body[darkTheme='false'] .task-view-switch-button.active {
