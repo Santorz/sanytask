@@ -57,13 +57,12 @@ const Todo_Accordion = (props) => {
   return (
     <Segment
       inverted={isDarkTheme}
-      raised
       className='accordion__section each-todo p-0'
       id={id}
     >
       <button
         type='button'
-        className={`accordion px-2 my-primary-bg `}
+        className={`accordion my-primary-bg `}
         // *${setActive}
         onClick={toggleAccordion}
         style={{ borderRadius: '.29rem' }}
@@ -86,7 +85,7 @@ const Todo_Accordion = (props) => {
         className='accordion__content my-primary-bg'
         style={{ maxHeight: '0px' }}
       >
-        <div className='px-3 py-2 accordion_content_container'>{children}</div>
+        <div className='px-4 py-2 accordion_content_container'>{children}</div>
       </div>
     </Segment>
   );

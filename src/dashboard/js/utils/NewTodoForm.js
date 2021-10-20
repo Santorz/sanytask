@@ -15,7 +15,7 @@ import Parse from 'parse/dist/parse.min.js';
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
-import { DarkThemeContext } from '../../..';
+import { DarkThemeContext, CurrentDateContext } from '../../..';
 import CustMaterialTheme from './custDateTimePickerTheme';
 // import { data } from "../data";
 import { PlusSquare } from 'react-feather';
@@ -53,6 +53,7 @@ const submitTask = async (taskObj) => {
 const NewTodoForm = () => {
   // Hooks
   const { isDarkTheme } = useContext(DarkThemeContext);
+  const { currentDate } = useContext(CurrentDateContext);
 
   // Variables relating to date
   const [dueDateVal, setDueDateVal] = useState(null);
@@ -301,13 +302,14 @@ const NewTodoForm = () => {
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <ThemeProvider theme={CustMaterialTheme}>
                     <DateTimePicker
+                      placeholder='Select due date for task...'
                       inputVariant='standard'
                       value={dueDateVal}
                       onChange={(e) => {
                         setShowDueDateErr(false);
                         setDueDateVal(new Date(e));
                       }}
-                      minDate={new Date()}
+                      minDate={currentDate}
                       maxDate={new Date(new Date().getTime() + 135000 * 60000)}
                       animateYearScrolling={true}
                       disablePast={true}
@@ -327,7 +329,7 @@ const NewTodoForm = () => {
 
               <div className='pb-2 px-1 d-flex justify-content-around'>
                 <Button
-                  basic={!isDarkTheme && 'true'}
+                  basic={!isDarkTheme ? true : false}
                   type='button'
                   inverted={isDarkTheme}
                   color='red'
@@ -338,7 +340,7 @@ const NewTodoForm = () => {
                   Close
                 </Button>
                 <Button
-                  basic={!isDarkTheme && 'true'}
+                  basic={!isDarkTheme ? true : false}
                   type='button'
                   inverted={isDarkTheme}
                   color='blue'
@@ -346,7 +348,7 @@ const NewTodoForm = () => {
                   Save as draft
                 </Button>
                 <Button
-                  basic={!isDarkTheme && 'true'}
+                  basic={!isDarkTheme ? true : false}
                   inverted={isDarkTheme}
                   color='green'
                   type='submit'

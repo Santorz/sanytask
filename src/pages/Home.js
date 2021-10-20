@@ -75,19 +75,19 @@ const Home = () => {
             ref={appDetailsContainerRef}
             style={{ width: '100vw' }}
           >
-            <section className='position-relative px-3 pt-4 pt-sm-5 pt-md-4 pt-lg-4 px-md-4 px-lg-5 text-left align-self-start'>
+            <section className='position-relative px-3 pt-3 pt-sm-3 pt-md-3 pt-lg-4 px-md-4 px-lg-5 text-left align-self-start mt-2'>
               <Header
                 id='landing-page-app-caption'
                 className='open-sans-font mb-0'
               >
                 Organize your tasks with ease.
               </Header>
-              <h3 className='mt-1 mb-2 text-whitesmoke'>
+              <h3 className='my-2 my-sm-3 my-md-2 my-xl-4 text-whitesmoke'>
                 A seamless solution to activity management.
                 <br className='d-none d-lg-block' /> Get your task planning done
                 with just a few clicks.
               </h3>
-              <div className='d-flex pt-2 pt-md-1 pt-lg-2 pt-xl-5'>
+              <div className='d-flex pt-2 pt-md-1 pt-lg-2 pt-xl-3'>
                 {!isUserLoggedIn && (
                   <>
                     <Link

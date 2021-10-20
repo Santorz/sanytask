@@ -141,7 +141,8 @@ body[darkTheme='true'] .MuiInputBase-input.MuiInput-input {
 }
 .duedate-error-text {
   color: var(--my-red) !important;
+  font-weight: lighter;
 }
 .duedate-error-border {
-  border: 2px solid var(--my-red) !important;
+  border: 1px solid var(--my-red) !important;
 }

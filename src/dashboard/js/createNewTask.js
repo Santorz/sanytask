@@ -16,7 +16,7 @@ const CreateNewTodoModal = () => {
   }, [docTitle]);
 
   const { modalProps, open, close } = useModal({
-    background: isDarkTheme ? '#002029' : tealColorString,
+    background: isDarkTheme ? '#003043' : tealColorString,
     onOpen() {
       setDocTitle('Create new task | my-next-task');
     },

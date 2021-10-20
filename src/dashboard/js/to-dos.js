@@ -26,7 +26,8 @@ import MarkDoneModal from './utils/Mark_Done_Modal';
 import CustomNotificationManager, {
   createNotification,
 } from './utils/Notification_Manager';
-import { DarkThemeContext } from '../..';
+import { DarkThemeContext, CurrentDateContext } from '../..';
+import { TaskIDStringContext } from './App';
 
 import {
   PARSE_APPLICATION_ID,
@@ -47,10 +48,10 @@ const openCreateNewTodoModal = (ref) => {
 };
 
 // Shorthand date difference
-const getShorthandDistanceDiff = (dueDate) => {
+const getShorthandDistanceDiff = (dueDate, currentDate) => {
   let result;
   const date1 = new Date(dueDate);
-  const date2 = new Date();
+  const date2 = currentDate;
   const seconds = Math.abs(differenceInSeconds(date1, date2));
   const minutes = Math.abs(differenceInMinutes(date1, date2));
   const hours = Math.abs(differenceInHours(date1, date2));
@@ -79,8 +80,8 @@ const getShorthandDistanceDiff = (dueDate) => {
 };
 
 // Check if date is before or after
-const checkBeforeorAfter = (dueDate) => {
-  let presentDate = new Date();
+const checkBeforeorAfter = (dueDate, currentDate) => {
+  let presentDate = currentDate;
   let dueDateMain = new Date(dueDate);
   if (isBefore(presentDate, dueDateMain)) {
     return ' left';
@@ -90,8 +91,8 @@ const checkBeforeorAfter = (dueDate) => {
 };
 
 // Check if date is after and add red color
-const addRedColorOnLateTask = (dueDate) => {
-  let presentDate = new Date();
+const addRedColorOnLateTask = (dueDate, currentDate) => {
+  let presentDate = currentDate;
   let dueDateMain = new Date(dueDate);
   if (isAfter(presentDate, dueDateMain)) {
     return 'late-todo-snumber';
@@ -125,6 +126,8 @@ const getTaskWithID = (specificTaskID) => {
 const Todos = () => {
   // Hooks
   const { isDarkTheme, tealColorString } = useContext(DarkThemeContext);
+  const currrentDate = useContext(CurrentDateContext);
+  const { setTaskIDString } = useContext(TaskIDStringContext);
 
   // State for user fetching
   const [tasksLoading, setTasksLoading] = useState(true);
@@ -320,6 +323,7 @@ const Todos = () => {
           padded
           placeholder
           style={{
+            backgroundColor: `${!isDarkTheme && 'transparent'}`,
             userSelect: 'none',
             border: 'none',
           }}
@@ -406,14 +410,14 @@ const Todos = () => {
             return (
               <TodoAccordion
                 snumber={
-                  getShorthandDistanceDiff(dueDate) +
-                  checkBeforeorAfter(dueDate)
+                  getShorthandDistanceDiff(dueDate, currrentDate) +
+                  checkBeforeorAfter(dueDate, currrentDate)
                 }
                 key={id}
                 title={title}
                 content={details}
                 id={`todo-${id}`}
-                className={`${addRedColorOnLateTask(dueDate)}`}
+                className={`${addRedColorOnLateTask(dueDate, currrentDate)}`}
               >
                 <div className='d-flex align-items-center justify-content-between mb-0'>
                   <span
@@ -427,19 +431,25 @@ const Todos = () => {
                     Details :
                   </span>
                   <span
-                    className={`mb-0 ${addRedColorOnLateTask(dueDate)}`}
+                    className={`mb-0 ${addRedColorOnLateTask(
+                      dueDate,
+                      currrentDate
+                    )}`}
                     style={{
-                      fontSize: '1rem',
+                      fontSize: '.975rem',
                     }}
                   >
                     due{' '}
-                    {getRelativeDate(new Date(dueDate), new Date()).replace(
+                    {getRelativeDate(new Date(dueDate), currrentDate).replace(
                       'at',
                       'by'
                     )}
                   </span>
                 </div>
-                <h4 className='mt-1' style={{ textAlign: 'left' }}>
+                <h4
+                  className='mt-1'
+                  style={{ textAlign: 'left', fontWeight: 'normal' }}
+                >
                   {details}
                 </h4>
                 <div className='d-flex flex-wrap justify-content-end'>
@@ -463,8 +473,9 @@ const Todos = () => {
                       basic
                       color='black'
                       id={`editBtn-${task.id}`}
-                      onClick={() => {
+                      onClick={(e) => {
                         openEditTaskModal(triggerEditModalRef);
+                        setTaskIDString(e.target.id.split('-')[1]);
                       }}
                     />
                   </Ref>

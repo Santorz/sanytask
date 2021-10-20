@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Parse from 'parse/dist/parse.min.js';
 import { isLocalUserPresentFunc, getCurrentLocalUser } from './userVars';
+import { setIntervalAsync } from '../utils/customSchedulers';
+import { isEqual } from 'lodash';
 
 // Sign up Func
 export const registerNewUser = async function (
@@ -70,38 +72,41 @@ export const loginUserIn = async function (username, password) {
   }
 };
 
-export const invokeSignOut = () => {
+export const invokeSignOut = async () => {
   localStorage.removeItem('sessionExpDate');
   // window.history.pushState('', '', '/#');
-  Parse.User.logOut();
+  await Parse.User.logOut();
 };
 
 // Hook to return user logged in staus and user object
 export const useCheckUserStatus = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(isLocalUserPresentFunc());
   const [localUser, setLocalUser] = useState(getCurrentLocalUser());
-  const refreshStatus = () => {
-    setIsLoggedIn(isLocalUserPresentFunc());
-    setLocalUser(getCurrentLocalUser());
+
+  const refreshStatus = useCallback(async () => {
+    !(isLoggedIn && isLocalUserPresentFunc()) &&
+      setIsLoggedIn(isLocalUserPresentFunc());
+    !isEqual(localUser, getCurrentLocalUser()) &&
+      setLocalUser(getCurrentLocalUser());
     let sessionExpDate = localStorage.getItem('sessionExpDate');
     if (sessionExpDate && Date.now() > new Date(sessionExpDate)) {
-      invokeSignOut();
-    } else if (
+      await invokeSignOut();
+    } /*else if (
       !sessionExpDate &&
       getCurrentLocalUser() !== null &&
       getCurrentLocalUser() !== undefined
     ) {
-      invokeSignOut();
+      await invokeSignOut();
     } else if (
-      sessionExpDate &&
-      (getCurrentLocalUser() === null || getCurrentLocalUser() === undefined)
-    ) {
-      invokeSignOut();
-    }
-  };
+    sessionExpDate &&
+    (getCurrentLocalUser() === null || getCurrentLocalUser() === undefined)
+  ) {
+    invokeSignOut();
+  }*/
+  }, [isLoggedIn, localUser]);
   useEffect(() => {
-    let refreshInterval = setInterval(refreshStatus, 2000);
-    return () => clearInterval(refreshInterval);
-  });
+    setIntervalAsync(refreshStatus, 2000);
+  }, [refreshStatus]);
+
   return [isLoggedIn, localUser];
 };

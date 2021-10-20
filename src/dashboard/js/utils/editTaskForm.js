@@ -1,195 +1,231 @@
-import React, { useState } from "react";
-import {
-  Container,
-  Header,
-  Grid,
-  // Segment,
-  Button,
-  Form,
-} from "semantic-ui-react";
-// import "date-fns";
-import DateFnsUtils from "@date-io/date-fns"; // choose your lib
-import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { ThemeProvider } from "@material-ui/styles";
-import CustMaterialTheme from "./custDateTimePickerTheme";
-// import { data } from "../data";
-import { Edit } from "react-feather";
+import React, { useState, useEffect, useContext, useRef } from 'react';
+import { Container, Header, Grid, Button, Form, Ref } from 'semantic-ui-react';
+import DateFnsUtils from '@date-io/date-fns'; // choose your lib
+import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { ThemeProvider } from '@material-ui/styles';
+import CustMaterialTheme from './custDateTimePickerTheme';
+import { TaskIDStringContext } from '../App';
+import { Edit } from 'react-feather';
+
+// Parse SDK
+import Parse from 'parse/dist/parse.min.js';
 
 // CSS
-import "../../css/edit-task-form.css";
+import '../../css/edit-task-form.css';
 
 // FUNCTIONS
-const submitTask = (taskObj) => {
-  fetch("http://localhost:8080/todos", {
-    method: "POST", // or 'PUT'
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(taskObj),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Success:", data);
-      window._closeEditTaskModal_();
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+const submitTask = async (taskObj) => {
+  const { dueDate, details, title } = taskObj;
+  let tasktoSubmit = new Parse.Object('Task');
+
+  tasktoSubmit.set('title', title);
+  tasktoSubmit.set('dueDate', dueDate);
+  tasktoSubmit.set('details', details);
+
+  try {
+    await tasktoSubmit.save();
+    return {
+      status: 'success',
+      message: 'Submission successful',
+    };
+  } catch (err) {
+    return {
+      status: 'failure',
+      message: err,
+    };
+  }
 };
 
-const NewTodoForm = () => {
-  // Variables relating to date
-  const [dueDateVal, setDueDateVal] = useState(null);
+// Variables relating to to-do
+const deafultTaskObjFormat = {
+  createdAt: '',
+  dueDate: '',
+  details: '',
+  title: '',
+};
 
-  // Variables relating to to-do
-  const originalTodoObjFormat = {
-    dateCreated: "",
-    dueDate: "",
-    id: null,
-    taskDetails: "",
-    taskHeading: "",
-  };
-  const [newTodoObj, setNewTodoObj] = useState(originalTodoObjFormat);
-  // const [allTodos, setAllTodos] = useState(data);
+const EditTaskForm = () => {
+  // Hooks
+  const { taskIDString, setTaskIDString } = useContext(TaskIDStringContext);
+
+  // State values
+  const [dueDateVal, setDueDateVal] = useState(null);
+  const [existingTaskObj, setExistingTaskObj] = useState(deafultTaskObjFormat);
+  const [submissionStarted, setSubmissionStarted] = useState(false);
+  const [submissionFailure, setSubmissionFailure] = useState(false);
+  const [submissionErrorName, setSubmissionErrorName] = useState(null);
+  const [showCloseConfirmationDimmer, setShowCloseConfirmationDimmer] =
+    useState(false);
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
+  const [showDueDateErr, setShowDueDateErr] = useState(false);
+
+  // useEffects
+  useEffect(() => {
+    // Find object with id same as taskIDString in localStorage's tasks array
+  }, [taskIDString]);
+
+  // Refs
+  const editTaskFormRef = useRef(null);
 
   // Handler functions relating to submission action
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setNewTodoObj({
-      ...newTodoObj,
-      dateCreated: new Date().toUTCString(),
-      id: Number(new Date().getTime().toString()),
+    setExistingTaskObj({
+      ...existingTaskObj,
       [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Check if due date is equal or less than presnt dtae and time
+    // Check if due date is equal or less than presnt date and time
     if (new Date(dueDateVal) < new Date(new Date().getTime() + 2 * 60000)) {
-      alert(
-        "Update due date to at least two minutes from current date and time "
-      );
+      setShowDueDateErr(true);
     } else {
-      newTodoObj.dueDate = dueDateVal.toString();
-      console.log(newTodoObj);
+      // Set due date
+      existingTaskObj.dueDate = dueDateVal;
+      // Show loader
+      setSubmissionStarted(true);
 
       // Update DB
-      submitTask(newTodoObj);
-
-      // After everything, reset form
-      setDueDateVal(null);
-      setNewTodoObj(originalTodoObjFormat);
+      const taskSubmissionStatus = await submitTask(existingTaskObj);
+      if (taskSubmissionStatus.status === 'failure') {
+        setSubmissionFailure(true);
+        let errMsg = taskSubmissionStatus.message;
+        setSubmissionErrorName(errMsg.message);
+      } else if (taskSubmissionStatus.status === 'success') {
+        setSubmissionFailure(false);
+        setSubmissionSuccess(true);
+      }
     }
   };
 
+  // Clear form, close Modal and return to dashboard
+  // Make sure all useStates are reset to initial state here
+  const goBackToDashboard = () => {
+    setDueDateVal(null);
+    setExistingTaskObj(deafultTaskObjFormat);
+    setSubmissionStarted(false);
+    setSubmissionFailure(false);
+    setSubmissionErrorName(null);
+    setSubmissionSuccess(false);
+    setShowCloseConfirmationDimmer(false);
+    setShowDueDateErr(false);
+    setTaskIDString(null);
+    editTaskFormRef.current.reset();
+    window._closeEditTaskModal_();
+  };
+
   return (
-    <Container fluid className="px-0 px-sm-2 mx-0 mt-3 mt-md-4">
+    <Container fluid className='px-0 px-sm-2 mx-0 mt-3 mt-md-4'>
       <Header
-        as="h2"
-        className="d-flex mx-auto align-items-center justify-content-center"
-        textAlign="center"
-        style={{ color: "white", userSelect: "none" }}
+        as='h2'
+        className='d-flex mx-auto align-items-center justify-content-center'
+        textAlign='center'
+        style={{ color: 'white', userSelect: 'none' }}
       >
         Edit task &nbsp;&nbsp;
-        <Edit color="white" />
+        <Edit color='white' />
       </Header>
-      <Grid stackable padded verticalAlign="top">
+      <Grid stackable padded verticalAlign='top'>
         <Grid.Column
           mobile={16}
           tablet={8}
           computer={6}
           largeScreen={5}
           widescreen={4}
-          className=" pb-0 px-0 rounded mx-auto"
+          className=' pb-0 px-0 rounded mx-auto'
         >
-          <Form
-            id="editTaskForm"
-            className="px-2 py-3 mx-0"
-            onSubmit={handleSubmit}
-          >
-            <Form.Field>
-              <label className="ps-2 todo-form-label" htmlFor="taskHeadingEdit">
-                task heading:
-              </label>
-              <input
-                type="text"
-                name="taskHeadingEdit"
-                id="taskHeadingEdit"
-                placeholder="Enter a brief heading..."
-                required={true}
-                maxLength={35}
-                value={newTodoObj.taskHeading}
-                onChange={handleChange}
-              />
-            </Form.Field>
+          <Ref innerRef={editTaskFormRef}>
+            <Form
+              id='editTaskForm'
+              className='px-2 py-3 mx-0'
+              onSubmit={handleSubmit}
+            >
+              <Form.Field>
+                <label
+                  className='ps-2 todo-form-label'
+                  htmlFor='taskHeadingEdit'
+                >
+                  task heading:
+                </label>
+                <input
+                  type='text'
+                  name='taskHeadingEdit'
+                  id='taskHeadingEdit'
+                  placeholder='Enter a brief heading...'
+                  required={true}
+                  minLength={3}
+                  maxLength={35}
+                  value={existingTaskObj.taskHeading}
+                  onChange={handleChange}
+                />
+              </Form.Field>
 
-            <Form.Field>
-              <label className="ps-2 todo-form-label" htmlFor="taskDetails">
-                detailed description:
-              </label>
-              <textarea
-                name="taskDetails"
-                id="taskDetails"
-                rows="5"
-                required={true}
-                placeholder="Task description..."
-                value={newTodoObj.taskDetails}
-                onChange={handleChange}
-              ></textarea>
-            </Form.Field>
+              <Form.Field>
+                <label className='ps-2 todo-form-label' htmlFor='taskDetails'>
+                  detailed description:
+                </label>
+                <textarea
+                  name='taskDetails'
+                  id='taskDetails'
+                  rows='5'
+                  required={true}
+                  placeholder='Task description...'
+                  value={existingTaskObj.taskDetails}
+                  onChange={handleChange}
+                />
+              </Form.Field>
 
-            {/* Due date Input Field */}
-            <Form.Field>
-              <label className="ps-2 todo-form-label">due date:</label>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <ThemeProvider theme={CustMaterialTheme}>
-                  <DateTimePicker
-                    value={dueDateVal}
-                    onChange={(e) => {
-                      setDueDateVal(new Date(e).toUTCString());
-                    }}
-                    minDate={new Date()}
-                    maxDate={new Date(new Date().getTime() + 135000 * 60000)}
-                    animateYearScrolling={true}
-                    disablePast={true}
-                  />
-                </ThemeProvider>
-              </MuiPickersUtilsProvider>
-            </Form.Field>
+              {/* Due date Input Field */}
+              <Form.Field>
+                <label className='ps-2 todo-form-label'>due date:</label>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <ThemeProvider theme={CustMaterialTheme}>
+                    <DateTimePicker
+                      placeholder='Enter due date...'
+                      value={dueDateVal}
+                      onChange={(e) => {
+                        setDueDateVal(new Date(e).toUTCString());
+                      }}
+                      minDate={new Date()}
+                      maxDate={new Date(new Date().getTime() + 135000 * 60000)}
+                      animateYearScrolling={true}
+                      disablePast={true}
+                    />
+                  </ThemeProvider>
+                </MuiPickersUtilsProvider>
+              </Form.Field>
 
-            <div className="pb-2 px-1 d-flex justify-content-around">
-              <Button
-                basic
-                type="button"
-                color="red"
-                onClick={() => {
-                  let closeConfirmation = window.confirm(
-                    "Sure you want to cancel?"
-                  );
-                  if (closeConfirmation) {
-                    // Reset form
-                    setDueDateVal(null);
-                    setNewTodoObj(originalTodoObjFormat);
-                    window._closeEditTaskModal_();
-                  }
-                }}
-              >
-                Cancel
-              </Button>
-              <Button basic color="blue" type="button">
-                Save as draft
-              </Button>
-              <Button basic color="green" type="submit">
-                Submit
-              </Button>
-            </div>
-          </Form>
+              <div className='pb-2 px-1 d-flex justify-content-between'>
+                <Button
+                  basic
+                  type='button'
+                  color='red'
+                  onClick={() => {
+                    let closeConfirmation = window.confirm(
+                      'Sure you want to cancel?'
+                    );
+                    if (closeConfirmation) {
+                      // Reset form
+                      goBackToDashboard();
+                    }
+                  }}
+                >
+                  Cancel
+                </Button>
+
+                <Button basic color='green' type='submit'>
+                  Submit
+                </Button>
+              </div>
+            </Form>
+          </Ref>
         </Grid.Column>
       </Grid>
     </Container>
   );
 };
 
-export default NewTodoForm;
+export default EditTaskForm;

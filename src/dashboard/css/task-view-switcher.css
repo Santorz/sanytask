@@ -1,0 +1,14 @@
+.task-view-switch-button.active {
+  background-color: #00637f !important;
+  color: white !important;
+  transition: background-color 0.35s ease !important;
+}
+body[darkTheme='false'] .task-view-switch-button.active {
+  border: 2px solid #222 !important;
+}
+.ui.compact.labeled.button.task-view-switch-button#list-view-switch-button {
+  padding-left: 3.25rem !important;
+}
+.ui.compact.labeled.button.task-view-switch-button#calendar-view-switch-button {
+  padding-right: 3.25rem !important;
+}

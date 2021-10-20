@@ -5,9 +5,9 @@
   width: 6rem;
   border: 2px solid var(--my-teal) !important;
 }
-/* body[darkTheme='true'] #user-account-pic {
-  filter: grayscale(3px);
-} */
+body[darkTheme='true'] #user-account-pic {
+  filter: grayscale(0.45);
+}
 div.user-plan-status-div {
   user-select: none !important;
   display: flex;
@@ -84,7 +84,7 @@ button#profile-signout-btn {
 }
 
 /* Smartphones only */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   #user-account-pic {
     width: 5.75rem;
   }
