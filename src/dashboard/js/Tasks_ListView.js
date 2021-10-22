@@ -20,14 +20,15 @@ import {
   format,
 } from 'date-fns';
 import { differenceInDays, differenceInMonths } from 'date-fns/esm';
-import TodoAccordion from './utils/Todo_Accordion';
-import DeleteModal from './utils/Delete_Modal';
-import MarkDoneModal from './utils/Mark_Done_Modal';
+import TodoAccordion from './components/Todo_Accordion';
+import DeleteModal from './components/Delete_Modal';
+import MarkDoneModal from './components/Mark_Done_Modal';
 import CustomNotificationManager, {
   createNotification,
-} from './utils/Notification_Manager';
+} from './components/Notification_Manager';
 import { DarkThemeContext, CurrentDateContext } from '../..';
 import { TaskIDStringContext } from './App';
+import { decrypt } from '../../utils/crypto-js-utils';
 
 import {
   PARSE_APPLICATION_ID,
@@ -135,6 +136,11 @@ const Todos = ({ taskViewString }) => {
   const [isTasksFetchErr, setIsTasksFetchErr] = useState(false);
   const [fetchErrMsg, setFetchErrMsg] = useState('');
 
+  // Vars
+  const isLocalTasksPresesnt =
+    localStorage.getItem(`usersTasks`) !== undefined &&
+    localStorage.getItem(`usersTasks`) !== null;
+
   // useEffects
   // Initialize Parse
   React.useEffect(() => {
@@ -147,37 +153,43 @@ const Todos = ({ taskViewString }) => {
   // The main fetcher of tasks at page load
   React.useEffect(() => {
     let isMounted = true;
-    const parseQuery = new Parse.Query('Task');
-    parseQuery
-      .equalTo('user', Parse.User.current())
-      .find()
-      .then((data) => {
-        data.sort((a, b) => {
-          let da = new Date(a.attributes.dueDate);
-          let db = new Date(b.attributes.dueDate);
-          if (da > db) {
-            return 1;
-          } else {
-            return -1;
+    if (!isLocalTasksPresesnt) {
+      const parseQuery = new Parse.Query('Task');
+      parseQuery
+        .equalTo('user', Parse.User.current())
+        .find()
+        .then((data) => {
+          data.sort((a, b) => {
+            let da = new Date(a.attributes.dueDate);
+            let db = new Date(b.attributes.dueDate);
+            if (da > db) {
+              return 1;
+            } else {
+              return -1;
+            }
+          });
+          if (isMounted) {
+            localStorage.setItem('usersTasks', JSON.stringify(data));
+            setUsersTasks(JSON.parse(localStorage.getItem('usersTasks')));
+            setTasksLoading(false);
+          }
+        })
+        .catch((error) => {
+          if (isMounted) {
+            setFetchErrMsg(error.message);
+            setTasksLoading(false);
+            setIsTasksFetchErr(true);
           }
         });
-        if (isMounted) {
-          setUsersTasks(data);
-          setTasksLoading(false);
-        }
-      })
-      .catch((error) => {
-        if (isMounted) {
-          setFetchErrMsg(error.message);
-          setTasksLoading(false);
-          setIsTasksFetchErr(true);
-        }
-      });
-
+    } else {
+      const offlineTasks = JSON.parse(localStorage.getItem('usersTasks'));
+      setUsersTasks(offlineTasks);
+      setTasksLoading(false);
+    }
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [isLocalTasksPresesnt]);
 
   // The fetch function for fetching tasks dynamically
   const fetchTasksDynamic = () => {
@@ -197,7 +209,8 @@ const Todos = ({ taskViewString }) => {
             return -1;
           }
         });
-        setUsersTasks(data);
+        localStorage.setItem('usersTasks', JSON.stringify(data));
+        setUsersTasks(JSON.parse(localStorage.getItem('usersTasks')));
         setTasksLoading(false);
       })
       .catch((error) => {
@@ -239,8 +252,6 @@ const Todos = ({ taskViewString }) => {
     setdeleteModalState({ result: 'cancelled', open: false });
   };
   const deleteTodoMainAction = async (taskID) => {
-    console.log(taskID);
-
     let tasktoDel = new Parse.Object('Task');
     tasktoDel.set('objectId', taskID);
     try {
@@ -427,18 +438,18 @@ const Todos = ({ taskViewString }) => {
             )}
             {usersTasks &&
               usersTasks.map((task, index) => {
-                const { id, attributes } = task;
-                const { dueDate, title, details } = attributes;
+                let { objectId, dueDate, title, details } = task;
+                dueDate = new Date(dueDate);
                 return (
                   <TodoAccordion
                     snumber={
                       getShorthandDistanceDiff(dueDate, currrentDate) +
                       checkBeforeorAfter(dueDate, currrentDate)
                     }
-                    key={id}
-                    title={title}
-                    content={details}
-                    id={`todo-${id}`}
+                    key={objectId}
+                    title={decrypt(title)}
+                    content={decrypt(details)}
+                    id={`todo-${objectId}`}
                     className={`${addRedColorOnLateTask(
                       dueDate,
                       currrentDate
@@ -475,7 +486,7 @@ const Todos = ({ taskViewString }) => {
                       className='mt-1'
                       style={{ textAlign: 'left', fontWeight: 'normal' }}
                     >
-                      {details}
+                      {decrypt(details)}
                     </h4>
                     <div className='d-flex flex-wrap justify-content-end'>
                       <Button
@@ -484,7 +495,7 @@ const Todos = ({ taskViewString }) => {
                         icon='check'
                         content='Done'
                         labelPosition='left'
-                        id={`markDoneBtn-${task.id}`}
+                        id={`markDoneBtn-${task.objectId}`}
                         onClick={showMarkDoneModal}
                       />
                       <Ref innerRef={triggerEditModalRef}>
@@ -497,7 +508,7 @@ const Todos = ({ taskViewString }) => {
                           labelPosition='left'
                           basic
                           color='black'
-                          id={`editBtn-${task.id}`}
+                          id={`editBtn-${task.objectId}`}
                           onClick={(e) => {
                             openEditTaskModal(triggerEditModalRef);
                             setTaskIDString(e.target.id.split('-')[1]);
@@ -510,7 +521,7 @@ const Todos = ({ taskViewString }) => {
                         content='Delete'
                         labelPosition='left'
                         icon='trash'
-                        id={`deleteBtn-${task.id}`}
+                        id={`deleteBtn-${task.objectId}`}
                         onClick={showdeleteTodoModal}
                       ></Button>
                     </div>

@@ -10,7 +10,7 @@ const Tasks_CalendarView = ({ taskViewString }) => {
     <>
       {taskViewString === 'calendarView' && (
         <Header
-          className='my-0 d-flex flex-column align-items-center'
+          className='my-0 d-flex flex-column align-items-center justify-self-center mt-5 pt-5'
           size='medium'
         >
           <Calendar size={90} color={`${tealColorString}`} strokeWidth={0.75} />

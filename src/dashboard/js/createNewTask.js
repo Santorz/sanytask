@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useModal, Modal } from 'react-morphing-modal';
-import NewTodoForm from './utils/NewTodoForm';
+import NewTodoForm from './components/NewTodoForm';
 import { DarkThemeContext } from '../..';
 
 // CSS

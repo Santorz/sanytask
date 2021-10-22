@@ -17,7 +17,7 @@ import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 import { DarkThemeContext, CurrentDateContext } from '../../..';
 import CustMaterialTheme from './custDateTimePickerTheme';
-// import { data } from "../data";
+import { encrypt, decrypt } from '../../../utils/crypto-js-utils';
 import { PlusSquare } from 'react-feather';
 
 // CSS
@@ -27,15 +27,11 @@ import '../../css/new-todo-form.css';
 const submitTask = async (taskObj) => {
   const { createdAt, dueDate, details, title } = taskObj;
   let tasktoSubmit = new Parse.Object('Task');
-
   tasktoSubmit.set('title', title);
   tasktoSubmit.set('createdAt', createdAt);
   tasktoSubmit.set('dueDate', dueDate);
   tasktoSubmit.set('details', details);
   tasktoSubmit.set('user', Parse.User.current());
-
-  console.log(tasktoSubmit);
-
   try {
     await tasktoSubmit.save();
     return {
@@ -90,12 +86,17 @@ const NewTodoForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setNewTodoObj({
+      ...newTodoObj,
+      title: encrypt(newTodoObj.title),
+      details: encrypt(newTodoObj.details),
+    });
     // Check if due date is equal or less than presnt date and time
     if (new Date(dueDateVal) < new Date(new Date().getTime() + 2 * 60000)) {
       setShowDueDateErr(true);
     } else {
       // Set due date
-      newTodoObj.dueDate = dueDateVal;
+      newTodoObj.dueDate = dueDateVal.toUTCString();
       // Show loader
       setSubmissionStarted(true);
 
@@ -189,7 +190,7 @@ const NewTodoForm = () => {
                     </span>
                   </h5>
                   <Button
-                    type='button'
+                    type='submit'
                     inverted
                     onClick={() => {
                       setSubmissionFailure(false);

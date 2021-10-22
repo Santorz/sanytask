@@ -6,6 +6,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import CustMaterialTheme from './custDateTimePickerTheme';
 import { TaskIDStringContext } from '../App';
 import { Edit } from 'react-feather';
+import { encrypt, decrypt } from '../../../utils/crypto-js-utils';
 
 // Parse SDK
 import Parse from 'parse/dist/parse.min.js';
@@ -36,13 +37,14 @@ const submitTask = async (taskObj) => {
   }
 };
 
-// Variables relating to to-do
-const deafultTaskObjFormat = {
+// Variables relating to tasks
+const defaultTaskObjFormat = {
   createdAt: '',
   dueDate: '',
   details: '',
   title: '',
 };
+const offlineTasks = JSON.parse(localStorage.getItem('usersTasks'));
 
 const EditTaskForm = () => {
   // Hooks
@@ -50,7 +52,7 @@ const EditTaskForm = () => {
 
   // State values
   const [dueDateVal, setDueDateVal] = useState(null);
-  const [existingTaskObj, setExistingTaskObj] = useState(deafultTaskObjFormat);
+  const [existingTaskObj, setExistingTaskObj] = useState(defaultTaskObjFormat);
   const [submissionStarted, setSubmissionStarted] = useState(false);
   const [submissionFailure, setSubmissionFailure] = useState(false);
   const [submissionErrorName, setSubmissionErrorName] = useState(null);
@@ -62,6 +64,19 @@ const EditTaskForm = () => {
   // useEffects
   useEffect(() => {
     // Find object with id same as taskIDString in localStorage's tasks array
+    if (taskIDString) {
+      const specificTask = offlineTasks.find(
+        (task) => task.objectId === taskIDString
+      );
+      const { createdAt, dueDate, details, title } = specificTask;
+      console.log(specificTask);
+      setExistingTaskObj({
+        createdAt: decrypt(createdAt),
+        dueDate: decrypt(dueDate),
+        details: decrypt(details),
+        title: decrypt(title),
+      });
+    }
   }, [taskIDString]);
 
   // Refs
@@ -105,7 +120,7 @@ const EditTaskForm = () => {
   // Make sure all useStates are reset to initial state here
   const goBackToDashboard = () => {
     setDueDateVal(null);
-    setExistingTaskObj(deafultTaskObjFormat);
+    setExistingTaskObj(defaultTaskObjFormat);
     setSubmissionStarted(false);
     setSubmissionFailure(false);
     setSubmissionErrorName(null);
@@ -158,7 +173,7 @@ const EditTaskForm = () => {
                   required={true}
                   minLength={3}
                   maxLength={35}
-                  value={existingTaskObj.taskHeading}
+                  value={existingTaskObj.title}
                   onChange={handleChange}
                 />
               </Form.Field>
@@ -173,7 +188,7 @@ const EditTaskForm = () => {
                   rows='5'
                   required={true}
                   placeholder='Task description...'
-                  value={existingTaskObj.taskDetails}
+                  value={existingTaskObj.details}
                   onChange={handleChange}
                 />
               </Form.Field>
@@ -185,7 +200,7 @@ const EditTaskForm = () => {
                   <ThemeProvider theme={CustMaterialTheme}>
                     <DateTimePicker
                       placeholder='Enter due date...'
-                      value={dueDateVal}
+                      value={existingTaskObj.dueDate}
                       onChange={(e) => {
                         setDueDateVal(new Date(e).toUTCString());
                       }}

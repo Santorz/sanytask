@@ -10,6 +10,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.3.0",
     "animate.css": "^4.1.1",
+    "crypto-js": "^4.1.1",
     "date-fns": "^2.25.0",
     "immer": "^9.0.6",
     "joi": "^17.4.2",

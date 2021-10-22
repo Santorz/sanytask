@@ -256,7 +256,7 @@ const Profile = ({ subHash }) => {
                   className='d-flex flex-column animate__animated animate__slideInRight animate__faster my-primary-bg'
                 >
                   <div className='d-flex justify-content-between pt-4'>
-                    <h1 className='my-teal-text m-0'>
+                    <h1 className='my-primary-text m-0 mb-2'>
                       Settings &nbsp;
                       <Icon name='setting' size='small' />
                     </h1>
@@ -268,28 +268,18 @@ const Profile = ({ subHash }) => {
                     </Button>
                   </div>
 
+                  <h4 className='my-teal-text my-1 '>Appearance:</h4>
                   <Segment
-                    className='d-flex justify-content-between'
+                    className='d-flex justify-content-between mt-0'
                     inverted={isDarkTheme}
                   >
                     <h3 className='open-sans-font my-0 my-primary-text'>
-                      App Theme
+                      App theme : {isDarkTheme ? 'Dark' : 'Light'}
                     </h3>
                     <section className='d-flex align-items-center my-primary-text'>
-                      <h4 className='my-0 me-2'>Light</h4>
                       <DarkModeToggle />
-                      <h4 className='my-0 ms-2'>Dark</h4>
                     </section>
                   </Segment>
-                  <Button
-                    className='mx-auto'
-                    inverted={isDarkTheme}
-                    onClick={() => {
-                      darkThemeToggle();
-                    }}
-                  >
-                    {`Activate ${isDarkTheme ? 'light' : 'dark'} theme`}
-                  </Button>
                 </section>
               </Grid>
             )}

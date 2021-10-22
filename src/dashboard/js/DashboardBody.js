@@ -4,6 +4,7 @@ import { Plus } from 'react-feather';
 import { useMediaQuery } from 'react-responsive';
 import { DarkThemeContext } from '../..';
 import { TaskViewContext } from './App';
+// import { encrypt, decrypt } from '../../utils/crypto-js-utils';
 
 // Components
 import Navbar from './navbar';
@@ -11,7 +12,7 @@ import ListViewTasks from './Tasks_ListView';
 import CalendarViewTasks from './Tasks_CalendarView';
 import CreateNewTodoModal from './createNewTask';
 import EditModal from './editTask';
-import { TaskViewSwitcher } from './utils/TaskViewSwitcher';
+import { TaskViewSwitcher } from './components/TaskViewSwitcher';
 
 // Vars
 const openCreateNewTodoModal = (ref) => {
@@ -29,6 +30,11 @@ const DashboardBody = (props) => {
   const mobileNavRef = useRef(null);
   const todosSegmentRef = useRef(null);
 
+  // React.useEffect(() => {
+  //   console.log(encrypt('Saint'));
+  //   console.log(decrypt(encrypt('Saint')));
+  // }, []);
+
   const { subHash } = props;
   return (
     <>
@@ -38,7 +44,7 @@ const DashboardBody = (props) => {
           {/* Todos Container */}
           <Grid
             textAlign='center'
-            className='flex-column'
+            className='flex-column user-select-none'
             padded
             verticalAlign='middle'
             id='app-main-body'
@@ -46,17 +52,17 @@ const DashboardBody = (props) => {
             <Grid.Column
               mobile={16}
               tablet={10}
-              computer={7}
+              computer={9}
               largeScreen={6}
-              widescreen={5}
+              widescreen={6}
             >
               <Header
-                className='pt-3 my-0 my-teal-text d-flex justify-content-between align-items-center'
+                className='pt-3 my-0 my-primary-text d-flex justify-content-between align-items-center'
                 textAlign='center'
               >
                 <h3
                   className='my-0 open-sans-font'
-                  style={{ fontSize: '1.5rem' }}
+                  style={{ fontSize: '1.3rem' }}
                 >
                   Task Dashboard
                 </h3>
@@ -67,7 +73,7 @@ const DashboardBody = (props) => {
                   raised
                   padded
                   inverted={isDarkTheme}
-                  className='animate__animated animate__fadeIn animate__fast px-2 px-md-3 d-flex flex-column justify-content-center'
+                  className='animate__animated animate__fadeIn animate__fast px-2 px-md-3 d-flex flex-column'
                   style={{ minHeight: '350px' }}
                 >
                   {/* List view tasks */}

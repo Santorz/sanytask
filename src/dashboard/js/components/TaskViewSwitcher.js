@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Button } from 'semantic-ui-react';
 import { DarkThemeContext } from '../../..';
 import { TaskViewContext } from '../App';
+import { useMediaQuery } from 'react-responsive';
 
 // CSS
 import '../../css/task-view-switcher.css';
@@ -10,6 +11,7 @@ export const TaskViewSwitcher = () => {
   // Hooks
   const { isDarkTheme } = useContext(DarkThemeContext);
   const { taskViewString, setTaskViewString } = useContext(TaskViewContext);
+  const isTabletandAbove = useMediaQuery({ query: '(min-width:768px)' });
 
   return (
     <section>
@@ -18,7 +20,7 @@ export const TaskViewSwitcher = () => {
         as='button'
         compact
         attached='left'
-        content='List View'
+        content={isTabletandAbove ? `List View` : ' List'}
         id='list-view-switch-button'
         labelPosition='left'
         className={`task-view-switch-button ${
@@ -43,7 +45,7 @@ export const TaskViewSwitcher = () => {
         attached='right'
         as='button'
         type='button'
-        content='Calendar View'
+        content={isTabletandAbove ? `Calendar View` : ' CAL'}
         id='calendar-view-switch-button'
         labelPosition='right'
         className={`task-view-switch-button ${

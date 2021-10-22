@@ -39,7 +39,7 @@ export const CurrentDateContext = createContext(null);
 const MainBodyContainer = () => {
   // Hooks
   const [isLoggedIn] = useCheckUserStatus();
-  const [darkThemeVar] = useLocalstorageState('darkTheme');
+  const [darkThemeVar] = useLocalstorageState('darkMode');
   const systemPrefersDark = useMediaQuery({
     query: '(prefers-color-scheme: dark)',
     undefined,

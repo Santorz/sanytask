@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useModal, Modal } from 'react-morphing-modal';
-import EditTaskForm from './utils/editTaskForm';
+import EditTaskForm from './components/editTaskForm';
 import { DarkThemeContext } from '../..';
 
 // CSS
