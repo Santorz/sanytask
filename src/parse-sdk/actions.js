@@ -1,5 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import Parse from 'parse/dist/parse.min.js';
+import {
+  PARSE_APPLICATION_ID,
+  PARSE_JAVASCRIPT_KEY,
+  PARSE_HOST_URL,
+} from '../parse-sdk/config';
 import { isLocalUserPresentFunc, getCurrentLocalUser } from './userVars';
 import { setIntervalAsync } from '../utils/customSchedulers';
 import { isEqual } from 'lodash';
@@ -109,4 +114,79 @@ export const useCheckUserStatus = () => {
   }, [refreshStatus]);
 
   return [isLoggedIn, localUser];
+};
+
+// Hook to fetch tasks
+export const useFetchRemoteTasks = () => {
+  const [tasksLoading, setTasksLoading] = useState(true);
+  const [usersTasks, setUsersTasks] = useState(null);
+  const [isTasksFetchErr, setIsTasksFetchErr] = useState(false);
+  const [fetchErrMsg, setFetchErrMsg] = useState('');
+
+  const performFreshFetch = () => {
+    localStorage.removeItem('usersTasks');
+    setTasksLoading(true);
+    setUsersTasks(null);
+    setIsTasksFetchErr(false);
+    setFetchErrMsg('');
+    const parseQuery = new Parse.Query('Task');
+    parseQuery
+      .equalTo('user', Parse.User.current())
+      .find()
+      .then((data) => {
+        data.sort((a, b) => {
+          let da = new Date(a.attributes.dueDate);
+          let db = new Date(b.attributes.dueDate);
+          if (da > db) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+        localStorage.setItem('usersTasks', JSON.stringify(data));
+        setUsersTasks(
+          Array.from(JSON.parse(localStorage.getItem('usersTasks')))
+        );
+        setTasksLoading(false);
+      })
+      .catch((error) => {
+        setFetchErrMsg(error.message);
+        setTasksLoading(false);
+        setIsTasksFetchErr(true);
+      });
+  };
+
+  useEffect(() => {
+    if (!Parse.applicationId) {
+      Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+      Parse.serverURL = PARSE_HOST_URL;
+    }
+  }, []);
+
+  const updateTasks = useCallback((isFreshPageLoad) => {
+    const isOfflineAvailable =
+      localStorage.getItem('usersTasks') !== null &&
+      localStorage.getItem('usersTasks') !== undefined;
+    if (
+      (isFreshPageLoad && isOfflineAvailable) ||
+      (isFreshPageLoad && !isOfflineAvailable)
+    ) {
+      performFreshFetch();
+    } else if (!isFreshPageLoad && isOfflineAvailable) {
+      setTasksLoading(false);
+      setIsTasksFetchErr(false);
+      setFetchErrMsg('');
+      setUsersTasks(JSON.parse(localStorage.getItem('usersTasks')));
+    } else if (!isFreshPageLoad && !isOfflineAvailable) {
+      performFreshFetch();
+    }
+  }, []);
+
+  return {
+    tasksLoading,
+    usersTasks,
+    isTasksFetchErr,
+    fetchErrMsg,
+    updateTasks,
+  };
 };

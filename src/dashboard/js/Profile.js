@@ -16,7 +16,7 @@ import saintAvatar from '../../media/saintAvatar.png';
 const Profile = ({ subHash }) => {
   // Hooks
   const [, localUser] = useCheckUserStatus();
-  const { isDarkTheme, darkThemeToggle } = useContext(DarkThemeContext);
+  const { isDarkTheme } = useContext(DarkThemeContext);
 
   // useEffects
 

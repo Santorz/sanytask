@@ -1,14 +1,5 @@
 import React, { useState, useRef, useContext } from 'react';
-import {
-  Segment,
-  Button,
-  Header,
-  Icon,
-  Ref,
-  Placeholder,
-} from 'semantic-ui-react';
-// Parse SDK
-// Import Parse minified version
+import { Segment, Button, Header, Icon, Ref } from 'semantic-ui-react';
 import Parse from 'parse/dist/parse.min.js';
 import {
   formatRelative,
@@ -30,18 +21,11 @@ import { DarkThemeContext, CurrentDateContext } from '../..';
 import { TaskIDStringContext } from './App';
 import { decrypt } from '../../utils/crypto-js-utils';
 
-import {
-  PARSE_APPLICATION_ID,
-  PARSE_JAVASCRIPT_KEY,
-  PARSE_HOST_URL,
-} from '../../parse-sdk/config';
-
 // CSS
 import '../css/todos.css';
 import 'react-notifications/lib/notifications.css';
 
 // MEDIA
-import tasksFetchErrorPic from '../media/404-error-main.svg';
 
 // Funcs
 const openCreateNewTodoModal = (ref) => {
@@ -124,101 +108,13 @@ const getTaskWithID = (specificTaskID) => {
 };
 
 // TODOS COMPONENT
-const Todos = ({ taskViewString }) => {
+const Todos = ({ taskViewString, usersTasks }) => {
   // Hooks
   const { isDarkTheme, tealColorString } = useContext(DarkThemeContext);
   const currrentDate = useContext(CurrentDateContext);
   const { setTaskIDString } = useContext(TaskIDStringContext);
 
-  // State for user fetching
-  const [tasksLoading, setTasksLoading] = useState(true);
-  const [usersTasks, setUsersTasks] = useState(null);
-  const [isTasksFetchErr, setIsTasksFetchErr] = useState(false);
-  const [fetchErrMsg, setFetchErrMsg] = useState('');
-
-  // Vars
-  const isLocalTasksPresesnt =
-    localStorage.getItem(`usersTasks`) !== undefined &&
-    localStorage.getItem(`usersTasks`) !== null;
-
   // useEffects
-  // Initialize Parse
-  React.useEffect(() => {
-    if (!Parse.applicationId) {
-      Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
-      Parse.serverURL = PARSE_HOST_URL;
-    }
-  }, []);
-
-  // The main fetcher of tasks at page load
-  React.useEffect(() => {
-    let isMounted = true;
-    if (!isLocalTasksPresesnt) {
-      const parseQuery = new Parse.Query('Task');
-      parseQuery
-        .equalTo('user', Parse.User.current())
-        .find()
-        .then((data) => {
-          data.sort((a, b) => {
-            let da = new Date(a.attributes.dueDate);
-            let db = new Date(b.attributes.dueDate);
-            if (da > db) {
-              return 1;
-            } else {
-              return -1;
-            }
-          });
-          if (isMounted) {
-            localStorage.setItem('usersTasks', JSON.stringify(data));
-            setUsersTasks(JSON.parse(localStorage.getItem('usersTasks')));
-            setTasksLoading(false);
-          }
-        })
-        .catch((error) => {
-          if (isMounted) {
-            setFetchErrMsg(error.message);
-            setTasksLoading(false);
-            setIsTasksFetchErr(true);
-          }
-        });
-    } else {
-      const offlineTasks = JSON.parse(localStorage.getItem('usersTasks'));
-      setUsersTasks(offlineTasks);
-      setTasksLoading(false);
-    }
-    return () => {
-      isMounted = false;
-    };
-  }, [isLocalTasksPresesnt]);
-
-  // The fetch function for fetching tasks dynamically
-  const fetchTasksDynamic = () => {
-    setIsTasksFetchErr(false);
-    setTasksLoading(true);
-    const parseQuery = new Parse.Query('Task');
-    parseQuery
-      .equalTo('user', Parse.User.current())
-      .find()
-      .then((data) => {
-        data.sort((a, b) => {
-          let da = new Date(a.attributes.dueDate);
-          let db = new Date(b.attributes.dueDate);
-          if (da > db) {
-            return 1;
-          } else {
-            return -1;
-          }
-        });
-        localStorage.setItem('usersTasks', JSON.stringify(data));
-        setUsersTasks(JSON.parse(localStorage.getItem('usersTasks')));
-        setTasksLoading(false);
-      })
-      .catch((error) => {
-        setFetchErrMsg(error.message);
-        setTasksLoading(false);
-        setIsTasksFetchErr(true);
-      });
-  };
 
   // UseRef for opening CreateNewTodoModal
   const triggerCreateNewTodoModalRef = useRef(null);
@@ -258,7 +154,7 @@ const Todos = ({ taskViewString }) => {
       await tasktoDel.destroy();
       setTimeout(createNotification('delete-success'), 700);
       // Re-fetch tasks
-      fetchTasksDynamic();
+      // fetchTasksDynamic();
     } catch (err) {
       createNotification('error', null, err.message);
     }
@@ -299,7 +195,7 @@ const Todos = ({ taskViewString }) => {
             setSpecificTaskID(null);
           }, 500);
           // Re-fetch tasks
-          fetchTasksDynamic();
+          // fetchTasksDynamic();
         } catch (err) {
           createNotification('error', null, err.message);
         }
@@ -315,22 +211,19 @@ const Todos = ({ taskViewString }) => {
       {taskViewString === 'listView' && (
         <>
           {/* This would be displayed if there is more than one task left */}
-          {!tasksLoading &&
-            !isTasksFetchErr &&
-            usersTasks &&
-            usersTasks.length > 1 && (
-              <Header size='medium' inverted={isDarkTheme}>
-                {usersTasks.length} Pending Tasks
-              </Header>
-            )}
+          {usersTasks && usersTasks.length > 1 && (
+            <Header size='small' inverted={isDarkTheme}>
+              {usersTasks.length} Pending Tasks
+            </Header>
+          )}
           {/* This would be displayed if there is only one task left */}
-          {!tasksLoading && usersTasks && usersTasks.length === 1 && (
-            <Header size='medium' inverted={isDarkTheme}>
-              {usersTasks.length} Pending Task
+          {usersTasks && usersTasks.length === 1 && (
+            <Header size='small' inverted={isDarkTheme}>
+              Showing last pending task
             </Header>
           )}
           {/* This would be displayed if there are no tasks left */}
-          {!tasksLoading && usersTasks && usersTasks.length < 1 && (
+          {usersTasks && usersTasks.length < 1 && (
             <Segment
               inverted={isDarkTheme}
               padded
@@ -360,82 +253,6 @@ const Todos = ({ taskViewString }) => {
             </Segment>
           )}
           <div id='todos-container'>
-            {tasksLoading && !usersTasks && (
-              <>
-                <h3 className='mb-3'>Loading tasks</h3>
-                <Placeholder
-                  inverted={isDarkTheme}
-                  fluid
-                  className='my-2 rounded '
-                >
-                  <Placeholder.Header />
-                  <Placeholder.Line length='full'></Placeholder.Line>
-                  <Placeholder.Line length='full'></Placeholder.Line>
-                </Placeholder>
-                <Placeholder
-                  inverted={isDarkTheme}
-                  fluid
-                  className='my-2 rounded '
-                >
-                  <Placeholder.Header />
-                  <Placeholder.Line length='full'></Placeholder.Line>
-                  <Placeholder.Line length='full'></Placeholder.Line>
-                </Placeholder>
-                <Placeholder
-                  inverted={isDarkTheme}
-                  fluid
-                  className='my-2 rounded '
-                >
-                  <Placeholder.Header />
-                  <Placeholder.Line length='full'></Placeholder.Line>
-                  <Placeholder.Line length='full'></Placeholder.Line>
-                </Placeholder>
-                <Placeholder
-                  inverted={isDarkTheme}
-                  fluid
-                  className='my-2 rounded '
-                >
-                  <Placeholder.Header />
-                  <Placeholder.Line length='full'></Placeholder.Line>
-                  <Placeholder.Line length='full'></Placeholder.Line>
-                </Placeholder>
-                <Placeholder
-                  inverted={isDarkTheme}
-                  fluid
-                  className='my-2 rounded '
-                >
-                  <Placeholder.Header />
-                  <Placeholder.Line length='full'></Placeholder.Line>
-                  <Placeholder.Line length='full'></Placeholder.Line>
-                </Placeholder>
-              </>
-            )}
-            {isTasksFetchErr && !tasksLoading && (
-              <div style={{ userSelect: 'none' }} className='mt-3 mb-2'>
-                <img
-                  style={{ cursor: 'not-allowed' }}
-                  src={tasksFetchErrorPic}
-                  alt='Error fetching tasks'
-                  width='150'
-                  height='150'
-                  onContextMenu={(e) => e.preventDefault()}
-                />
-                <h3 className='my-2 my-red-text'>Something went wrong...</h3>
-                <h4 className='mt-2 mb-1'>
-                  There was a problem getting your tasks.
-                </h4>
-                <h5 className='my-red-text mt-0'>{fetchErrMsg}</h5>
-                <Button
-                  inverted={isDarkTheme}
-                  type='button'
-                  color='black'
-                  onClick={fetchTasksDynamic}
-                >
-                  <Icon name='refresh'></Icon>
-                  Retry
-                </Button>
-              </div>
-            )}
             {usersTasks &&
               usersTasks.map((task, index) => {
                 let { objectId, dueDate, title, details } = task;
@@ -510,8 +327,8 @@ const Todos = ({ taskViewString }) => {
                           color='black'
                           id={`editBtn-${task.objectId}`}
                           onClick={(e) => {
+                            setTaskIDString(e.currentTarget.id.split('-')[1]);
                             openEditTaskModal(triggerEditModalRef);
-                            setTaskIDString(e.target.id.split('-')[1]);
                           }}
                         />
                       </Ref>

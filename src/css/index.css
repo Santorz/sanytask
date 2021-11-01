@@ -14,10 +14,10 @@ body {
   --my-red: #ff7777;
 }
 
-body[darkTheme='true'] {
+/* body[darkTheme='true'] {
   background-color: var(--my-black) !important;
   color: white !important;
-}
+} */
 
 body .my-primary-bg {
   background-color: var(--my-white) !important;

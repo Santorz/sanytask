@@ -26,8 +26,18 @@ const App = () => {
   const [taskViewString, setTaskviewString] = useState('listView');
   const [taskIDString, setTaskIDString] = useState(null);
 
+  // Refs
+  const mobileNavRef = useRef(null);
+  const todosSegmentRef = useRef(null);
+
   // useEffect for redirecting to home page if user is not logged in
 
+  // useEffect for changing taskViewString
+  useEffect(() => {
+    taskViewString !== 'listView' &&
+      taskViewString !== 'calendarView' &&
+      setTaskviewString('listView');
+  }, [taskViewString]);
   // Use effect for setting subHash state value
   useEffect(() => {
     let subHash = currentLocation.hash;
@@ -44,10 +54,6 @@ const App = () => {
       setSubHash('');
     }
   }, [currentLocation, subHash, history]);
-
-  const mobileNavRef = useRef(null);
-  const todosSegmentRef = useRef(null);
-
   // useEffect and function for adjusting margin bottom if it's mobile only
   const adjustMarginBottom = () => {
     if (document.readyState === 'complete') {

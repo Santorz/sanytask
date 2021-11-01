@@ -44,7 +44,9 @@ const defaultTaskObjFormat = {
   details: '',
   title: '',
 };
-const offlineTasks = JSON.parse(localStorage.getItem('usersTasks'));
+const offlineTasks = localStorage.getItem('usersTasks')
+  ? Array.from(JSON.parse(localStorage.getItem('usersTasks')))
+  : [];
 
 const EditTaskForm = () => {
   // Hooks
@@ -71,8 +73,8 @@ const EditTaskForm = () => {
       const { createdAt, dueDate, details, title } = specificTask;
       console.log(specificTask);
       setExistingTaskObj({
-        createdAt: decrypt(createdAt),
-        dueDate: decrypt(dueDate),
+        createdAt: createdAt,
+        dueDate: dueDate,
         details: decrypt(details),
         title: decrypt(title),
       });
@@ -200,7 +202,7 @@ const EditTaskForm = () => {
                   <ThemeProvider theme={CustMaterialTheme}>
                     <DateTimePicker
                       placeholder='Enter due date...'
-                      value={existingTaskObj.dueDate}
+                      value={new Date(existingTaskObj.dueDate)}
                       onChange={(e) => {
                         setDueDateVal(new Date(e).toUTCString());
                       }}

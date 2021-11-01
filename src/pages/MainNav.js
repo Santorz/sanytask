@@ -103,7 +103,7 @@ const MainNav = React.forwardRef((props, ref) => {
       {isMainPageNav === false && (
         <nav
           className='position-relative'
-          style={{ backgroundColor: '#006976', top: '0' }}
+          style={{ backgroundColor: '#00637f', top: '0' }}
         >
           <Segment
             className=' d-flex flex-column position-relative px-0 pb-0 pb-md-3 px-md-3 px-lg-4 px-xl-5 my-0 w-100 rounded-0'

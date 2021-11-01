@@ -54,28 +54,22 @@ const MainBodyContainer = () => {
   );
 
   // State values
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(isLoggedIn);
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // useEffects
   // Initialize Parse
   useEffect(() => {
-    if (!Parse.applicationId) {
-      Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
-      Parse.serverURL = PARSE_HOST_URL;
-    }
+    Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+    Parse.serverURL = PARSE_HOST_URL;
   }, []);
-  // Checking and resetting login status
-  React.useEffect(() => {
-    setIsUserLoggedIn(isLoggedIn);
-  }, [isLoggedIn]);
+
   // Update currentDate
-  useEffect(() => {
-    const updater = setInterval(() => {
-      setCurrentDate(new Date());
-    }, 1000);
-    return () => clearInterval(updater);
-  }, [currentDate]);
+  // useEffect(() => {
+  //   const updater = setInterval(() => {
+  //     setCurrentDate(new Date());
+  //   }, 1000);
+  //   return () => clearInterval(updater);
+  // }, [currentDate]);
 
   return (
     <DarkThemeContext.Provider
@@ -98,7 +92,7 @@ const MainBodyContainer = () => {
 
             {/* Route path for dashboard*/}
             <Route path='/dashboard'>
-              {isUserLoggedIn && (
+              {isLoggedIn && (
                 <>
                   <Helmet>
                     <title>Dashboard | my-next-task</title>
@@ -106,13 +100,13 @@ const MainBodyContainer = () => {
                   <Dashboard />
                 </>
               )}
-              {!isUserLoggedIn && <Redirect to='/login?src=dashboard' />}
+              {!isLoggedIn && <Redirect to='/login?src=dashboard' />}
             </Route>
             {/* end of dashboard route path */}
 
             {/* Route Path for login */}
             <Route path='/login'>
-              {isUserLoggedIn ? (
+              {isLoggedIn ? (
                 <Redirect to='/dashboard' />
               ) : (
                 <>
@@ -127,7 +121,7 @@ const MainBodyContainer = () => {
 
             {/* Route path for signup page*/}
             <Route path='/signup'>
-              {isUserLoggedIn ? (
+              {isLoggedIn ? (
                 <Redirect to='/dashboard' />
               ) : (
                 <>
