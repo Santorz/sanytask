@@ -59,17 +59,19 @@ const MainBodyContainer = () => {
   // useEffects
   // Initialize Parse
   useEffect(() => {
-    Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
-    Parse.serverURL = PARSE_HOST_URL;
+    if (!Parse.applicationId) {
+      Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+      Parse.serverURL = PARSE_HOST_URL;
+    }
   }, []);
 
   // Update currentDate
-  // useEffect(() => {
-  //   const updater = setInterval(() => {
-  //     setCurrentDate(new Date());
-  //   }, 1000);
-  //   return () => clearInterval(updater);
-  // }, [currentDate]);
+  useEffect(() => {
+    const updater = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000);
+    return () => clearInterval(updater);
+  }, [currentDate]);
 
   return (
     <DarkThemeContext.Provider

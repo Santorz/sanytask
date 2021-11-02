@@ -123,7 +123,7 @@ export const useFetchRemoteTasks = () => {
   const [isTasksFetchErr, setIsTasksFetchErr] = useState(false);
   const [fetchErrMsg, setFetchErrMsg] = useState('');
 
-  const performFreshFetch = () => {
+  const performFreshFetch = useCallback(() => {
     localStorage.removeItem('usersTasks');
     setTasksLoading(true);
     setUsersTasks(null);
@@ -154,7 +154,7 @@ export const useFetchRemoteTasks = () => {
         setTasksLoading(false);
         setIsTasksFetchErr(true);
       });
-  };
+  }, []);
 
   useEffect(() => {
     if (!Parse.applicationId) {
@@ -163,24 +163,27 @@ export const useFetchRemoteTasks = () => {
     }
   }, []);
 
-  const updateTasks = useCallback((isFreshPageLoad) => {
-    const isOfflineAvailable =
-      localStorage.getItem('usersTasks') !== null &&
-      localStorage.getItem('usersTasks') !== undefined;
-    if (
-      (isFreshPageLoad && isOfflineAvailable) ||
-      (isFreshPageLoad && !isOfflineAvailable)
-    ) {
-      performFreshFetch();
-    } else if (!isFreshPageLoad && isOfflineAvailable) {
-      setTasksLoading(false);
-      setIsTasksFetchErr(false);
-      setFetchErrMsg('');
-      setUsersTasks(JSON.parse(localStorage.getItem('usersTasks')));
-    } else if (!isFreshPageLoad && !isOfflineAvailable) {
-      performFreshFetch();
-    }
-  }, []);
+  const updateTasks = useCallback(
+    (isFreshPageLoad) => {
+      const isOfflineAvailable =
+        localStorage.getItem('usersTasks') !== null &&
+        localStorage.getItem('usersTasks') !== undefined;
+      if (
+        (isFreshPageLoad && isOfflineAvailable) ||
+        (isFreshPageLoad && !isOfflineAvailable)
+      ) {
+        performFreshFetch();
+      } else if (!isFreshPageLoad && isOfflineAvailable) {
+        setTasksLoading(false);
+        setIsTasksFetchErr(false);
+        setFetchErrMsg('');
+        setUsersTasks(JSON.parse(localStorage.getItem('usersTasks')));
+      } else if (!isFreshPageLoad && !isOfflineAvailable) {
+        performFreshFetch();
+      }
+    },
+    [performFreshFetch]
+  );
 
   return {
     tasksLoading,
@@ -188,5 +191,6 @@ export const useFetchRemoteTasks = () => {
     isTasksFetchErr,
     fetchErrMsg,
     updateTasks,
+    performFreshFetch,
   };
 };

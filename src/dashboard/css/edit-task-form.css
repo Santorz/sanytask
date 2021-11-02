@@ -50,11 +50,16 @@
   border: 1px solid;
 }
 
-#editTaskForm input[type="text"],
+#editTaskForm input[type='text'],
 #editTaskForm textarea {
-  font-family: "Open Sans", sans-serif !important;
+  font-family: 'Open Sans', sans-serif !important;
   font-size: 1.15rem !important;
   box-shadow: inset 4px 4px 4px #cbced1, inset -4px -4px 4px #ffffff;
+}
+body[darkTheme='true'] #editTaskForm input[type='text'],
+body[darkTheme='true'] #editTaskForm textarea {
+  box-shadow: none !important;
+  border: 1px solid gray;
 }
 
 #taskHeading:hover,
@@ -97,7 +102,7 @@
   justify-content: center !important;
   align-items: center !important;
 }
-input[name="datetime"] {
+input[name='datetime'] {
   display: none;
 }
 .react-datetime-picker__inputGroup__input {
@@ -113,4 +118,16 @@ input[name="datetime"] {
 .react-datetime-picker__clear-button,
 .react-datetime-picker__calendar-button {
   display: none !important;
+}
+
+/* Blurred dimmer */
+.custom-blurred-dimmer {
+  backdrop-filter: blur(5px) !important;
+}
+.duedate-error-text {
+  color: var(--my-red) !important;
+  font-weight: lighter;
+}
+.duedate-error-border {
+  border: 1px solid var(--my-red) !important;
 }

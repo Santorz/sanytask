@@ -17,7 +17,7 @@ import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ThemeProvider } from '@material-ui/styles';
 import { DarkThemeContext, CurrentDateContext } from '../../..';
 import CustMaterialTheme from './custDateTimePickerTheme';
-import { encrypt, decrypt } from '../../../utils/crypto-js-utils';
+import { encrypt } from '../../../utils/crypto-js-utils';
 import { PlusSquare } from 'react-feather';
 
 // CSS
@@ -41,7 +41,7 @@ const submitTask = async (taskObj) => {
   } catch (err) {
     return {
       status: 'failure',
-      message: err,
+      message: err.message,
     };
   }
 };
@@ -86,22 +86,20 @@ const NewTodoForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setNewTodoObj({
-      ...newTodoObj,
-      title: encrypt(newTodoObj.title),
-      details: encrypt(newTodoObj.details),
-    });
+    const encObj = { ...newTodoObj };
+    encObj.title = encrypt(newTodoObj.title);
+    encObj.details = encrypt(newTodoObj.details);
     // Check if due date is equal or less than presnt date and time
     if (new Date(dueDateVal) < new Date(new Date().getTime() + 2 * 60000)) {
       setShowDueDateErr(true);
     } else {
       // Set due date
-      newTodoObj.dueDate = dueDateVal.toUTCString();
+      encObj.dueDate = dueDateVal.toUTCString();
       // Show loader
       setSubmissionStarted(true);
 
-      // Update DB
-      const taskSubmissionStatus = await submitTask(newTodoObj);
+      //   // Update DB
+      const taskSubmissionStatus = await submitTask(encObj);
       if (taskSubmissionStatus.status === 'failure') {
         setSubmissionFailure(true);
         let errMsg = taskSubmissionStatus.message;
@@ -124,6 +122,7 @@ const NewTodoForm = () => {
     setSubmissionSuccess(false);
     setShowCloseConfirmationDimmer(false);
     setShowDueDateErr(false);
+    newTaskFormRef.current.reset();
     window._closeNewTodoModal_();
   };
 
@@ -193,6 +192,7 @@ const NewTodoForm = () => {
                     type='submit'
                     inverted
                     onClick={() => {
+                      setSubmissionStarted(false);
                       setSubmissionFailure(false);
                       newTaskFormRef.current.dispatchEvent(
                         new Event('submit', {
@@ -210,6 +210,7 @@ const NewTodoForm = () => {
                     inverted
                     onClick={() => {
                       setSubmissionStarted(false);
+                      setSubmissionFailure(false);
                     }}
                   >
                     <Icon name='close'></Icon>
