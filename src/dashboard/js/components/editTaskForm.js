@@ -16,8 +16,10 @@ import { ThemeProvider } from '@material-ui/styles';
 import CustMaterialTheme from './custDateTimePickerTheme';
 import { DarkThemeContext } from '../../..';
 import { TaskIDStringContext } from '../App';
+import { FreshPageLoadContext } from '../DashboardBody';
 import { Edit } from 'react-feather';
 import { encrypt, decrypt } from '../../../utils/crypto-js-utils';
+import { isEqual } from 'lodash';
 
 // Parse SDK
 import Parse from 'parse/dist/parse.min.js';
@@ -66,18 +68,15 @@ const defaultTaskObjFormat = {
   details: '',
   title: '',
 };
-const offlineTasks = localStorage.getItem('usersTasks')
-  ? Array.from(JSON.parse(localStorage.getItem('usersTasks')))
-  : [];
 
 // MAIN COMPONENT
 const EditTaskForm = () => {
   // Hooks
   const { taskIDString, setTaskIDString } = useContext(TaskIDStringContext);
   const { isDarkTheme } = useContext(DarkThemeContext);
+  const setIsFreshPageLoad = useContext(FreshPageLoadContext);
 
   // State values
-  const [dueDateVal, setDueDateVal] = useState(null);
   const [existingTaskObj, setExistingTaskObj] = useState(defaultTaskObjFormat);
   const [submissionStarted, setSubmissionStarted] = useState(false);
   const [submissionFailure, setSubmissionFailure] = useState(false);
@@ -86,11 +85,15 @@ const EditTaskForm = () => {
     useState(false);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [showDueDateErr, setShowDueDateErr] = useState(false);
+  const [originalTask, setOriginalTask] = useState({});
 
   // useEffects
   useEffect(() => {
     // Find object with id same as taskIDString in localStorage's tasks array
     if (taskIDString) {
+      const offlineTasks = localStorage.getItem('usersTasks')
+        ? Array.from(JSON.parse(localStorage.getItem('usersTasks')))
+        : [];
       const specificTask = offlineTasks.find(
         (task) => task.objectId === taskIDString
       );
@@ -100,7 +103,11 @@ const EditTaskForm = () => {
         details: decrypt(details),
         title: decrypt(title),
       });
-      setDueDateVal(new Date(dueDate));
+      setOriginalTask({
+        dueDate: dueDate,
+        details: decrypt(details),
+        title: decrypt(title),
+      });
     }
   }, [taskIDString]);
 
@@ -124,11 +131,14 @@ const EditTaskForm = () => {
     encObj.details = encrypt(existingTaskObj.details);
     encObj.id = taskIDString;
     // Check if due date is equal or less than presnt date and time
-    if (new Date(dueDateVal) < new Date(new Date().getTime() + 2 * 60000)) {
+    if (
+      new Date(existingTaskObj.dueDate) <
+      new Date(new Date().getTime() + 2 * 60000)
+    ) {
       setShowDueDateErr(true);
     } else {
       // Set due date
-      encObj.dueDate = dueDateVal.toUTCString();
+      encObj.dueDate = existingTaskObj.dueDate;
       // Show loader
       setSubmissionStarted(true);
 
@@ -148,7 +158,6 @@ const EditTaskForm = () => {
   // Clear form, close Modal and return to dashboard
   // Make sure all useStates are reset to initial state here
   const goBackToDashboard = () => {
-    setDueDateVal(null);
     setExistingTaskObj(defaultTaskObjFormat);
     setSubmissionStarted(false);
     setSubmissionFailure(false);
@@ -157,7 +166,9 @@ const EditTaskForm = () => {
     setShowCloseConfirmationDimmer(false);
     setShowDueDateErr(false);
     setTaskIDString(null);
+    setOriginalTask({});
     editTaskFormRef.current.reset();
+    setIsFreshPageLoad(true);
     window._closeEditTaskModal_();
   };
 
@@ -339,10 +350,16 @@ const EditTaskForm = () => {
                     <DateTimePicker
                       placeholder='Select due date for task...'
                       inputVariant='standard'
-                      value={dueDateVal}
+                      value={existingTaskObj.dueDate}
                       onChange={(e) => {
                         setShowDueDateErr(false);
-                        setDueDateVal(new Date(e));
+                        const dateVal = new Date(e);
+                        dateVal < new Date(new Date().getTime() + 120000)
+                          ? setShowDueDateErr(true)
+                          : setExistingTaskObj({
+                              ...existingTaskObj,
+                              dueDate: new Date(e).toUTCString(),
+                            });
                       }}
                       minDate={new Date()}
                       maxDate={new Date(new Date().getTime() + 135000 * 60000)}
@@ -374,10 +391,11 @@ const EditTaskForm = () => {
                 </Button>
 
                 <Button
-                  basic={!isDarkTheme ? true : false}
+                  basic={false}
                   inverted={isDarkTheme}
                   color='green'
                   type='submit'
+                  disabled={isEqual(originalTask, existingTaskObj)}
                 >
                   Submit
                 </Button>

@@ -2,21 +2,24 @@ import React, { useContext } from 'react';
 import { useModal, Modal } from 'react-morphing-modal';
 import EditTaskForm from './components/editTaskForm';
 import { DarkThemeContext } from '../..';
+import { FreshPageLoadContext } from './DashboardBody';
 
 // CSS
 import 'react-morphing-modal/dist/ReactMorphingModal.min.css';
-const initialDocTitle = document.title;
 
 const EditTaskModal = () => {
   // Hooks
   const { isDarkTheme, tealColorString } = useContext(DarkThemeContext);
+  const setIsFreshPageLoad = useContext(FreshPageLoadContext);
+
   const { modalProps, open, close } = useModal({
     background: isDarkTheme ? '#003043' : tealColorString,
     onOpen() {
+      setIsFreshPageLoad(false);
       setDocTitle('Edit task | my-next-task');
     },
     onClose() {
-      setDocTitle(initialDocTitle);
+      setDocTitle('Dashboard | my-next-task');
     },
   });
 

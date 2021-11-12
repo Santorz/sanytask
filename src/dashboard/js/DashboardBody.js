@@ -1,4 +1,10 @@
-import React, { useContext, useRef, useEffect, useState } from 'react';
+import React, {
+  useContext,
+  useRef,
+  useEffect,
+  useState,
+  createContext,
+} from 'react';
 import {
   Grid,
   Segment,
@@ -26,6 +32,9 @@ import { useFetchRemoteTasks } from '../../parse-sdk/actions';
 
 // Media
 import tasksFetchErrorPic from '../media/404-error-main.svg';
+
+// Contexts
+export const FreshPageLoadContext = createContext(null);
 
 // Vars
 const openCreateNewTodoModal = (ref) => {
@@ -108,11 +117,10 @@ const DashboardBody = (props) => {
               </Header>
               <Ref innerRef={todosSegmentRef}>
                 <Segment
-                  raised
                   padded
                   inverted={isDarkTheme}
-                  className='animate__animated animate__fadeIn animate__fast px-2 px-md-3 d-flex flex-column pb-0 pt-3'
-                  style={{ minHeight: '350px' }}
+                  className='animate__animated animate__fadeIn animate__faster px-2 px-md-3 d-flex flex-column pb-0 pt-3'
+                  style={{ minHeight: '350px', maxHeight: '500px' }}
                 >
                   {!usersTasks && (
                     <>
@@ -237,8 +245,10 @@ const DashboardBody = (props) => {
             </button>
           )}
 
-          <CreateNewTodoModal />
-          <EditModal />
+          <FreshPageLoadContext.Provider value={setIsFreshPageLoad}>
+            <CreateNewTodoModal />
+            <EditModal />
+          </FreshPageLoadContext.Provider>
         </>
       )}
     </>

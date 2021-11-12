@@ -156,6 +156,39 @@ export const useFetchRemoteTasks = () => {
       });
   }, []);
 
+  const updateOnDemand = useCallback(() => {
+    localStorage.removeItem('usersTasks');
+    setTasksLoading(true);
+    setUsersTasks(null);
+    setIsTasksFetchErr(false);
+    setFetchErrMsg('');
+    const parseQuery = new Parse.Query('Task');
+    parseQuery
+      .equalTo('user', Parse.User.current())
+      .find()
+      .then((data) => {
+        data.sort((a, b) => {
+          let da = new Date(a.attributes.dueDate);
+          let db = new Date(b.attributes.dueDate);
+          if (da > db) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+        localStorage.setItem('usersTasks', JSON.stringify(data));
+        setUsersTasks(
+          Array.from(JSON.parse(localStorage.getItem('usersTasks')))
+        );
+        setTasksLoading(false);
+      })
+      .catch((error) => {
+        setFetchErrMsg(error.message);
+        setTasksLoading(false);
+        setIsTasksFetchErr(true);
+      });
+  }, []);
+
   useEffect(() => {
     if (!Parse.applicationId) {
       Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
@@ -191,6 +224,7 @@ export const useFetchRemoteTasks = () => {
     isTasksFetchErr,
     fetchErrMsg,
     updateTasks,
+    updateOnDemand,
     performFreshFetch,
   };
 };

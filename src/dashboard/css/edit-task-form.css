@@ -67,8 +67,10 @@ body[darkTheme='true'] #editTaskForm textarea {
 #editTaskForm textarea:hover,
 #taskHeading:focus,
 .MuiInputBase-input:focus,
-#editTaskForm textarea:focus {
-  border: 1px solid #006976 !important;
+#editTaskForm textarea:focus,
+#editTaskForm input:focus,
+#editTaskForm input:hover {
+  border: 1px solid var(--my-teal) !important;
 }
 
 #editTaskForm label {
