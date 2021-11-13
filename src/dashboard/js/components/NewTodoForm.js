@@ -19,6 +19,7 @@ import { DarkThemeContext, CurrentDateContext } from '../../..';
 import CustMaterialTheme from './custDateTimePickerTheme';
 import { encrypt } from '../../../utils/crypto-js-utils';
 import { PlusSquare } from 'react-feather';
+import { FreshPageLoadContext } from '../DashboardBody';
 
 // CSS
 import '../../css/new-todo-form.css';
@@ -50,6 +51,7 @@ const NewTodoForm = () => {
   // Hooks
   const { isDarkTheme } = useContext(DarkThemeContext);
   const { currentDate } = useContext(CurrentDateContext);
+  const setIsFreshPageLoad = useContext(FreshPageLoadContext);
 
   // Variables relating to date
   const [dueDateVal, setDueDateVal] = useState(null);
@@ -102,7 +104,7 @@ const NewTodoForm = () => {
       const taskSubmissionStatus = await submitTask(encObj);
       if (taskSubmissionStatus.status === 'failure') {
         setSubmissionFailure(true);
-        let errMsg = taskSubmissionStatus.message;
+        let errMsg = taskSubmissionStatus;
         setSubmissionErrorName(errMsg.message);
       } else if (taskSubmissionStatus.status === 'success') {
         setSubmissionFailure(false);
@@ -113,7 +115,7 @@ const NewTodoForm = () => {
 
   // Clear form, close Modal and return to dashboard
   // Make sure all useStates are reset to initial state here
-  const goBackToDashboard = () => {
+  const goBackToDashboard = (freshLoadBool) => {
     setDueDateVal(null);
     setNewTodoObj(originalTodoObjFormat);
     setSubmissionStarted(false);
@@ -123,6 +125,7 @@ const NewTodoForm = () => {
     setShowCloseConfirmationDimmer(false);
     setShowDueDateErr(false);
     newTaskFormRef.current.reset();
+    freshLoadBool === true && setIsFreshPageLoad(true);
     window._closeNewTodoModal_();
   };
 
@@ -183,9 +186,10 @@ const NewTodoForm = () => {
                     An error occured while submitting task
                   </h3>
                   <h5 className='mt-0'>
-                    Error details: {''}
-                    <span style={{ color: '#ffa4a4' }}>
-                      '{submissionErrorName}'
+                    <span style={{ color: '#ff7777' }}>
+                      {String(submissionErrorName).indexOf(':') >= 0
+                        ? submissionErrorName.split(':')[1]
+                        : submissionErrorName}
                     </span>
                   </h5>
                   <Button
@@ -242,7 +246,7 @@ const NewTodoForm = () => {
                   <h5 className='mt-0'>
                     You can now view it in your dashboard
                   </h5>
-                  <Button inverted onClick={goBackToDashboard}>
+                  <Button inverted onClick={() => goBackToDashboard(true)}>
                     Visit Dashboard
                   </Button>
                 </>

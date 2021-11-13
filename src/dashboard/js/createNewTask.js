@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useModal, Modal } from 'react-morphing-modal';
 import NewTodoForm from './components/NewTodoForm';
 import { DarkThemeContext } from '../..';
+import { FreshPageLoadContext } from './DashboardBody';
 
 // CSS
 import 'react-morphing-modal/dist/ReactMorphingModal.min.css';
@@ -9,6 +10,7 @@ import 'react-morphing-modal/dist/ReactMorphingModal.min.css';
 const CreateNewTodoModal = () => {
   // Hooks
   const { isDarkTheme, tealColorString } = useContext(DarkThemeContext);
+  const setIsFreshPageLoad = useContext(FreshPageLoadContext);
 
   const [docTitle, setDocTitle] = React.useState(document.title);
   React.useEffect(() => {
@@ -18,6 +20,7 @@ const CreateNewTodoModal = () => {
   const { modalProps, open, close } = useModal({
     background: isDarkTheme ? '#003043' : tealColorString,
     onOpen() {
+      setIsFreshPageLoad(false);
       setDocTitle('Create new task | my-next-task');
     },
     onClose() {

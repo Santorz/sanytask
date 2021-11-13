@@ -168,7 +168,7 @@ const EditTaskForm = () => {
     setTaskIDString(null);
     setOriginalTask({});
     editTaskFormRef.current.reset();
-    setIsFreshPageLoad(true);
+    !isEqual(originalTask, existingTaskObj) && setIsFreshPageLoad(true);
     window._closeEditTaskModal_();
   };
 
