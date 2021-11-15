@@ -18,6 +18,7 @@ import CustomNotificationManager, {
   createNotification,
 } from './components/Notification_Manager';
 import { DarkThemeContext, CurrentDateContext } from '../..';
+import { FreshPageLoadContext } from './DashboardBody';
 import { TaskIDStringContext } from './App';
 import { decrypt } from '../../utils/crypto-js-utils';
 
@@ -113,6 +114,7 @@ const Todos = ({ taskViewString, usersTasks }) => {
   const { isDarkTheme, tealColorString } = useContext(DarkThemeContext);
   const currrentDate = useContext(CurrentDateContext);
   const { setTaskIDString } = useContext(TaskIDStringContext);
+  const setIsFreshPageLoad = useContext(FreshPageLoadContext);
 
   // useEffects
 
@@ -136,6 +138,7 @@ const Todos = ({ taskViewString, usersTasks }) => {
 
   // Deletion functions
   const showdeleteTodoModal = (e) => {
+    setIsFreshPageLoad(false);
     setSpecificTaskID(e.currentTarget.id.split('deleteBtn-')[1]);
     setdeleteModalState({ open: true, result: '' });
   };
@@ -154,7 +157,7 @@ const Todos = ({ taskViewString, usersTasks }) => {
       await tasktoDel.destroy();
       setTimeout(createNotification('delete-success'), 700);
       // Re-fetch tasks
-      // fetchTasksDynamic();
+      setIsFreshPageLoad(true);
     } catch (err) {
       createNotification('error', null, err.message);
     }
@@ -165,13 +168,16 @@ const Todos = ({ taskViewString, usersTasks }) => {
 
   // Mark as Done functions
   const showMarkDoneModal = (e) => {
+    setIsFreshPageLoad(false);
     setSpecificTaskID(e.currentTarget.id.split('-')[1]);
     setmarkDoneModalState({ open: true, result: '' });
   };
   const handleMarkDoneModalConfirm = () => {
     let todo_id_num = specificTaskID;
     setmarkDoneModalState({ result: 'confirmed', open: false });
-    markDoneMainAction(todo_id_num);
+    markDoneMainAction(todo_id_num).then(() => {
+      setIsFreshPageLoad(true);
+    });
   };
   const handleMarkDoneModalCancel = () => {
     setmarkDoneModalState({ result: 'cancelled', open: false });
@@ -301,7 +307,11 @@ const Todos = ({ taskViewString, usersTasks }) => {
                     </div>
                     <h4
                       className='mt-1'
-                      style={{ textAlign: 'left', fontWeight: 'normal' }}
+                      style={{
+                        textAlign: 'left',
+                        fontWeight: 'normal',
+                        whiteSpace: 'pre-line',
+                      }}
                     >
                       {decrypt(details)}
                     </h4>
