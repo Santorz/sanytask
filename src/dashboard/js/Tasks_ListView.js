@@ -1,5 +1,12 @@
 import React, { useState, useRef, useContext } from 'react';
-import { Segment, Button, Header, Icon, Ref } from 'semantic-ui-react';
+import {
+  Segment,
+  Button,
+  Header,
+  Icon,
+  Ref,
+  Pagination,
+} from 'semantic-ui-react';
 import Parse from 'parse/dist/parse.min.js';
 import {
   formatRelative,
@@ -115,6 +122,9 @@ const Todos = ({ taskViewString, usersTasks }) => {
   const currrentDate = useContext(CurrentDateContext);
   const { setTaskIDString } = useContext(TaskIDStringContext);
   const setIsFreshPageLoad = useContext(FreshPageLoadContext);
+  const [splittedTasks, setSplittedTasks] = useState(usersTasks.slice(0, 5));
+  const [firstPresentIndex, setFirstPresentIndex] = useState(1);
+  const [lastPresentIndex, setLastPresentIndex] = useState(5);
 
   // useEffects
 
@@ -219,7 +229,8 @@ const Todos = ({ taskViewString, usersTasks }) => {
           {/* This would be displayed if there is more than one task left */}
           {usersTasks && usersTasks.length > 1 && (
             <Header size='small' inverted={isDarkTheme}>
-              {usersTasks.length} Pending Tasks
+              Showing {firstPresentIndex} - {lastPresentIndex} of{' '}
+              {usersTasks.length} pending tasks.
             </Header>
           )}
           {/* This would be displayed if there is only one task left */}
@@ -260,7 +271,7 @@ const Todos = ({ taskViewString, usersTasks }) => {
           )}
           <div id='todos-container'>
             {usersTasks &&
-              usersTasks.map((task, index) => {
+              splittedTasks.map((task, index) => {
                 let { objectId, dueDate, title, details } = task;
                 dueDate = new Date(dueDate);
                 return (
@@ -356,6 +367,32 @@ const Todos = ({ taskViewString, usersTasks }) => {
                 );
               })}
           </div>
+
+          {/* Pagination Controller */}
+          <Pagination
+            className='mt-5 justify-content-center px-5 mx-auto my-primary-text '
+            totalPages={
+              usersTasks.length > 5
+                ? parseInt(Math.ceil(usersTasks.length / 5.0))
+                : 1
+            }
+            firstItem={null}
+            lastItem={null}
+            inverted={isDarkTheme}
+            onPageChange={(e, data) => {
+              let active = data.activePage;
+              let multiplier = 5;
+              let multiple = Number(active) * multiplier;
+              let arr = usersTasks;
+              setFirstPresentIndex(multiple - 4);
+              let slicedArr = arr.slice(
+                active > 1 ? multiple - 5 : 0,
+                multiple
+              );
+              setSplittedTasks(slicedArr);
+              setLastPresentIndex(multiple - (5 - slicedArr.length));
+            }}
+          />
 
           {/* Delete Modal */}
           <DeleteModal

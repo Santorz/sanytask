@@ -124,8 +124,8 @@ const DashboardBody = (props) => {
                     className='animate__animated animate__fadeIn animate__faster px-2 px-md-3 d-flex flex-column pb-0 pt-3 pb-5'
                     style={{
                       minHeight: '350px',
-                      maxHeight: '500px',
-                      overflowY: 'auto',
+                      maxHeight: '700px',
+                      overflowY: 'visible',
                       overflowX: 'none',
                     }}
                   >

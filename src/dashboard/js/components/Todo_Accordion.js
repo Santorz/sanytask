@@ -34,7 +34,7 @@ const Todo_Accordion = (props) => {
 
     if (!accordionInFocus.classList.contains('active')) {
       accordionInFocus.classList.add('active');
-      accordionInFocus.nextElementSibling.style.maxHeight = '200px';
+      accordionInFocus.nextElementSibling.style.maxHeight = '500px';
       accordionInFocus
         .querySelector('.accordion__icon')
         .classList.add('rotate');
