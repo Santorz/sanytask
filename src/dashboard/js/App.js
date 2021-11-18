@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, createContext } from 'react';
-import { useLocation, useHistory, Redirect } from 'react-router-dom';
+import { useLocation, useHistory, Navigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import DashboardBody from './DashboardBody';
 
@@ -86,7 +86,7 @@ const App = () => {
           setTaskIDString: setTaskIDString,
         }}
       >
-        {subHashArray.indexOf(subHash) < 0 && <Redirect to='/dashboard' />}
+        {subHashArray.indexOf(subHash) < 0 && <Navigate to='/dashboard' />}
 
         <DashboardBody subHash={subHash} />
         <Profile subHash={subHash} />

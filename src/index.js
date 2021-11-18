@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext } from 'react';
 import ReactDOM from 'react-dom';
 import {
-  Redirect,
+  Navigate,
   HashRouter as Router,
   Route,
   Switch,
@@ -102,14 +102,14 @@ const MainBodyContainer = () => {
                   <Dashboard />
                 </>
               )}
-              {!isLoggedIn && <Redirect to='/login?src=dashboard' />}
+              {!isLoggedIn && <Navigate to='/login?src=dashboard' />}
             </Route>
             {/* end of dashboard route path */}
 
             {/* Route Path for login */}
             <Route path='/login'>
               {isLoggedIn ? (
-                <Redirect to='/dashboard' />
+                <Navigate to='/dashboard' />
               ) : (
                 <>
                   <Helmet>
@@ -124,7 +124,7 @@ const MainBodyContainer = () => {
             {/* Route path for signup page*/}
             <Route path='/signup'>
               {isLoggedIn ? (
-                <Redirect to='/dashboard' />
+                <Navigate to='/dashboard' />
               ) : (
                 <>
                   <Helmet>
