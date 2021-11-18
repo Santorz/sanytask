@@ -12,6 +12,7 @@ import Dashboard from './dashboard';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ErrorPage from './pages/404-page';
+import Profile from './dashboard/js/Profile';
 // import { setIntervalAsync } from './utils/customSchedulers';
 import { useCheckUserStatus } from './parse-sdk/actions';
 import { useLocalstorageState } from 'rooks';
@@ -85,60 +86,76 @@ const MainBodyContainer = () => {
         {/* router setup */}
         <Router hashType='noslash'>
           <Routes>
-            <Route exact path='/'>
-              <Helmet>
-                <title>Organize your tasks with ease | my-next-task</title>
-              </Helmet>
-              <Home />
-            </Route>
-
-            {/* Route path for dashboard*/}
-            <Route path='/dashboard'>
-              {isLoggedIn && (
+            <Route
+              exact
+              path='/'
+              element={
                 <>
                   <Helmet>
-                    <title>Dashboard | my-next-task</title>
+                    <title>Organize your tasks with ease | my-next-task</title>
                   </Helmet>
-                  <Dashboard />
+                  <Home />
                 </>
-              )}
-              {!isLoggedIn && <Navigate to='/login?src=dashboard' />}
-            </Route>
+              }
+            ></Route>
+
+            {/* Route path for dashboard*/}
+            <Route
+              exact
+              path='/dashboard'
+              element={
+                <>
+                  {isLoggedIn && (
+                    <>
+                      <Helmet>
+                        <title>Dashboard | my-next-task</title>
+                      </Helmet>
+                      <Dashboard />
+                    </>
+                  )}
+                  {!isLoggedIn && <Navigate to='/login?src=dashboard' />}
+                </>
+              }
+            />
             {/* end of dashboard route path */}
 
             {/* Route Path for login */}
-            <Route path='/login'>
-              {isLoggedIn ? (
-                <Navigate to='/dashboard' />
-              ) : (
-                <>
-                  <Helmet>
-                    <title>Login | my-next-task</title>
-                  </Helmet>
-                  <LoginPage />
-                </>
-              )}
-            </Route>
+            <Route
+              path='/login'
+              element={
+                isLoggedIn ? (
+                  <Navigate to='/dashboard' />
+                ) : (
+                  <>
+                    <Helmet>
+                      <title>Login | my-next-task</title>
+                    </Helmet>
+                    <LoginPage />
+                  </>
+                )
+              }
+            />
             {/* end of login route path */}
 
             {/* Route path for signup page*/}
-            <Route path='/signup'>
-              {isLoggedIn ? (
-                <Navigate to='/dashboard' />
-              ) : (
-                <>
-                  <Helmet>
-                    <title>Sign up for an account | my-next-task</title>
-                  </Helmet>
-                  <SignupPage />
-                </>
-              )}
-            </Route>
+            <Route
+              path='/signup'
+              element={
+                isLoggedIn ? (
+                  <Navigate to='/dashboard' />
+                ) : (
+                  <>
+                    <Helmet>
+                      <title>Sign up for an account | my-next-task</title>
+                    </Helmet>
+                    <SignupPage />
+                  </>
+                )
+              }
+            />
             {/* end of signup route path */}
 
-            <Route path='*'>
-              <ErrorPage />
-            </Route>
+            <Route path='/*' element={<ErrorPage />} />
           </Routes>
         </Router>
         {/* end of router setup */}

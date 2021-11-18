@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, createContext } from 'react';
-import { useLocation, useHistory, Navigate } from 'react-router-dom';
+import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import DashboardBody from './DashboardBody';
 
@@ -18,7 +18,7 @@ const subHashArray = ['profile', '', 'account'];
 const App = () => {
   // Hooks
   let currentLocation = useLocation();
-  const history = useHistory();
+  const history = useNavigate();
   const isMobileOnly = useMediaQuery({ query: '(max-width:768px)' });
 
   // Use States

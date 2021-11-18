@@ -89,7 +89,7 @@ const MobileNav = React.forwardRef((props, ref) => {
               </Link>
             </li>
             <li>
-              <Link to='dashboard#account' className='mobile-link'>
+              <Link to='#account' className='mobile-link'>
                 <User size={25} color={`${tealColorString}`} />
                 <h5 className='p-0 m-0'>Account</h5>
               </Link>
@@ -139,7 +139,7 @@ const DesktopNav = () => {
             </Link>
           </li>
           <li>
-            <Link to='dashboard#account' className='desktop-link'>
+            <Link to='#account' className='desktop-link'>
               <User size={28} color={`${tealColorString}`} />
               <h5 className='p-0 m-0'>Account</h5>
             </Link>

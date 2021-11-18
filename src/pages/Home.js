@@ -3,7 +3,7 @@ import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
 // import { isLocalUserPresentFunc } from '../parse-sdk/userVars';
 import { useCheckUserStatus } from '../parse-sdk/actions';
-import { Container, Image, Header } from 'semantic-ui-react';
+import { Container, Image } from 'semantic-ui-react';
 import MainNav from './MainNav';
 
 // CSS
@@ -76,12 +76,9 @@ const Home = () => {
             style={{ width: '100vw' }}
           >
             <section className='position-relative px-3 pt-3 pt-sm-3 pt-md-3 pt-lg-4 px-md-4 px-lg-5 text-left align-self-start mt-2'>
-              <Header
-                id='landing-page-app-caption'
-                className='open-sans-font mb-0'
-              >
+              <h1 id='landing-page-app-caption' className='open-sans-font mb-0'>
                 Organize your tasks with ease.
-              </Header>
+              </h1>
               <h3 className='my-2 my-sm-3 my-md-2 my-xl-4 text-whitesmoke'>
                 A seamless solution to activity management.
                 <br className='d-none d-lg-block' /> Get your task planning done
