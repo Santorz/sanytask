@@ -12,7 +12,6 @@ import Dashboard from './dashboard';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ErrorPage from './pages/404-page';
-import Profile from './dashboard/js/Profile';
 // import { setIntervalAsync } from './utils/customSchedulers';
 import { useCheckUserStatus } from './parse-sdk/actions';
 import { useLocalstorageState } from 'rooks';
