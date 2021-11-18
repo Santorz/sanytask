@@ -121,11 +121,12 @@ const DashboardBody = (props) => {
                   <Segment
                     padded
                     inverted={isDarkTheme}
-                    className='animate__animated animate__fadeIn animate__faster px-2 px-md-3 d-flex flex-column pb-0 pt-3 pb-5'
+                    className='animate__animated animate__fadeIn animate__faster px-2 px-md-3 d-flex flex-column pb-0 py-3 position-relative'
                     style={{
-                      minHeight: '350px',
-                      maxHeight: '700px',
-                      overflowY: 'visible',
+                      height: `${
+                        window.innerHeight * (isTabletandAbove ? 0.6 : 0.675)
+                      }px`,
+                      overflowY: 'auto',
                       overflowX: 'none',
                     }}
                   >

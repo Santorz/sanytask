@@ -228,7 +228,11 @@ const Todos = ({ taskViewString, usersTasks }) => {
         <>
           {/* This would be displayed if there is more than one task left */}
           {usersTasks && usersTasks.length > 1 && (
-            <Header size='small' inverted={isDarkTheme}>
+            <Header
+              size='small'
+              inverted={isDarkTheme}
+              style={{ wordSpacing: '4px' }}
+            >
               Showing {firstPresentIndex} - {lastPresentIndex} of{' '}
               {usersTasks.length} pending tasks.
             </Header>
@@ -269,7 +273,7 @@ const Todos = ({ taskViewString, usersTasks }) => {
               </Ref>
             </Segment>
           )}
-          <div id='todos-container'>
+          <div id='todos-container' className='mb-2'>
             {usersTasks &&
               splittedTasks.map((task, index) => {
                 let { objectId, dueDate, title, details } = task;
@@ -368,32 +372,6 @@ const Todos = ({ taskViewString, usersTasks }) => {
               })}
           </div>
 
-          {/* Pagination Controller */}
-          <Pagination
-            className='mt-5 justify-content-center px-5 mx-auto my-primary-text '
-            totalPages={
-              usersTasks.length > 5
-                ? parseInt(Math.ceil(usersTasks.length / 5.0))
-                : 1
-            }
-            firstItem={null}
-            lastItem={null}
-            inverted={isDarkTheme}
-            onPageChange={(e, data) => {
-              let active = data.activePage;
-              let multiplier = 5;
-              let multiple = Number(active) * multiplier;
-              let arr = usersTasks;
-              setFirstPresentIndex(multiple - 4);
-              let slicedArr = arr.slice(
-                active > 1 ? multiple - 5 : 0,
-                multiple
-              );
-              setSplittedTasks(slicedArr);
-              setLastPresentIndex(multiple - (5 - slicedArr.length));
-            }}
-          />
-
           {/* Delete Modal */}
           <DeleteModal
             PresentState={deleteModalPresentState.open}
@@ -448,6 +426,32 @@ const Todos = ({ taskViewString, usersTasks }) => {
           {/* Notification Manager Container */}
           <CustomNotificationManager />
           {/* End of Notification Manager Container */}
+          {/* Pagination Controller */}
+          <Pagination
+            className='mt-auto justify-content-center px-5 mx-auto my-primary-text mb-2 position-relative'
+            style={{ bottom: '0' }}
+            totalPages={
+              usersTasks.length > 5
+                ? parseInt(Math.ceil(usersTasks.length / 5.0))
+                : 1
+            }
+            firstItem={null}
+            lastItem={null}
+            inverted={isDarkTheme}
+            onPageChange={(e, data) => {
+              let active = data.activePage;
+              let multiplier = 5;
+              let multiple = Number(active) * multiplier;
+              let arr = usersTasks;
+              setFirstPresentIndex(multiple - 4);
+              let slicedArr = arr.slice(
+                active > 1 ? multiple - 5 : 0,
+                multiple
+              );
+              setSplittedTasks(slicedArr);
+              setLastPresentIndex(multiple - (5 - slicedArr.length));
+            }}
+          />
         </>
       )}
     </>
