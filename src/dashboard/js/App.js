@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, createContext } from 'react';
-import { useLocation, useHistory, Redirect } from 'react-router';
+import { useLocation, useHistory, Redirect } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import DashboardBody from './DashboardBody';
 
