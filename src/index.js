@@ -4,7 +4,7 @@ import {
   Navigate,
   HashRouter as Router,
   Route,
-  Switch,
+  Routes,
 } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Home from './pages/Home';
@@ -84,7 +84,7 @@ const MainBodyContainer = () => {
       <CurrentDateContext.Provider value={currentDate}>
         {/* router setup */}
         <Router hashType='noslash'>
-          <Switch>
+          <Routes>
             <Route exact path='/'>
               <Helmet>
                 <title>Organize your tasks with ease | my-next-task</title>
@@ -139,7 +139,7 @@ const MainBodyContainer = () => {
             <Route path='*'>
               <ErrorPage />
             </Route>
-          </Switch>
+          </Routes>
         </Router>
         {/* end of router setup */}
       </CurrentDateContext.Provider>
