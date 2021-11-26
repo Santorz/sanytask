@@ -35,7 +35,7 @@
     "semantic-ui-react": "^2.0.4",
     "use-dark-mode": "^2.3.1",
     "web-vitals": "^2.1.2",
-    "webpack-dev-server": "^3.11.1"
+    "webpack-dev-server": "^4.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
