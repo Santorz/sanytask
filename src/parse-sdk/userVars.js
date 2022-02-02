@@ -10,10 +10,8 @@ export const isLocalUserPresentFunc = () => {
 export const getCurrentLocalUser = () => {
   let user = localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/currentUser`);
   if (user) {
-    return Object(
-      JSON.parse(
-        localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/currentUser`)
-      )
+    return JSON.parse(
+      localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/currentUser`)
     );
   } else {
     return null;

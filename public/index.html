@@ -36,7 +36,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script>
+    <script async>
       new Date(localStorage.getItem('sessionExpDate')) < Date.now() &&
         Parse.User.logOut();
     </script>
