@@ -1,6 +1,5 @@
 import { FC, createContext } from 'react';
-import { useTasksLiveQuery } from '../../parse-sdk/hooks';
-import { TaskInterface } from '../../parse-sdk/hooks';
+import { useTasksLiveQuery, TaskInterface } from '../../parse-sdk/hooks';
 
 export const TasksContext =
   createContext<{ tasks: Array<TaskInterface>; isTasksLoading: boolean }>(null);

@@ -16,7 +16,6 @@ if (!Parse.applicationId) {
 
 export interface TaskInterface {
   id: string;
-  user: Parse.User;
   createdAt: Date;
   details: string;
   dueDate: string;
