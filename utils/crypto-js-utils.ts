@@ -1,6 +1,6 @@
 import { AES, enc } from 'crypto-js';
 import { PARSE_APPLICATION_ID } from '../parse-sdk/config';
-import { getCurrentLocalUser } from '../src/parse-sdk/userVars';
+import { getCurrentLocalUser } from '../parse-sdk/userVars';
 
 // <!-- To encrypt -->
 export const encrypt = (text: string) => {

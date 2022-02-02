@@ -18,6 +18,7 @@ const Body = () => {
           Page not found
         </Heading>
         <Image
+          alt=''
           src='/media/404.svg'
           onContextMenu={(e: React.MouseEvent<HTMLImageElement>) =>
             e.preventDefault()
