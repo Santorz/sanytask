@@ -2,8 +2,8 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { Heading } from '@chakra-ui/react';
 import { useContext } from 'react';
-import { TasksContext } from '../../components/general/TasksConfig';
-import { decrypt } from '../../utils/crypto-js-utils';
+import { TasksContext } from '../components/general/TasksConfig';
+import { decrypt } from '../utils/crypto-js-utils';
 
 const Dashboard: NextPage = () => {
   // Hooks

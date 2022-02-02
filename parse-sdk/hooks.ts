@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Parse from 'parse';
 import { orderBy } from 'lodash';
 import {
@@ -32,25 +32,34 @@ export const useTasksLiveQuery = () => {
   const hideLoader = () => {
     setIsTasksLoading(false);
   };
-  const addTask = (task: Parse.Object<TaskInterface>) => {
-    const { attributes } = task;
-    const newTask = { id: task.id, ...attributes };
-    const newTasks = [...tasks, newTask];
-    setTasks(orderBy(newTasks, ['dueDate'], 'asc'));
-  };
-  const updateTask = (task: Parse.Object<TaskInterface>) => {
-    const { attributes, id } = task;
-    const filteredTasks = tasks.filter((task) => task.id !== id);
-    const newTask = { id: task.id, ...attributes };
-    const newTasks = [...filteredTasks, newTask];
-    setTasks(orderBy(newTasks, ['dueDate'], 'asc'));
-  };
-  const deleteTask = (task: Parse.Object<TaskInterface>) => {
-    const { attributes, id } = task;
-    const filteredTasks = tasks.filter((task) => task.id !== id);
-    // const newTask = { id: task.id, ...attributes };
-    setTasks(orderBy(filteredTasks, ['dueDate'], 'asc'));
-  };
+  const addTask = useCallback(
+    (task: Parse.Object<TaskInterface>) => {
+      const { attributes } = task;
+      const newTask = { id: task.id, ...attributes };
+      const newTasks = [...tasks, newTask];
+      setTasks(orderBy(newTasks, ['dueDate'], 'asc'));
+    },
+    [tasks]
+  );
+  const updateTask = useCallback(
+    (task: Parse.Object<TaskInterface>) => {
+      const { attributes, id } = task;
+      const filteredTasks = tasks.filter((task) => task.id !== id);
+      const newTask = { id: task.id, ...attributes };
+      const newTasks = [...filteredTasks, newTask];
+      setTasks(orderBy(newTasks, ['dueDate'], 'asc'));
+    },
+    [tasks]
+  );
+  const deleteTask = useCallback(
+    (task: Parse.Object<TaskInterface>) => {
+      const { attributes, id } = task;
+      const filteredTasks = tasks.filter((task) => task.id !== id);
+      // const newTask = { id: task.id, ...attributes };
+      setTasks(orderBy(filteredTasks, ['dueDate'], 'asc'));
+    },
+    [tasks]
+  );
 
   useEffect(() => {
     const tasksQuery = new Parse.Query('Task');
@@ -91,7 +100,7 @@ export const useTasksLiveQuery = () => {
       };
       //
     }
-  }, [tasksSubscription]);
+  }, [tasksSubscription, addTask, updateTask, deleteTask]);
 
   return { tasks, isTasksLoading };
 };
