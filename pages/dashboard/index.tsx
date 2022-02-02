@@ -28,6 +28,7 @@ const Dashboard: NextPage = () => {
             </h1>
           );
         })}
+      <h1>{tasks.length}</h1>
     </>
   );
 };
