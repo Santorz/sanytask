@@ -1,28 +1,42 @@
 import { NextPage } from 'next';
-import { useContext } from 'react';
 import Head from 'next/head';
-import { TasksContext } from '../components/general/TasksConfig';
-import { decrypt } from '../src/utils/crypto-js-utils';
-import { Heading } from '@chakra-ui/react';
+import Link from 'next/link';
+import {
+  Heading,
+  Button,
+  Link as ChakraLink,
+  Container,
+  useColorMode,
+} from '@chakra-ui/react';
 
 const Home: NextPage = () => {
-  const { isTasksLoading, tasks } = useContext(TasksContext);
+  const { toggleColorMode } = useColorMode();
   return (
     <>
       <Head>
         <title>my-next-task: Your friendly task management solution</title>
       </Head>
-      {isTasksLoading && !tasks && <Heading>Loading</Heading>}
-      {!isTasksLoading &&
-        tasks &&
-        tasks.map((task) => {
-          const { id, title, dueDate } = task;
-          return (
-            <h1 key={id}>
-              {decrypt(title)} || {new Date(dueDate).toDateString()}
-            </h1>
-          );
-        })}
+
+      <Container w='full'>
+        <Heading size='2xl' fontWeight='normal'>
+          Home Page
+        </Heading>
+        <Link href='/dashboard' passHref>
+          <ChakraLink
+            d='inline-block'
+            rounded='lg'
+            my='3'
+            p='2'
+            position='relative'
+            bg='#00b2b8'
+            color='white'
+          >
+            Dashboard
+          </ChakraLink>
+        </Link>{' '}
+        &nbsp;&nbsp;
+        <Button onClick={toggleColorMode}>Switch Theme</Button>
+      </Container>
     </>
   );
 };
