@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { TasksContext } from '../components/general/TasksConfig';
 import { decrypt } from '../utils/crypto-js-utils';
 
-const Dashboard: NextPage = () => {
+const Dashboard: NextPage = (props) => {
   // Hooks
   const { isTasksLoading, tasks } = useContext(TasksContext);
 
