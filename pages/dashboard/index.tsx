@@ -1,12 +1,13 @@
 import Head from 'next/head';
-import { Heading } from '@chakra-ui/react';
+import { Heading, Box, Button, Text } from '@chakra-ui/react';
 import { useContext } from 'react';
 import { TasksContext } from '../../components/general/TasksConfig';
 import { decrypt } from '../../utils/crypto-js-utils';
 
 const Dashboard = () => {
   // Hooks
-  const { isTasksLoading, tasks } = useContext(TasksContext);
+  const { isTasksLoading, tasks, isError, tasksError, triggerTasksFetch } =
+    useContext(TasksContext);
 
   return (
     <>
@@ -16,8 +17,12 @@ const Dashboard = () => {
       <Heading size='2xl' fontWeight='normal'>
         Dashboard
       </Heading>
-      {isTasksLoading && !tasks && <Heading>Loading</Heading>}
+      {/* This shows while loading and there's no error */}
+      {isTasksLoading && !tasks && !isError && <Heading>Loading</Heading>}
+
+      {/* This shows after loading and there's no error */}
       {!isTasksLoading &&
+        !isError &&
         tasks &&
         tasks.map((task) => {
           const { id, title, dueDate } = task;
@@ -27,7 +32,16 @@ const Dashboard = () => {
             </h1>
           );
         })}
-      <h1>{tasks && tasks.length}</h1>
+
+      {/* This shows if there is an error while loading*/}
+      {!tasks && isError && (
+        <Box>
+          <Text fontSize='lg' color='red.700'>
+            {tasksError}
+          </Text>
+          <Button onClick={() => triggerTasksFetch()}> Retry</Button>
+        </Box>
+      )}
     </>
   );
 };

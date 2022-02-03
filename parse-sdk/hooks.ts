@@ -22,11 +22,62 @@ export interface TaskInterface {
   title: string;
 }
 
+// Hook to get liveQuery Tasks
 export const useTasksLiveQuery = () => {
   const [tasks, setTasks] = useState<Array<TaskInterface>>(null);
   const [isTasksLoading, setIsTasksLoading] = useState<boolean>(true);
-  let [tasksSubscription, setTasksSubscription] =
+  const [tasksSubscription, setTasksSubscription] =
     useState<Parse.LiveQuerySubscription>(null);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [tasksError, setTasksError] = useState<string>(null);
+
+  // Vars
+
+  // Normal functions
+  const triggerTasksFetch = useCallback(() => {
+    if (!Parse.User.current()) {
+      setTasks(null);
+      setIsTasksLoading(false);
+      setIsError(true);
+      setTasksError('User is not logged in');
+    } else {
+      setIsTasksLoading(true);
+      setIsError(false);
+      setTasksError(null);
+      setTasks(null);
+      // Start fecthing process
+      const tasksQuery = new Parse.Query('Task');
+      tasksQuery
+        .equalTo('user', Parse.User.current())
+        .find()
+        .then((tasksArray: Parse.Object<Parse.Attributes>[]) => {
+          let tasks = tasksArray.map((t: Parse.Object<TaskInterface>) =>
+            (({ id, attributes }) => ({ id, ...attributes }))(t)
+          );
+          const sortedTasks: Array<TaskInterface> = orderBy(
+            tasks,
+            ['dueDate'],
+            'asc'
+          );
+          setIsError(false);
+          setTasksError(null);
+          setTasks(sortedTasks);
+        })
+        .catch((error: Parse.Error) => {
+          setIsTasksLoading(false);
+          setIsError(true);
+          setTasksError(error.message);
+        });
+      tasksQuery
+        .subscribe()
+        .then((sub) => setTasksSubscription(sub))
+        .catch((error: Parse.Error) => {
+          setIsTasksLoading(false);
+          setIsError(true);
+          setTasksError(error.message);
+        });
+    }
+  }, []);
 
   // Event functions
   const hideLoader = () => {
@@ -61,24 +112,17 @@ export const useTasksLiveQuery = () => {
     [tasks]
   );
 
+  // useEffects
   useEffect(() => {
-    const tasksQuery = new Parse.Query('Task');
-    tasksQuery
-      .equalTo('user', Parse.User.current())
-      .find()
-      .then((tasksArray: Parse.Object<Parse.Attributes>[]) => {
-        let tasks = tasksArray.map((t: Parse.Object<TaskInterface>) =>
-          (({ id, attributes }) => ({ id, ...attributes }))(t)
-        );
-        const sortedTasks: Array<TaskInterface> = orderBy(
-          tasks,
-          ['dueDate'],
-          'asc'
-        );
-        setTasks(sortedTasks);
-      });
-    tasksQuery.subscribe().then((sub) => setTasksSubscription(sub));
-  }, []);
+    if (!Parse.User.current()) {
+      setTasks(null);
+      setIsTasksLoading(false);
+      setIsError(true);
+      setTasksError('User is not logged in');
+    } else {
+      triggerTasksFetch();
+    }
+  }, [triggerTasksFetch]);
 
   useEffect(() => {
     if (tasksSubscription !== null) {
@@ -102,5 +146,5 @@ export const useTasksLiveQuery = () => {
     }
   }, [tasksSubscription, addTask, updateTask, deleteTask]);
 
-  return { tasks, isTasksLoading };
+  return { tasks, isTasksLoading, isError, tasksError, triggerTasksFetch };
 };
