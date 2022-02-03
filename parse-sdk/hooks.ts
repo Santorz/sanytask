@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import Parse from 'parse/node';
+import Parse from 'parse';
 import { orderBy } from 'lodash';
 import {
   PARSE_APPLICATION_ID,
