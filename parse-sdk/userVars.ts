@@ -14,9 +14,7 @@ export const isLocalUserPresentFunc = () => {
 export const getCurrentLocalUser: () => LocalUserInterface | null = () => {
   let user = localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/currentUser`);
   if (user) {
-    return JSON.parse(
-      localStorage.getItem(`Parse/${PARSE_APPLICATION_ID}/currentUser`)
-    );
+    return JSON.parse(user);
   } else {
     return null;
   }

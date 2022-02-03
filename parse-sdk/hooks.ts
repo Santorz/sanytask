@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import Parse from 'parse';
 import { orderBy } from 'lodash';
+import { getCurrentLocalUser } from './userVars';
 import {
   PARSE_APPLICATION_ID,
   PARSE_JAVASCRIPT_KEY,
@@ -35,7 +36,7 @@ export const useTasksLiveQuery = () => {
 
   // Normal functions
   const triggerTasksFetch = useCallback(() => {
-    if (!Parse.User.current()) {
+    if (!getCurrentLocalUser()) {
       setTasks(null);
       setIsTasksLoading(false);
       setIsError(true);
@@ -81,7 +82,9 @@ export const useTasksLiveQuery = () => {
 
   // Event functions
   const hideLoader = () => {
-    setIsTasksLoading(false);
+    setTimeout(() => {
+      setIsTasksLoading(false);
+    }, 2000);
   };
   const addTask = useCallback(
     (task: Parse.Object<TaskInterface>) => {
@@ -114,7 +117,7 @@ export const useTasksLiveQuery = () => {
 
   // useEffects
   useEffect(() => {
-    if (!Parse.User.current()) {
+    if (!getCurrentLocalUser()) {
       setTasks(null);
       setIsTasksLoading(false);
       setIsError(true);
