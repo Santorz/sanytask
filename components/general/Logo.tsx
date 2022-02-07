@@ -41,7 +41,7 @@ const DynamicImage: FC<DynamicImageInterface> = ({ src }) => {
   return (
     <Image
       draggable={false}
-      boxSize='5rem'
+      boxSize={{ base: '4rem', sm: '5rem' }}
       alt='my-next-task logo'
       src={src}
       onContextMenu={(event: MouseEvent<HTMLImageElement>) => {

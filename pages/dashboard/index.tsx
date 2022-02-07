@@ -1,10 +1,7 @@
-import { useContext, createContext, useState, useCallback } from 'react';
+import { createContext, useState, useCallback } from 'react';
 import Head from 'next/head';
 import {
   Heading,
-  Box,
-  Button,
-  Text,
   Flex,
   HStack,
   VStack,
@@ -12,12 +9,11 @@ import {
   Container,
 } from '@chakra-ui/react';
 import { useResponsiveSSR } from '../../utils/useResponsiveSSR';
-import { TasksContext } from '../../components/general/TasksConfig';
-import { decrypt } from '../../utils/crypto-js-utils';
 
 // Components' Import
 import Logo from '../../components/general/Logo';
 import DashboardNav from '../../components/dashboard/DashboardNav';
+import TasksList from '../dashboard/TasksList';
 
 // Context Interfaces
 interface DashboardHashContextInterface {
@@ -35,8 +31,7 @@ const Dashboard = () => {
   // Hooks
   const { isMobile, isTabletAndAbove } = useResponsiveSSR();
   const logoTextColor = useColorModeValue('brand.500', 'white');
-  const { isTasksLoading, tasks, isError, tasksError, triggerTasksFetch } =
-    useContext(TasksContext);
+
   const [dashboardHash, setDashboardHash] = useState('');
 
   const setHash = useCallback((name: string) => {
@@ -91,43 +86,15 @@ const Dashboard = () => {
         </Flex>
         {/* End of Nav Container */}
 
-        {/* Dashboard Navbar for Mobile only */}
+        {/* Fixed Dashboard Navbar for Mobile only */}
         {isMobile && (
           <DashboardHashContext.Provider value={{ setHash }}>
             <DashboardNav />
           </DashboardHashContext.Provider>
         )}
 
-        <Heading size='xl' fontWeight='normal'>
-          Dashboard / &#39;{dashboardHash}&#39;
-        </Heading>
-        {/* This shows while loading and there's no error */}
-        {isTasksLoading && !tasks && !isError && <Heading>Loading</Heading>}
-
-        {/* This shows after loading and there's no error */}
-        {!isTasksLoading &&
-          !isError &&
-          tasks &&
-          tasks.map((task) => {
-            const { id, title, dueDate } = task;
-            return (
-              <h1 key={id}>
-                {decrypt(title)} || {new Date(dueDate).toDateString()}
-              </h1>
-            );
-          })}
-
-        {/* This shows if there is an error while loading*/}
-        {!tasks && isError && (
-          <Box>
-            <Text fontSize='lg' color='red'>
-              {tasksError}
-            </Text>
-            <Button onClick={() => triggerTasksFetch()} colorScheme='brand'>
-              Retry
-            </Button>
-          </Box>
-        )}
+        {/* Main Dashboard Body */}
+        {dashboardHash === '' && <TasksList />}
       </Container>
     </>
   );

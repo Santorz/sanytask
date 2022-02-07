@@ -19,12 +19,12 @@ const DashboardNav = forwardRef<HTMLDivElement & HTMLUListElement>(
     const { isMobile, isTabletAndAbove } = useResponsiveSSR();
     const navShadow = useColorModeValue(
       '0 .2px 10px rgba(0,0,0,0.29)',
-      '0 .2px 10px rgba(170,170,170,0.29)'
+      '0 .2px 10px rgba(200,200,200,0.29)'
     );
     return (
       <Flex
         ref={ref}
-        justify='space-evenly'
+        justify={{ base: 'space-between', md: 'space-evenly' }}
         w='full'
         maxW={isMobile ? '100%' : '400px'}
         position={isMobile ? 'fixed' : 'relative'}
@@ -33,6 +33,7 @@ const DashboardNav = forwardRef<HTMLDivElement & HTMLUListElement>(
         rounded={isTabletAndAbove ? '3xl' : 'none'}
         mx='0'
         as='ul'
+        px={{ base: '4', md: '0' }}
       >
         <ActiveLink href='/dashboard' hash='' icon={FaTasks}>
           Tasks
@@ -85,19 +86,20 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
   return (
     <Link href={href} passHref>
       <ChakraLink
-        py='2'
+        pt='2'
         color={linkColor}
-        fontWeight='bold'
+        fontWeight={doesHashMatch ? 'bold' : 'normal'}
         fontFamily='Maven Pro'
         d='flex'
         flexDirection='column'
         alignItems='center'
         justifyContent='center'
-        fontSize='19px'
-        textDecoration={doesHashMatch ? 'underline' : 'none'}
+        fontSize='15px'
+        borderBottom={doesHashMatch ? '1px solid currentColor' : 'none'}
+        mb='2'
       >
-        <Icon fontSize='25px' as={icon} />
-        {children}
+        <Icon fontSize='22.5px' as={icon} />
+        <h3>{children}</h3>
       </ChakraLink>
     </Link>
   );
