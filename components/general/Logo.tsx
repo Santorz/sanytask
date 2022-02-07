@@ -1,5 +1,5 @@
 import { FC, MouseEvent } from 'react';
-import { useColorModeValue, Image, Link as ChakraLink } from '@chakra-ui/react';
+import { useColorMode, Image, Link as ChakraLink } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -22,13 +22,28 @@ const Logo: FC = () => {
 };
 
 const LogoImage: FC = () => {
-  const imgPath = useColorModeValue('/media/logo.svg', '/media/logo-white.svg');
+  const { colorMode } = useColorMode();
+  return (
+    <>
+      {colorMode === 'light' ? (
+        <DynamicImage src='/media/logo.svg' />
+      ) : (
+        <DynamicImage src='/media/logo-white.svg' />
+      )}
+    </>
+  );
+};
+
+interface DynamicImageInterface {
+  src: string;
+}
+const DynamicImage: FC<DynamicImageInterface> = ({ src }) => {
   return (
     <Image
       draggable={false}
       boxSize='5rem'
       alt='my-next-task logo'
-      src={imgPath}
+      src={src}
       onContextMenu={(event: MouseEvent<HTMLImageElement>) => {
         event.preventDefault();
       }}
@@ -38,5 +53,4 @@ const LogoImage: FC = () => {
     />
   );
 };
-
 export default Logo;

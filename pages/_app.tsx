@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={customTheme}>
       <TasksConfig>
-        <Container w='full' p='0' m='0'>
+        <Container w='full' p='0' m='0' maxW='100%'>
           <Component {...pageProps} />
         </Container>
       </TasksConfig>

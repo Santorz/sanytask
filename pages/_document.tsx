@@ -8,7 +8,7 @@ const MyDocument = () => {
         <link rel='icon' href='/favicon.ico' />
         <meta
           name='description'
-          content='A personalized todo application. This app is ideal for organizing, managing and scheduling your tasks and to-dos'
+          content='A personalized task management application. This app is ideal for organizing, managing and scheduling your tasks and to-dos. It helps you organize your tasks with easea and gets your task planning done with just a few clicks.'
         />
         <script
           async
