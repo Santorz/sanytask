@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { Container } from '@chakra-ui/react';
 
@@ -20,12 +20,12 @@ const dashboardContextDefaults = {
 
 // Contexts
 export const DashboardHashContext =
-  createContext<DashboardHashContextInterface>(dashboardContextDefaults);
+  React.createContext<DashboardHashContextInterface>(dashboardContextDefaults);
 
 const Dashboard = () => {
-  const [dashboardHash, setDashboardHash] = useState('');
+  const [dashboardHash, setDashboardHash] = React.useState('');
 
-  const setHash = useCallback((name: string) => {
+  const setHash = React.useCallback((name: string) => {
     setDashboardHash(name);
   }, []);
 
