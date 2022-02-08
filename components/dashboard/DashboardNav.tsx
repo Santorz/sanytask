@@ -7,6 +7,7 @@ import {
   useColorModeValue,
   Link as ChakraLink,
   Icon,
+  Container,
 } from '@chakra-ui/react';
 import { DashboardHashContext } from '../../pages/dashboard';
 import { FaTasks } from 'react-icons/fa';
@@ -73,8 +74,8 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
   const windowHash = asPath.indexOf('#') < 1 ? '' : asPath.split('#')[1];
   const doesHashMatch = hash === windowHash;
   const linkColor = useColorModeValue(
-    doesHashMatch ? 'brand.500' : 'black',
-    doesHashMatch ? 'brand.50' : 'white.800'
+    doesHashMatch ? 'brand.500' : '#515965',
+    doesHashMatch ? 'brand.50' : 'gray.400'
   );
 
   useEffect(() => {
@@ -84,7 +85,7 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
   // States
 
   return (
-    <Link href={href} passHref>
+    <Link href={href} passHref scroll={false}>
       <ChakraLink
         pt='2'
         color={linkColor}
@@ -97,6 +98,7 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
         fontSize='15px'
         borderBottom={doesHashMatch ? '1px solid currentColor' : 'none'}
         mb='2'
+        _hover={{ textDecoration: doesHashMatch ? 'none' : 'underline' }}
       >
         <Icon fontSize='22.5px' as={icon} />
         <h3>{children}</h3>
