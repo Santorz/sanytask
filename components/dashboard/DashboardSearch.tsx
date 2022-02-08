@@ -6,7 +6,6 @@ const DashboardSearch: FC = () => {
   return (
     <Button
       role='button'
-      colorScheme='brand'
       variant='ghost'
       _focus={{ backgroundColor: 'none' }}
       _hover={{ backgroundColor: 'none' }}

@@ -1,12 +1,13 @@
-import { FC, createContext } from 'react';
+import { FC, createContext, ReactNode } from 'react';
 import { useTasksLiveQuery, TaskInterface } from '../../parse-sdk/hooks';
 
-interface TasksContextInterface {
+export interface TasksContextInterface {
   tasks: Array<TaskInterface> | null;
   isTasksLoading: boolean;
   isError: boolean;
   tasksError: string | null;
   triggerTasksFetch: () => void;
+  children?: ReactNode;
 }
 
 export const TasksContext = createContext<TasksContextInterface>(null);

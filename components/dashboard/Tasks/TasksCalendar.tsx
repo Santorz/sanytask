@@ -1,7 +1,7 @@
 import { FC, useContext } from 'react';
 import { Heading, Box, Text, Button, Container } from '@chakra-ui/react';
-import { TasksContext } from '../general/TasksConfig';
-import { decrypt } from '../../utils/crypto-js-utils';
+import { TasksContext } from '../../general/TasksConfig';
+import { decrypt } from '../../../utils/crypto-js-utils';
 import { motion } from 'framer-motion';
 
 const TasksCalendar: FC = () => {

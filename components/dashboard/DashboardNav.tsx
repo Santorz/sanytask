@@ -7,12 +7,10 @@ import {
   useColorModeValue,
   Link as ChakraLink,
   Icon,
-  Container,
 } from '@chakra-ui/react';
 import { DashboardHashContext } from '../../pages/dashboard';
-import { FaTasks } from 'react-icons/fa';
+import { FaTasks, FaUser } from 'react-icons/fa';
 import { ImCalendar } from 'react-icons/im';
-import { IoIosSettings } from 'react-icons/io';
 import { IconType } from 'react-icons/lib';
 
 const DashboardNav = forwardRef<HTMLDivElement & HTMLUListElement>(
@@ -46,12 +44,8 @@ const DashboardNav = forwardRef<HTMLDivElement & HTMLUListElement>(
         >
           Calendar
         </ActiveLink>
-        <ActiveLink
-          href='/dashboard#settings'
-          hash='settings'
-          icon={IoIosSettings}
-        >
-          Settings
+        <ActiveLink href='/dashboard#account' hash='account' icon={FaUser}>
+          Account
         </ActiveLink>
       </Flex>
     );
@@ -75,7 +69,7 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
   const doesHashMatch = hash === windowHash;
   const linkColor = useColorModeValue(
     doesHashMatch ? 'brand.500' : '#515965',
-    doesHashMatch ? 'brand.50' : 'gray.400'
+    doesHashMatch ? 'brand.100' : 'gray.400'
   );
 
   useEffect(() => {
