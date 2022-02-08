@@ -6,7 +6,7 @@ import { Container } from '@chakra-ui/react';
 import NavContainer from '../../components/dashboard/DashboardNavContainer';
 import TasksList from '../../components/dashboard/TasksList';
 import TasksCalendar from '../../components/dashboard/TasksCalendar';
-import { AnimatePresence } from 'framer-motion/dist/framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
 // Context Interfaces
 interface DashboardHashContextInterface {
