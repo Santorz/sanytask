@@ -44,7 +44,7 @@ const Dashboard = () => {
           {/* Main Dashboard Body */}
           <AnimatePresence
             initial={false}
-            exitBeforeEnter
+            exitBeforeEnter={true}
             onExitComplete={() => window.scrollTo(0, 0)}
           >
             {dashboardHash === '' && <TasksList />}

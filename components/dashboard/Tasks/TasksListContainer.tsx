@@ -5,7 +5,7 @@ import { Text, Box, Button, HStack } from '@chakra-ui/react';
 import TasksLoaderComponent from './TasksLoader';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 
-const TasksListTabandAbove: FC<TasksContextInterface> = (props) => {
+const TasksListContainer: FC<TasksContextInterface> = (props) => {
   const {
     tasks,
     isTasksLoading,
@@ -14,7 +14,7 @@ const TasksListTabandAbove: FC<TasksContextInterface> = (props) => {
     triggerTasksFetch,
     children,
   } = props;
-  const { isTabletAndAbove, isTabletOnly } = useResponsiveSSR();
+  const { isMobile, isTabletAndAbove, isTabletOnly } = useResponsiveSSR();
 
   return (
     <>
@@ -26,7 +26,9 @@ const TasksListTabandAbove: FC<TasksContextInterface> = (props) => {
         {/* This shows while loading and there's no error */}
         {isTasksLoading && !tasks && !isError && (
           <>
-            <TasksLoaderComponent number={isTabletOnly ? 9 : 12} />
+            <TasksLoaderComponent
+              number={isMobile ? 5 : isTabletOnly ? 6 : 12}
+            />
           </>
         )}
 
@@ -59,4 +61,4 @@ const TasksListTabandAbove: FC<TasksContextInterface> = (props) => {
   );
 };
 
-export default TasksListTabandAbove;
+export default TasksListContainer;

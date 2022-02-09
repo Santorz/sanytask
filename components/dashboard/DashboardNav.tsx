@@ -15,7 +15,7 @@ import { IconType } from 'react-icons/lib';
 
 const DashboardNav = forwardRef<HTMLDivElement & HTMLUListElement>(
   (props, ref) => {
-    const { isMobile, isTabletAndAbove } = useResponsiveSSR();
+    const { isMobile, isTabletAndAbove, isTabletOnly } = useResponsiveSSR();
     const navShadow = useColorModeValue(
       '0 .2px 10px rgba(0,0,0,0.29)',
       '0 .2px 10px rgba(200,200,200,0.29)'
@@ -25,7 +25,7 @@ const DashboardNav = forwardRef<HTMLDivElement & HTMLUListElement>(
         ref={ref}
         justify={{ base: 'space-between', md: 'space-evenly' }}
         w='full'
-        maxW={isMobile ? '100%' : '400px'}
+        maxW={isMobile ? '100%' : isTabletOnly ? '300px' : '400px'}
         position={isMobile ? 'fixed' : 'relative'}
         bottom={isMobile ? '0' : 'unset'}
         boxShadow={navShadow}

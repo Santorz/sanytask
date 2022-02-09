@@ -59,6 +59,7 @@ const NavContainer: FC = () => {
           m='0'
           alignItems='center'
           gap={{ base: '1', md: '4' }}
+          px='0'
         >
           {isTabletAndAbove && (
             <Flex

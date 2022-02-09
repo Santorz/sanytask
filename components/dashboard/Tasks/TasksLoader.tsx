@@ -12,23 +12,32 @@ const TasksLoaderComponent: FC<TasksSkeletonInterafce> = (props) => {
   const { isMobile, isTabletAndAbove, isTabletOnly } = useResponsiveSSR();
   return (
     <>
+      {/* Loader for mobile */}
       {isMobile && (
-        <Flex direction='column' gap='4' w='full'>
-          <Heading size='md' fontWeight='normal'>
+        <Flex
+          direction='column'
+          gap='4'
+          w='full'
+          mx='auto'
+          maxW='500px'
+          userSelect='none'
+        >
+          <Heading size='md' fontWeight='normal' textAlign='center'>
             Loading tasks...
           </Heading>
 
           {Array(number)
             .fill(0)
             .map((_, i) => (
-              <Skeleton key={i} height='50px' w='full' rounded='xl' />
+              <Skeleton key={i} height='70px' w='full' rounded='xl' />
             ))}
         </Flex>
       )}
 
+      {/* Loader for tablet and above */}
       {isTabletAndAbove && (
-        <VStack w='full' maxW='full'>
-          <Heading size='lg' fontWeight='normal'>
+        <VStack w='full' maxW='full' mx='auto' userSelect='none'>
+          <Heading size='lg' fontWeight='normal' mb='3'>
             Loading tasks...
           </Heading>
           <SimpleGrid
@@ -40,7 +49,7 @@ const TasksLoaderComponent: FC<TasksSkeletonInterafce> = (props) => {
             {Array(number)
               .fill(0)
               .map((_, i) => (
-                <Skeleton key={i} height='160px' w='full' rounded='xl' />
+                <Skeleton key={i} height='120px' w='full' rounded='xl' />
               ))}
           </SimpleGrid>
         </VStack>
