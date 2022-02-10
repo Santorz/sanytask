@@ -8,7 +8,7 @@ interface TasksSkeletonInterafce {
 }
 // Skeletons for Loading State
 const TasksLoaderComponent: FC<TasksSkeletonInterafce> = (props) => {
-  const { number, children } = props;
+  const { number } = props;
   const { isMobile, isTabletAndAbove, isTabletOnly } = useResponsiveSSR();
   return (
     <>

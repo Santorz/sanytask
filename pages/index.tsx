@@ -5,10 +5,8 @@ import {
   Heading,
   Button,
   Link as ChakraLink,
-  Container,
   useColorMode,
 } from '@chakra-ui/react';
-import DashboardNav from '../components/dashboard/DashboardNav';
 
 const Home: NextPage = () => {
   const { toggleColorMode } = useColorMode();

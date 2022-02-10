@@ -38,8 +38,8 @@ export const useTasksLiveQuery = () => {
   const triggerTasksFetch = useCallback(() => {
     if (!getCurrentLocalUser()) {
       setTasks(null);
-      setIsTasksLoading(true);
-      setIsError(false);
+      setIsTasksLoading(false);
+      setIsError(true);
       setTasksError('User is not logged in');
     } else {
       setIsTasksLoading(true);

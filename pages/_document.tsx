@@ -23,7 +23,9 @@ const MyDocument = () => {
           referrerPolicy='no-referrer'
         /> */}
       </Head>
-      <body>
+      <body
+      // style={{ minHeight: '99vh' }}
+      >
         <Main />
         <NextScript />
       </body>

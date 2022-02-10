@@ -18,7 +18,7 @@ const TasksList: FC = () => {
       y: 0,
     },
     enter: { opacity: 1, x: 0, y: 0 },
-    exit: { opacity: 0, x: '100vw', y: 0 },
+    exit: { opacity: 0, x: isDesktop ? -150 : -100, y: 0 },
   };
   return (
     <motion.main
