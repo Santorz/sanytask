@@ -4,6 +4,7 @@ const MyDocument = () => {
   return (
     <Html lang='en'>
       <Head>
+        {/* <meta httpEquiv='Content-Security-Policy' content="script-src 'none'" /> */}
         <meta charSet='utf-8' />
         <link rel='icon' href='/favicon.ico' />
         <meta

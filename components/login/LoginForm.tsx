@@ -13,7 +13,12 @@ import {
   FormControl,
   FormLabel,
   Input,
+  InputGroup,
+  InputLeftElement,
+  Icon,
+  Button,
 } from '@chakra-ui/react';
+import { MdMail, MdLock } from 'react-icons/md';
 
 // Interfaces
 interface loginDetailsInterface {
@@ -24,6 +29,7 @@ interface loginDetailsInterface {
 const LoginForm: FC = () => {
   // Hooks
   const formBg = useColorModeValue('rgba(255,255,255,0.7)', 'rgba(5,5,5,0.6)');
+  const borderColor = useColorModeValue('#006080', '#24c8ff');
   //   State Values
   const [loginDetails, setLoginDetails] = useState<loginDetailsInterface>({
     email: '',
@@ -32,12 +38,15 @@ const LoginForm: FC = () => {
 
   const { email, password } = loginDetails;
   //   Vars
-  const isEmailInvalid = !email.match(emailRegex);
+  const isEmailInvalid = email && !email.match(emailRegex);
+  const isPasswordInvalid = password && !password.match(passwordRegex);
 
   //   Funcs
   const processLoginInputFinal = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Submitted stuff');
+    if (!email && !password && !isEmailInvalid && !isPasswordInvalid) {
+      alert('Submitted stuff');
+    }
   };
   const handleChange: ChangeEventHandler = (
     e: ChangeEvent<HTMLInputElement>
@@ -55,11 +64,11 @@ const LoginForm: FC = () => {
       bgColor={formBg}
       backdropFilter='blur(45px) saturate(280%)'
       w='full'
-      maxW='550px'
+      maxW='500px'
       rounded='2xl'
       shadow='md'
-      px={['3', '4', '4', '5']}
-      py={['4', '5', '5', '6']}
+      px={['3', '6', '9', '12']}
+      py={['4', '5', '7', '6']}
     >
       <Heading as='h1' size='lg' my='1'>
         Sign in
@@ -80,24 +89,89 @@ const LoginForm: FC = () => {
           display: 'flex',
           width: '100%',
           flexDirection: 'column',
-          columnGap: '10px',
           marginTop: '25px',
+          justifyContent: 'space-between',
+          height: '100%',
+          paddingBottom: '1rem',
         }}
       >
-        <FormControl isInvalid={isEmailInvalid} w='full'>
-          <FormLabel htmlFor='email' fontFamily='heading' fontWeight='bold'>
-            Email:
-          </FormLabel>
-          <Input
-            type='email'
-            name='email'
-            isRequired
-            value={email}
-            placeholder='Input your email here...'
-            onChange={handleChange}
-            colorScheme='brand'
-          />
-        </FormControl>
+        <section
+          style={{
+            display: 'flex',
+            width: '100%',
+            flexDirection: 'column',
+            gap: '15px',
+          }}
+        >
+          {/* Email form control element */}
+          <FormControl isInvalid={isEmailInvalid} w='full' isRequired>
+            <FormLabel htmlFor='email' fontFamily='heading' fontWeight='bold'>
+              Email:
+            </FormLabel>
+            <InputGroup d='flex' alignItems='center'>
+              <InputLeftElement pointerEvents='none' top='unset'>
+                <Icon as={MdMail} boxSize='1.5rem' />
+              </InputLeftElement>
+
+              <Input
+                type='email'
+                name='email'
+                isRequired
+                value={email}
+                placeholder='Input your email here...'
+                onChange={handleChange}
+                size='lg'
+                borderColor={borderColor}
+                _hover={{ borderColor: `${borderColor} !important` }}
+              />
+            </InputGroup>
+          </FormControl>
+          {/*  */}
+
+          {/* Password form control element */}
+          <FormControl isInvalid={isPasswordInvalid} w='full' isRequired>
+            <FormLabel
+              htmlFor='password'
+              fontFamily='heading'
+              fontWeight='bold'
+            >
+              Password:
+            </FormLabel>
+            <InputGroup d='flex' alignItems='center'>
+              <InputLeftElement pointerEvents='none' top='unset'>
+                <Icon as={MdLock} boxSize='1.5rem' />
+              </InputLeftElement>
+
+              <Input
+                type='password'
+                name='password'
+                isRequired
+                value={password}
+                placeholder='Input your password here...'
+                onChange={handleChange}
+                size='lg'
+                borderColor={borderColor}
+                _hover={{ borderColor: `${borderColor} !important` }}
+              />
+            </InputGroup>
+          </FormControl>
+          {/*  */}
+        </section>
+
+        {/* Sign in button element */}
+        <Button
+          loadingText='Signing you in'
+          spinnerPlacement='start'
+          type='submit'
+          w='full'
+          colorScheme='brand'
+          variant='solid'
+          fontSize='1.2rem'
+          mt='auto'
+        >
+          Sign in
+        </Button>
+        {/*  */}
       </form>
     </Flex>
   );
