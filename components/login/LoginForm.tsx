@@ -5,7 +5,9 @@ import {
   ChangeEvent,
   ChangeEventHandler,
 } from 'react';
+import { logUserIn } from '../../parse-sdk/actions';
 import { emailRegex, passwordRegex } from '../../utils/regexValidator';
+import { UserLoginStateInterface } from '../general/UserLoginState';
 import {
   Flex,
   useColorModeValue,
@@ -17,8 +19,10 @@ import {
   InputLeftElement,
   Icon,
   Button,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import { MdMail, MdLock } from 'react-icons/md';
+import Parse from 'parse';
 
 // Interfaces
 interface loginDetailsInterface {
@@ -26,15 +30,27 @@ interface loginDetailsInterface {
   password: string;
 }
 
-const LoginForm: FC = () => {
+const LoginForm: FC<UserLoginStateInterface> = (props) => {
   // Hooks
-  const formBg = useColorModeValue('rgba(255,255,255,0.7)', 'rgba(5,5,5,0.6)');
+  const {
+    setIsUserLoggedIn,
+    isUserLoggedIn,
+    setSessionExpDate,
+    isLocalUserPresentFunc,
+  } = props;
+
+  const formBg = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(5,5,5,0.6)');
   const borderColor = useColorModeValue('#006080', '#24c8ff');
+
   //   State Values
   const [loginDetails, setLoginDetails] = useState<loginDetailsInterface>({
     email: '',
     password: '',
   });
+  const [loginStarted, setLoginStarted] = useState(false);
+  const [loginSucess, setLoginSuccess] = useState(false);
+  const [loginFailed, setLoginFailed] = useState(false);
+  const [failureMsg, setFailureMsg] = useState('');
 
   const { email, password } = loginDetails;
   //   Vars
@@ -42,10 +58,53 @@ const LoginForm: FC = () => {
   const isPasswordInvalid = password && !password.match(passwordRegex);
 
   //   Funcs
-  const processLoginInputFinal = (e: FormEvent<HTMLFormElement>) => {
+  const processLoginInputFinal = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!email && !password && !isEmailInvalid && !isPasswordInvalid) {
-      alert('Submitted stuff');
+    // If every input is valid
+    if (email && password && !isEmailInvalid && !isPasswordInvalid) {
+      setLoginStarted(true);
+      // Perform main login action
+      logUserIn(email, password)
+        .then((resp) => {
+          // If login was successful
+          if (resp.status === 'success') {
+            console.log('status = ' + resp.status);
+            setLoginFailed(false);
+            setLoginSuccess(true);
+            setIsUserLoggedIn(true);
+          }
+          // If login was unsuccessful
+          else if (resp.status === 'failure') {
+            setLoginStarted(false);
+            setLoginFailed(true);
+            setFailureMsg(resp.result);
+          }
+        })
+        .catch((err: Error | any) => {
+          // If login was unsuccessful
+          setLoginStarted(false);
+          setLoginFailed(true);
+          setFailureMsg(err.message);
+        });
+      // Set session expiry date in local storage
+      Parse.Session.current()
+        .then((session) => {
+          console.log(session);
+
+          if (isLocalUserPresentFunc()) {
+            setSessionExpDate(
+              new Date(session.attributes.expiresAt).toISOString()
+            );
+          } else {
+            //
+            console.log('Brrrr');
+          }
+        })
+        .catch((err: Error) => {
+          console.log(err.message);
+        });
+    } else {
+      // If one of the inputs is invalid
     }
   };
   const handleChange: ChangeEventHandler = (
@@ -55,19 +114,21 @@ const LoginForm: FC = () => {
     setLoginDetails({ ...loginDetails, [t.name.trim()]: t.value });
   };
 
+  //
   //   Main JSX
   return (
     <Flex
       as='main'
       direction='column'
-      minH='27rem'
+      minH='25.5rem'
       bgColor={formBg}
-      backdropFilter='blur(45px) saturate(280%)'
+      backdropFilter='blur(15px) saturate(180%)'
       w='full'
       maxW='500px'
       rounded='2xl'
       shadow='md'
-      px={['3', '6', '9', '12']}
+      mt='-20'
+      px={['4', '6', '9', '12']}
       py={['4', '5', '7', '6']}
     >
       <Heading as='h1' size='lg' my='1'>
@@ -114,6 +175,7 @@ const LoginForm: FC = () => {
               </InputLeftElement>
 
               <Input
+                disabled={loginStarted}
                 type='email'
                 name='email'
                 isRequired
@@ -121,10 +183,12 @@ const LoginForm: FC = () => {
                 placeholder='Input your email here...'
                 onChange={handleChange}
                 size='lg'
+                id='email-input'
                 borderColor={borderColor}
                 _hover={{ borderColor: `${borderColor} !important` }}
               />
             </InputGroup>
+            <FormErrorMessage>Invalid email format</FormErrorMessage>
           </FormControl>
           {/*  */}
 
@@ -143,6 +207,7 @@ const LoginForm: FC = () => {
               </InputLeftElement>
 
               <Input
+                disabled={loginStarted}
                 type='password'
                 name='password'
                 isRequired
@@ -154,20 +219,28 @@ const LoginForm: FC = () => {
                 _hover={{ borderColor: `${borderColor} !important` }}
               />
             </InputGroup>
+            <FormErrorMessage>Invalid password format</FormErrorMessage>
           </FormControl>
           {/*  */}
         </section>
 
         {/* Sign in button element */}
         <Button
-          loadingText='Signing you in'
+          loadingText='Please wait...'
           spinnerPlacement='start'
           type='submit'
           w='full'
           colorScheme='brand'
           variant='solid'
           fontSize='1.2rem'
-          mt='auto'
+          isLoading={loginStarted}
+          disabled={
+            !email ||
+            !password ||
+            !email.match(emailRegex) ||
+            !password.match(passwordRegex) ||
+            loginStarted
+          }
         >
           Sign in
         </Button>

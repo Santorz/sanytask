@@ -1,7 +1,8 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useContext } from 'react';
 import Parse from 'parse';
 import { orderBy } from 'lodash';
-import { getCurrentLocalUser } from './userVars';
+import { decryptWithoutUserData } from '../utils/crypto-js-utils';
+import { UserLoginStateContext } from '../components/general/UserLoginState';
 import {
   PARSE_APPLICATION_ID,
   PARSE_JAVASCRIPT_KEY,
@@ -25,6 +26,10 @@ export interface TaskInterface {
 
 // Hook to get liveQuery Tasks
 export const useTasksLiveQuery = () => {
+  // Hooks
+  const { isUserLoggedIn } = useContext(UserLoginStateContext);
+
+  // States
   const [tasks, setTasks] = useState<Array<TaskInterface>>(null);
   const [isTasksLoading, setIsTasksLoading] = useState<boolean>(true);
   const [tasksSubscription, setTasksSubscription] =
@@ -36,7 +41,7 @@ export const useTasksLiveQuery = () => {
 
   // Normal functions
   const triggerTasksFetch = useCallback(() => {
-    if (!getCurrentLocalUser()) {
+    if (decryptWithoutUserData(isUserLoggedIn) !== 'true') {
       setTasks(null);
       setIsTasksLoading(false);
       setIsError(true);
@@ -78,7 +83,7 @@ export const useTasksLiveQuery = () => {
           setTasksError(error.message);
         });
     }
-  }, []);
+  }, [isUserLoggedIn]);
 
   // Event functions
   const hideLoader = () => {
@@ -117,7 +122,7 @@ export const useTasksLiveQuery = () => {
 
   // useEffects
   useEffect(() => {
-    if (!getCurrentLocalUser()) {
+    if (decryptWithoutUserData(isUserLoggedIn) !== 'true') {
       setTasks(null);
       setIsTasksLoading(false);
       setIsError(true);
@@ -125,7 +130,7 @@ export const useTasksLiveQuery = () => {
     } else {
       triggerTasksFetch();
     }
-  }, [triggerTasksFetch]);
+  }, [triggerTasksFetch, isUserLoggedIn]);
 
   useEffect(() => {
     if (tasksSubscription !== null) {

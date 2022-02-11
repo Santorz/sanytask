@@ -1,14 +1,20 @@
+import { useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { decryptWithoutUserData } from '../utils/crypto-js-utils';
 import {
   Heading,
   Button,
   Link as ChakraLink,
   useColorMode,
 } from '@chakra-ui/react';
+import { UserLoginStateContext } from '../components/general/UserLoginState';
 
 const Home: NextPage = () => {
+  const { isUserLoggedIn, invokeSignOut } = useContext(UserLoginStateContext);
+  const isUserLoggedInDecrypted =
+    decryptWithoutUserData(isUserLoggedIn) === 'true';
   const { toggleColorMode } = useColorMode();
   return (
     <>
@@ -18,7 +24,7 @@ const Home: NextPage = () => {
       <Heading size='2xl' fontWeight='normal'>
         Home Page
       </Heading>
-      <Link href='/dashboard' passHref>
+      <Link href={isUserLoggedInDecrypted ? '/dashboard' : '/login'} passHref>
         <ChakraLink
           d='inline-block'
           rounded='lg'
@@ -28,13 +34,19 @@ const Home: NextPage = () => {
           bg='#00b2b8'
           color='white'
         >
-          Dashboard
+          {isUserLoggedInDecrypted ? 'Dashboard' : 'Log in'}
         </ChakraLink>
       </Link>{' '}
       &nbsp;&nbsp;
       <Button onClick={toggleColorMode} colorScheme='brand' shadow='base'>
         Switch Theme
       </Button>
+      &nbsp;&nbsp;
+      {isUserLoggedIn && (
+        <Button onClick={invokeSignOut} colorScheme='red'>
+          Log out
+        </Button>
+      )}
     </>
   );
 };

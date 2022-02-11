@@ -37,25 +37,13 @@ export const registerNewUser = async function (
 };
 
 // Login Func
-export const loginUserIn = async function (username: string, password: string) {
+export const logUserIn = async function (username: string, password: string) {
   // Note that these values come from state variables that we've declared before
   const usernameValue = username;
   const passwordValue = password;
   try {
     // logIn returns the corresponding ParseUser object
     const loggedInUser = await Parse.User.logIn(usernameValue, passwordValue);
-    Parse.Session.current()
-      .then((session) => {
-        if (isLocalUserPresentFunc()) {
-          localStorage.setItem(
-            'sessionExpDate',
-            session.attributes.expiresAt.toUTCString()
-          );
-        }
-      })
-      .catch((err: Error) => {
-        throw new Error(err.message);
-      });
     return {
       status: 'success',
       result: loggedInUser,
@@ -67,9 +55,4 @@ export const loginUserIn = async function (username: string, password: string) {
       result: error.message,
     };
   }
-};
-
-export const invokeSignOut = async () => {
-  localStorage.removeItem('sessionExpDate');
-  await Parse.User.logOut();
 };

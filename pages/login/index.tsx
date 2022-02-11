@@ -1,15 +1,35 @@
-import { useEffect, FC } from 'react';
+import { useEffect, useContext } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Container, Image, Flex, useColorModeValue } from '@chakra-ui/react';
+import { decryptWithoutUserData } from '../../utils/crypto-js-utils';
+import { UserLoginStateContext } from '../../components/general/UserLoginState';
+import { Container, Flex, useColorModeValue } from '@chakra-ui/react';
 import LoginForm from '../../components/login/LoginForm';
+import BackdropImage from '../../components/general/BackdropImage';
 
 const LoginPage: NextPage = () => {
+  // Hooks
+  const userLoginState = useContext(UserLoginStateContext);
+  const { isUserLoggedIn } = userLoginState;
+  const router = useRouter();
   const flexBg = useColorModeValue(
     'rgba(220,220,220,0.25)',
     'rgba(55,55,55,0.45)'
   );
+
+  // useEffects
+  useEffect(() => {
+    console.log(decryptWithoutUserData(isUserLoggedIn));
+
+    const isLoggedIn =
+      isUserLoggedIn && decryptWithoutUserData(isUserLoggedIn) === 'true';
+    if (isLoggedIn) {
+      router.push('/dashboard');
+    }
+  }, [isUserLoggedIn, router]);
+
+  // Main JSX
   return (
     <>
       {/* Login SEO Section */}
@@ -50,28 +70,13 @@ const LoginPage: NextPage = () => {
             px='4'
             backdropFilter='blur(2px)'
           >
-            <LoginForm />
+            <LoginForm {...userLoginState} />
           </Flex>
         </Container>
         {/*  */}
       </Container>
       {/*  */}
     </>
-  );
-};
-
-const BackdropImage: FC = (props) => {
-  return (
-    //   background by SVGBackgrounds.com
-    <Image
-      alt='login backdrop image'
-      src='/media/sun-tornado.svg'
-      h='inherit'
-      w='inherit'
-      objectFit='cover'
-      backgroundRepeat='no-repeat'
-      backgroundPosition={{ base: 'left', md: 'center' }}
-    />
   );
 };
 
