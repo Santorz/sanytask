@@ -20,12 +20,11 @@ const LoginPage: NextPage = () => {
 
   // useEffects
   useEffect(() => {
-    console.log(decryptWithoutUserData(isUserLoggedIn));
-
     const isLoggedIn =
       isUserLoggedIn && decryptWithoutUserData(isUserLoggedIn) === 'true';
+
     if (isLoggedIn) {
-      router.push('/dashboard');
+      router.replace('/dashboard');
     }
   }, [isUserLoggedIn, router]);
 

@@ -2,7 +2,6 @@
 // Import Parse minified version
 // import Parse from 'parse/dist/parse.min.js';
 import { PARSE_APPLICATION_ID } from './config';
-import Parse from 'parse';
 
 interface LocalUserInterface {
   objectId: string;
@@ -39,8 +38,13 @@ export const getSessionExpDate: () => string | null = () => {
   }
 };
 
-export const setSessionExpMain = (date: string) => {
+export const setSessionExpMain: (date: string) => void = (date: string) => {
   if (typeof window !== 'undefined') {
-    window.localStorage.setItem('sessionExpDate', date);
+    if (!localStorage.getItem('sessionExpDate')) {
+      window.localStorage.setItem(
+        'sessionExpDate',
+        JSON.stringify(date.toString())
+      );
+    }
   }
 };

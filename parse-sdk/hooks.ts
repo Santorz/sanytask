@@ -40,13 +40,17 @@ export const useTasksLiveQuery = () => {
   // Vars
 
   // Normal functions
+  const showUserIsNotLoggedIn = () => {
+    setTasks(null);
+    setIsTasksLoading(false);
+    setIsError(true);
+    setTasksError('User is not logged in');
+  };
+
   const triggerTasksFetch = useCallback(() => {
     if (decryptWithoutUserData(isUserLoggedIn) !== 'true') {
-      setTasks(null);
-      setIsTasksLoading(false);
-      setIsError(true);
-      setTasksError('User is not logged in');
-    } else {
+      showUserIsNotLoggedIn();
+    } else if (decryptWithoutUserData(isUserLoggedIn) === 'true') {
       setIsTasksLoading(true);
       setIsError(false);
       setTasksError(null);
@@ -65,9 +69,10 @@ export const useTasksLiveQuery = () => {
             ['dueDate'],
             'asc'
           );
+          setTasks(sortedTasks);
           setIsError(false);
           setTasksError(null);
-          setTasks(sortedTasks);
+          setIsTasksLoading(false);
         })
         .catch((error: Parse.Error) => {
           setIsTasksLoading(false);
@@ -82,15 +87,13 @@ export const useTasksLiveQuery = () => {
           setIsError(true);
           setTasksError(error.message);
         });
+    } else {
+      showUserIsNotLoggedIn();
     }
   }, [isUserLoggedIn]);
 
   // Event functions
-  const hideLoader = () => {
-    setTimeout(() => {
-      setIsTasksLoading(false);
-    }, 2000);
-  };
+  const hideLoader = () => {};
   const addTask = useCallback(
     (task: Parse.Object<TaskInterface>) => {
       const { attributes } = task;
@@ -123,12 +126,11 @@ export const useTasksLiveQuery = () => {
   // useEffects
   useEffect(() => {
     if (decryptWithoutUserData(isUserLoggedIn) !== 'true') {
-      setTasks(null);
-      setIsTasksLoading(false);
-      setIsError(true);
-      setTasksError('User is not logged in');
-    } else {
+      showUserIsNotLoggedIn();
+    } else if (decryptWithoutUserData(isUserLoggedIn) === 'true') {
       triggerTasksFetch();
+    } else {
+      showUserIsNotLoggedIn();
     }
   }, [triggerTasksFetch, isUserLoggedIn]);
 

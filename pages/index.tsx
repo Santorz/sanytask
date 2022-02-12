@@ -42,7 +42,7 @@ const Home: NextPage = () => {
         Switch Theme
       </Button>
       &nbsp;&nbsp;
-      {isUserLoggedIn && (
+      {isUserLoggedInDecrypted && (
         <Button onClick={invokeSignOut} colorScheme='red'>
           Log out
         </Button>

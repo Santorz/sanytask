@@ -40,7 +40,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
   } = props;
 
   const formBg = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(5,5,5,0.6)');
-  const borderColor = useColorModeValue('#006080', '#24c8ff');
+  const borderColor = useColorModeValue('#006080', 'brand.400');
 
   //   State Values
   const [loginDetails, setLoginDetails] = useState<loginDetailsInterface>({
@@ -68,7 +68,6 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
         .then((resp) => {
           // If login was successful
           if (resp.status === 'success') {
-            console.log('status = ' + resp.status);
             setLoginFailed(false);
             setLoginSuccess(true);
             setIsUserLoggedIn(true);
@@ -85,23 +84,6 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
           setLoginStarted(false);
           setLoginFailed(true);
           setFailureMsg(err.message);
-        });
-      // Set session expiry date in local storage
-      Parse.Session.current()
-        .then((session) => {
-          console.log(session);
-
-          if (isLocalUserPresentFunc()) {
-            setSessionExpDate(
-              new Date(session.attributes.expiresAt).toISOString()
-            );
-          } else {
-            //
-            console.log('Brrrr');
-          }
-        })
-        .catch((err: Error) => {
-          console.log(err.message);
         });
     } else {
       // If one of the inputs is invalid
@@ -186,6 +168,11 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
                 id='email-input'
                 borderColor={borderColor}
                 _hover={{ borderColor: `${borderColor} !important` }}
+                _autofill={{
+                  boxShadow: '0 0 0 30px transparent inset !important',
+                  transition: 'background-color 5000s ease-in-out 0s',
+                  WebkitTextFillColor: `${useColorModeValue('black', 'white')}`,
+                }}
               />
             </InputGroup>
             <FormErrorMessage>Invalid email format</FormErrorMessage>

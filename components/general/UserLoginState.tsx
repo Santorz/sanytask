@@ -34,10 +34,7 @@ const UserLoginState: FC = (props) => {
   const { children } = props;
 
   // States
-  const [userVarLib, setUserVarLib] =
-    useState<
-      typeof import('/opt/lampp/htdocs/my-next-task/parse-sdk/userVars')
-    >(null);
+  const [userVarLib, setUserVarLib] = useState(null);
 
   const { getSessionExpDate, isLocalUserPresentFunc, setSessionExpMain } =
     userVarLib || {};
@@ -49,9 +46,7 @@ const UserLoginState: FC = (props) => {
   );
   const [isUserLoggedIn, setIsLoggedIn] = useState(
     encryptWithoutUserData(
-      isLocalUserPresentFunc && userVarLib && isLocalUserPresentFunc()
-        ? isLocalUserPresentFunc().toString()
-        : false.toString()
+      Parse.User.current() ? true.toString() : false.toString()
     )
   );
 
@@ -76,15 +71,18 @@ const UserLoginState: FC = (props) => {
 
   // Funcs
 
-  const setSessionExpDate = (date: string) => {
-    const expDate = encryptWithoutUserData(date);
-    setSessionExp(expDate);
-    setSessionExpMain(expDate);
-  };
+  const setSessionExpDate = useCallback(
+    (date: string) => {
+      const expDate = encryptWithoutUserData(date);
+      setSessionExp(expDate);
+      setSessionExpMain(expDate);
+    },
+    [setSessionExpMain]
+  );
 
-  const setIsUserLoggedIn = (isUserLoggedIn: boolean) => {
+  const setIsUserLoggedIn = useCallback((isUserLoggedIn: boolean) => {
     setIsLoggedIn(encryptWithoutUserData(isUserLoggedIn.toString()));
-  };
+  }, []);
 
   return (
     <UserLoginStateContext.Provider
