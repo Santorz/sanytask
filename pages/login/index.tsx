@@ -64,7 +64,7 @@ const LoginPage: NextPage = () => {
             align='center'
             bgColor={flexBg}
             userSelect='none'
-            gap='2'
+            gap='5'
             px='4'
             backdropFilter='blur(3px)'
             mt='-10rem'

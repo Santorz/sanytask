@@ -22,6 +22,7 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { MdMail, MdLock } from 'react-icons/md';
+import { useCustomToast } from '../../utils/useCustomToast';
 
 // Interfaces
 interface loginDetailsInterface {
@@ -30,7 +31,6 @@ interface loginDetailsInterface {
 }
 
 const LoginForm: FC<UserLoginStateInterface> = (props) => {
-  // Hooks
   const {
     setIsUserLoggedIn,
     isUserLoggedIn,
@@ -38,8 +38,10 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
     isLocalUserPresentFunc,
   } = props;
 
-  const formBg = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(5,5,5,0.6)');
+  // Hooks
+  const formBg = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(5,5,5,0.65)');
   const borderColor = useColorModeValue('#006080', 'brand.400');
+  const { showCustomToast } = useCustomToast();
 
   //   State Values
   const [loginDetails, setLoginDetails] = useState<loginDetailsInterface>({
@@ -95,143 +97,157 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
     setLoginDetails({ ...loginDetails, [t.name.trim()]: t.value });
   };
 
+  // useEffects
+
   //
   //   Main JSX
   return (
-    <Flex
-      as='main'
-      direction='column'
-      minH='25.5rem'
-      bgColor={formBg}
-      backdropFilter='blur(15px) saturate(180%)'
-      w='full'
-      maxW='500px'
-      rounded='2xl'
-      shadow='md'
-      px={['4', '6', '9', '12']}
-      py={['4', '5', '7', '6']}
-    >
-      <Heading as='h1' size='lg' my='1'>
-        Sign in
-      </Heading>
-      <Heading
-        as='h2'
-        fontSize='1.075rem'
-        my='1'
-        fontWeight='normal'
-        fontFamily='body'
+    <>
+      <Flex
+        as='main'
+        direction='column'
+        minH='25.5rem'
+        bgColor={formBg}
+        backdropFilter='blur(15px) saturate(180%)'
+        w='full'
+        maxW='500px'
+        rounded='2xl'
+        shadow='md'
+        px={['6', '9', '11', '14']}
+        py={['4', '5', '7', '6']}
       >
-        Log in to manage your tasks.
-      </Heading>
+        <Heading as='h1' size='lg' my='1'>
+          Sign in
+        </Heading>
+        <Heading
+          as='h2'
+          fontSize='1.075rem'
+          my='1'
+          fontWeight='normal'
+          fontFamily='body'
+        >
+          Log in to manage your tasks.
+        </Heading>
 
-      <form
-        onSubmit={processLoginInputFinal}
-        style={{
-          display: 'flex',
-          width: '100%',
-          flexDirection: 'column',
-          marginTop: '25px',
-          justifyContent: 'space-between',
-          height: '100%',
-          paddingBottom: '1rem',
-        }}
-      >
-        <section
+        <form
+          onSubmit={processLoginInputFinal}
           style={{
             display: 'flex',
             width: '100%',
             flexDirection: 'column',
-            gap: '15px',
+            marginTop: '25px',
+            justifyContent: 'space-between',
+            height: '100%',
+            paddingBottom: '1rem',
           }}
         >
-          {/* Email form control element */}
-          <FormControl isInvalid={isEmailInvalid} w='full' isRequired>
-            <FormLabel htmlFor='email' fontFamily='heading' fontWeight='bold'>
-              Email:
-            </FormLabel>
-            <InputGroup d='flex' alignItems='center'>
-              <InputLeftElement pointerEvents='none' top='unset'>
-                <Icon as={MdMail} boxSize='1.5rem' />
-              </InputLeftElement>
+          <section
+            style={{
+              display: 'flex',
+              width: '100%',
+              flexDirection: 'column',
+              gap: '15px',
+            }}
+          >
+            {/* Email form control element */}
+            <FormControl isInvalid={isEmailInvalid} w='full' isRequired>
+              <FormLabel htmlFor='email' fontFamily='heading' fontWeight='bold'>
+                Email:
+              </FormLabel>
+              <InputGroup d='flex' alignItems='center'>
+                <InputLeftElement pointerEvents='none' top='unset'>
+                  <Icon as={MdMail} boxSize='1.5rem' />
+                </InputLeftElement>
 
-              <Input
-                disabled={loginStarted}
-                type='email'
-                name='email'
-                isRequired
-                value={email}
-                placeholder='Input your email here...'
-                onChange={handleChange}
-                size='lg'
-                id='email-input'
-                borderColor={borderColor}
-                _hover={{ borderColor: `${borderColor} !important` }}
-                _autofill={{
-                  boxShadow: '0 0 0 30px transparent inset !important',
-                  transition: 'background-color 5000s ease-in-out 0s',
-                  WebkitTextFillColor: `${useColorModeValue('black', 'white')}`,
-                }}
-              />
-            </InputGroup>
-            <FormErrorMessage>Invalid email format</FormErrorMessage>
-          </FormControl>
+                <Input
+                  spellCheck={false}
+                  disabled={loginStarted}
+                  type='email'
+                  name='email'
+                  isRequired
+                  value={email}
+                  placeholder='Input your email here...'
+                  onChange={handleChange}
+                  size='lg'
+                  id='email-input'
+                  borderColor={borderColor}
+                  _hover={{ borderColor: `${borderColor} !important` }}
+                  _autofill={{
+                    boxShadow: '0 0 0 30px transparent inset !important',
+                    transition: 'background-color 5000s ease-in-out 0s',
+                    WebkitTextFillColor: `${useColorModeValue(
+                      'black',
+                      'white'
+                    )}`,
+                  }}
+                />
+              </InputGroup>
+              <FormErrorMessage>Invalid email format</FormErrorMessage>
+            </FormControl>
+            {/*  */}
+
+            {/* Password form control element */}
+            <FormControl isInvalid={isPasswordInvalid} w='full' isRequired>
+              <FormLabel
+                htmlFor='password'
+                fontFamily='heading'
+                fontWeight='bold'
+              >
+                Password:
+              </FormLabel>
+              <InputGroup d='flex' alignItems='center'>
+                <InputLeftElement pointerEvents='none' top='unset'>
+                  <Icon as={MdLock} boxSize='1.5rem' />
+                </InputLeftElement>
+
+                <Input
+                  disabled={loginStarted}
+                  type='password'
+                  name='password'
+                  isRequired
+                  value={password}
+                  placeholder='Input your password here...'
+                  onChange={handleChange}
+                  size='lg'
+                  borderColor={borderColor}
+                  _hover={{ borderColor: `${borderColor} !important` }}
+                />
+              </InputGroup>
+              <FormErrorMessage>Invalid password format</FormErrorMessage>
+            </FormControl>
+            {/*  */}
+          </section>
+
+          {/* Sign in button element */}
+          <Button
+            loadingText='Please wait...'
+            spinnerPlacement='start'
+            type='submit'
+            w='full'
+            colorScheme='brand'
+            variant='solid'
+            fontSize='1.2rem'
+            isLoading={loginStarted}
+            disabled={
+              !email ||
+              !password ||
+              !email.match(emailRegex) ||
+              !password.match(passwordRegex) ||
+              loginStarted
+            }
+          >
+            Sign in
+          </Button>
           {/*  */}
-
-          {/* Password form control element */}
-          <FormControl isInvalid={isPasswordInvalid} w='full' isRequired>
-            <FormLabel
-              htmlFor='password'
-              fontFamily='heading'
-              fontWeight='bold'
-            >
-              Password:
-            </FormLabel>
-            <InputGroup d='flex' alignItems='center'>
-              <InputLeftElement pointerEvents='none' top='unset'>
-                <Icon as={MdLock} boxSize='1.5rem' />
-              </InputLeftElement>
-
-              <Input
-                disabled={loginStarted}
-                type='password'
-                name='password'
-                isRequired
-                value={password}
-                placeholder='Input your password here...'
-                onChange={handleChange}
-                size='lg'
-                borderColor={borderColor}
-                _hover={{ borderColor: `${borderColor} !important` }}
-              />
-            </InputGroup>
-            <FormErrorMessage>Invalid password format</FormErrorMessage>
-          </FormControl>
-          {/*  */}
-        </section>
-
-        {/* Sign in button element */}
-        <Button
-          loadingText='Please wait...'
-          spinnerPlacement='start'
-          type='submit'
-          w='full'
-          colorScheme='brand'
-          variant='solid'
-          fontSize='1.2rem'
-          isLoading={loginStarted}
-          disabled={
-            !email ||
-            !password ||
-            !email.match(emailRegex) ||
-            !password.match(passwordRegex) ||
-            loginStarted
-          }
-        >
-          Sign in
-        </Button>
-        {/*  */}
-      </form>
-    </Flex>
+        </form>
+      </Flex>
+      <Button
+        onClick={() => showCustomToast('login', formBg)}
+        colorScheme='brand'
+      >
+        Test toast
+      </Button>
+    </>
   );
 };
 
