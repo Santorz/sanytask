@@ -34,12 +34,9 @@ export const DashboardHashContext =
 
 const Dashboard = () => {
   // Hooks
-  const {
-    isUserLoggedIn,
-    sessionExpDate,
-    setSessionExpDate,
-    isLocalUserPresentFunc,
-  } = useContext(UserLoginStateContext);
+  const { isUserLoggedIn, setSessionExpDate } = useContext(
+    UserLoginStateContext
+  );
   const router = useRouter();
 
   // States
@@ -53,11 +50,14 @@ const Dashboard = () => {
   // useEffects
   useEffect(() => {
     const isLoggedInBool =
-      isUserLoggedIn === null ||
-      (isUserLoggedIn && decryptWithoutUserData(isUserLoggedIn) === 'true');
+      isUserLoggedIn !== null &&
+      decryptWithoutUserData(isUserLoggedIn) === 'true';
 
     if (!isLoggedInBool) {
-      router.replace('/');
+      router.replace({
+        pathname: '/',
+        query: `src=dashboard&reason='isLoggedOut`,
+      });
     }
 
     if (!localStorage.getItem('sessionExpDate') && isLoggedInBool) {
@@ -76,12 +76,17 @@ const Dashboard = () => {
           console.log(err.message);
         });
     }
-  }, [isUserLoggedIn, router, sessionExpDate, setSessionExpDate]);
+  }, [isUserLoggedIn, router, setSessionExpDate]);
 
+  // Main JSX
   return (
     <>
       <Head>
         <title>Dashboard | my-next-task</title>
+        <meta
+          name='description'
+          content="Your tasks' dashboard is where you create, edit, modiify and organize your tasks. It includes a calendar where you can see the tasks for each day. You can also manage your account in the dashboard. Feel free to explore the dashboard."
+        />
       </Head>
 
       <DashboardHashContext.Provider value={{ setHash, dashboardHash }}>
@@ -99,8 +104,8 @@ const Dashboard = () => {
             {dashboardHash === '' && <TasksList />}
             {dashboardHash === 'calendar' && <TasksCalendar />}
           </AnimatePresence>
+          {/* End of Main Dashboard Body */}
         </Container>
-        {/* End of Main Dashboard Body */}
       </DashboardHashContext.Provider>
     </>
   );

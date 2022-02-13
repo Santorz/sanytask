@@ -17,7 +17,6 @@ import useResponsiveSSR from '../../utils/useResponsiveSSR';
 const NavContainer: FC = () => {
   // Hooks
   const { isMobile, isTabletAndAbove } = useResponsiveSSR();
-  const logoTextColor = useColorModeValue('brand.500', 'white');
 
   return (
     <>
@@ -34,22 +33,7 @@ const NavContainer: FC = () => {
         w='100% !important'
       >
         {/* Logo with either horizontal or verical text */}
-        {isMobile && (
-          <VStack>
-            <Logo />
-            <Heading size='sm' mt='0 !important' color={logoTextColor}>
-              my-next-task
-            </Heading>
-          </VStack>
-        )}
-        {!isMobile && (
-          <HStack spacing='2'>
-            <Logo />
-            <Heading size='md' mt='0 !important' color={logoTextColor}>
-              my-next-task
-            </Heading>
-          </HStack>
-        )}
+        <Logo isResponsive />
         {/* End of Logo */}
         <Container
           d='flex'

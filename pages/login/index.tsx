@@ -7,6 +7,7 @@ import { UserLoginStateContext } from '../../components/general/UserLoginState';
 import { Container, Flex, useColorModeValue } from '@chakra-ui/react';
 import LoginForm from '../../components/login/LoginForm';
 import BackdropImage from '../../components/general/BackdropImage';
+import Logo from '../../components/general/Logo';
 
 const LoginPage: NextPage = () => {
   // Hooks
@@ -14,8 +15,8 @@ const LoginPage: NextPage = () => {
   const { isUserLoggedIn } = userLoginState;
   const router = useRouter();
   const flexBg = useColorModeValue(
-    'rgba(220,220,220,0.25)',
-    'rgba(55,55,55,0.45)'
+    'rgba(55,55,55,0.25)',
+    'rgba(55,55,55,0.35)'
   );
 
   // useEffects
@@ -38,9 +39,7 @@ const LoginPage: NextPage = () => {
       {/*  */}
 
       {/* Login Page Component */}
-      <Container w='full' maxW='full' m='0' p='0' position='relative'>
-        {/* Insert Navbar here */}
-
+      <Container w='full' h='100vh' maxW='full' m='0' p='0' position='relative'>
         {/* Login Form Container */}
         <Container
           w='full'
@@ -65,10 +64,13 @@ const LoginPage: NextPage = () => {
             align='center'
             bgColor={flexBg}
             userSelect='none'
-            gap='4'
+            gap='2'
             px='4'
-            backdropFilter='blur(2px)'
+            backdropFilter='blur(3px)'
+            mt='-10rem'
           >
+            {/* Logo on login page */}
+            <Logo logoType='white' />
             <LoginForm {...userLoginState} />
           </Flex>
         </Container>

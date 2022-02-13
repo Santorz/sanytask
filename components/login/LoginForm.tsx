@@ -22,7 +22,6 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { MdMail, MdLock } from 'react-icons/md';
-import Parse from 'parse';
 
 // Interfaces
 interface loginDetailsInterface {
@@ -109,7 +108,6 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
       maxW='500px'
       rounded='2xl'
       shadow='md'
-      mt='-20'
       px={['4', '6', '9', '12']}
       py={['4', '5', '7', '6']}
     >
