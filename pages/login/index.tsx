@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { decryptWithoutUserData } from '../../utils/crypto-js-utils';
 import { UserLoginStateContext } from '../../components/general/UserLoginState';
+import { useCustomToast } from '../../utils/useCustomToast';
 import { Container, Flex, useColorModeValue } from '@chakra-ui/react';
 import LoginForm from '../../components/login/LoginForm';
 import BackdropImage from '../../components/general/BackdropImage';
@@ -14,6 +15,7 @@ const LoginPage: NextPage = () => {
   const userLoginState = useContext(UserLoginStateContext);
   const { isUserLoggedIn } = userLoginState;
   const router = useRouter();
+  const { showCustomToast } = useCustomToast();
   const flexBg = useColorModeValue(
     'rgba(55,55,55,0.25)',
     'rgba(55,55,55,0.35)'
@@ -25,9 +27,13 @@ const LoginPage: NextPage = () => {
       isUserLoggedIn && decryptWithoutUserData(isUserLoggedIn) === 'true';
 
     if (isLoggedIn) {
-      router.replace('/dashboard');
+      router.replace(`/dashboard`);
     }
-  }, [isUserLoggedIn, router]);
+
+    // if (router.asPath.includes(`?src='dashboard'`)) {
+    //   showCustomToast('info2', 'You need to log in to access the dashboard');
+    // }
+  }, [isUserLoggedIn, router, showCustomToast]);
 
   // Main JSX
   return (

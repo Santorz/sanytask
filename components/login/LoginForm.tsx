@@ -4,6 +4,7 @@ import {
   useState,
   ChangeEvent,
   ChangeEventHandler,
+  useEffect,
 } from 'react';
 import { logUserIn } from '../../parse-sdk/actions';
 import { emailRegex, passwordRegex } from '../../utils/regexValidator';
@@ -41,7 +42,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
   // Hooks
   const formBg = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(5,5,5,0.65)');
   const borderColor = useColorModeValue('#006080', 'brand.400');
-  const { showCustomToast } = useCustomToast();
+  const { showCustomToast, closeAllToasts } = useCustomToast();
 
   //   State Values
   const [loginDetails, setLoginDetails] = useState<loginDetailsInterface>({
@@ -49,7 +50,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
     password: '',
   });
   const [loginStarted, setLoginStarted] = useState(false);
-  const [loginSucess, setLoginSuccess] = useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
   const [failureMsg, setFailureMsg] = useState('');
 
@@ -61,6 +62,8 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
   //   Funcs
   const processLoginInputFinal = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoginFailed(false);
+    setFailureMsg('');
     // If every input is valid
     if (email && password && !isEmailInvalid && !isPasswordInvalid) {
       setLoginStarted(true);
@@ -71,7 +74,9 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
           if (resp.status === 'success') {
             setLoginFailed(false);
             setLoginSuccess(true);
-            setIsUserLoggedIn(true);
+            setTimeout(() => {
+              setIsUserLoggedIn(true);
+            }, 2000);
           }
           // If login was unsuccessful
           else if (resp.status === 'failure') {
@@ -98,6 +103,30 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
   };
 
   // useEffects
+  useEffect(() => {
+    if (loginStarted) {
+      closeAllToasts();
+      showCustomToast('login');
+    }
+    if (loginSuccess) {
+      closeAllToasts();
+      showCustomToast('success2', 'You have successfully logged in');
+    }
+    if (loginFailed) {
+      closeAllToasts();
+      showCustomToast(
+        'error2',
+        `${failureMsg.includes(':') ? failureMsg.split(':')[1] : failureMsg}`
+      );
+    }
+  }, [
+    closeAllToasts,
+    loginStarted,
+    showCustomToast,
+    loginSuccess,
+    loginFailed,
+    failureMsg,
+  ]);
 
   //
   //   Main JSX
@@ -241,12 +270,6 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
           {/*  */}
         </form>
       </Flex>
-      <Button
-        onClick={() => showCustomToast('login', formBg)}
-        colorScheme='brand'
-      >
-        Test toast
-      </Button>
     </>
   );
 };
