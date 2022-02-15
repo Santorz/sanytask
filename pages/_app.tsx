@@ -20,12 +20,7 @@ function MyApp({ Component, pageProps }) {
   // useEffect to check if user is logged in before page switch
   useEffect(() => {
     const checkandPrevent = (url: string) => {
-      if (url.includes('dashboard') && !isLocalUserPresentFunc()) {
-        router.replace({
-          pathname: '/',
-          query: `src=dashboard&reason='isLoggedOut`,
-        });
-      } else if (
+       if (
         (url.includes('login') || url.includes('register')) &&
         isLocalUserPresentFunc()
       ) {

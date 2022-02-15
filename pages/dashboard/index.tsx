@@ -34,7 +34,7 @@ export const DashboardHashContext =
 
 const Dashboard = () => {
   // Hooks
-  const { isUserLoggedIn, setSessionExpDate } = useContext(
+  const { encLoggedInString, setSessionExpDate } = useContext(
     UserLoginStateContext
   );
   const router = useRouter();
@@ -50,21 +50,14 @@ const Dashboard = () => {
   // useEffects
   useEffect(() => {
     const isLoggedInBool =
-      isUserLoggedIn !== null &&
-      decryptWithoutUserData(isUserLoggedIn) === 'true';
-
-    if (!isLoggedInBool) {
-      router.replace({
-        pathname: '/',
-        query: `src=dashboard&reason='isLoggedOut`,
-      });
-    }
+      encLoggedInString !== null &&
+      decryptWithoutUserData(encLoggedInString) === 'true';
 
     if (!localStorage.getItem('sessionExpDate') && isLoggedInBool) {
       // Set session expiry date in local storage
       Parse.Session.current()
         .then((session) => {
-          if (isUserLoggedIn) {
+          if (encLoggedInString) {
             setSessionExpDate(
               new Date(session.attributes.expiresAt).toISOString()
             );
@@ -76,7 +69,7 @@ const Dashboard = () => {
           console.log(err.message);
         });
     }
-  }, [isUserLoggedIn, router, setSessionExpDate]);
+  }, [encLoggedInString, router, setSessionExpDate]);
 
   // Main JSX
   return (

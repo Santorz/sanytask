@@ -12,9 +12,11 @@ import {
 import { UserLoginStateContext } from '../components/general/UserLoginState';
 
 const Home: NextPage = () => {
-  const { isUserLoggedIn, invokeSignOut } = useContext(UserLoginStateContext);
+  const { encLoggedInString, invokeSignOut } = useContext(
+    UserLoginStateContext
+  );
   const isUserLoggedInDecrypted =
-    decryptWithoutUserData(isUserLoggedIn) === 'true';
+    decryptWithoutUserData(encLoggedInString) === 'true';
   const { toggleColorMode } = useColorMode();
   return (
     <>

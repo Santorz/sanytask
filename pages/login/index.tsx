@@ -13,7 +13,7 @@ import Logo from '../../components/general/Logo';
 const LoginPage: NextPage = () => {
   // Hooks
   const userLoginState = useContext(UserLoginStateContext);
-  const { isUserLoggedIn } = userLoginState;
+  const { encLoggedInString } = userLoginState;
   const router = useRouter();
   const { showCustomToast } = useCustomToast();
   const flexBg = useColorModeValue(
@@ -24,7 +24,7 @@ const LoginPage: NextPage = () => {
   // useEffects
   useEffect(() => {
     const isLoggedIn =
-      isUserLoggedIn && decryptWithoutUserData(isUserLoggedIn) === 'true';
+      encLoggedInString && decryptWithoutUserData(encLoggedInString) === 'true';
 
     if (isLoggedIn) {
       router.replace(`/dashboard`);
@@ -33,7 +33,7 @@ const LoginPage: NextPage = () => {
     // if (router.asPath.includes(`?src='dashboard'`)) {
     //   showCustomToast('info2', 'You need to log in to access the dashboard');
     // }
-  }, [isUserLoggedIn, router, showCustomToast]);
+  }, [encLoggedInString, router, showCustomToast]);
 
   // Main JSX
   return (

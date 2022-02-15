@@ -33,8 +33,8 @@ interface loginDetailsInterface {
 
 const LoginForm: FC<UserLoginStateInterface> = (props) => {
   const {
-    setIsUserLoggedIn,
-    isUserLoggedIn,
+    setEncLoggedInString,
+    encLoggedInString,
     setSessionExpDate,
     isLocalUserPresentFunc,
   } = props;
@@ -75,7 +75,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
             setLoginFailed(false);
             setLoginSuccess(true);
             setTimeout(() => {
-              setIsUserLoggedIn(true);
+              setEncLoggedInString(true);
             }, 2000);
           }
           // If login was unsuccessful

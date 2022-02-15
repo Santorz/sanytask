@@ -7,6 +7,8 @@ import {
   useCallback,
 } from 'react';
 import Parse from 'parse';
+import { useRouter } from 'next/router';
+import { useCustomToast } from '../../utils/useCustomToast';
 import { encryptWithoutUserData } from '../../utils/crypto-js-utils';
 
 // NB: When sending to the context, you should encrypt
@@ -18,8 +20,8 @@ export interface UserLoginStateInterface {
   invokeSignOut: () => void;
   setSessionExpDate: (date: string) => void;
   sessionExpDate: string;
-  isUserLoggedIn: string;
-  setIsUserLoggedIn: (isUserLoggedIn: boolean) => void;
+  encLoggedInString: string;
+  setEncLoggedInString: (encLoggedInString: boolean) => void;
   isLocalUserPresentFunc: () => boolean;
 }
 
@@ -33,6 +35,10 @@ export const UserLoginStateContext =
 const UserLoginState: FC = (props) => {
   const { children } = props;
 
+  // Hooks
+  const { showCustomToast, closeAllToasts } = useCustomToast();
+  const router = useRouter();
+
   // States
   const [userVarLib, setUserVarLib] = useState(null);
 
@@ -44,7 +50,7 @@ const UserLoginState: FC = (props) => {
       ? encryptWithoutUserData(getSessionExpDate())
       : null
   );
-  const [isUserLoggedIn, setIsLoggedIn] = useState(
+  const [encLoggedInString, setIsLoggedIn] = useState(
     encryptWithoutUserData(
       Parse.User.current() ? true.toString() : false.toString()
     )
@@ -54,10 +60,14 @@ const UserLoginState: FC = (props) => {
   const invokeSignOut = useCallback(async () => {
     if (userVarLib && typeof window !== 'undefined') {
       localStorage.removeItem('sessionExpDate');
+      closeAllToasts();
+      showCustomToast('logout');
       await Parse.User.logOut();
       setIsLoggedIn(encryptWithoutUserData(false.toString()));
+      closeAllToasts();
+      router.push('/');
     }
-  }, [userVarLib]);
+  }, [userVarLib, showCustomToast, closeAllToasts, router]);
 
   // useEffects
   useEffect(() => {
@@ -70,7 +80,6 @@ const UserLoginState: FC = (props) => {
   }, [userVarLib]);
 
   // Funcs
-
   const setSessionExpDate = useCallback(
     (date: string) => {
       const expDate = encryptWithoutUserData(date);
@@ -80,8 +89,8 @@ const UserLoginState: FC = (props) => {
     [setSessionExpMain]
   );
 
-  const setIsUserLoggedIn = useCallback((isUserLoggedIn: boolean) => {
-    setIsLoggedIn(encryptWithoutUserData(isUserLoggedIn.toString()));
+  const setEncLoggedInString = useCallback((encLoggedInString: boolean) => {
+    setIsLoggedIn(encryptWithoutUserData(encLoggedInString.toString()));
   }, []);
 
   return (
@@ -90,8 +99,8 @@ const UserLoginState: FC = (props) => {
         invokeSignOut,
         sessionExpDate,
         setSessionExpDate,
-        isUserLoggedIn,
-        setIsUserLoggedIn,
+        encLoggedInString,
+        setEncLoggedInString,
         isLocalUserPresentFunc,
       }}
     >

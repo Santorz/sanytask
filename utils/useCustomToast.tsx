@@ -14,8 +14,9 @@ import { BsExclamationOctagon, BsInfoCircle } from 'react-icons/bs';
 
 // End of import statements
 
-type toastType =
+export type toastType =
   | 'login'
+  | 'logout'
   | 'register'
   | 'logout'
   | 'error'
@@ -47,6 +48,8 @@ export const useCustomToast = () => {
       switch (toastType) {
         case 'login':
           return brandColor;
+        case 'logout':
+          return inversePrimaryColor;
         case 'register':
           return brandColor;
         case 'success':
@@ -83,6 +86,8 @@ export const useCustomToast = () => {
       switch (toastType) {
         case 'login':
           return themeBg;
+        case 'logout':
+          return brandColor;
         case 'register':
           return themeBg;
         case 'success':
@@ -103,7 +108,14 @@ export const useCustomToast = () => {
           return themeBg;
       }
     },
-    [successColor, themeBg, infoColor, inversePrimaryColor, errorColor]
+    [
+      successColor,
+      themeBg,
+      infoColor,
+      inversePrimaryColor,
+      errorColor,
+      brandColor,
+    ]
   );
 
   // Main showToast function
@@ -192,7 +204,16 @@ const toastContentSwitcher: (
         <HStack as='section'>
           <Spinner size='sm' mr='0.5' />
           <Heading fontSize='1.175rem' fontWeight='semibold'>
-            Signing in...
+            Logging in...
+          </Heading>
+        </HStack>
+      );
+    case 'logout':
+      return (
+        <HStack as='section'>
+          <Spinner size='sm' mr='0.5' />
+          <Heading fontSize='1.175rem' fontWeight='semibold'>
+            Logging out...
           </Heading>
         </HStack>
       );
@@ -241,7 +262,7 @@ const toastContentSwitcher: (
           </Heading>
         </HStack>
       );
-    case 'error':
+    case 'info':
       return (
         <HStack as='section'>
           <Icon as={BsInfoCircle} boxSize='1.5rem' mr='0.5' />
@@ -250,7 +271,7 @@ const toastContentSwitcher: (
           </Heading>
         </HStack>
       );
-    case 'error2':
+    case 'info2':
       return (
         <HStack as='section'>
           <Icon as={BsInfoCircle} boxSize='1.5rem' mr='0.5' />

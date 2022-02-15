@@ -1,8 +1,10 @@
 import { useEffect, useState, useCallback, useContext } from 'react';
 import Parse from 'parse';
 import { orderBy } from 'lodash';
+import { useRouter } from 'next/router';
 import { decryptWithoutUserData } from '../utils/crypto-js-utils';
 import { UserLoginStateContext } from '../components/general/UserLoginState';
+import { useCustomToast, toastType } from '../utils/useCustomToast';
 import {
   PARSE_APPLICATION_ID,
   PARSE_JAVASCRIPT_KEY,
@@ -27,7 +29,9 @@ export interface TaskInterface {
 // Hook to get liveQuery Tasks
 export const useTasksLiveQuery = () => {
   // Hooks
-  const { isUserLoggedIn } = useContext(UserLoginStateContext);
+  const { encLoggedInString } = useContext(UserLoginStateContext);
+  const { showCustomToast, closeAllToasts } = useCustomToast();
+  const router = useRouter();
 
   // States
   const [tasks, setTasks] = useState<Array<TaskInterface>>(null);
@@ -48,9 +52,9 @@ export const useTasksLiveQuery = () => {
   };
 
   const triggerTasksFetch = useCallback(() => {
-    if (decryptWithoutUserData(isUserLoggedIn) !== 'true') {
+    if (decryptWithoutUserData(encLoggedInString) !== 'true') {
       showUserIsNotLoggedIn();
-    } else if (decryptWithoutUserData(isUserLoggedIn) === 'true') {
+    } else if (decryptWithoutUserData(encLoggedInString) === 'true') {
       setIsTasksLoading(true);
       setIsError(false);
       setTasksError(null);
@@ -90,7 +94,17 @@ export const useTasksLiveQuery = () => {
     } else {
       showUserIsNotLoggedIn();
     }
-  }, [isUserLoggedIn]);
+  }, [encLoggedInString]);
+
+  const showNotif = useCallback(
+    (type: toastType, msg: string) => {
+      if (router.asPath.includes('/dashboard')) {
+        closeAllToasts();
+        showCustomToast(type, msg);
+      } else return;
+    },
+    [closeAllToasts, router.asPath, showCustomToast]
+  );
 
   // Event functions
   const hideLoader = () => {};
@@ -99,9 +113,10 @@ export const useTasksLiveQuery = () => {
       const { attributes } = task;
       const newTask = { id: task.id, ...attributes };
       const newTasks = [...tasks, newTask];
+      showNotif('success', 'Task added successfully');
       setTasks(orderBy(newTasks, ['dueDate'], 'asc'));
     },
-    [tasks]
+    [showNotif, tasks]
   );
   const updateTask = useCallback(
     (task: Parse.Object<TaskInterface>) => {
@@ -109,30 +124,32 @@ export const useTasksLiveQuery = () => {
       const filteredTasks = tasks.filter((task) => task.id !== id);
       const newTask = { id: task.id, ...attributes };
       const newTasks = [...filteredTasks, newTask];
+      showNotif('success', 'Task updated successfully');
       setTasks(orderBy(newTasks, ['dueDate'], 'asc'));
     },
-    [tasks]
+    [showNotif, tasks]
   );
   const deleteTask = useCallback(
     (task: Parse.Object<TaskInterface>) => {
       const { attributes, id } = task;
       const filteredTasks = tasks.filter((task) => task.id !== id);
       // const newTask = { id: task.id, ...attributes };
+      showNotif('info', 'Task successfully deleted');
       setTasks(orderBy(filteredTasks, ['dueDate'], 'asc'));
     },
-    [tasks]
+    [showNotif, tasks]
   );
 
   // useEffects
   useEffect(() => {
-    if (decryptWithoutUserData(isUserLoggedIn) !== 'true') {
+    if (decryptWithoutUserData(encLoggedInString) !== 'true') {
       showUserIsNotLoggedIn();
-    } else if (decryptWithoutUserData(isUserLoggedIn) === 'true') {
+    } else if (decryptWithoutUserData(encLoggedInString) === 'true') {
       triggerTasksFetch();
     } else {
       showUserIsNotLoggedIn();
     }
-  }, [triggerTasksFetch, isUserLoggedIn]);
+  }, [triggerTasksFetch, encLoggedInString]);
 
   useEffect(() => {
     if (tasksSubscription !== null) {
