@@ -7,6 +7,7 @@ const DashboardSearch: FC = () => {
     <Button
       role='button'
       variant='ghost'
+      name='dashboard search button'
       _focus={{ backgroundColor: 'none' }}
       _hover={{ backgroundColor: 'none' }}
     >

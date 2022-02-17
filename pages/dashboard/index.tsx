@@ -16,8 +16,8 @@ import Parse from 'parse';
 import Head from 'next/head';
 import NavContainer from '../../components/dashboard/DashboardNavContainer';
 import { Container } from '@chakra-ui/react';
-import TasksList from '../../components/dashboard/Tasks/TasksList';
-import TasksCalendar from '../../components/dashboard/Tasks/TasksCalendar';
+import TasksList from '../../components/dashboard/Tasks/Tasks';
+import TasksCalendar from '../../components/dashboard/Tasks/Calendar';
 import { AnimatePresence } from 'framer-motion';
 
 // Context Interfaces

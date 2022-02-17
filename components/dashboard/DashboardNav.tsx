@@ -92,25 +92,27 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
   // States
 
   return (
-    <Link href={href} passHref scroll={false}>
-      <ChakraLink
-        pt='2'
-        color={linkColor}
-        fontWeight={doesHashMatch ? 'bold' : 'normal'}
-        fontFamily='Maven Pro'
-        d='flex'
-        flexDirection='column'
-        alignItems='center'
-        justifyContent='center'
-        fontSize='15px'
-        borderBottom={doesHashMatch ? '1px solid currentColor' : 'none'}
-        mb='2'
-        _hover={{ textDecoration: doesHashMatch ? 'none' : 'underline' }}
-      >
-        <Icon fontSize='22.5px' as={icon} />
-        <h3>{children}</h3>
-      </ChakraLink>
-    </Link>
+    <li style={{ listStyleType: 'none' }}>
+      <Link href={href} passHref scroll={false}>
+        <ChakraLink
+          pt='2'
+          color={linkColor}
+          fontWeight={doesHashMatch ? 'bold' : 'normal'}
+          fontFamily='Maven Pro'
+          d='flex'
+          flexDirection='column'
+          alignItems='center'
+          justifyContent='center'
+          fontSize='15px'
+          borderBottom={doesHashMatch ? '1px solid currentColor' : 'none'}
+          mb='2'
+          _hover={{ textDecoration: doesHashMatch ? 'none' : 'underline' }}
+        >
+          <Icon fontSize='22.5px' as={icon} />
+          <h3>{children}</h3>
+        </ChakraLink>
+      </Link>
+    </li>
   );
 };
 

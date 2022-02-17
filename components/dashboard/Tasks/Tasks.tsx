@@ -1,8 +1,8 @@
 import { FC, useContext, ReactNode } from 'react';
 import { TasksContext } from '../../general/TasksConfig';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
-import TasksListContainer from './TasksListContainer';
-import SubPage from '../../dashboard/SubPage';
+import TasksListContainer from './TasksContainer';
+import SubPage from '../SubPage';
 
 interface TasksListInterface {
   height: number;
@@ -26,7 +26,7 @@ const TasksList: FC<TasksListInterface> = (props) => {
     exit: { opacity: 0, x: isDesktopOnly ? -150 : -100, y: 0 },
   };
   return (
-    <SubPage {...props} key='taskslist' variants={variants}>
+    <SubPage {...props} pageKey='taskslist' variants={variants}>
       <TasksListContainer {...tasksContextObj} />
     </SubPage>
   );

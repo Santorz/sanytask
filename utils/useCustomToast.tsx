@@ -267,7 +267,7 @@ const toastContentSwitcher: (
         <HStack as='section'>
           <Icon as={BsInfoCircle} boxSize='1.5rem' mr='0.5' />
           <Heading fontSize='1.175rem' fontWeight='semibold'>
-            {toastMsg ? toastMsg : 'Error'}
+            {toastMsg ? toastMsg.toString() : 'Error'}
           </Heading>
         </HStack>
       );

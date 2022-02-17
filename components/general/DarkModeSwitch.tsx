@@ -11,7 +11,12 @@ const DarkModeSwitch: FC = () => {
   const { toggleColorMode } = useColorMode();
   const switchIcon = useColorModeValue(BsMoonStarsFill, BsSunFill);
   return (
-    <Button variant='ghost' onClick={toggleColorMode} role='button'>
+    <Button
+      variant='ghost'
+      onClick={toggleColorMode}
+      role='button'
+      name='dark mode switch'
+    >
       <Icon as={switchIcon} boxSize='1.5rem' />
     </Button>
   );

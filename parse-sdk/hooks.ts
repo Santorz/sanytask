@@ -82,6 +82,7 @@ export const useTasksLiveQuery = () => {
           setIsTasksLoading(false);
           setIsError(true);
           setTasksError(error.message);
+          console.log(error.code);
         });
       tasksQuery
         .subscribe()
@@ -108,12 +109,12 @@ export const useTasksLiveQuery = () => {
 
   // Event functions
   const refetchTasks = useCallback(() => {
-    if (isError) {
-      closeAllToasts();
-      showCustomToast('info2', 'Connection restored.');
-      triggerTasksFetch();
-    }
-  }, [closeAllToasts, isError, showCustomToast, triggerTasksFetch]);
+    // if (isError) {
+    //   closeAllToasts();
+    //   showCustomToast('info', 'Connection restored.');
+    //   triggerTasksFetch();
+    // }
+  }, []);
   const addTask = useCallback(
     (task: Parse.Object<TaskInterface>) => {
       const { attributes } = task;

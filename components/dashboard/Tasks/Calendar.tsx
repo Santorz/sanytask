@@ -25,7 +25,7 @@ const TasksCalendar: FC<TaskCalendarInterface> = (props) => {
     exit: { opacity: 0, x: 0, y: 0 },
   };
   return (
-    <SubPage {...props} key='taskscalendar' variants={variants}>
+    <SubPage {...props} pageKey='taskscalendar' variants={variants}>
       <Heading size='lg' fontWeight='normal'>
         Tasks Calendar
       </Heading>

@@ -5,13 +5,13 @@ import useResponsiveSSR from '../../utils/useResponsiveSSR';
 
 interface SubPageInterface {
   height: number;
-  key: string;
+  pageKey: string;
   mbValue: number;
   variants: Variants;
   children?: ReactNode;
 }
 const SubPage: FC<SubPageInterface> = (props) => {
-  const { key, variants, children, height, mbValue } = props;
+  const { pageKey, variants, children, height, mbValue } = props;
   // hooks
   const { isMobile } = useResponsiveSSR();
 
@@ -22,7 +22,7 @@ const SubPage: FC<SubPageInterface> = (props) => {
       exit='exit'
       variants={variants}
       transition={{ type: 'linear', duration: '.5' }}
-      key={key}
+      key={pageKey}
     >
       <Flex
         direction='column'
