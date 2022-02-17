@@ -1,12 +1,5 @@
-import { FC } from 'react';
-import {
-  Flex,
-  VStack,
-  HStack,
-  Container,
-  useColorModeValue,
-  Heading,
-} from '@chakra-ui/react';
+import { FC, forwardRef } from 'react';
+import { Flex, Container } from '@chakra-ui/react';
 import DashboardNav from './DashboardNav';
 import Logo from '../general/Logo';
 import DashboardSearch from './DashboardSearch';
@@ -14,13 +7,14 @@ import DarkModeSwitch from '../general/DarkModeSwitch';
 import useResponsiveSSR from '../../utils/useResponsiveSSR';
 
 //   Main Component
-const NavContainer: FC = () => {
+const NavContainer = forwardRef<HTMLDivElement>((props, ref) => {
   // Hooks
   const { isMobile, isTabletAndAbove } = useResponsiveSSR();
 
   return (
     <>
       <Flex
+        ref={ref}
         py='1'
         px={['2', '3', '3', '4']}
         justify='space-between'
@@ -28,7 +22,8 @@ const NavContainer: FC = () => {
         role='navigation'
         as='nav'
         id='dashboard-nav-container'
-        position='relative'
+        position='fixed'
+        top='0'
         align='center'
         w='100% !important'
       >
@@ -73,6 +68,8 @@ const NavContainer: FC = () => {
       {isMobile && <DashboardNav />}
     </>
   );
-};
+});
+
+NavContainer.displayName = 'Nav Container';
 
 export default NavContainer;

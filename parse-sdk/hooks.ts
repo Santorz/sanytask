@@ -48,7 +48,7 @@ export const useTasksLiveQuery = () => {
     setTasks(null);
     setIsTasksLoading(false);
     setIsError(true);
-    setTasksError('User is not logged in');
+    setTasksError('not-logged-in');
   };
 
   const triggerTasksFetch = useCallback(() => {
@@ -107,7 +107,13 @@ export const useTasksLiveQuery = () => {
   );
 
   // Event functions
-  const hideLoader = () => {};
+  const refetchTasks = useCallback(() => {
+    if (isError) {
+      closeAllToasts();
+      showCustomToast('info2', 'Connection restored.');
+      triggerTasksFetch();
+    }
+  }, [closeAllToasts, isError, showCustomToast, triggerTasksFetch]);
   const addTask = useCallback(
     (task: Parse.Object<TaskInterface>) => {
       const { attributes } = task;
@@ -155,7 +161,7 @@ export const useTasksLiveQuery = () => {
     if (tasksSubscription !== null) {
       // List of Events
       //   Open event
-      tasksSubscription.on('open', hideLoader);
+      tasksSubscription.on('open', refetchTasks);
       //   Create event
       tasksSubscription.on('create', addTask);
       //Update event
@@ -164,14 +170,14 @@ export const useTasksLiveQuery = () => {
       tasksSubscription.on('delete', deleteTask);
 
       return () => {
-        tasksSubscription.off('open', hideLoader);
+        tasksSubscription.off('open', refetchTasks);
         tasksSubscription.off('create', addTask);
         tasksSubscription.off('update', updateTask);
         tasksSubscription.off('delete', deleteTask);
       };
       //
     }
-  }, [tasksSubscription, addTask, updateTask, deleteTask]);
+  }, [tasksSubscription, addTask, updateTask, deleteTask, refetchTasks]);
 
   return { tasks, isTasksLoading, isError, tasksError, triggerTasksFetch };
 };

@@ -1,8 +1,9 @@
 import { FC } from 'react';
 import { decrypt } from '../../../utils/crypto-js-utils';
 import { TasksContextInterface } from '../../general/TasksConfig';
-import { Text, Box, Button, HStack } from '@chakra-ui/react';
+import { HStack } from '@chakra-ui/react';
 import TasksLoaderComponent from './TasksLoader';
+import ErrorNotice from '../ErrorNotice';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 
 const TasksListContainer: FC<TasksContextInterface> = (props) => {
@@ -14,15 +15,11 @@ const TasksListContainer: FC<TasksContextInterface> = (props) => {
     triggerTasksFetch,
     children,
   } = props;
-  const { isMobile, isTabletAndAbove, isTabletOnly } = useResponsiveSSR();
+  const { isMobile, isTabletOnly } = useResponsiveSSR();
 
   return (
     <>
-      {/* <Heading size='lg' fontWeight='normal' as='header'>
-        Welcome &#39;User&#39;
-      </Heading> */}
-
-      <HStack w='full' maxW='full'>
+      <HStack w='full' maxW='full' justifyContent='center'>
         {/* This shows while loading and there's no error */}
         {isTasksLoading && !tasks && !isError && (
           <>
@@ -47,14 +44,10 @@ const TasksListContainer: FC<TasksContextInterface> = (props) => {
 
         {/* This shows if there is an error while loading*/}
         {!tasks && isError && (
-          <Box>
-            <Text fontSize='lg' color='red'>
-              {tasksError}
-            </Text>
-            <Button onClick={() => triggerTasksFetch()} colorScheme='brand'>
-              Retry
-            </Button>
-          </Box>
+          <ErrorNotice
+            tasksError={tasksError}
+            triggerTasksFetch={triggerTasksFetch}
+          />
         )}
       </HStack>
     </>

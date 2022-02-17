@@ -4,8 +4,10 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
 } from 'react';
 import { useRouter } from 'next/router';
+import useResponsiveSSR from '../../utils/useResponsiveSSR';
 import { decryptWithoutUserData } from '../../utils/crypto-js-utils';
 import { UserLoginStateContext } from '../../components/general/UserLoginState';
 import Parse from 'parse';
@@ -28,26 +30,57 @@ const dashboardContextDefaults = {
   dashboardHash: '',
 };
 
+interface fixedMobileNavHeightContextInterface {
+  setFixedNavHeight: (height: number) => void;
+  fixedMobileNavHeight: number;
+}
+const fixedMobileNavHeightContextDefaults = {
+  setFixedNavHeight: () => {},
+  fixedMobileNavHeight: 0,
+};
+
 // Contexts
 export const DashboardHashContext =
   createContext<DashboardHashContextInterface>(dashboardContextDefaults);
+export const FixedMobileNavHeightContext =
+  createContext<fixedMobileNavHeightContextInterface>(
+    fixedMobileNavHeightContextDefaults
+  );
 
+// Main Dashboard Component
 const Dashboard = () => {
   // Hooks
   const { encLoggedInString, setSessionExpDate } = useContext(
     UserLoginStateContext
   );
   const router = useRouter();
+  const { isMobile } = useResponsiveSSR();
+
+  // Refs
+  const navContainerRef = useRef<HTMLDivElement>(null);
 
   // States
   const [dashboardHash, setDashboardHash] = useState('');
+  const [fixedMobileNavHeight, setFixedMobileNavHeight] = useState(0);
+  const [subPagesHeight, setSubPagesHeight] = useState(0);
 
   // Custom setState funcs
   const setHash = useCallback((name: string) => {
     setDashboardHash(name);
   }, []);
+  const setFixedNavHeight = useCallback((height: number) => {
+    setFixedMobileNavHeight(height);
+  }, []);
 
   // useEffects
+
+  // set subpages height
+  useEffect(() => {
+    const navHeightOnly = navContainerRef.current.clientHeight;
+    setSubPagesHeight(window.innerHeight - navHeightOnly);
+  }, [isMobile, navContainerRef]);
+
+  // set encoded session expiry date
   useEffect(() => {
     const isLoggedInBool =
       encLoggedInString !== null &&
@@ -71,6 +104,24 @@ const Dashboard = () => {
     }
   }, [encLoggedInString, router, setSessionExpDate]);
 
+  //usEffect to prevent hash change if user is not logged in
+  useEffect(() => {
+    const isLoggedInBool =
+      encLoggedInString !== null &&
+      decryptWithoutUserData(encLoggedInString) === 'true';
+
+    const checkandPrevent = () => {
+      if (!isLoggedInBool) {
+        router.events.emit('routeChangeError');
+        throw 'Hash change is not allowed';
+      }
+    };
+
+    router.events.on('hashChangeStart', checkandPrevent);
+
+    return () => router.events.off('hashChangeStart', checkandPrevent);
+  }, [encLoggedInString, router]);
+
   // Main JSX
   return (
     <>
@@ -85,8 +136,12 @@ const Dashboard = () => {
       <DashboardHashContext.Provider value={{ setHash, dashboardHash }}>
         <Container w='full' m='0' maxWidth='100%' p='0'>
           {/* Nav Container */}
-          <NavContainer />
-          {/* End of Nav Container */}
+          <FixedMobileNavHeightContext.Provider
+            value={{ setFixedNavHeight, fixedMobileNavHeight }}
+          >
+            <NavContainer ref={navContainerRef} />
+            {/* End of Nav Container */}
+          </FixedMobileNavHeightContext.Provider>
 
           {/* Main Dashboard Body */}
           <AnimatePresence
@@ -94,8 +149,18 @@ const Dashboard = () => {
             exitBeforeEnter={true}
             onExitComplete={() => window.scrollTo(0, 0)}
           >
-            {dashboardHash === '' && <TasksList />}
-            {dashboardHash === 'calendar' && <TasksCalendar />}
+            {dashboardHash === '' && (
+              <TasksList
+                height={subPagesHeight}
+                mbValue={fixedMobileNavHeight}
+              />
+            )}
+            {dashboardHash === 'calendar' && (
+              <TasksCalendar
+                height={subPagesHeight}
+                mbValue={fixedMobileNavHeight}
+              />
+            )}
           </AnimatePresence>
           {/* End of Main Dashboard Body */}
         </Container>

@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 export function useResponsiveSSR() {
@@ -17,16 +17,16 @@ export function useResponsiveSSR() {
     minWidth: '48em',
   });
 
-  const isDesktop = useMediaQuery({
+  const isDesktopOnly = useMediaQuery({
     minWidth: '62em',
   });
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (typeof window !== 'undefined') setIsClient(true);
   }, []);
 
   return {
-    isDesktop: isClient ? isDesktop : true,
+    isDesktopOnly: isClient ? isDesktopOnly : true,
     isTabletOnly: isClient ? isTabletOnly : false,
     isMobile: isClient ? isMobile : false,
     isTabletAndAbove: isClient ? isTabletAndAbove : false,
