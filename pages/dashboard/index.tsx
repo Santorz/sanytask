@@ -16,9 +16,16 @@ import Parse from 'parse';
 import Head from 'next/head';
 import NavContainer from '../../components/dashboard/DashboardNavContainer';
 import { Container } from '@chakra-ui/react';
-import TasksList from '../../components/dashboard/Tasks/Tasks';
-import TasksCalendar from '../../components/dashboard/Tasks/Calendar';
+import TasksSubpage from '../../components/dashboard/Tasks/TasksSubpage';
+import CalendarSubpage from '../../components/dashboard/Calendar/CalendarSubpage';
 import { AnimatePresence } from 'framer-motion';
+
+// Normal Interfaces
+export interface SubPageInterface {
+  height: number;
+  mbValue: number;
+  mainNavHeight: number;
+}
 
 // Context Interfaces
 interface DashboardHashContextInterface {
@@ -47,6 +54,7 @@ export const FixedMobileNavHeightContext =
     fixedMobileNavHeightContextDefaults
   );
 
+//
 // Main Dashboard Component
 const Dashboard = () => {
   // Hooks
@@ -63,6 +71,12 @@ const Dashboard = () => {
   const [dashboardHash, setDashboardHash] = useState('');
   const [fixedMobileNavHeight, setFixedMobileNavHeight] = useState(0);
   const [subPagesHeight, setSubPagesHeight] = useState(0);
+  const [mainNavHeight, setMainNavHeight] = useState(0);
+  // const [subPagesProps, setSubPagesProps] = useState({
+  //   height: 0,
+  //   mbValue: 0,
+  //   mainNavHeight: 0,
+  // });
 
   // Custom setState funcs
   const setHash = useCallback((name: string) => {
@@ -76,9 +90,19 @@ const Dashboard = () => {
 
   // set subpages height
   useEffect(() => {
-    const navHeightOnly = navContainerRef.current.clientHeight;
-    setSubPagesHeight(window.innerHeight - navHeightOnly);
-  }, [isMobile, navContainerRef]);
+    const setRespHeights = () => {
+      const navHeightOnly = navContainerRef.current.clientHeight;
+      setMainNavHeight(navHeightOnly);
+      setSubPagesHeight(
+        isMobile
+          ? window.innerHeight - mainNavHeight - fixedMobileNavHeight
+          : window.innerHeight - mainNavHeight
+      );
+    };
+    setRespHeights();
+    window.addEventListener('resize', setRespHeights);
+    return () => window.removeEventListener('resize', setRespHeights);
+  }, [fixedMobileNavHeight, isMobile, mainNavHeight]);
 
   // set encoded session expiry date
   useEffect(() => {
@@ -122,6 +146,13 @@ const Dashboard = () => {
     return () => router.events.off('hashChangeStart', checkandPrevent);
   }, [encLoggedInString, router]);
 
+  // Vars
+  const subPagesProps = {
+    height: subPagesHeight,
+    mbValue: isMobile ? fixedMobileNavHeight : 0,
+    mainNavHeight: mainNavHeight,
+  };
+
   // Main JSX
   return (
     <>
@@ -137,7 +168,10 @@ const Dashboard = () => {
         <Container w='full' m='0' maxWidth='100%' p='0'>
           {/* Nav Container */}
           <FixedMobileNavHeightContext.Provider
-            value={{ setFixedNavHeight, fixedMobileNavHeight }}
+            value={{
+              setFixedNavHeight,
+              fixedMobileNavHeight,
+            }}
           >
             <NavContainer ref={navContainerRef} />
             {/* End of Nav Container */}
@@ -149,17 +183,9 @@ const Dashboard = () => {
             exitBeforeEnter={true}
             onExitComplete={() => window.scrollTo(0, 0)}
           >
-            {dashboardHash === '' && (
-              <TasksList
-                height={subPagesHeight}
-                mbValue={fixedMobileNavHeight}
-              />
-            )}
+            {dashboardHash === '' && <TasksSubpage {...subPagesProps} />}
             {dashboardHash === 'calendar' && (
-              <TasksCalendar
-                height={subPagesHeight}
-                mbValue={fixedMobileNavHeight}
-              />
+              <CalendarSubpage {...subPagesProps} />
             )}
           </AnimatePresence>
           {/* End of Main Dashboard Body */}

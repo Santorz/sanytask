@@ -1,13 +1,13 @@
 import { FC, useContext, ReactNode } from 'react';
 import { Heading, Box, Text, Button } from '@chakra-ui/react';
 import { TasksContext } from '../../general/TasksConfig';
+import { SubPageInterface } from '../../../pages/dashboard';
 import { decrypt } from '../../../utils/crypto-js-utils';
 import SubPage from '../SubPage';
 
-interface TaskCalendarInterface {
+interface TaskCalendarInterface extends SubPageInterface {
   height: number;
   children?: ReactNode;
-  mbValue: number;
 }
 
 const TasksCalendar: FC<TaskCalendarInterface> = (props) => {

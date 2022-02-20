@@ -1,5 +1,5 @@
-import { FC, forwardRef } from 'react';
-import { Flex, Container } from '@chakra-ui/react';
+import { forwardRef } from 'react';
+import { Flex, Container, useColorModeValue } from '@chakra-ui/react';
 import DashboardNav from './DashboardNav';
 import Logo from '../general/Logo';
 import DashboardSearch from './DashboardSearch';
@@ -10,12 +10,13 @@ import useResponsiveSSR from '../../utils/useResponsiveSSR';
 const NavContainer = forwardRef<HTMLDivElement>((props, ref) => {
   // Hooks
   const { isMobile, isTabletAndAbove } = useResponsiveSSR();
+  const bgColor = useColorModeValue('gray.50', '#111111');
 
   return (
     <>
       <Flex
         ref={ref}
-        py='1'
+        py='0'
         px={['2', '3', '3', '4']}
         justify='space-between'
         userSelect='none'
@@ -26,6 +27,7 @@ const NavContainer = forwardRef<HTMLDivElement>((props, ref) => {
         top='0'
         align='center'
         w='100% !important'
+        bgColor={bgColor}
       >
         {/* Logo with either horizontal or verical text */}
         <Logo isResponsive />

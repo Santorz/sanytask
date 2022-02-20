@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { decrypt } from '../../../utils/crypto-js-utils';
 import { TasksContextInterface } from '../../general/TasksConfig';
-import { HStack } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import TasksLoaderComponent from './TasksLoader';
+import TasksComponent from './TasksComponent';
 import ErrorNotice from '../ErrorNotice';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 
@@ -19,7 +19,7 @@ const TasksListContainer: FC<TasksContextInterface> = (props) => {
 
   return (
     <>
-      <HStack w='full' maxW='full' justifyContent='center'>
+      <Container w='full' maxW='full' p='0' h='full' minH='full'>
         {/* This shows while loading and there's no error */}
         {isTasksLoading && !tasks && !isError && (
           <>
@@ -30,17 +30,9 @@ const TasksListContainer: FC<TasksContextInterface> = (props) => {
         )}
 
         {/* This shows after loading and there's no error */}
-        {!isTasksLoading &&
-          !isError &&
-          tasks &&
-          tasks.map((task) => {
-            const { id, title, dueDate } = task;
-            return (
-              <h1 key={id}>
-                {decrypt(title)} || {new Date(dueDate).toDateString()}
-              </h1>
-            );
-          })}
+        {!isTasksLoading && !isError && tasks && (
+          <TasksComponent tasks={tasks} />
+        )}
 
         {/* This shows if there is an error while loading*/}
         {!tasks && isError && (
@@ -49,7 +41,7 @@ const TasksListContainer: FC<TasksContextInterface> = (props) => {
             triggerTasksFetch={triggerTasksFetch}
           />
         )}
-      </HStack>
+      </Container>
     </>
   );
 };

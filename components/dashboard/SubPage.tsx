@@ -1,17 +1,18 @@
 import { FC, ReactNode } from 'react';
 import { Variants, motion } from 'framer-motion';
-import { Flex } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import useResponsiveSSR from '../../utils/useResponsiveSSR';
 
 interface SubPageInterface {
   height: number;
   pageKey: string;
   mbValue: number;
+  mainNavHeight: number;
   variants: Variants;
   children?: ReactNode;
 }
 const SubPage: FC<SubPageInterface> = (props) => {
-  const { pageKey, variants, children, height, mbValue } = props;
+  const { pageKey, variants, children, height, mbValue, mainNavHeight } = props;
   // hooks
   const { isMobile } = useResponsiveSSR();
 
@@ -24,20 +25,20 @@ const SubPage: FC<SubPageInterface> = (props) => {
       transition={{ type: 'linear', duration: '.5' }}
       key={pageKey}
     >
-      <Flex
-        direction='column'
-        align='center'
-        justify='center'
-        h={`${height}px`}
+      <Container
+        p='0'
+        minH={`${height + 10}px`}
+        h={height < 350 ? 'full' : `${height + 10}px`}
         w='full'
         maxW='full'
         as='main'
         px={['2', '3', '3', '4']}
         mb={`${isMobile ? mbValue : 0}px`}
-        mt={`${mbValue}px`}
+        mt={`${mainNavHeight}px`}
+        position='relative'
       >
         {children}
-      </Flex>
+      </Container>
     </motion.main>
   );
 };

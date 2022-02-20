@@ -66,7 +66,7 @@ const ErrorNotice: FC<ErrorNoticeInterface> = (props) => {
           </VStack>
           <HStack spacing='28'>
             <CustLink href='/login' type='brand'>
-              Login
+              Log in
             </CustLink>
             <CustLink href='/signup' type='gray'>
               Sign up

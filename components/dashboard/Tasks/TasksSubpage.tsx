@@ -1,13 +1,13 @@
 import { FC, useContext, ReactNode } from 'react';
 import { TasksContext } from '../../general/TasksConfig';
+import { SubPageInterface } from '../../../pages/dashboard';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 import TasksListContainer from './TasksContainer';
 import SubPage from '../SubPage';
 
-interface TasksListInterface {
+interface TasksListInterface extends SubPageInterface {
   height: number;
   children?: ReactNode;
-  mbValue: number;
 }
 
 const TasksList: FC<TasksListInterface> = (props) => {

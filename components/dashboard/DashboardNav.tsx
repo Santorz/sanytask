@@ -24,19 +24,21 @@ const DashboardNav: FC = (props) => {
     '0 .2px 10px rgba(0,0,0,0.29)',
     '0 .2px 10px rgba(200,200,200,0.29)'
   );
+  const bgColor = useColorModeValue('gray.50', '#111111');
   const fixedNavRef = useRef<HTMLDivElement & HTMLUListElement>(null);
 
   // useEffects
   useEffect(() => {
     setFixedNavHeight(fixedNavRef.current.clientHeight);
-  }, [setFixedNavHeight, fixedNavRef]);
+  }, [setFixedNavHeight]);
+
   useEffect(() => {
     const setHeight = () => {
       setFixedNavHeight(fixedNavRef.current.clientHeight);
     };
     window.addEventListener('resize', setHeight);
     return () => window.removeEventListener('resize', setHeight);
-  }, [fixedNavRef, setFixedNavHeight]);
+  }, [setFixedNavHeight]);
 
   // Main JSX
   return (
@@ -52,6 +54,7 @@ const DashboardNav: FC = (props) => {
       mx='0'
       as='ul'
       px={{ base: '4', md: '0' }}
+      bgColor={{ base: bgColor, md: 'transparent' }}
     >
       <ActiveLink href='/dashboard' hash='' icon={FaTasks}>
         Tasks
