@@ -8,8 +8,9 @@ import {
 } from 'react';
 import { TaskInterface } from '../../../parse-sdk/hooks';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
-import { Text, Flex } from '@chakra-ui/react';
+import { Text, Flex, VStack } from '@chakra-ui/react';
 import PaginationController from './PaginationController';
+import CreateButton from './CreateButton';
 import Parse from 'parse';
 
 interface TasksComponentInterface {
@@ -102,7 +103,10 @@ const TasksComponent: FC<TasksComponentInterface> = (props) => {
         </Text>
       </div>
 
-      <PaginationController size='big' {...paginationPropsObject} />
+      <VStack spacing='7' mb='4'>
+        <CreateButton />
+        <PaginationController size='big' {...paginationPropsObject} />
+      </VStack>
     </Flex>
   );
 };

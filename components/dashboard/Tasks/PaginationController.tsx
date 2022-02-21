@@ -2,7 +2,7 @@ import { FC, ReactNode, MouseEvent } from 'react';
 import { HStack, IconButton, Heading, Icon } from '@chakra-ui/react';
 import { PaginatedTasksInterface } from './TasksComponent';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
-import { FaChevronCircleRight, FaChevronCircleLeft } from 'react-icons/fa';
+import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
 interface PaginationControllerInterface extends PaginatedTasksInterface {
   endOffset: number;
@@ -53,8 +53,9 @@ const PaginationController: FC<PaginationControllerInterface> = (props) => {
             name='prev'
             onClick={handlePageChange}
             disabled={currentPage <= 1}
-            icon={<FaChevronCircleLeft />}
-            fontSize='4xl'
+            icon={<FaChevronLeft />}
+            fontSize='3xl'
+            opacity={currentPage <= 1 ? '0.3 !important' : '1'}
           />
           <Heading size='sm'>
             Showing {tasksOffset + 1} to{' '}
@@ -72,8 +73,9 @@ const PaginationController: FC<PaginationControllerInterface> = (props) => {
             name='next'
             onClick={handlePageChange}
             disabled={currentPage >= pageCount}
-            icon={<FaChevronCircleRight />}
-            fontSize='4xl'
+            icon={<FaChevronRight />}
+            fontSize='3xl'
+            opacity={currentPage >= pageCount ? '0.3 !important' : '1'}
           />
         </HStack>
       )}
