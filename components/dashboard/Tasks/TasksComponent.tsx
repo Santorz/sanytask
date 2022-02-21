@@ -1,4 +1,11 @@
-import { FC, ReactNode, useCallback, useState, MouseEvent } from 'react';
+import {
+  FC,
+  ReactNode,
+  useCallback,
+  useState,
+  MouseEvent,
+  useEffect,
+} from 'react';
 import { TaskInterface } from '../../../parse-sdk/hooks';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 import { Text, Flex } from '@chakra-ui/react';
@@ -27,27 +34,52 @@ const TasksComponent: FC<TasksComponentInterface> = (props) => {
   const [slicedTasks, setSlicedTasks] = useState(
     tasks.slice(tasksOffset, endOffset)
   );
+  const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(
     Math.ceil(tasks.length / tasksPerPage)
   );
 
+  // useEffects
+  // useeffect to  reslice tasks anytime the main tasks change
+  useEffect(() => {
+    setSlicedTasks(tasks.slice(tasksOffset, endOffset));
+    setPageCount(Math.ceil(tasks.length / tasksPerPage));
+  }, [endOffset, tasks, tasksOffset, tasksPerPage]);
+
   // handle page change
   const handlePageChange = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
-      const target = event.target as HTMLButtonElement;
-      const newOffset = Number(target.value);
-      setTasksOffset(newOffset);
+      const target = event.currentTarget as HTMLButtonElement;
+      const btnName = target.name;
+      // const newOffset = Number(target.value);
+      setTasksOffset((prev) =>
+        btnName === 'prev' && currentPage > 1
+          ? prev - tasksPerPage
+          : btnName === 'next' && currentPage < pageCount
+          ? prev + tasksPerPage
+          : 0
+      );
+      setCurrentPage((prev) =>
+        btnName === 'prev' && currentPage > 1
+          ? prev - 1
+          : btnName === 'next' && currentPage < pageCount
+          ? prev + 1
+          : 1
+      );
     },
-    []
+    [currentPage, pageCount, tasksPerPage]
   );
 
   // Object to pass to tasks grid and pagination controller
   const paginationPropsObject = {
     tasksPerPage,
     tasksOffset,
+    endOffset,
     handlePageChange,
     slicedTasks,
     tasksLength: tasks ? tasks.length : null,
+    currentPage,
+    pageCount,
   };
 
   // Main JSX
@@ -62,7 +94,14 @@ const TasksComponent: FC<TasksComponentInterface> = (props) => {
       px='2'
     >
       <Text>Hello {Parse.User.current().get('firstName')}</Text>
-      <Text>You&#39;ve got {tasks.length} tasks.</Text>
+      <div>
+        <Text>You&#39;ve got {tasks.length} tasks.</Text>
+        <Text>
+          This page will show {slicedTasks.length} task
+          {slicedTasks.length === 1 ? '' : 's'}.
+        </Text>
+      </div>
+
       <PaginationController size='big' {...paginationPropsObject} />
     </Flex>
   );

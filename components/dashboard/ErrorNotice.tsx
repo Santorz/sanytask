@@ -36,7 +36,6 @@ const ErrorNotice: FC<ErrorNoticeInterface> = (props) => {
   return (
     <Flex
       align='center'
-      mt='-20'
       justify='space-around'
       minH='22.5rem'
       w='97.5%'
@@ -47,6 +46,7 @@ const ErrorNotice: FC<ErrorNoticeInterface> = (props) => {
       shadow='md'
       p='2'
       userSelect='none'
+      mx='auto'
     >
       {isLoginError && (
         <>

@@ -1,17 +1,33 @@
 import { FC, ReactNode, MouseEvent } from 'react';
-import { HStack, Button } from '@chakra-ui/react';
+import { HStack, IconButton, Heading, Icon } from '@chakra-ui/react';
+import { PaginatedTasksInterface } from './TasksComponent';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
+import { FaChevronCircleRight, FaChevronCircleLeft } from 'react-icons/fa';
 
-interface PaginationControllerInterface {
+interface PaginationControllerInterface extends PaginatedTasksInterface {
+  endOffset: number;
   children?: ReactNode;
   size: 'small' | 'big';
   tasksLength: number | null;
+  currentPage: number;
+  pageCount: number;
   handlePageChange: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 const PaginationController: FC<PaginationControllerInterface> = (props) => {
   // Props
-  const { tasksLength, handlePageChange, size } = props;
+  const {
+    tasksLength,
+    handlePageChange,
+    size,
+    tasksPerPage,
+    tasksOffset,
+    endOffset,
+    slicedTasks,
+    currentPage,
+    pageCount,
+  } = props;
+  props;
   const isSmall = size === 'small';
 
   //   Hooks
@@ -22,14 +38,43 @@ const PaginationController: FC<PaginationControllerInterface> = (props) => {
     <>
       {tasksLength && tasksLength > 0 && (
         <HStack
+          align='center'
           w={isMobile ? 'full' : ''}
           justifyContent={isMobile ? 'space-between' : ''}
           spacing={
-            !isMobile && !isSmall ? '24' : !isMobile && isSmall ? '12' : ''
+            !isMobile && !isSmall ? '16' : !isMobile && isSmall ? '8' : ''
           }
         >
-          <Button>Previous</Button>
-          <Button>Next</Button>
+          {/* Previous Button */}
+          <IconButton
+            variant='ghost'
+            aria-label='Previous'
+            colorScheme='brand'
+            name='prev'
+            onClick={handlePageChange}
+            disabled={currentPage <= 1}
+            icon={<FaChevronCircleLeft />}
+            fontSize='4xl'
+          />
+          <Heading size='sm'>
+            Showing {tasksOffset + 1} to{' '}
+            {slicedTasks.length < tasksPerPage
+              ? slicedTasks.length + tasksOffset
+              : endOffset}{' '}
+            of {tasksLength} tasks
+          </Heading>
+
+          {/* Next Button */}
+          <IconButton
+            variant='ghost'
+            aria-label='Next'
+            colorScheme='brand'
+            name='next'
+            onClick={handlePageChange}
+            disabled={currentPage >= pageCount}
+            icon={<FaChevronCircleRight />}
+            fontSize='4xl'
+          />
         </HStack>
       )}
     </>

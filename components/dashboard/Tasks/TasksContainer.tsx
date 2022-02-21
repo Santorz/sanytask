@@ -19,7 +19,14 @@ const TasksListContainer: FC<TasksContextInterface> = (props) => {
 
   return (
     <>
-      <Container w='full' maxW='full' p='0' h='full' minH='full'>
+      <Container
+        w='full'
+        maxW='full'
+        p='0'
+        h='full'
+        minH='full'
+        pt={!tasks && isError ? '3rem' : '0'}
+      >
         {/* This shows while loading and there's no error */}
         {isTasksLoading && !tasks && !isError && (
           <>
