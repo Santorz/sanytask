@@ -1,20 +1,27 @@
-import { FC, ReactNode } from 'react';
-import { IconButton } from '@chakra-ui/react';
-import { FaPlusCircle } from 'react-icons/fa';
+import { FC } from 'react';
+import { Button, Icon, Heading } from '@chakra-ui/react';
+import { FaPlus } from 'react-icons/fa';
 
 const CreateButton: FC = () => {
   return (
-    <IconButton
+    <Button
+      variant='outline'
       colorScheme='brand'
       alignSelf='flex-end'
-      mr='5'
+      mr='2'
       name='Create new task'
       aria-label='Create new task'
-      fontSize='5xl'
-      rounded='full'
+      rounded='3xl'
       size='lg'
-      icon={<FaPlusCircle />}
-    />
+      fontSize='xl'
+      d='flex'
+      alignItems='center'
+      gap='1.5'
+      borderWidth='2px'
+    >
+      <Icon as={FaPlus} />
+      <Heading size='md'>New task</Heading>
+    </Button>
   );
 };
 
