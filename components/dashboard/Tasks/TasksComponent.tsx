@@ -103,10 +103,18 @@ const TasksComponent: FC<TasksComponentInterface> = (props) => {
         </Text>
       </div>
 
-      <VStack spacing='7' mb='4'>
+      {/* Pagination Controller and Create Button */}
+      <Flex
+        mb='4'
+        w='full'
+        maxW='full'
+        direction={isMobile ? 'column' : 'row'}
+        justify={!isMobile ? 'space-between' : 'unset'}
+        columnGap={isMobile ? '4' : 'unset'}
+      >
         <CreateButton />
         <PaginationController size='big' {...paginationPropsObject} />
-      </VStack>
+      </Flex>
     </Flex>
   );
 };

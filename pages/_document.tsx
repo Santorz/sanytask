@@ -9,7 +9,7 @@ const MyDocument = () => {
         <link rel='icon' href='/favicon2.ico' type='image/x-icon' />
         <meta
           name='description'
-          content='A personalized task management application. This app is ideal for organizing, managing and scheduling your tasks and to-dos. It helps you organize your tasks with easea and gets your task planning done with just a few clicks.'
+          content='A personalized task management application. This app is ideal for organizing, managing and scheduling your tasks.'
         />
       </Head>
       <body
