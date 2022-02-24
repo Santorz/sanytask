@@ -11,6 +11,8 @@ import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 import { Text, Flex, VStack } from '@chakra-ui/react';
 import PaginationController from './PaginationController';
 import CreateButton from './CreateButton';
+import TasksList from './TasksList';
+import TasksGrid from './TasksGrid';
 import Parse from 'parse';
 
 interface TasksComponentInterface {
@@ -27,7 +29,7 @@ const TasksComponent: FC<TasksComponentInterface> = (props) => {
   // Props
   const { tasks } = props;
   // Hooks
-  const { isMobile, isTabletOnly, isDesktopOnly } = useResponsiveSSR();
+  const { isMobile, isTabletOnly } = useResponsiveSSR();
   const tasksPerPage = isMobile ? 4 : isTabletOnly ? 6 : 12;
   //   State values
   const [tasksOffset, setTasksOffset] = useState(0);
@@ -91,16 +93,16 @@ const TasksComponent: FC<TasksComponentInterface> = (props) => {
       justify='space-between'
       as='section'
       h='full'
-      py='5'
+      py='2'
       px='2'
+      pb={{ base: '2', md: '4', lg: '7' }}
     >
-      <Text>Hello {Parse.User.current().get('firstName')}</Text>
       <div>
-        <Text>You&#39;ve got {tasks.length} tasks.</Text>
-        <Text>
-          This page will show {slicedTasks.length} task
-          {slicedTasks.length === 1 ? '' : 's'}.
-        </Text>
+        {isMobile ? (
+          <TasksList tasksArr={slicedTasks} />
+        ) : (
+          <TasksGrid tasksArr={slicedTasks} />
+        )}
       </div>
 
       {/* Pagination Controller and Create Button */}
@@ -108,9 +110,10 @@ const TasksComponent: FC<TasksComponentInterface> = (props) => {
         mb='4'
         w='full'
         maxW='full'
-        direction={isMobile ? 'column' : 'row'}
+        direction={isMobile ? 'column' : 'row-reverse'}
         justify={!isMobile ? 'space-between' : 'unset'}
-        columnGap={isMobile ? '4' : 'unset'}
+        gap={isMobile ? '4' : 'unset'}
+        userSelect='none'
       >
         <CreateButton />
         <PaginationController size='big' {...paginationPropsObject} />

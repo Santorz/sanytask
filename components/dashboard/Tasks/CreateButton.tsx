@@ -12,11 +12,11 @@ const CreateButton: FC = () => {
       aria-label='Create new task'
       rounded='full'
       size='lg'
-      fontSize='xl'
+      fontSize='1.5rem'
       d='flex'
       alignItems='center'
       gap='1.5'
-      shadow='sm'
+      shadow='xl'
     >
       <Icon as={FaPlus} />
       <Heading size='md'>New</Heading>

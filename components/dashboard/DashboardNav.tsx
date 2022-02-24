@@ -21,8 +21,8 @@ const DashboardNav: FC = (props) => {
   const { isMobile, isTabletAndAbove, isTabletOnly } = useResponsiveSSR();
   const { setFixedNavHeight } = useContext(FixedMobileNavHeightContext);
   const navShadow = useColorModeValue(
-    '0 .2px 10px rgba(0,0,0,0.29)',
-    '0 .2px 10px rgba(200,200,200,0.29)'
+    '0 .2px 5px rgba(0,0,0,0.29)',
+    '0 .2px 5px rgba(200,200,200,0.29)'
   );
   const bgColor = useColorModeValue('gray.50', '#111111');
   const fixedNavRef = useRef<HTMLDivElement & HTMLUListElement>(null);
@@ -55,6 +55,7 @@ const DashboardNav: FC = (props) => {
       as='ul'
       px={{ base: '4', md: '0' }}
       bgColor={{ base: bgColor, md: 'transparent' }}
+      zIndex={isMobile ? '99' : 'inherit'}
     >
       <ActiveLink href='/dashboard' hash='' icon={FaTasks}>
         Tasks
@@ -106,9 +107,9 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
           flexDirection='column'
           alignItems='center'
           justifyContent='center'
-          fontSize='15px'
+          fontSize='13.5px'
           borderBottom={doesHashMatch ? '1px solid currentColor' : 'none'}
-          mb='2'
+          mb='1.5'
           _hover={{ textDecoration: doesHashMatch ? 'none' : 'underline' }}
         >
           <Icon fontSize='22.5px' as={icon} />

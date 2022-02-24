@@ -16,7 +16,7 @@ const NavContainer = forwardRef<HTMLDivElement>((props, ref) => {
     <>
       <Flex
         ref={ref}
-        py='0'
+        py={['0', '2', '2', '2']}
         px={['2', '3', '3', '4']}
         justify='space-between'
         userSelect='none'
@@ -28,6 +28,7 @@ const NavContainer = forwardRef<HTMLDivElement>((props, ref) => {
         align='center'
         w='100% !important'
         bgColor={bgColor}
+        zIndex='99'
       >
         {/* Logo with either horizontal or verical text */}
         <Logo isResponsive />

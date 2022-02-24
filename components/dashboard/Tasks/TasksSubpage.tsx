@@ -5,12 +5,12 @@ import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 import TasksListContainer from './TasksContainer';
 import SubPage from '../SubPage';
 
-interface TasksListInterface extends SubPageInterface {
+interface TasksSubPageInterface extends SubPageInterface {
   height: number;
   children?: ReactNode;
 }
 
-const TasksList: FC<TasksListInterface> = (props) => {
+const TasksSubpage: FC<TasksSubPageInterface> = (props) => {
   // Hooks
   const tasksContextObj = useContext(TasksContext);
   const { isDesktopOnly } = useResponsiveSSR();
@@ -32,4 +32,4 @@ const TasksList: FC<TasksListInterface> = (props) => {
   );
 };
 
-export default TasksList;
+export default TasksSubpage;
