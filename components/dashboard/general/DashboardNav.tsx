@@ -1,7 +1,7 @@
 import { useRef, FC, ReactNode, useContext, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useResponsiveSSR } from '../../utils/useResponsiveSSR';
+import { useResponsiveSSR } from '../../../utils/useResponsiveSSR';
 import {
   Flex,
   useColorModeValue,
@@ -11,7 +11,7 @@ import {
 import {
   DashboardHashContext,
   FixedMobileNavHeightContext,
-} from '../../pages/dashboard';
+} from '../../../pages/dashboard';
 import { FaTasks, FaUser } from 'react-icons/fa';
 import { ImCalendar } from 'react-icons/im';
 import { IconType } from 'react-icons/lib';

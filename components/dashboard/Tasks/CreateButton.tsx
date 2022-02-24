@@ -1,8 +1,19 @@
 import { FC } from 'react';
+import { useRouter } from 'next/router';
 import { Button, Icon, Heading } from '@chakra-ui/react';
 import { FaPlus } from 'react-icons/fa';
 
 const CreateButton: FC = () => {
+  // Hooks
+  const router = useRouter();
+
+  // Funcs
+  const triggerModalOpen = () => {
+    alert('About to open modal');
+    router.push('/dashboard#new');
+  };
+
+  // Main JSX
   return (
     <Button
       colorScheme='brand'
@@ -17,6 +28,7 @@ const CreateButton: FC = () => {
       alignItems='center'
       gap='1.5'
       shadow='xl'
+      onClick={triggerModalOpen}
     >
       <Icon as={FaPlus} />
       <Heading size='md'>New</Heading>

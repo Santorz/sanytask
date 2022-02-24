@@ -14,7 +14,7 @@ import Parse from 'parse';
 
 // Components' Import
 import Head from 'next/head';
-import NavContainer from '../../components/dashboard/DashboardNavContainer';
+import NavContainer from '../../components/dashboard/general/DashboardNavContainer';
 import { Container } from '@chakra-ui/react';
 import TasksSubpage from '../../components/dashboard/Tasks/TasksSubpage';
 import CalendarSubpage from '../../components/dashboard/Calendar/CalendarSubpage';

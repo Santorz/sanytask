@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { TaskInterface } from '../../../parse-sdk/hooks';
-import { Heading, VStack, Button } from '@chakra-ui/react';
-import { decrypt } from '../../../utils/crypto-js-utils';
+import EachTaskMobile from './EachTaskMobile';
+import { Heading, VStack, Button, Icon } from '@chakra-ui/react';
 
 interface TasksListInterface {
   tasksArr: TaskInterface[];
@@ -12,17 +12,14 @@ const TasksList: FC<TasksListInterface> = (props) => {
   const { tasksArr } = props;
   return (
     <>
-      <VStack spacing='3' alignItems='left'>
-        <Heading size='lg'>My Tasks</Heading>
-
+      <VStack spacing='1.5' alignItems='left'>
+        <Heading fontSize='1.3rem' pl='2' fontWeight='normal' fontFamily='body'>
+          My Tasks
+        </Heading>
         <VStack as='main' spacing='4'>
           {tasksArr.map((task, index) => {
             const { id, dueDate, title } = task;
-            return (
-              <Button key={id} height='70px' w='full' rounded='xl' shadow='md'>
-                {decrypt(title)}
-              </Button>
-            );
+            return <EachTaskMobile key={id} {...task} index={index} />;
           })}
         </VStack>
       </VStack>

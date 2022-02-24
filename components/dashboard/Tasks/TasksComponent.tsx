@@ -8,12 +8,11 @@ import {
 } from 'react';
 import { TaskInterface } from '../../../parse-sdk/hooks';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
-import { Text, Flex, VStack } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import PaginationController from './PaginationController';
 import CreateButton from './CreateButton';
 import TasksList from './TasksList';
 import TasksGrid from './TasksGrid';
-import Parse from 'parse';
 
 interface TasksComponentInterface {
   tasks: TaskInterface[];
@@ -94,7 +93,8 @@ const TasksComponent: FC<TasksComponentInterface> = (props) => {
       as='section'
       h='full'
       py='2'
-      px='2'
+      pt='3'
+      px='0'
       pb={{ base: '2', md: '4', lg: '7' }}
     >
       <div>

@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { Variants, motion } from 'framer-motion';
 import { Container } from '@chakra-ui/react';
-import useResponsiveSSR from '../../utils/useResponsiveSSR';
+import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 
 interface SubPageInterface {
   height: number;

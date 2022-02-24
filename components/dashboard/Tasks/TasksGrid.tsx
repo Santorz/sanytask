@@ -13,7 +13,9 @@ const TasksGrid: FC<TasksGridInterface> = (props) => {
   return (
     <>
       <VStack spacing='3' alignItems='left'>
-        <Heading size='lg'>My Tasks</Heading>
+        <Heading size='lg' fontWeight='normal'>
+          My Tasks
+        </Heading>
 
         <SimpleGrid columns={{ md: 3, lg: 4 }} w='full' gap='5' spacingY='7'>
           {tasksArr.map((task, index) => {

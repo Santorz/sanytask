@@ -3,7 +3,7 @@ import { TasksContext } from '../../general/TasksConfig';
 import { SubPageInterface } from '../../../pages/dashboard';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 import TasksListContainer from './TasksContainer';
-import SubPage from '../SubPage';
+import SubPage from '../general/SubPage';
 
 interface TasksSubPageInterface extends SubPageInterface {
   height: number;

@@ -1,10 +1,10 @@
 import { forwardRef } from 'react';
 import { Flex, Container, useColorModeValue } from '@chakra-ui/react';
 import DashboardNav from './DashboardNav';
-import Logo from '../general/Logo';
+import Logo from '../../general/Logo';
 import DashboardSearch from './DashboardSearch';
-import DarkModeSwitch from '../general/DarkModeSwitch';
-import useResponsiveSSR from '../../utils/useResponsiveSSR';
+import DarkModeSwitch from '../../general/DarkModeSwitch';
+import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 
 //   Main Component
 const NavContainer = forwardRef<HTMLDivElement>((props, ref) => {
