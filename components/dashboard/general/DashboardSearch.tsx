@@ -8,6 +8,7 @@ const DashboardSearch: FC = () => {
       role='button'
       variant='ghost'
       name='dashboard search button'
+      aria-label='dashboard search button'
       _focus={{ backgroundColor: 'none' }}
       _hover={{ backgroundColor: 'none' }}
     >

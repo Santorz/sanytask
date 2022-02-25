@@ -56,6 +56,7 @@ const DashboardNav: FC = (props) => {
       px={{ base: '4', md: '0' }}
       bgColor={{ base: bgColor, md: 'transparent' }}
       zIndex={isMobile ? '99' : 'inherit'}
+      transition='background-color .2s ease'
     >
       <ActiveLink href='/dashboard' hash='' icon={FaTasks}>
         Tasks

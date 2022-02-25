@@ -19,6 +19,7 @@ import { Container } from '@chakra-ui/react';
 import TasksSubpage from '../../components/dashboard/Tasks/TasksSubpage';
 import CalendarSubpage from '../../components/dashboard/Calendar/CalendarSubpage';
 import { AnimatePresence } from 'framer-motion';
+import NewTaskModal from '../../components/dashboard/general/NewTaskModal';
 
 // Normal Interfaces
 export interface SubPageInterface {
@@ -183,10 +184,13 @@ const Dashboard = () => {
             exitBeforeEnter={true}
             onExitComplete={() => window.scrollTo(0, 0)}
           >
-            {dashboardHash === '' && <TasksSubpage {...subPagesProps} />}
+            {(dashboardHash === '' || dashboardHash === 'new') && (
+              <TasksSubpage {...subPagesProps} />
+            )}
             {dashboardHash === 'calendar' && (
               <CalendarSubpage {...subPagesProps} />
             )}
+            {dashboardHash === 'new' && <NewTaskModal />}
           </AnimatePresence>
           {/* End of Main Dashboard Body */}
         </Container>

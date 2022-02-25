@@ -9,7 +9,6 @@ const CreateButton: FC = () => {
 
   // Funcs
   const triggerModalOpen = () => {
-    alert('About to open modal');
     router.push('/dashboard#new');
   };
 

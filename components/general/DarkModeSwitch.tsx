@@ -16,6 +16,7 @@ const DarkModeSwitch: FC = () => {
       onClick={toggleColorMode}
       role='button'
       name='dark mode switch'
+      aria-label='dark mode switch'
     >
       <Icon as={switchIcon} boxSize='1.5rem' />
     </Button>
