@@ -21,7 +21,11 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>my-next-task: Your friendly task management solution</title>
+        <title>Your friendly task management solution | my-next-task</title>
+        <meta
+          name='description'
+          content='A personalized task management application. This app is ideal for organizing, managing and scheduling your tasks.'
+        />
       </Head>
       <Heading size='2xl' fontWeight='normal'>
         Home Page

@@ -7,10 +7,6 @@ const MyDocument = () => {
         {/* <meta httpEquiv='Content-Security-Policy' content="script-src 'none'" /> */}
         <meta charSet='utf-8' />
         <link rel='icon' href='/favicon2.ico' type='image/x-icon' />
-        <meta
-          name='description'
-          content='A personalized task management application. This app is ideal for organizing, managing and scheduling your tasks.'
-        />
       </Head>
       <body
       // style={{ minHeight: '99vh' }}

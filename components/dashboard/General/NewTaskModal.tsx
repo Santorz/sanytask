@@ -18,14 +18,20 @@ const NewTaskModal: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const bgColor = useColorModeValue(
-    'rgb(118 221 255 / 60%)',
-    'rgb(0 96 128 / 40%)'
+    'rgb(118 221 255 / 35%)',
+    'rgb(0 96 128 / 35%)'
+  );
+  const overlayBgColor = useColorModeValue(
+    'rgba(255,255,255,0.6)',
+    'rgba(0,0,0,0.6)'
   );
 
   // custom funcs
   const onCloseMain = () => {
     onClose();
-    router.replace('/dashboard');
+    setTimeout(() => {
+      router.replace('/dashboard');
+    }, 300);
   };
 
   // useEffects
@@ -40,7 +46,10 @@ const NewTaskModal: FC = () => {
       size='full'
       scrollBehavior='inside'
     >
-      <ModalOverlay backdropFilter='blur(17px) saturate(180%)' />
+      <ModalOverlay
+        backdropFilter='blur(20px)'
+        backgroundColor={overlayBgColor}
+      />
       <ModalContent rounded='none' bgColor={bgColor}>
         <ModalHeader
           fontSize='1.75rem'
@@ -50,6 +59,7 @@ const NewTaskModal: FC = () => {
         >
           Create New Task
           <IconButton
+            onClick={onCloseMain}
             fontSize='2rem'
             aria-label='Close New Task Modal'
             icon={<FaTimes />}
@@ -89,7 +99,7 @@ const NewTaskModal: FC = () => {
             aria-label='Close New Task Modal'
             colorScheme='brand'
             mr={3}
-            onClick={onCloseMain}
+            onClick={() => onCloseMain()}
           >
             Close
           </Button>

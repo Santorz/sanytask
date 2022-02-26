@@ -3,6 +3,11 @@ import { decrypt } from '../../../utils/crypto-js-utils';
 import { TaskInterface } from '../../../parse-sdk/hooks';
 import { Heading, Flex, Button, IconButton } from '@chakra-ui/react';
 import { FaEllipsisH } from 'react-icons/fa';
+import {
+  addColorOnTask,
+  checkBeforeorAfter,
+  getShorthandDistanceDiff,
+} from '../../../utils/dateFuncs';
 
 interface EachTaskMobileInterface extends TaskInterface {
   children?: ReactNode;
@@ -23,21 +28,22 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
       name={`Task ${index}`}
       aria-label={title}
       alignItems='center'
+      flexWrap='wrap'
     >
       <Flex
         textAlign='left'
         direction='column'
-        maxWidth='70%'
-        w='70%'
+        maxWidth='85%'
+        width='85%'
         flexWrap='wrap'
         wrap='wrap'
-        alignItems='flex-start'
-        flexShrink='1'
+        gap='1'
       >
-        <Heading fontSize='.75rem' minW='0'>
-          {dueDate.toString()}
+        <Heading fontSize='.75rem' w='full' whiteSpace='normal'>
+          {getShorthandDistanceDiff(new Date(dueDate), new Date())}{' '}
+          {checkBeforeorAfter(new Date(dueDate), new Date())}
         </Heading>
-        <Heading fontSize='1.1rem' minW='0'>
+        <Heading fontSize='1.05rem' w='full' whiteSpace='normal'>
           {decrypt(title)}
         </Heading>
       </Flex>

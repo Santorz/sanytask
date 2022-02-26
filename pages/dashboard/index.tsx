@@ -14,12 +14,12 @@ import Parse from 'parse';
 
 // Components' Import
 import Head from 'next/head';
-import NavContainer from '../../components/dashboard/general/DashboardNavContainer';
+import NavContainer from '../../components/dashboard/General/DashboardNavContainer';
 import { Container } from '@chakra-ui/react';
 import TasksSubpage from '../../components/dashboard/Tasks/TasksSubpage';
 import CalendarSubpage from '../../components/dashboard/Calendar/CalendarSubpage';
 import { AnimatePresence } from 'framer-motion';
-import NewTaskModal from '../../components/dashboard/general/NewTaskModal';
+import NewTaskModal from '../../components/dashboard/General/NewTaskModal';
 
 // Normal Interfaces
 export interface SubPageInterface {

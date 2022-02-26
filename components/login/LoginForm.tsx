@@ -149,7 +149,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
           Sign in
         </Heading>
         <Heading
-          as='h2'
+          as='h1'
           fontSize='1.075rem'
           my='1'
           fontWeight='normal'

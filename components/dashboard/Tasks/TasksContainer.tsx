@@ -3,7 +3,7 @@ import { TasksContextInterface } from '../../general/TasksConfig';
 import { Container } from '@chakra-ui/react';
 import TasksLoaderComponent from './TasksLoader';
 import TasksComponent from './TasksComponent';
-import ErrorNotice from '../general/ErrorNotice';
+import ErrorNotice from '../General/ErrorNotice';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 
 const TasksListContainer: FC<TasksContextInterface> = (props) => {

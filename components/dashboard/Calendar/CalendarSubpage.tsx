@@ -3,7 +3,7 @@ import { Heading, Box, Text, Button } from '@chakra-ui/react';
 import { TasksContext } from '../../general/TasksConfig';
 import { SubPageInterface } from '../../../pages/dashboard';
 import { decrypt } from '../../../utils/crypto-js-utils';
-import SubPage from '../general/SubPage';
+import SubPage from '../General/SubPage';
 
 interface TaskCalendarInterface extends SubPageInterface {
   height: number;
