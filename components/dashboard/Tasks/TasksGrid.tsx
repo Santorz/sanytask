@@ -19,7 +19,14 @@ const TasksGrid: FC<TasksGridInterface> = (props) => {
           </Heading>
         </Flex>
 
-        <SimpleGrid columns={{ md: 3, lg: 4 }} w='full' gap='5' spacingY='7'>
+        <SimpleGrid
+          columns={{ md: 3, lg: 3, xl: 4 }}
+          w='full'
+          spacingX={{ md: '3', lg: '6', xl: '5' }}
+          spacingY='8'
+          alignItems='center'
+          justifyContent='space-evenly'
+        >
           {tasksArr.map((task, index) => {
             const { id } = task;
             return <EachTaskDesktop key={id} index={index} {...task} />;

@@ -27,8 +27,8 @@ const SubPage: FC<SubPageInterface> = (props) => {
     >
       <Container
         p='0'
-        minH={isMobile ? `${height + 10}px` : `${height}px`}
-        h={height < 350 ? 'full' : !isMobile ? `${height}` : `${height + 10}px`}
+        minH={isMobile ? `${height + 3}px` : `${height}px`}
+        h={height < 350 ? 'full' : !isMobile ? `${height}` : `${height + 3}px`}
         w='full'
         maxW='full'
         as='main'

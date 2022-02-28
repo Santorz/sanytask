@@ -158,10 +158,10 @@ const Dashboard = () => {
   return (
     <>
       <Head>
-        <title>Dashboard | my-next-task</title>
+        <title>Tasks Dashboard | my-next-task</title>
         <meta
           name='description'
-          content="Your tasks' dashboard is where you create, edit, modiify and organize your tasks. It includes a calendar where you can see the tasks for each day. You can also manage your account in the dashboard. Feel free to explore the dashboard."
+          content='Your tasks dashboard is where you create, edit, modiify and organize your tasks. It includes a calendar where you can see the tasks for each day. You can also manage your account in the dashboard. Feel free to explore the dashboard.'
         />
       </Head>
 

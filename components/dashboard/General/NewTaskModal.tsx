@@ -15,15 +15,16 @@ import { useRouter } from 'next/router';
 import { FaTimes } from 'react-icons/fa';
 
 const NewTaskModal: FC = () => {
+  // Hooks
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const bgColor = useColorModeValue(
-    'rgb(118 221 255 / 35%)',
-    'rgb(0 96 128 / 35%)'
+    'rgb(118 221 255 / 25%)',
+    'rgb(0 96 128 / 25%)'
   );
   const overlayBgColor = useColorModeValue(
-    'rgba(255,255,255,0.6)',
-    'rgba(0,0,0,0.6)'
+    'rgba(250,250,250,0.15)',
+    'rgba(0,0,0,0.15)'
   );
 
   // custom funcs
@@ -31,7 +32,7 @@ const NewTaskModal: FC = () => {
     onClose();
     setTimeout(() => {
       router.replace('/dashboard');
-    }, 300);
+    }, 100);
   };
 
   // useEffects
@@ -39,18 +40,21 @@ const NewTaskModal: FC = () => {
     onOpen();
   }, [onOpen]);
 
+  // Main JSX
   return (
     <Modal
       isOpen={isOpen}
       onClose={onCloseMain}
-      size='full'
       scrollBehavior='inside'
+      onEsc={onCloseMain}
+      onOverlayClick={onCloseMain}
+      size='full'
     >
       <ModalOverlay
-        backdropFilter='blur(20px)'
+        backdropFilter='blur(12px)'
         backgroundColor={overlayBgColor}
       />
-      <ModalContent rounded='none' bgColor={bgColor}>
+      <ModalContent rounded='none' bgColor={bgColor} h='100vh'>
         <ModalHeader
           fontSize='1.75rem'
           d='flex'

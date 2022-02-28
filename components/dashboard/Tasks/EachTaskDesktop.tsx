@@ -1,11 +1,12 @@
 import { FC, ReactNode } from 'react';
+import { useDateFuncs } from '../../../utils/dateFuncs';
 import { decrypt } from '../../../utils/crypto-js-utils';
 import { TaskInterface } from '../../../parse-sdk/hooks';
 import {
   Heading,
   Flex,
   Button,
-  IconButton,
+  Icon,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -35,12 +36,15 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
 
   // Hooks
   const headingColor = useColorModeValue('brand.500', 'brand.100');
+  const { getShorthandDistanceDiff, checkBeforeorAfter, addColorOnTask } =
+    useDateFuncs();
 
   // Mainn JSX
   return (
     <Button
       key={id}
       minHeight='125px'
+      h='fit-content'
       w='full'
       rounded='xl'
       shadow='md'
@@ -50,24 +54,23 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
       aria-label={title}
       alignItems='flex-start'
       justifyContent='flex-start'
-      flexWrap='wrap'
-      py='1'
+      py='3'
     >
       {/* Title and Eliipsis */}
       <Flex textAlign='left' w='full' align='center'>
         <Heading
-          fontSize='1.05rem'
+          fontSize='1.02rem'
           w='full'
           whiteSpace='normal'
           color={headingColor}
         >
           {decrypt(title)}
         </Heading>
-        <IconButton
-          fontSize='1.3rem'
-          boxSize='8'
-          icon={<FaEllipsisH />}
-          variant='ghost'
+        <Icon
+          mb='2'
+          zIndex='2'
+          as={FaEllipsisH}
+          boxSize='6'
           aria-label={`Task ${index} options`}
         />
       </Flex>
@@ -80,8 +83,10 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
           whiteSpace='normal'
           textAlign='left'
           fontWeight='semibold'
+          color={addColorOnTask(new Date(dueDate))}
         >
-          hours left
+          {getShorthandDistanceDiff(new Date(dueDate))}{' '}
+          {checkBeforeorAfter(new Date(dueDate))}
         </Heading>
         <Heading
           size='xs'
@@ -97,10 +102,11 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
       {/* truncated description */}
       <Text
         mt='2.5'
-        fontSize='small'
+        fontSize='.85rem'
         fontWeight='normal'
         whiteSpace='normal'
         textAlign='left'
+        d='block'
       >
         {fineTrimString(decrypt(details), 120)}...
       </Text>

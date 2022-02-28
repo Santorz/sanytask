@@ -1,13 +1,9 @@
 import { FC, ReactNode } from 'react';
 import { decrypt } from '../../../utils/crypto-js-utils';
 import { TaskInterface } from '../../../parse-sdk/hooks';
-import { Heading, Flex, Button, IconButton } from '@chakra-ui/react';
+import { Heading, Flex, Button, Icon } from '@chakra-ui/react';
 import { FaEllipsisH } from 'react-icons/fa';
-import {
-  addColorOnTask,
-  checkBeforeorAfter,
-  getShorthandDistanceDiff,
-} from '../../../utils/dateFuncs';
+import { useDateFuncs } from '../../../utils/dateFuncs';
 
 interface EachTaskMobileInterface extends TaskInterface {
   children?: ReactNode;
@@ -16,6 +12,12 @@ interface EachTaskMobileInterface extends TaskInterface {
 
 const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
   const { id, dueDate, title, index } = props;
+
+  // Hooks
+  const { getShorthandDistanceDiff, checkBeforeorAfter, addColorOnTask } =
+    useDateFuncs();
+
+  // Main JSX
   return (
     <Button
       key={id}
@@ -39,19 +41,20 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
         wrap='wrap'
         gap='1'
       >
-        <Heading fontSize='.75rem' w='full' whiteSpace='normal'>
-          {getShorthandDistanceDiff(new Date(dueDate), new Date())}{' '}
-          {checkBeforeorAfter(new Date(dueDate), new Date())}
+        <Heading
+          fontSize='.79rem'
+          w='full'
+          whiteSpace='normal'
+          color={addColorOnTask(new Date(dueDate))}
+        >
+          {getShorthandDistanceDiff(new Date(dueDate))}{' '}
+          {checkBeforeorAfter(new Date(dueDate))}
         </Heading>
         <Heading fontSize='1.05rem' w='full' whiteSpace='normal'>
           {decrypt(title)}
         </Heading>
       </Flex>
-      <IconButton
-        icon={<FaEllipsisH />}
-        variant='ghost'
-        aria-label={`Task ${index} options`}
-      />
+      <Icon as={FaEllipsisH} aria-label={`Task ${index} options`} boxSize='5' />
     </Button>
   );
 };

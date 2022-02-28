@@ -145,7 +145,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
         px={['6', '9', '11', '14']}
         py={['4', '5', '7', '6']}
       >
-        <Heading as='h1' size='lg' my='1'>
+        <Heading size='lg' my='1'>
           Sign in
         </Heading>
         <Heading
