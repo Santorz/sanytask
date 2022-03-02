@@ -6,6 +6,16 @@ const MyDocument = () => {
       <Head>
         {/* <meta httpEquiv='Content-Security-Policy' content="script-src 'none'" /> */}
         <meta charSet='utf-8' />
+        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link
+          rel='preconnect'
+          href='https://fonts.gstatic.com'
+          crossOrigin='true'
+        />
+        <link
+          href={`https://fonts.googleapis.com/css2?family=Maven+Pro&family=Noto+Sans&display=swap`}
+          rel='stylesheet'
+        />
         <link rel='icon' href='/favicon2.ico' type='image/x-icon' />
       </Head>
       <body

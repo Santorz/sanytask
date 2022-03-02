@@ -190,8 +190,8 @@ const Dashboard = () => {
             {dashboardHash === 'calendar' && (
               <CalendarSubpage {...subPagesProps} />
             )}
-            {dashboardHash === 'new' && <NewTaskModal />}
           </AnimatePresence>
+          {dashboardHash === 'new' && <NewTaskModal />}
           {/* End of Main Dashboard Body */}
         </Container>
       </DashboardHashContext.Provider>

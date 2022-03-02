@@ -4,6 +4,7 @@ import { TaskInterface } from '../../../parse-sdk/hooks';
 import { Heading, Flex, Button, Icon } from '@chakra-ui/react';
 import { FaEllipsisH } from 'react-icons/fa';
 import { useDateFuncs } from '../../../utils/dateFuncs';
+import { useModalFuncs } from '../../../utils/modalFuncs';
 
 interface EachTaskMobileInterface extends TaskInterface {
   children?: ReactNode;
@@ -16,10 +17,12 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
   // Hooks
   const { getShorthandDistanceDiff, checkBeforeorAfter, addColorOnTask } =
     useDateFuncs();
+  const { openViewTaskModal } = useModalFuncs();
 
   // Main JSX
   return (
     <Button
+      onClick={() => openViewTaskModal(id)}
       key={id}
       height='70px'
       w='full'
@@ -27,10 +30,11 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
       d='flex'
       shadow='md'
       justifyContent='space-between'
-      name={`Task ${index}`}
-      aria-label={title}
+      name={`Task ${index + 1}`}
+      aria-label={decrypt(title)}
       alignItems='center'
       flexWrap='wrap'
+      id={`task-${id}`}
     >
       <Flex
         textAlign='left'
@@ -54,7 +58,13 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
           {decrypt(title)}
         </Heading>
       </Flex>
-      <Icon as={FaEllipsisH} aria-label={`Task ${index} options`} boxSize='5' />
+      <Icon
+        tabIndex={0}
+        role='button'
+        as={FaEllipsisH}
+        aria-label={`Task ${index + 1} options`}
+        boxSize='5'
+      />
     </Button>
   );
 };

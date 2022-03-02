@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react';
 import { useDateFuncs } from '../../../utils/dateFuncs';
+import { useModalFuncs } from '../../../utils/modalFuncs';
 import { decrypt } from '../../../utils/crypto-js-utils';
 import { TaskInterface } from '../../../parse-sdk/hooks';
 import {
@@ -38,8 +39,9 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
   const headingColor = useColorModeValue('brand.500', 'brand.100');
   const { getShorthandDistanceDiff, checkBeforeorAfter, addColorOnTask } =
     useDateFuncs();
+  const { openViewTaskModal } = useModalFuncs();
 
-  // Mainn JSX
+  // Main JSX
   return (
     <Button
       key={id}
@@ -50,11 +52,13 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
       shadow='md'
       d='flex'
       flexDirection='column'
-      name={`Task ${index}`}
-      aria-label={title}
+      name={`Task ${index + 1}`}
+      aria-label={decrypt(title)}
       alignItems='flex-start'
       justifyContent='flex-start'
       py='3'
+      id={`task-${id}`}
+      onClick={() => openViewTaskModal(id)}
     >
       {/* Title and Eliipsis */}
       <Flex textAlign='left' w='full' align='center'>
@@ -67,11 +71,13 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
           {decrypt(title)}
         </Heading>
         <Icon
+          tabIndex={0}
+          role='button'
           mb='2'
           zIndex='2'
           as={FaEllipsisH}
           boxSize='6'
-          aria-label={`Task ${index} options`}
+          aria-label={`Task ${index + 1} options`}
         />
       </Flex>
 

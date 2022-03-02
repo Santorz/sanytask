@@ -29,8 +29,6 @@ export const useDateFuncs = () => {
 
   // useEffects
   useEffect(() => {
-    console.log(currentDate);
-
     const timeout = setInterval(() => {
       setCurrentDate(new Date());
     }, 1000);
@@ -106,12 +104,13 @@ export const useDateFuncs = () => {
 
   // Get relative date
   const getRelativeDate = useCallback(
-    (date: Date, baseDate: Date, options: optionsInterface) => {
+    (baseDate: Date, options?: optionsInterface) => {
+      const date = currentDate;
       return Math.abs(differenceInDays(date, baseDate)) < 6
         ? formatRelative(date, baseDate, options)
         : format(date, `dd/MM/yyyy 'by' p`);
     },
-    []
+    [currentDate]
   );
 
   return {

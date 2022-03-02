@@ -83,7 +83,11 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
   const { setHash } = useContext(DashboardHashContext);
   // Hooks
   const { asPath } = useRouter();
-  const windowHash = asPath.indexOf('#') < 1 ? '' : asPath.split('#')[1];
+  const windowHash = !asPath.includes('#')
+    ? ''
+    : asPath.includes('#') && !asPath.includes('?')
+    ? asPath.split('#')[1]
+    : asPath.match(/[a-z]*?(?=\?)/)[0];
   const doesHashMatch = hash === windowHash;
   const linkColor = useColorModeValue(
     doesHashMatch ? 'brand.500' : '#515965',

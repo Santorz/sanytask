@@ -148,6 +148,8 @@ export const useTasksLiveQuery = () => {
   );
 
   // useEffects
+
+  // to be fired onLoad
   useEffect(() => {
     if (decryptWithoutUserData(encLoggedInString) !== 'true') {
       showUserIsNotLoggedIn();

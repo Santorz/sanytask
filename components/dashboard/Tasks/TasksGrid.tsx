@@ -20,9 +20,9 @@ const TasksGrid: FC<TasksGridInterface> = (props) => {
         </Flex>
 
         <SimpleGrid
-          columns={{ md: 3, lg: 3, xl: 4 }}
+          columns={{ md: 2, lg: 3, xl: 4 }}
           w='full'
-          spacingX={{ md: '3', lg: '6', xl: '5' }}
+          spacingX={{ md: '20', lg: '6', xl: '5' }}
           spacingY='8'
           alignItems='center'
           justifyContent='space-evenly'
