@@ -19,15 +19,17 @@ import {
   Button,
   FormErrorMessage,
   Textarea,
-  FormHelperText,
 } from '@chakra-ui/react';
-import { MdMail, MdLock } from 'react-icons/md';
+import { FaEdit } from 'react-icons/fa';
+import { useDateFuncs } from '../../../utils/dateFuncs';
 import { useCustomToast } from '../../../utils/useCustomToast';
+import CustomDateTimePicker from '../General/CustomDateTimePicker';
 
 // Interfaces
 interface TaskDataInterface {
   title: string;
   description: string;
+  dueDate: Date;
 }
 
 const NewTaskForm: FC = (props) => {
@@ -35,11 +37,13 @@ const NewTaskForm: FC = (props) => {
   const formBg = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(5,5,5,0.65)');
   const borderColor = useColorModeValue('#006080', 'brand.400');
   const { showCustomToast, closeAllToasts } = useCustomToast();
+  const { currentDate } = useDateFuncs();
 
   //   State Values
   const [taskData, setTaskData] = useState<TaskDataInterface>({
     title: '',
     description: '',
+    dueDate: new Date(),
   });
   const [submissionStarted, setSubmissionStarted] = useState(false);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
@@ -54,7 +58,7 @@ const NewTaskForm: FC = (props) => {
     .match(/^[a-zA-Z0-9 !@#$%.^&*)(']{30,2000}$/);
   const isTitleInvalid = !title
     .trim()
-    .match(/^[a-zA-Z0-9 !@#$%.^&*)(']{2,50}$/);
+    .match(/^[a-zA-Z0-9 !@#$%.^&*)(']{2,30}$/);
 
   //   Funcs
   const processNewTaskInputFinal = async (e: FormEvent<HTMLFormElement>) => {
@@ -111,7 +115,7 @@ const NewTaskForm: FC = (props) => {
         bgColor={formBg}
         backdropFilter='blur(15px) saturate(180%)'
         w='full'
-        maxW='600px'
+        maxW='650px'
         rounded='2xl'
         shadow='md'
         px={['6', '9', '11', '14']}
@@ -150,7 +154,7 @@ const NewTaskForm: FC = (props) => {
               </FormLabel>
               <InputGroup d='flex' alignItems='center'>
                 <InputLeftElement pointerEvents='none' top='unset'>
-                  <Icon as={MdMail} boxSize='1.5rem' />
+                  <Icon as={FaEdit} boxSize='1.5rem' />
                 </InputLeftElement>
 
                 <Input
@@ -159,10 +163,12 @@ const NewTaskForm: FC = (props) => {
                   type='text'
                   name='title'
                   isRequired
+                  fontWeight='bold'
+                  fontFamily='heading'
+                  fontSize='1.2rem'
                   value={title}
                   placeholder='Input the task title here...'
                   onChange={handleChange}
-                  size='lg'
                   id='task-title-input'
                   borderColor={borderColor}
                   _hover={{ borderColor: `${borderColor} !important` }}
@@ -209,6 +215,14 @@ const NewTaskForm: FC = (props) => {
               </FormErrorMessage>
             </FormControl>
             {/*  */}
+
+            {/*  */}
+            {/* Custom DateTime Picker */}
+            <CustomDateTimePicker
+              value={currentDate}
+              onChange={handleChange}
+              name='dueDate'
+            />
           </section>
 
           {/* Sign in button element */}

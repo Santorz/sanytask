@@ -70,7 +70,7 @@ const NewTaskModal: FC = () => {
             variant='ghost'
           />
         </ModalHeader>
-        <ModalBody>
+        <ModalBody px='1'>
           <NewTaskForm />
         </ModalBody>
         <ModalFooter>
