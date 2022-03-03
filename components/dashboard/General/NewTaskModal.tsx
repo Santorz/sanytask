@@ -52,17 +52,16 @@ const NewTaskModal: FC = () => {
       size='full'
     >
       <ModalOverlay
-        backdropFilter='blur(12px)'
+        backdropFilter='blur(15px) saturate(180%)'
         backgroundColor={overlayBgColor}
       />
       <ModalContent rounded='none' bgColor={bgColor} h='100vh'>
         <ModalHeader
-          fontSize='1.75rem'
+          fontSize='1.5rem'
           d='flex'
-          justifyContent='space-between'
+          justifyContent='right'
           alignItems='center'
         >
-          Create New Task
           <IconButton
             onClick={onCloseMain}
             fontSize='2rem'

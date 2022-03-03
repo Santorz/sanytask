@@ -19,6 +19,7 @@ import {
   Button,
   FormErrorMessage,
   Textarea,
+  FormHelperText,
 } from '@chakra-ui/react';
 import { MdMail, MdLock } from 'react-icons/md';
 import { useCustomToast } from '../../../utils/useCustomToast';
@@ -47,13 +48,22 @@ const NewTaskForm: FC = (props) => {
 
   //   Vars
   const { title, description } = taskData;
+  // Invalid bools
+  const isDescriptionInvalid = !description
+    .trim()
+    .match(/^[a-zA-Z0-9 !@#$%.^&*)(']{30,2000}$/);
+  const isTitleInvalid = !title
+    .trim()
+    .match(/^[a-zA-Z0-9 !@#$%.^&*)(']{2,50}$/);
 
   //   Funcs
   const processNewTaskInputFinal = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmissionFailed(false);
     setFailureMsg('');
-    alert(JSON.stringify(taskData));
+    if (!isDescriptionInvalid && !isTitleInvalid) {
+      alert(JSON.stringify(taskData));
+    }
     // If every input is valid
     // If one of the inputs is invalid
   };
@@ -61,7 +71,7 @@ const NewTaskForm: FC = (props) => {
     e: ChangeEvent<HTMLInputElement>
   ) => {
     const target = e.target as HTMLInputElement;
-    setTaskData({ ...taskData, [target.name]: target.value });
+    setTaskData({ ...taskData, [target.name]: target.value.trim() });
   };
 
   // useEffects
@@ -108,7 +118,7 @@ const NewTaskForm: FC = (props) => {
         py={['4', '5', '7', '6']}
         mx='auto'
       >
-        <Heading size='lg' my='1'>
+        <Heading size='lg' my='1' fontWeight='normal'>
           Create new task
         </Heading>
 
@@ -134,7 +144,7 @@ const NewTaskForm: FC = (props) => {
             }}
           >
             {/* Email form control element */}
-            <FormControl isInvalid w='full' isRequired>
+            <FormControl isInvalid={isTitleInvalid} w='full' isRequired>
               <FormLabel htmlFor='email' fontFamily='heading' fontWeight='bold'>
                 Task title:
               </FormLabel>
@@ -166,12 +176,14 @@ const NewTaskForm: FC = (props) => {
                   }}
                 />
               </InputGroup>
-              <FormErrorMessage>Invalid task title format</FormErrorMessage>
+              <FormErrorMessage>
+                Title must be between 4 - 50 charaacters
+              </FormErrorMessage>
             </FormControl>
             {/*  */}
 
-            {/* Password form control element */}
-            <FormControl isInvalid w='full' isRequired>
+            {/* Task description form control element */}
+            <FormControl isInvalid={isDescriptionInvalid} w='full' isRequired>
               <FormLabel
                 htmlFor='description'
                 fontFamily='heading'
@@ -180,12 +192,21 @@ const NewTaskForm: FC = (props) => {
                 Description:
               </FormLabel>
               <Textarea
+                borderColor={borderColor}
+                _hover={{ borderColor: `${borderColor} !important` }}
+                _autofill={{
+                  boxShadow: '0 0 0 30px transparent inset !important',
+                  transition: 'background-color 5000s ease-in-out 0s',
+                  WebkitTextFillColor: `${useColorModeValue('black', 'white')}`,
+                }}
                 name='description'
                 onChange={handleChange}
                 placeholder='Enter a clear and consise decription here...'
               />
 
-              <FormErrorMessage>Invalid task description</FormErrorMessage>
+              <FormErrorMessage>
+                Description must be at least 30 characters
+              </FormErrorMessage>
             </FormControl>
             {/*  */}
           </section>
@@ -200,7 +221,7 @@ const NewTaskForm: FC = (props) => {
             variant='solid'
             fontSize='1.2rem'
             isLoading={submissionStarted}
-            disabled={false}
+            disabled={isTitleInvalid || isDescriptionInvalid}
           >
             Create task
           </Button>
