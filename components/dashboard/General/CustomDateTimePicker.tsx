@@ -5,7 +5,6 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import { format } from 'date-fns';
-import uk from 'date-fns/esm/locale/uk/index';
 import { ChangeEventHandler, FC, FormEventHandler } from 'react';
 import { useDateFuncs } from '../../../utils/dateFuncs';
 
@@ -40,9 +39,7 @@ const CustomDateTimePicker: FC<CustomDateTimePickerInterface> = (props) => {
         name={name}
         aria-label='Choose due date and time for this task'
         type='datetime-local'
-        value={format(new Date(dateValue), `yyyy-MM-dd'T'HH:mm`, {
-          locale: uk,
-        })}
+        value={format(new Date(dateValue), `yyyy-MM-dd'T'HH:mm`)}
         css={{
           '&::-webkit-calendar-picker-indicator': {
             position: 'absolute',
