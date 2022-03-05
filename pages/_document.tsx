@@ -17,6 +17,10 @@ const MyDocument = () => {
           rel='stylesheet'
         />
         <link rel='icon' href='/favicon2.ico' type='image/x-icon' />
+        <meta
+          property='og:image'
+          content='https://my-next-task.com/media/og-image.png'
+        />
       </Head>
       <body
       // style={{ minHeight: '99vh' }}

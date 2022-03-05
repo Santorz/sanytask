@@ -5,6 +5,7 @@ import {
   ChangeEvent,
   ChangeEventHandler,
   useEffect,
+  FormEventHandler,
 } from 'react';
 import {
   Flex,
@@ -37,7 +38,7 @@ const NewTaskForm: FC = (props) => {
   const formBg = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(5,5,5,0.65)');
   const borderColor = useColorModeValue('#006080', 'brand.400');
   const { showCustomToast, closeAllToasts } = useCustomToast();
-  const { currentDate } = useDateFuncs();
+  const { isDateInputInvalidFunc } = useDateFuncs();
 
   //   State Values
   const [taskData, setTaskData] = useState<TaskDataInterface>({
@@ -51,7 +52,8 @@ const NewTaskForm: FC = (props) => {
   const [failureMsg, setFailureMsg] = useState('');
 
   //   Vars
-  const { title, description } = taskData;
+  const { title, description, dueDate } = taskData;
+
   // Invalid bools
   const isDescriptionInvalid = !description
     .trim()
@@ -65,17 +67,28 @@ const NewTaskForm: FC = (props) => {
     e.preventDefault();
     setSubmissionFailed(false);
     setFailureMsg('');
-    if (!isDescriptionInvalid && !isTitleInvalid) {
+    if (
+      !isDescriptionInvalid &&
+      !isTitleInvalid &&
+      isDateInputInvalidFunc(dueDate)
+    ) {
       alert(JSON.stringify(taskData));
     }
     // If every input is valid
+    // Convert date to ISO string
+    // encrypt title and description
+
     // If one of the inputs is invalid
   };
   const handleChange: ChangeEventHandler = (
     e: ChangeEvent<HTMLInputElement>
   ) => {
     const target = e.target as HTMLInputElement;
-    setTaskData({ ...taskData, [target.name]: target.value.trim() });
+    setTaskData({ ...taskData, [target.name]: target.value });
+  };
+  const handleInput: FormEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    setTaskData({ ...taskData, [target.name]: target.value });
   };
 
   // useEffects
@@ -118,8 +131,8 @@ const NewTaskForm: FC = (props) => {
         maxW='650px'
         rounded='2xl'
         shadow='md'
-        px={['6', '9', '11', '14']}
-        py={['4', '5', '7', '6']}
+        px={['7', '9', '11', '14']}
+        py={['2', '3', '4', '5']}
         mx='auto'
       >
         <Heading size='lg' my='1' fontWeight='normal'>
@@ -132,7 +145,7 @@ const NewTaskForm: FC = (props) => {
             display: 'flex',
             width: '100%',
             flexDirection: 'column',
-            marginTop: '25px',
+            marginTop: '15px',
             justifyContent: 'space-between',
             height: '100%',
             paddingBottom: '1rem',
@@ -219,8 +232,10 @@ const NewTaskForm: FC = (props) => {
             {/*  */}
             {/* Custom DateTime Picker */}
             <CustomDateTimePicker
-              value={currentDate}
+              borderColor={borderColor}
+              value={new Date(new Date(taskData.dueDate).getTime() + 5 * 60000)}
               onChange={handleChange}
+              onInput={handleInput}
               name='dueDate'
             />
           </section>

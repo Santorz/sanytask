@@ -1,27 +1,48 @@
-import { Input, FormControl, FormLabel } from '@chakra-ui/react';
+import {
+  Input,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+} from '@chakra-ui/react';
 import { format } from 'date-fns';
-import { ChangeEventHandler, FC } from 'react';
+import uk from 'date-fns/esm/locale/uk/index';
+import { ChangeEventHandler, FC, FormEventHandler } from 'react';
+import { useDateFuncs } from '../../../utils/dateFuncs';
 
 interface CustomDateTimePickerInterface {
   value: Date;
   onChange: ChangeEventHandler<Element>;
+  onInput: FormEventHandler<HTMLInputElement>;
   name: string;
+  borderColor: string;
 }
 // Main Component
 const CustomDateTimePicker: FC<CustomDateTimePickerInterface> = (props) => {
   // Props
-  const { value, onChange, name } = props;
+  const { value: dateValue, onChange, name, borderColor, onInput } = props;
+
+  // Hooks
+  const { isDateInputInvalidFunc } = useDateFuncs();
+  const isDateInputInvalid = isDateInputInvalidFunc(dateValue);
 
   // Main JSX
   return (
-    <FormControl isRequired>
-      <FormLabel htmlFor='datetime picker'>Due Date:</FormLabel>
+    <FormControl isRequired isInvalid={isDateInputInvalid}>
+      <FormLabel
+        fontWeight='bold'
+        fontFamily='heading'
+        htmlFor='datetime picker'
+      >
+        Due Date:
+      </FormLabel>
       <Input
+        isRequired
         name={name}
         aria-label='Choose due date and time for this task'
-        color='whiteAlpha.900'
         type='datetime-local'
-        value={format(new Date(value), `yyyy-MM-dd'T'HH:mm`)}
+        value={format(new Date(dateValue), `yyyy-MM-dd'T'HH:mm`, {
+          locale: uk,
+        })}
         css={{
           '&::-webkit-calendar-picker-indicator': {
             position: 'absolute',
@@ -34,8 +55,16 @@ const CustomDateTimePicker: FC<CustomDateTimePickerInterface> = (props) => {
             backgroundColor: 'gray',
           },
         }}
+        borderColor={borderColor}
+        _hover={{ borderColor: `${borderColor} !important` }}
         onChange={onChange}
+        onInput={onInput}
       />
+      {isDateInputInvalid && (
+        <FormErrorMessage>
+          Enter a date later than the present date
+        </FormErrorMessage>
+      )}
     </FormControl>
   );
 };

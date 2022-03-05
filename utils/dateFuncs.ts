@@ -113,9 +113,24 @@ export const useDateFuncs = () => {
     [currentDate]
   );
 
+  // Check if any date input is invalid for any form
+  const isDateInputInvalidFunc = useCallback(
+    (dateValue: Date) => {
+      dateValue = new Date(dateValue);
+      return (
+        dateValue &&
+        Object.prototype.toString.call(dateValue) === '[object Date]' &&
+        typeof dateValue !== 'number' &&
+        currentDate > dateValue
+      );
+    },
+    [currentDate]
+  );
+
   return {
     currentDate,
     getShorthandDistanceDiff,
+    isDateInputInvalidFunc,
     checkBeforeorAfter,
     addColorOnTask,
     getRelativeDate,
