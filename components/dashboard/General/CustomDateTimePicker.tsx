@@ -4,25 +4,32 @@ import {
   FormLabel,
   FormErrorMessage,
 } from '@chakra-ui/react';
-import { format } from 'date-fns';
-import { ChangeEventHandler, FC, FormEventHandler } from 'react';
+import { format, addMonths } from 'date-fns';
+import { ChangeEventHandler, FC, FormEventHandler, useRef } from 'react';
 import { useDateFuncs } from '../../../utils/dateFuncs';
 
 interface CustomDateTimePickerInterface {
   value: Date;
   onChange: ChangeEventHandler<Element>;
-  onInput: FormEventHandler<HTMLInputElement>;
   name: string;
   borderColor: string;
 }
 // Main Component
 const CustomDateTimePicker: FC<CustomDateTimePickerInterface> = (props) => {
   // Props
-  const { value: dateValue, onChange, name, borderColor, onInput } = props;
+  const { value: dateValue, onChange, name, borderColor } = props;
 
   // Hooks
   const { isDateInputInvalidFunc } = useDateFuncs();
   const isDateInputInvalid = isDateInputInvalidFunc(dateValue);
+
+  // refs
+  const todaysDate = useRef(new Date());
+
+  // Funcs
+  const custFormat = (dateValue: Date) => {
+    return format(new Date(dateValue), `yyyy-MM-dd'T'HH:mm`);
+  };
 
   // Main JSX
   return (
@@ -35,11 +42,13 @@ const CustomDateTimePicker: FC<CustomDateTimePickerInterface> = (props) => {
         Due Date:
       </FormLabel>
       <Input
+        min={custFormat(todaysDate.current)}
+        max={custFormat(addMonths(todaysDate.current, 2))}
         isRequired
         name={name}
         aria-label='Choose due date and time for this task'
         type='datetime-local'
-        value={format(new Date(dateValue), `yyyy-MM-dd'T'HH:mm`)}
+        value={custFormat(dateValue)}
         css={{
           '&::-webkit-calendar-picker-indicator': {
             position: 'absolute',
@@ -55,7 +64,6 @@ const CustomDateTimePicker: FC<CustomDateTimePickerInterface> = (props) => {
         borderColor={borderColor}
         _hover={{ borderColor: `${borderColor} !important` }}
         onChange={onChange}
-        onInput={onInput}
       />
       {isDateInputInvalid && (
         <FormErrorMessage>

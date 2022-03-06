@@ -2,7 +2,7 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 const MyDocument = () => {
   return (
-    <Html lang='en'>
+    <Html lang='en' prefix='og: http://ogp.me/ns#'>
       <Head>
         {/* <meta httpEquiv='Content-Security-Policy' content="script-src 'none'" /> */}
         <meta charSet='utf-8' />

@@ -57,26 +57,23 @@ const NewTaskForm: FC = (props) => {
   // Invalid bools
   const isDescriptionInvalid = !description
     .trim()
-    .match(/^[a-zA-Z0-9 !@#$%.^&*)(']{30,2000}$/);
+    .match(/^[a-zA-Z0-9 !@#$%.^&*,)(']{30,2000}$/);
   const isTitleInvalid = !title
     .trim()
-    .match(/^[a-zA-Z0-9 !@#$%.^&*)(']{2,30}$/);
+    .match(/^[a-zA-Z0-9 !@#$%.^&*,)(']{2,30}$/);
+  const isDateInputInvalid = isDateInputInvalidFunc(dueDate);
 
   //   Funcs
   const processNewTaskInputFinal = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmissionFailed(false);
     setFailureMsg('');
-    if (
-      !isDescriptionInvalid &&
-      !isTitleInvalid &&
-      isDateInputInvalidFunc(dueDate)
-    ) {
+    if (!isDescriptionInvalid && !isTitleInvalid && !isDateInputInvalid) {
       alert(JSON.stringify(taskData));
+      // If every input is valid
+      // Convert date to ISO string
+      // encrypt title and description
     }
-    // If every input is valid
-    // Convert date to ISO string
-    // encrypt title and description
 
     // If one of the inputs is invalid
   };
@@ -84,11 +81,11 @@ const NewTaskForm: FC = (props) => {
     e: ChangeEvent<HTMLInputElement>
   ) => {
     const target = e.target as HTMLInputElement;
-    setTaskData({ ...taskData, [target.name]: target.value });
-  };
-  const handleInput: FormEventHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as HTMLInputElement;
-    setTaskData({ ...taskData, [target.name]: target.value });
+    if (target.name === 'dueDate' && isNaN(Date.parse(target.value))) {
+      setTaskData({ ...taskData, [target.name]: new Date() });
+    } else {
+      setTaskData({ ...taskData, [target.name]: target.value });
+    }
   };
 
   // useEffects
@@ -233,9 +230,8 @@ const NewTaskForm: FC = (props) => {
             {/* Custom DateTime Picker */}
             <CustomDateTimePicker
               borderColor={borderColor}
-              value={new Date(new Date(taskData.dueDate).getTime() + 5 * 60000)}
+              value={new Date(new Date(taskData.dueDate))}
               onChange={handleChange}
-              onInput={handleInput}
               name='dueDate'
             />
           </section>
@@ -250,7 +246,9 @@ const NewTaskForm: FC = (props) => {
             variant='solid'
             fontSize='1.2rem'
             isLoading={submissionStarted}
-            disabled={isTitleInvalid || isDescriptionInvalid}
+            disabled={
+              isTitleInvalid || isDescriptionInvalid || isDateInputInvalid
+            }
           >
             Create task
           </Button>

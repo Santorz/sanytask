@@ -73,7 +73,7 @@ const NewTaskModal: FC = () => {
         <ModalBody px='1'>
           <NewTaskForm />
         </ModalBody>
-        <ModalFooter>
+        {/* <ModalFooter>
           <Button
             aria-label='Close New Task Modal'
             colorScheme='brand'
@@ -82,7 +82,7 @@ const NewTaskModal: FC = () => {
           >
             Close
           </Button>
-        </ModalFooter>
+        </ModalFooter> */}
       </ModalContent>
     </Modal>
   );
