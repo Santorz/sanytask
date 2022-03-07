@@ -1,11 +1,14 @@
+import { TaskDataInterface } from '../components/dashboard/Tasks/NewTaskForm';
+import Parse from 'parse';
+import { encrypt } from './crypto-js-utils';
+
 //  FUNCTIONS
-export const submitTask = async (taskObj) => {
-  const { createdAt, dueDate, details, title } = taskObj;
+export const submitTask = async (taskData: TaskDataInterface) => {
+  const { dueDate, details, title } = taskData;
   let tasktoSubmit = new Parse.Object('Task');
-  tasktoSubmit.set('title', title);
-  tasktoSubmit.set('createdAt', createdAt);
-  tasktoSubmit.set('dueDate', dueDate);
-  tasktoSubmit.set('details', details);
+  tasktoSubmit.set('title', encrypt(title));
+  tasktoSubmit.set('dueDate', new Date(dueDate).toUTCString());
+  tasktoSubmit.set('details', encrypt(details));
   tasktoSubmit.set('user', Parse.User.current());
   try {
     await tasktoSubmit.save();
@@ -13,7 +16,7 @@ export const submitTask = async (taskObj) => {
       status: 'success',
       message: 'Submission successful',
     };
-  } catch (err) {
+  } catch (err: Parse.Error | any) {
     return {
       status: 'failure',
       message: err.message,

@@ -24,7 +24,8 @@ export type toastType =
   | 'success'
   | 'success2'
   | 'info'
-  | 'info2';
+  | 'info2'
+  | 'process2';
 type toastMsg = string;
 
 // Main Hook
@@ -56,8 +57,6 @@ export const useCustomToast = () => {
           return inversePrimaryColor;
         case 'success2':
           return successColor;
-        case 'info':
-          return infoColor;
         case 'error':
           return inversePrimaryColor;
         case 'error2':
@@ -66,6 +65,8 @@ export const useCustomToast = () => {
           return inversePrimaryColor;
         case 'info2':
           return infoColor;
+        case 'process2':
+          return brandColor;
         default:
           return primaryColor;
       }
@@ -94,8 +95,6 @@ export const useCustomToast = () => {
           return successColor;
         case 'success2':
           return inversePrimaryColor;
-        case 'info':
-          return infoColor;
         case 'error':
           return errorColor;
         case 'error2':
@@ -103,6 +102,7 @@ export const useCustomToast = () => {
         case 'info':
           return infoColor;
         case 'info2':
+        case 'process2':
           return inversePrimaryColor;
         default:
           return themeBg;
@@ -277,6 +277,15 @@ const toastContentSwitcher: (
           <Icon as={BsInfoCircle} boxSize='1.5rem' mr='0.5' />
           <Heading fontSize='1.175rem' fontWeight='semibold'>
             {toastMsg ? toastMsg : 'Error'}
+          </Heading>
+        </HStack>
+      );
+    case 'process2':
+      return (
+        <HStack as='section'>
+          <Spinner boxSize='1.5rem' mr='0.5' />
+          <Heading fontSize='1.175rem' fontWeight='semibold'>
+            {toastMsg ? toastMsg : 'Processing...'}
           </Heading>
         </HStack>
       );

@@ -9,6 +9,7 @@ import { ChangeEventHandler, FC, FormEventHandler, useRef } from 'react';
 import { useDateFuncs } from '../../../utils/dateFuncs';
 
 interface CustomDateTimePickerInterface {
+  disabled: boolean;
   value: Date;
   onChange: ChangeEventHandler<Element>;
   name: string;
@@ -17,7 +18,7 @@ interface CustomDateTimePickerInterface {
 // Main Component
 const CustomDateTimePicker: FC<CustomDateTimePickerInterface> = (props) => {
   // Props
-  const { value: dateValue, onChange, name, borderColor } = props;
+  const { value: dateValue, onChange, name, borderColor, disabled } = props;
 
   // Hooks
   const { isDateInputInvalidFunc } = useDateFuncs();
@@ -64,6 +65,7 @@ const CustomDateTimePicker: FC<CustomDateTimePickerInterface> = (props) => {
         borderColor={borderColor}
         _hover={{ borderColor: `${borderColor} !important` }}
         onChange={onChange}
+        disabled={disabled}
       />
       {isDateInputInvalid && (
         <FormErrorMessage>

@@ -5,7 +5,6 @@ import {
   ChangeEvent,
   ChangeEventHandler,
   useEffect,
-  FormEventHandler,
 } from 'react';
 import {
   Flex,
@@ -21,15 +20,17 @@ import {
   FormErrorMessage,
   Textarea,
 } from '@chakra-ui/react';
+import { submitTask } from '../../../utils/taskFuncs';
 import { FaEdit } from 'react-icons/fa';
 import { useDateFuncs } from '../../../utils/dateFuncs';
 import { useCustomToast } from '../../../utils/useCustomToast';
 import CustomDateTimePicker from '../General/CustomDateTimePicker';
+import { useModalFuncs } from '../../../utils/modalFuncs';
 
 // Interfaces
-interface TaskDataInterface {
+export interface TaskDataInterface {
   title: string;
-  description: string;
+  details: string;
   dueDate: Date;
 }
 
@@ -39,11 +40,12 @@ const NewTaskForm: FC = (props) => {
   const borderColor = useColorModeValue('#006080', 'brand.400');
   const { showCustomToast, closeAllToasts } = useCustomToast();
   const { isDateInputInvalidFunc } = useDateFuncs();
+  const { closeNewTaskModal } = useModalFuncs();
 
   //   State Values
   const [taskData, setTaskData] = useState<TaskDataInterface>({
     title: '',
-    description: '',
+    details: '',
     dueDate: new Date(),
   });
   const [submissionStarted, setSubmissionStarted] = useState(false);
@@ -52,10 +54,10 @@ const NewTaskForm: FC = (props) => {
   const [failureMsg, setFailureMsg] = useState('');
 
   //   Vars
-  const { title, description, dueDate } = taskData;
+  const { title, details, dueDate } = taskData;
 
   // Invalid bools
-  const isDescriptionInvalid = !description
+  const isDetailsInvalid = !details
     .trim()
     .match(/^[a-zA-Z0-9 !@#$%.^&*,)(']{30,2000}$/);
   const isTitleInvalid = !title
@@ -66,13 +68,27 @@ const NewTaskForm: FC = (props) => {
   //   Funcs
   const processNewTaskInputFinal = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmissionSuccess(false);
     setSubmissionFailed(false);
     setFailureMsg('');
-    if (!isDescriptionInvalid && !isTitleInvalid && !isDateInputInvalid) {
+    if (!isDetailsInvalid && !isTitleInvalid && !isDateInputInvalid) {
       alert(JSON.stringify(taskData));
+      setSubmissionStarted(true);
+      const responseObj = await submitTask(taskData);
+      const { status } = responseObj;
+      if (status === 'success') {
+        setFailureMsg('');
+        setSubmissionSuccess(true);
+        setSubmissionStarted(false);
+      } else {
+        setSubmissionSuccess(true);
+        setSubmissionStarted(false);
+        setSubmissionFailed(true);
+        setFailureMsg('An error occured while creating task.');
+      }
       // If every input is valid
       // Convert date to ISO string
-      // encrypt title and description
+      // encrypt title and details
     }
 
     // If one of the inputs is invalid
@@ -92,10 +108,12 @@ const NewTaskForm: FC = (props) => {
   useEffect(() => {
     if (submissionStarted) {
       closeAllToasts();
-      showCustomToast('login');
+      showCustomToast('process2', 'Creating task...');
     }
     if (submissionSuccess) {
       closeAllToasts();
+      showCustomToast('success2', 'Task created successfully.');
+      closeNewTaskModal();
       //   Perform onCloseMain function
     }
     if (submissionFailed) {
@@ -112,6 +130,7 @@ const NewTaskForm: FC = (props) => {
     submissionSuccess,
     submissionFailed,
     failureMsg,
+    closeNewTaskModal,
   ]);
 
   //
@@ -198,16 +217,17 @@ const NewTaskForm: FC = (props) => {
             </FormControl>
             {/*  */}
 
-            {/* Task description form control element */}
-            <FormControl isInvalid={isDescriptionInvalid} w='full' isRequired>
+            {/* Task details form control element */}
+            <FormControl isInvalid={isDetailsInvalid} w='full' isRequired>
               <FormLabel
-                htmlFor='description'
+                htmlFor='details'
                 fontFamily='heading'
                 fontWeight='bold'
               >
-                Description:
+                Details:
               </FormLabel>
               <Textarea
+                disabled={submissionStarted}
                 borderColor={borderColor}
                 _hover={{ borderColor: `${borderColor} !important` }}
                 _autofill={{
@@ -215,13 +235,13 @@ const NewTaskForm: FC = (props) => {
                   transition: 'background-color 5000s ease-in-out 0s',
                   WebkitTextFillColor: `${useColorModeValue('black', 'white')}`,
                 }}
-                name='description'
+                name='details'
                 onChange={handleChange}
                 placeholder='Enter a clear and consise decription here...'
               />
 
               <FormErrorMessage>
-                Description must be at least 30 characters
+                Details must be at least 30 characters
               </FormErrorMessage>
             </FormControl>
             {/*  */}
@@ -229,6 +249,7 @@ const NewTaskForm: FC = (props) => {
             {/*  */}
             {/* Custom DateTime Picker */}
             <CustomDateTimePicker
+              disabled={submissionStarted}
               borderColor={borderColor}
               value={new Date(new Date(taskData.dueDate))}
               onChange={handleChange}
@@ -246,9 +267,7 @@ const NewTaskForm: FC = (props) => {
             variant='solid'
             fontSize='1.2rem'
             isLoading={submissionStarted}
-            disabled={
-              isTitleInvalid || isDescriptionInvalid || isDateInputInvalid
-            }
+            disabled={isTitleInvalid || isDetailsInvalid || isDateInputInvalid}
           >
             Create task
           </Button>

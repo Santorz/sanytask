@@ -7,7 +7,9 @@ export const useModalFuncs = () => {
   const openNewTaskModal = useCallback(() => {
     router.push('/dashboard#new');
   }, [router]);
+
   const openEditTaskModal = useCallback(() => {}, []);
+
   const openViewTaskModal = useCallback(
     (taskId: string) => {
       router.push(`/dashboard#view?taskId=${taskId}`);
@@ -15,5 +17,15 @@ export const useModalFuncs = () => {
     [router]
   );
 
-  return { openNewTaskModal, openViewTaskModal, openEditTaskModal };
+  // Closers
+  const closeNewTaskModal = useCallback(() => {
+    router.replace('/dashboard');
+  }, [router]);
+
+  return {
+    openNewTaskModal,
+    openViewTaskModal,
+    openEditTaskModal,
+    closeNewTaskModal,
+  };
 };
