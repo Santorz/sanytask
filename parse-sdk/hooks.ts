@@ -29,7 +29,9 @@ export interface TaskInterface {
 // Hook to get liveQuery Tasks
 export const useTasksLiveQuery = () => {
   // Hooks
-  const { encLoggedInString } = useContext(UserLoginStateContext);
+  const { encLoggedInString, invokeSignOut } = useContext(
+    UserLoginStateContext
+  );
   const { showCustomToast, closeAllToasts } = useCustomToast();
   const router = useRouter();
 
@@ -80,7 +82,9 @@ export const useTasksLiveQuery = () => {
           setIsTasksLoading(false);
           setIsError(true);
           setTasksError(error.message);
-          console.log(error.code);
+          if (error.code === 209) {
+            invokeSignOut();
+          }
         });
       tasksQuery
         .subscribe()
@@ -93,7 +97,7 @@ export const useTasksLiveQuery = () => {
     } else {
       showUserIsNotLoggedIn();
     }
-  }, [encLoggedInString]);
+  }, [encLoggedInString, invokeSignOut]);
 
   const showNotif = useCallback(
     (type: toastType, msg: string) => {

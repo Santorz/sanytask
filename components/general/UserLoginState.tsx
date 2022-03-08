@@ -59,13 +59,18 @@ const UserLoginState: FC = (props) => {
   // Funcs
   const invokeSignOut = useCallback(async () => {
     if (userVarLib && typeof window !== 'undefined') {
-      localStorage.removeItem('sessionExpDate');
-      closeAllToasts();
-      showCustomToast('logout');
-      await Parse.User.logOut();
-      setIsLoggedIn(encryptWithoutUserData(false.toString()));
-      closeAllToasts();
-      router.push('/');
+      try {
+        localStorage.removeItem('sessionExpDate');
+        closeAllToasts();
+        showCustomToast('logout');
+        await Parse.User.logOut();
+        setIsLoggedIn(encryptWithoutUserData(false.toString()));
+        closeAllToasts();
+        router.push('/');
+      } catch (err) {
+        localStorage.removeItem('sessionExpDate');
+        await Parse.User.logOut();
+      }
     }
   }, [userVarLib, showCustomToast, closeAllToasts, router]);
 
