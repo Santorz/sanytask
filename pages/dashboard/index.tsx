@@ -154,6 +154,14 @@ const Dashboard = () => {
     mainNavHeight: mainNavHeight,
   };
 
+  // Bools
+  const showTasksSubPageBool =
+    dashboardHash === '' || dashboardHash === 'new' || dashboardHash === 'view';
+  const showCalendarSubPageBool =
+    dashboardHash === 'calendar' ||
+    dashboardHash === 'new' ||
+    dashboardHash === 'view';
+
   // Main JSX
   return (
     <>
@@ -179,18 +187,18 @@ const Dashboard = () => {
           </FixedMobileNavHeightContext.Provider>
 
           {/* Main Dashboard Body */}
+
+          {/* SubPages */}
           <AnimatePresence
             initial={false}
             exitBeforeEnter={true}
             onExitComplete={() => window.scrollTo(0, 0)}
           >
-            {(dashboardHash === '' || dashboardHash === 'new') && (
-              <TasksSubpage {...subPagesProps} />
-            )}
-            {dashboardHash === 'calendar' && (
-              <CalendarSubpage {...subPagesProps} />
-            )}
+            {showTasksSubPageBool && <TasksSubpage {...subPagesProps} />}
+            {showCalendarSubPageBool && <CalendarSubpage {...subPagesProps} />}
           </AnimatePresence>
+          {/* end of subPages */}
+
           {dashboardHash === 'new' && <NewTaskModal />}
           {/* End of Main Dashboard Body */}
         </Container>

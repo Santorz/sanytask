@@ -18,8 +18,8 @@ export const useModalFuncs = () => {
   );
 
   // Closers
-  const closeNewTaskModal = useCallback(() => {
-    router.replace('/dashboard');
+  const closeNewTaskModal = useCallback(async () => {
+    await router.replace('/dashboard');
   }, [router]);
 
   return {

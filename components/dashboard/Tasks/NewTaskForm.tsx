@@ -72,7 +72,6 @@ const NewTaskForm: FC = (props) => {
     setSubmissionFailed(false);
     setFailureMsg('');
     if (!isDetailsInvalid && !isTitleInvalid && !isDateInputInvalid) {
-      alert(JSON.stringify(taskData));
       setSubmissionStarted(true);
       const responseObj = await submitTask(taskData);
       const { status } = responseObj;
@@ -87,8 +86,8 @@ const NewTaskForm: FC = (props) => {
         setFailureMsg('An error occured while creating task.');
       }
       // If every input is valid
-      // Convert date to ISO string
-      // encrypt title and details
+    } else {
+      showCustomToast('error', 'One or more form details are invalid.');
     }
 
     // If one of the inputs is invalid
@@ -112,8 +111,9 @@ const NewTaskForm: FC = (props) => {
     }
     if (submissionSuccess) {
       closeAllToasts();
-      showCustomToast('success2', 'Task created successfully.');
-      closeNewTaskModal();
+      closeNewTaskModal().then(() => {
+        showCustomToast('success2', 'Task created successfully.');
+      });
       //   Perform onCloseMain function
     }
     if (submissionFailed) {

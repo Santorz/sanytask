@@ -17,6 +17,10 @@ const MyDocument = () => {
           rel='stylesheet'
         />
         <link rel='icon' href='/favicon2.ico' type='image/x-icon' />
+        <meta property='og:image:type' content='image/png' />
+        <meta property='og:title' content='my-next-task web-app' />
+        <meta property='og:url' content='https://my-next-task.com' />
+        <meta property='og:type' content='website' />
         <meta
           property='og:image'
           content='https://my-next-task.com/media/og-image.png'

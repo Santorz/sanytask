@@ -5,11 +5,9 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   useDisclosure,
   useColorModeValue,
-  Button,
   IconButton,
 } from '@chakra-ui/react';
 import NewTaskForm from '../Tasks/NewTaskForm';

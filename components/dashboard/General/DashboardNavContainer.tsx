@@ -55,13 +55,13 @@ const NavContainer = forwardRef<HTMLDivElement>((props, ref) => {
               px={{ base: '4', md: '0' }}
             >
               {/* Search components for tablet and above   */}
-              {isTabletAndAbove && <DashboardSearch />}
+              {/* {isTabletAndAbove && <DashboardSearch />} */}
               {/* Dark mode switch for tablet and above*/}
               {isTabletAndAbove && <DarkModeSwitch />}
             </Flex>
           )}
           {/* Search components for mobile only   */}
-          {isMobile && <DashboardSearch />}
+          {/* {isMobile && <DashboardSearch />} */}
           {/* Dark mode switch for tablet and above*/}
           {isMobile && <DarkModeSwitch />}
           {/* Dashboard Navbar for Tablet and above */}

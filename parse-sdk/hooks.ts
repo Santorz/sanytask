@@ -68,10 +68,8 @@ export const useTasksLiveQuery = () => {
           let tasks = tasksArray.map((t: Parse.Object<TaskInterface>) =>
             (({ id, attributes }) => ({ id, ...attributes }))(t)
           );
-          const sortedTasks: Array<TaskInterface> = orderBy(
-            tasks,
-            ['dueDate'],
-            'asc'
+          const sortedTasks: Array<TaskInterface> = tasks.sort(
+            (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate)
           );
           setTasks(sortedTasks);
           setIsError(false);
