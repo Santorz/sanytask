@@ -1,8 +1,8 @@
 import { FC, ReactNode } from 'react';
 import { decrypt } from '../../../utils/crypto-js-utils';
 import { TaskInterface } from '../../../parse-sdk/hooks';
-import { Heading, Flex, Button, Icon } from '@chakra-ui/react';
-import { FaEllipsisH } from 'react-icons/fa';
+import { Heading, Flex, Button, chakra } from '@chakra-ui/react';
+import TaskOptions from './TaskOptions';
 import { useDateFuncs } from '../../../utils/dateFuncs';
 import { useModalFuncs } from '../../../utils/modalFuncs';
 
@@ -22,6 +22,7 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
   // Main JSX
   return (
     <Button
+      as={chakra.div}
       onClick={() => openViewTaskModal(id)}
       key={id}
       height='70px'
@@ -35,6 +36,10 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
       alignItems='center'
       flexWrap='wrap'
       id={`task-${id}`}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.code === 'Enter' || e.code === 'Space') openViewTaskModal(id);
+      }}
     >
       <Flex
         textAlign='left'
@@ -58,13 +63,7 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
           {decrypt(title)}
         </Heading>
       </Flex>
-      <Icon
-        tabIndex={0}
-        role='button'
-        as={FaEllipsisH}
-        aria-label={`Task ${index + 1} options`}
-        boxSize='5'
-      />
+      <TaskOptions index={index} id={id} />
     </Button>
   );
 };

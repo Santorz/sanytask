@@ -66,13 +66,13 @@ const UserLoginState: FC = (props) => {
         await Parse.User.logOut();
         setIsLoggedIn(encryptWithoutUserData(false.toString()));
         closeAllToasts();
-        router.push('/');
+        await router.push('/');
       } catch (err) {
         localStorage.removeItem('sessionExpDate');
         await Parse.User.logOut();
       }
     }
-  }, [userVarLib, showCustomToast, closeAllToasts, router]);
+  }, [closeAllToasts, router, showCustomToast, userVarLib]);
 
   // useEffects
   useEffect(() => {

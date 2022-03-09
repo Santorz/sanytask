@@ -157,10 +157,7 @@ const Dashboard = () => {
   // Bools
   const showTasksSubPageBool =
     dashboardHash === '' || dashboardHash === 'new' || dashboardHash === 'view';
-  const showCalendarSubPageBool =
-    dashboardHash === 'calendar' ||
-    dashboardHash === 'new' ||
-    dashboardHash === 'view';
+  const showCalendarSubPageBool = dashboardHash === 'calendar';
 
   // Main JSX
   return (

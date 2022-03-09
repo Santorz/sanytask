@@ -7,11 +7,12 @@ import {
   Heading,
   Flex,
   Button,
-  Icon,
   Text,
   useColorModeValue,
+  chakra,
 } from '@chakra-ui/react';
 import { FaEllipsisH } from 'react-icons/fa';
+import TaskOptions from './TaskOptions';
 
 interface EachTaskDesktopInterface extends TaskInterface {
   children?: ReactNode;
@@ -44,6 +45,7 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
   // Main JSX
   return (
     <Button
+      as={chakra.div}
       key={id}
       minHeight='125px'
       h='fit-content'
@@ -59,9 +61,13 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
       py='3'
       id={`task-${id}`}
       onClick={() => openViewTaskModal(id)}
+      onKeyDown={(e) => {
+        if (e.code === 'Enter' || e.code === 'Space') openViewTaskModal(id);
+      }}
+      tabIndex={0}
     >
       {/* Title and Eliipsis */}
-      <Flex textAlign='left' w='full' align='center'>
+      <Flex textAlign='left' w='full'>
         <Heading
           fontSize='1.02rem'
           w='full'
@@ -70,15 +76,7 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
         >
           {decrypt(title)}
         </Heading>
-        <Icon
-          tabIndex={0}
-          role='button'
-          mb='2'
-          zIndex='2'
-          as={FaEllipsisH}
-          boxSize='6'
-          aria-label={`Task ${index + 1} options`}
-        />
+        <TaskOptions index={index} id={id} />
       </Flex>
 
       {/* Hours left and dueDate */}

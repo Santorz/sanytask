@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback, useContext } from 'react';
 import Parse from 'parse';
-import { orderBy } from 'lodash';
 import { useRouter } from 'next/router';
 import { decryptWithoutUserData } from '../utils/crypto-js-utils';
 import { UserLoginStateContext } from '../components/general/UserLoginState';
@@ -54,50 +53,55 @@ export const useTasksLiveQuery = () => {
   };
 
   const triggerTasksFetch = useCallback(() => {
-    if (decryptWithoutUserData(encLoggedInString) !== 'true') {
-      showUserIsNotLoggedIn();
-    } else if (decryptWithoutUserData(encLoggedInString) === 'true') {
-      setIsTasksLoading(true);
-      setIsError(false);
-      setTasksError(null);
-      setTasks(null);
-      // Start fecthing process
-      const tasksQuery = new Parse.Query('Task');
-      tasksQuery
-        .equalTo('user', Parse.User.current())
-        .find()
-        .then((tasksArray: Parse.Object<Parse.Attributes>[]) => {
-          let tasks = tasksArray.map((t: Parse.Object<TaskInterface>) =>
-            (({ id, attributes }) => ({ id, ...attributes }))(t)
-          );
-          const sortedTasks: Array<TaskInterface> = tasks.sort(
-            (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate)
-          );
-          setTasks(sortedTasks);
-          setIsError(false);
-          setTasksError(null);
-          setIsTasksLoading(false);
-        })
-        .catch((error: Parse.Error) => {
-          setIsTasksLoading(false);
-          setIsError(true);
-          setTasksError(error.message);
-          if (error.code === 209) {
-            invokeSignOut();
-          }
-        });
-      tasksQuery
-        .subscribe()
-        .then((sub) => setTasksSubscription(sub))
-        .catch((error: Parse.Error) => {
-          setIsTasksLoading(false);
-          setIsError(true);
-          setTasksError(error.message);
-        });
-    } else {
-      showUserIsNotLoggedIn();
+    if (!tasks) {
+      if (decryptWithoutUserData(encLoggedInString) !== 'true') {
+        showUserIsNotLoggedIn();
+      } else if (decryptWithoutUserData(encLoggedInString) === 'true') {
+        setIsTasksLoading(true);
+        setIsError(false);
+        setTasksError(null);
+        setTasks(null);
+        // Start fecthing process
+        const tasksQuery = new Parse.Query('Task');
+        tasksQuery
+          .equalTo('user', Parse.User.current())
+          .find()
+          .then((tasksArray: Parse.Object<Parse.Attributes>[]) => {
+            let tasks = tasksArray.map((t: Parse.Object<TaskInterface>) =>
+              (({ id, attributes }) => ({ id, ...attributes }))(t)
+            );
+            const sortedTasks: Array<TaskInterface> = tasks.sort(
+              (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate)
+            );
+            setTasks(sortedTasks);
+            setIsError(false);
+            setTasksError(null);
+            setIsTasksLoading(false);
+          })
+          .catch((error: Parse.Error) => {
+            setIsTasksLoading(false);
+            setIsError(true);
+            setTasksError(error.message);
+            if (error.code === 209) {
+              invokeSignOut();
+            }
+          });
+        tasksQuery
+          .subscribe()
+          .then((sub) => setTasksSubscription(sub))
+          .catch((error: Parse.Error) => {
+            setIsTasksLoading(false);
+            setIsError(true);
+            setTasksError(error.message);
+            if (error.code === 209) {
+              invokeSignOut();
+            }
+          });
+      } else {
+        showUserIsNotLoggedIn();
+      }
     }
-  }, [encLoggedInString, invokeSignOut]);
+  }, [encLoggedInString, invokeSignOut, tasks]);
 
   const showNotif = useCallback(
     (type: toastType, msg: string) => {
@@ -123,7 +127,9 @@ export const useTasksLiveQuery = () => {
       const newTask = { id: task.id, ...attributes };
       const newTasks = [...tasks, newTask];
       showNotif('success', 'Task added successfully');
-      setTasks(orderBy(newTasks, ['dueDate'], 'asc'));
+      setTasks(
+        newTasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
+      );
     },
     [showNotif, tasks]
   );
@@ -134,7 +140,9 @@ export const useTasksLiveQuery = () => {
       const newTask = { id: task.id, ...attributes };
       const newTasks = [...filteredTasks, newTask];
       showNotif('success', 'Task updated successfully');
-      setTasks(orderBy(newTasks, ['dueDate'], 'asc'));
+      setTasks(
+        newTasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
+      );
     },
     [showNotif, tasks]
   );
@@ -144,7 +152,11 @@ export const useTasksLiveQuery = () => {
       const filteredTasks = tasks.filter((task) => task.id !== id);
       // const newTask = { id: task.id, ...attributes };
       showNotif('info', 'Task successfully deleted');
-      setTasks(orderBy(filteredTasks, ['dueDate'], 'asc'));
+      setTasks(
+        filteredTasks.sort(
+          (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate)
+        )
+      );
     },
     [showNotif, tasks]
   );
