@@ -23,3 +23,20 @@ export const submitTask = async (taskData: TaskDataInterface) => {
     };
   }
 };
+
+export const deleteTask = async (taskId: string) => {
+  let tasktoDel = new Parse.Object('Task');
+  tasktoDel.set('objectId', taskId);
+  try {
+    await tasktoDel.destroy();
+    return {
+      status: 'success',
+      message: 'Deletion successful',
+    };
+  } catch (err: Parse.Error | any) {
+    return {
+      status: 'failure',
+      message: err.message,
+    };
+  }
+};

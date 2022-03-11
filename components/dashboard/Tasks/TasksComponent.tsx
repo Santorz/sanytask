@@ -5,6 +5,9 @@ import {
   useState,
   MouseEvent,
   useEffect,
+  createContext,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 import { TaskInterface } from '../../../parse-sdk/hooks';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
@@ -13,6 +16,7 @@ import PaginationController from './PaginationController';
 import CreateButton from './CreateButton';
 import TasksList from './TasksList';
 import TasksGrid from './TasksGrid';
+import TaskAlertDialog from '../General/TaskAlertDialog';
 
 interface TasksComponentInterface {
   tasks: TaskInterface[];
@@ -24,6 +28,28 @@ export interface PaginatedTasksInterface {
   slicedTasks: TaskInterface[];
 }
 
+// Everything that relates to task alert dialog
+export type dialog_action_type = 'delete' | 'edit' | 'mark-done';
+interface TaskAlertDialogTriggerInterface {
+  triggerTaskAlertDialog: (actionName: dialog_action_type, id: string) => void;
+  setAlertDialogTrigger: (func: () => void) => void;
+}
+const initialAlertDialogTrigger = (
+  actionName: dialog_action_type,
+  id: string
+) => {};
+const TaskAlertDialogTriggerDefaults = {
+  triggerTaskAlertDialog: initialAlertDialogTrigger,
+  setAlertDialogTrigger: () => {},
+};
+// Contexts
+export const TaskAlertDialogTriggerContext =
+  createContext<TaskAlertDialogTriggerInterface>(
+    TaskAlertDialogTriggerDefaults
+  );
+// End of task alert dialog stuffs
+
+// Main Component
 const TasksComponent: FC<TasksComponentInterface> = (props) => {
   // Props
   const { tasks } = props;
@@ -39,6 +65,19 @@ const TasksComponent: FC<TasksComponentInterface> = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCount, setPageCount] = useState(
     Math.ceil(tasks.length / tasksPerPage)
+  );
+
+  // state values for Contexts
+  const [triggerTaskAlertDialog, setTrigger] = useState(
+    () => initialAlertDialogTrigger
+  );
+
+  // Special funcs
+  const setAlertDialogTrigger = useCallback(
+    (func: (actionName: dialog_action_type, id: string) => void) => {
+      setTrigger(func);
+    },
+    []
   );
 
   // useEffects
@@ -86,39 +125,46 @@ const TasksComponent: FC<TasksComponentInterface> = (props) => {
 
   // Main JSX
   return (
-    <Flex
-      w='full'
-      direction='column'
-      justify='space-between'
-      as='section'
-      h='full'
-      py='2'
-      pt='3'
-      px='0'
-      pb={{ base: '2', md: '4', lg: '7' }}
+    <TaskAlertDialogTriggerContext.Provider
+      value={{ triggerTaskAlertDialog, setAlertDialogTrigger }}
     >
-      <div>
-        {isMobile ? (
-          <TasksList tasksArr={slicedTasks} />
-        ) : (
-          <TasksGrid tasksArr={slicedTasks} />
-        )}
-      </div>
-
-      {/* Pagination Controller and Create Button */}
       <Flex
-        mb='4'
         w='full'
-        maxW='full'
-        direction={isMobile ? 'column' : 'row-reverse'}
-        justify={!isMobile ? 'space-between' : 'unset'}
-        gap={isMobile ? '4' : 'unset'}
-        userSelect='none'
+        direction='column'
+        justify='space-between'
+        as='section'
+        h='full'
+        py='2'
+        pt='3'
+        px='0'
+        pb={{ base: '2', md: '4', lg: '7' }}
       >
-        <CreateButton />
-        <PaginationController size='big' {...paginationPropsObject} />
+        {/* Main tasks grid/list */}
+        <div>
+          {isMobile ? (
+            <TasksList tasksArr={slicedTasks} />
+          ) : (
+            <TasksGrid tasksArr={slicedTasks} />
+          )}
+        </div>
+
+        {/* Pagination Controller and Create Button */}
+        <Flex
+          mb='4'
+          w='full'
+          maxW='full'
+          direction={isMobile ? 'column' : 'row-reverse'}
+          justify={!isMobile ? 'space-between' : 'unset'}
+          gap={isMobile ? '4' : 'unset'}
+          userSelect='none'
+        >
+          <CreateButton />
+
+          <PaginationController size='big' {...paginationPropsObject} />
+          <TaskAlertDialog />
+        </Flex>
       </Flex>
-    </Flex>
+    </TaskAlertDialogTriggerContext.Provider>
   );
 };
 

@@ -37,7 +37,9 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
       flexWrap='wrap'
       id={`task-${id}`}
       tabIndex={0}
+      cursor='pointer'
       onKeyDown={(e) => {
+        e.stopPropagation();
         if (e.code === 'Enter' || e.code === 'Space') openViewTaskModal(id);
       }}
     >

@@ -59,9 +59,11 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
       alignItems='flex-start'
       justifyContent='flex-start'
       py='3'
+      cursor='pointer'
       id={`task-${id}`}
       onClick={() => openViewTaskModal(id)}
       onKeyDown={(e) => {
+        e.stopPropagation();
         if (e.code === 'Enter' || e.code === 'Space') openViewTaskModal(id);
       }}
       tabIndex={0}

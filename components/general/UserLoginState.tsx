@@ -70,6 +70,9 @@ const UserLoginState: FC = (props) => {
       } catch (err) {
         localStorage.removeItem('sessionExpDate');
         await Parse.User.logOut();
+        setIsLoggedIn(encryptWithoutUserData(false.toString()));
+        closeAllToasts();
+        await router.push('/');
       }
     }
   }, [closeAllToasts, router, showCustomToast, userVarLib]);

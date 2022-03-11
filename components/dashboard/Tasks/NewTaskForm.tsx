@@ -36,7 +36,10 @@ export interface TaskDataInterface {
 
 const NewTaskForm: FC = (props) => {
   // Hooks
-  const formBg = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(5,5,5,0.65)');
+  const formBg = useColorModeValue(
+    'rgba(255,255,255,0.65)',
+    'rgba(5,5,5,0.65)'
+  );
   const borderColor = useColorModeValue('#006080', 'brand.400');
   const { showCustomToast, closeAllToasts } = useCustomToast();
   const { isDateInputInvalidFunc } = useDateFuncs();
@@ -151,7 +154,7 @@ const NewTaskForm: FC = (props) => {
         py={['2', '3', '4', '5']}
         mx='auto'
       >
-        <Heading size='lg' my='1' fontWeight='normal'>
+        <Heading size='lg' my='1'>
           Create new task
         </Heading>
 

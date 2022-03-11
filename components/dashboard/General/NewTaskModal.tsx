@@ -55,7 +55,9 @@ const NewTaskModal: FC = () => {
       />
       <ModalContent rounded='none' bgColor={bgColor} h='100vh'>
         <ModalHeader
-          fontSize='1.5rem'
+          pb='0'
+          py='1'
+          fontSize='1.35rem'
           d='flex'
           justifyContent='right'
           alignItems='center'
@@ -68,7 +70,7 @@ const NewTaskModal: FC = () => {
             variant='ghost'
           />
         </ModalHeader>
-        <ModalBody px='1'>
+        <ModalBody px='1.5'>
           <NewTaskForm />
         </ModalBody>
         {/* <ModalFooter>
