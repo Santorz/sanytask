@@ -62,10 +62,8 @@ const NewTaskForm: FC = (props) => {
   // Invalid bools
   const isDetailsInvalid = !details
     .trim()
-    .match(/^[a-zA-Z0-9 !@#$%.^&*,)(']{30,2000}$/);
-  const isTitleInvalid = !title
-    .trim()
-    .match(/^[a-zA-Z0-9 !@#$%.^&*,)(']{2,30}$/);
+    .match(/^[a-zA-Z0-9 \W|_/]{30,2000}$/);
+  const isTitleInvalid = !title.trim().match(/^[a-zA-Z0-9 \W|_/]{2,30}$/);
   const isDateInputInvalid = isDateInputInvalidFunc(dueDate);
 
   //   Funcs

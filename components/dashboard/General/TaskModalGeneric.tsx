@@ -11,9 +11,15 @@ import {
   IconButton,
 } from '@chakra-ui/react';
 import NewTaskForm from '../Tasks/NewTaskForm';
+import ModalTaskDetails from '../Tasks/ModalTaskDetails';
 import { FaTimes } from 'react-icons/fa';
 
-const NewTaskModal: FC = () => {
+interface TaskModalGenericInterface {
+  hash: 'new' | 'view' | 'edit';
+}
+
+// Main Component
+const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
   // Hooks
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
@@ -70,8 +76,14 @@ const NewTaskModal: FC = () => {
             variant='ghost'
           />
         </ModalHeader>
+
         <ModalBody px='1.5'>
-          <NewTaskForm />
+          {/* New task form */}
+          {hash === 'new' && <NewTaskForm />}
+          {/*  */}
+          {/* Task Details form */}
+          {hash === 'view' && <ModalTaskDetails />}
+          {/*  */}
         </ModalBody>
         {/* <ModalFooter>
           <Button
@@ -88,4 +100,4 @@ const NewTaskModal: FC = () => {
   );
 };
 
-export default NewTaskModal;
+export default TaskModalGeneric;

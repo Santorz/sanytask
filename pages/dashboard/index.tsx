@@ -19,7 +19,7 @@ import { Container } from '@chakra-ui/react';
 import TasksSubpage from '../../components/dashboard/Tasks/TasksSubpage';
 import CalendarSubpage from '../../components/dashboard/Calendar/CalendarSubpage';
 import { AnimatePresence } from 'framer-motion';
-import NewTaskModal from '../../components/dashboard/General/NewTaskModal';
+import TaskModalGeneric from '../../components/dashboard/General/TaskModalGeneric';
 
 // Normal Interfaces
 export interface SubPageInterface {
@@ -73,11 +73,6 @@ const Dashboard = () => {
   const [fixedMobileNavHeight, setFixedMobileNavHeight] = useState(0);
   const [subPagesHeight, setSubPagesHeight] = useState(0);
   const [mainNavHeight, setMainNavHeight] = useState(0);
-  // const [subPagesProps, setSubPagesProps] = useState({
-  //   height: 0,
-  //   mbValue: 0,
-  //   mainNavHeight: 0,
-  // });
 
   // Custom setState funcs
   const setHash = useCallback((name: string) => {
@@ -86,6 +81,18 @@ const Dashboard = () => {
   const setFixedNavHeight = useCallback((height: number) => {
     setFixedMobileNavHeight(height);
   }, []);
+
+  // bools
+  const showTasksModalGeneric =
+    dashboardHash === 'new' ||
+    dashboardHash === 'view' ||
+    dashboardHash === 'edit';
+  const showTasksSubPageBool =
+    dashboardHash === '' ||
+    dashboardHash === 'new' ||
+    dashboardHash === 'view' ||
+    dashboardHash === 'edit';
+  const showCalendarSubPageBool = dashboardHash === 'calendar';
 
   // useEffects
 
@@ -154,11 +161,6 @@ const Dashboard = () => {
     mainNavHeight: mainNavHeight,
   };
 
-  // Bools
-  const showTasksSubPageBool =
-    dashboardHash === '' || dashboardHash === 'new' || dashboardHash === 'view';
-  const showCalendarSubPageBool = dashboardHash === 'calendar';
-
   // Main JSX
   return (
     <>
@@ -196,7 +198,8 @@ const Dashboard = () => {
           </AnimatePresence>
           {/* end of subPages */}
 
-          {dashboardHash === 'new' && <NewTaskModal />}
+          {/* Main modal for create, edit and view */}
+          {showTasksModalGeneric && <TaskModalGeneric hash={dashboardHash} />}
           {/* End of Main Dashboard Body */}
         </Container>
       </DashboardHashContext.Provider>

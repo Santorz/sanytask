@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { FaTrash, FaEdit, FaCheck, FaEllipsisH } from 'react-icons/fa';
 import { TaskAlertDialogTriggerContext } from './TasksComponent';
+import { useModalFuncs } from '../../../utils/modalFuncs';
 
 // Options for each task
 interface TaskOptionsInterface {
@@ -75,6 +76,7 @@ const CustomMenuItem: FC<CustomMenuItemInterface> = (props) => {
 
   // Hooks
   const { triggerTaskAlertDialog } = useContext(TaskAlertDialogTriggerContext);
+  const { openEditTaskModal } = useModalFuncs();
 
   // Funcs
   const fireOptionAction = async (targetName: string, targetId: string) => {
@@ -87,6 +89,7 @@ const CustomMenuItem: FC<CustomMenuItemInterface> = (props) => {
         break;
       case 'edit':
         // Open edit modal
+        openEditTaskModal(id);
         break;
 
       default:

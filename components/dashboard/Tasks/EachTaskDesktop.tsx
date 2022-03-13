@@ -37,7 +37,7 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
   const { id, dueDate, title, index, details } = props;
 
   // Hooks
-  const headingColor = useColorModeValue('brand.500', 'brand.100');
+  const headingColor = useColorModeValue('brand.500', 'brand.50');
   const { getShorthandDistanceDiff, checkBeforeorAfter, addColorOnTask } =
     useDateFuncs();
   const { openViewTaskModal } = useModalFuncs();
@@ -71,7 +71,7 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
       {/* Title and Eliipsis */}
       <Flex textAlign='left' w='full'>
         <Heading
-          fontSize='1.02rem'
+          fontSize='1.075rem'
           w='full'
           whiteSpace='normal'
           color={headingColor}
