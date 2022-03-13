@@ -36,8 +36,9 @@ const PaginationController: FC<PaginationControllerInterface> = (props) => {
   // Mian JSx
   return (
     <>
-      {tasksLength && tasksLength > 0 && (
+      {tasksLength && tasksLength >= 1 && (
         <HStack
+          as='section'
           align='center'
           w={isMobile ? 'full' : ''}
           justifyContent={isMobile ? 'space-between' : ''}

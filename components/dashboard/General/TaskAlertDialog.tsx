@@ -24,7 +24,7 @@ import {
   TaskAlertDialogTriggerContext,
   dialog_action_type,
 } from '../Tasks/TasksComponent';
-import { deleteTask } from '../../../utils/taskFuncs';
+import { deleteTask, markTaskDone } from '../../../utils/taskFuncs';
 import { useCustomToast } from '../../../utils/useCustomToast';
 
 const TaskAlertDialog: FC = () => {
@@ -150,6 +150,7 @@ const CustomDialogButton: FC<custBtnInterface> = (props) => {
   const { showCustomToast, closeAllToasts } = useCustomToast();
 
   // Funcs
+  // main delete
   const mainDelete = async (id: string) => {
     showCustomToast(
       'process2',
@@ -163,24 +164,23 @@ const CustomDialogButton: FC<custBtnInterface> = (props) => {
     const { status, message } = await deleteTask(id);
     if (status === 'success') {
       closeAllToasts();
-      showCustomToast(
-        'success',
-        actionName === 'delete'
-          ? 'Task deleted successfully'
-          : actionName === 'mark-done'
-          ? 'Task marked as done successfully'
-          : actionName
-      );
+      showCustomToast('success', 'Task marked as done successfully');
     } else {
       closeAllToasts();
-      showCustomToast(
-        'error',
-        actionName === 'delete'
-          ? 'Failed to delete task'
-          : actionName === 'mark-done'
-          ? 'Failed to marked task as done '
-          : actionName
-      );
+      showCustomToast('error', 'Failed to delete task');
+    }
+  };
+  // main mark-done
+  const mainMarkDone = async (id: string) => {
+    showCustomToast('process2', 'Marking task as done...');
+    onClose();
+    const { status, message } = await markTaskDone(id);
+    if (status === 'success') {
+      closeAllToasts();
+      showCustomToast('success', 'Task marked as done successfully');
+    } else {
+      closeAllToasts();
+      showCustomToast('error', 'Failed to marked task as done ');
     }
   };
 
@@ -200,7 +200,7 @@ const CustomDialogButton: FC<custBtnInterface> = (props) => {
         </>
       ) : actionName === 'mark-done' ? (
         <>
-          <Button colorScheme='brand' ml={3} onClick={() => mainDelete(id)}>
+          <Button colorScheme='brand' ml={3} onClick={() => mainMarkDone(id)}>
             Yes
           </Button>
         </>

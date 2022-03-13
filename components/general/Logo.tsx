@@ -89,8 +89,8 @@ const MainImage: FC<DynamicImageInterface> = ({ src, isResponsive }) => (
   <Image
     draggable={false}
     boxSize={{
-      base: isResponsive ? '3rem' : '4.25rem',
-      sm: isResponsive ? '3rem' : '4.25rem',
+      base: isResponsive ? '2.75rem' : '3.85rem',
+      sm: isResponsive ? '2.75rem' : '4rem',
     }}
     alt='my-next-task logo'
     src={src}

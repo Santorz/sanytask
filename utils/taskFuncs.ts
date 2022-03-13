@@ -3,6 +3,16 @@ import Parse from 'parse';
 import { encrypt } from './crypto-js-utils';
 
 //  FUNCTIONS
+
+// Get taskwithID
+const getTaskWithID = async (specificTaskID: string) => {
+  let taskToGet = new Parse.Query('Task')
+    .equalTo('user', Parse.User.current())
+    .equalTo('objectId', specificTaskID)
+    .first();
+  return taskToGet;
+};
+
 export const submitTask = async (taskData: TaskDataInterface) => {
   const { dueDate, details, title } = taskData;
   let tasktoSubmit = new Parse.Object('Task');
@@ -34,6 +44,36 @@ export const deleteTask = async (taskId: string) => {
       message: 'Deletion successful',
     };
   } catch (err: Parse.Error | any) {
+    return {
+      status: 'failure',
+      message: err.message,
+    };
+  }
+};
+
+export const markTaskDone = async (id: string) => {
+  const specificTask = await getTaskWithID(id);
+
+  let title = (await specificTask.get('title')) as string;
+  let date = (await specificTask.get('createdAt')) as Date;
+  let user = Parse.User.current();
+  const accountType = user.get('accountType') as 'free' | 'pro';
+  let historyTask = new Parse.Object('HistoryTask');
+  if (accountType === 'pro') {
+    historyTask.set('user', user);
+    historyTask.set('title', title);
+    historyTask.set('date', date);
+  }
+  try {
+    if (accountType === 'pro') {
+      await historyTask.save();
+    }
+    await specificTask.destroy();
+    return {
+      status: 'success',
+      message: 'Deletion successful',
+    };
+  } catch (err) {
     return {
       status: 'failure',
       message: err.message,

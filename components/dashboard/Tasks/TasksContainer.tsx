@@ -4,6 +4,7 @@ import { Container } from '@chakra-ui/react';
 import TasksLoaderComponent from './TasksLoader';
 import TasksComponent from './TasksComponent';
 import ErrorNotice from '../General/ErrorNotice';
+import NoTasksNotice from '../General/NoTasksNotice';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 
 const TasksListContainer: FC<TasksContextInterface> = (props) => {
@@ -37,8 +38,11 @@ const TasksListContainer: FC<TasksContextInterface> = (props) => {
         )}
 
         {/* This shows after loading and there's no error */}
-        {!isTasksLoading && !isError && tasks && (
+        {!isTasksLoading && !isError && tasks && tasks.length > 0 && (
           <TasksComponent tasks={tasks} />
+        )}
+        {!isTasksLoading && !isError && tasks && tasks.length <= 0 && (
+          <NoTasksNotice />
         )}
 
         {/* This shows if there is an error while loading*/}

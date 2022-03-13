@@ -8,6 +8,7 @@ import { useCustomToast } from '../utils/useCustomToast';
 import { ChakraProvider, Container } from '@chakra-ui/react';
 
 // CSS
+import '../theme/styles.css';
 
 function MyApp({ Component, pageProps }) {
   // Hooks

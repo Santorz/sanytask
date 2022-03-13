@@ -6,8 +6,6 @@ import {
   MouseEvent,
   useEffect,
   createContext,
-  Dispatch,
-  SetStateAction,
 } from 'react';
 import { TaskInterface } from '../../../parse-sdk/hooks';
 import useResponsiveSSR from '../../../utils/useResponsiveSSR';
