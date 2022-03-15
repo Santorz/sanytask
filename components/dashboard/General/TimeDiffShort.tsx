@@ -4,7 +4,7 @@ import { useDateFuncs } from '../../../utils/dateFuncs';
 interface ShortTimeDifferenceInterface {
   dueDate: string;
 }
-const ShortTimeDifference: FC<ShortTimeDifferenceInterface> = ({ dueDate }) => {
+const TimeDiffShort: FC<ShortTimeDifferenceInterface> = ({ dueDate }) => {
   // Hooks
   const { getShorthandDistanceDiff, checkBeforeorAfter } = useDateFuncs();
   return (
@@ -15,4 +15,4 @@ const ShortTimeDifference: FC<ShortTimeDifferenceInterface> = ({ dueDate }) => {
   );
 };
 
-export default ShortTimeDifference;
+export default TimeDiffShort;

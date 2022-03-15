@@ -147,10 +147,11 @@ const NewTaskForm: FC = (props) => {
         w='full'
         maxW='650px'
         rounded='2xl'
-        shadow='md'
+        shadow={{ base: 'md', md: 'none' }}
         px={['7', '9', '11', '14']}
         py={['2', '3', '4', '5']}
         mx='auto'
+        userSelect='none'
       >
         <Heading size='lg' my='1'>
           Create new task

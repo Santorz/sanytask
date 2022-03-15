@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { FaEllipsisH } from 'react-icons/fa';
 import TaskOptions from './TaskOptions';
+import TimeDiffShort from '../General/TimeDiffShort';
 
 interface EachTaskDesktopInterface extends TaskInterface {
   children?: ReactNode;
@@ -38,8 +39,7 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
 
   // Hooks
   const headingColor = useColorModeValue('brand.500', 'brand.50');
-  const { getShorthandDistanceDiff, checkBeforeorAfter, addColorOnTask } =
-    useDateFuncs();
+  const { addColorOnTask } = useDateFuncs();
   const { openViewTaskModal } = useModalFuncs();
 
   // Main JSX
@@ -91,8 +91,7 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
           fontWeight='semibold'
           color={addColorOnTask(new Date(dueDate))}
         >
-          {getShorthandDistanceDiff(new Date(dueDate))}{' '}
-          {checkBeforeorAfter(new Date(dueDate))}
+          <TimeDiffShort dueDate={dueDate} />
         </Heading>
         <Heading
           size='xs'

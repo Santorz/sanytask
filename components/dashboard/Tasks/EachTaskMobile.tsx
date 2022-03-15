@@ -5,6 +5,7 @@ import { Heading, Flex, Button, chakra } from '@chakra-ui/react';
 import TaskOptions from './TaskOptions';
 import { useDateFuncs } from '../../../utils/dateFuncs';
 import { useModalFuncs } from '../../../utils/modalFuncs';
+import TimeDiffShort from '../General/TimeDiffShort';
 
 interface EachTaskMobileInterface extends TaskInterface {
   children?: ReactNode;
@@ -15,8 +16,7 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
   const { id, dueDate, title, index } = props;
 
   // Hooks
-  const { getShorthandDistanceDiff, checkBeforeorAfter, addColorOnTask } =
-    useDateFuncs();
+  const { addColorOnTask } = useDateFuncs();
   const { openViewTaskModal } = useModalFuncs();
 
   // Main JSX
@@ -58,8 +58,7 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
           whiteSpace='normal'
           color={addColorOnTask(new Date(dueDate))}
         >
-          {getShorthandDistanceDiff(new Date(dueDate))}{' '}
-          {checkBeforeorAfter(new Date(dueDate))}
+          <TimeDiffShort dueDate={dueDate} />
         </Heading>
         <Heading fontSize='1.05rem' w='full' whiteSpace='normal'>
           {decrypt(title)}

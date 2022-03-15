@@ -106,9 +106,10 @@ export const useDateFuncs = () => {
   const getRelativeDate = useCallback(
     (baseDate: Date, options?: optionsInterface) => {
       const date = currentDate;
+      baseDate = new Date(baseDate);
       return Math.abs(differenceInDays(date, baseDate)) < 6
-        ? formatRelative(date, baseDate, options)
-        : format(date, `dd/MM/yyyy 'by' p`);
+        ? formatRelative(baseDate, date, options)
+        : format(baseDate, `EEEE, do MMMM yyyy 'by' p`);
     },
     [currentDate]
   );
