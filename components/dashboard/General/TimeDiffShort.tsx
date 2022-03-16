@@ -6,11 +6,11 @@ interface ShortTimeDifferenceInterface {
 }
 const TimeDiffShort: FC<ShortTimeDifferenceInterface> = ({ dueDate }) => {
   // Hooks
-  const { getShorthandDistanceDiff, checkBeforeorAfter } = useDateFuncs();
+  const { getShorthandDistanceDiff, addLateorLeft } = useDateFuncs();
   return (
     <>
       {getShorthandDistanceDiff(new Date(dueDate))}{' '}
-      {checkBeforeorAfter(new Date(dueDate))}
+      {addLateorLeft(new Date(dueDate))}
     </>
   );
 };

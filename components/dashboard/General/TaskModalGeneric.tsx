@@ -23,7 +23,9 @@ interface TaskModalGenericInterface {
 export type viewTaskModalSwipeDirectionType = 'left' | 'right';
 interface viewTaskModalSwipeHandlerInterface {
   handleViewModalSwipe: (direction: viewTaskModalSwipeDirectionType) => void;
-  setViewModalSwipeHandler: (func: () => void) => void;
+  setViewModalSwipeHandler: (
+    func: (direction: viewTaskModalSwipeDirectionType) => void
+  ) => void;
 }
 const initialAlertDialogTrigger = (
   direction: viewTaskModalSwipeDirectionType
@@ -70,7 +72,7 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
   const swipeHandlers = useSwipeable({
     onSwipedLeft: (e) => handleViewModalSwipe(e.dir.toLowerCase() as 'left'),
     onSwipedRight: (e) => handleViewModalSwipe(e.dir.toLowerCase() as 'right'),
-    delta: 50,
+    delta: 100,
   });
 
   // Bools

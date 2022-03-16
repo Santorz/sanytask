@@ -75,7 +75,7 @@ export const useDateFuncs = () => {
   );
 
   // Check if date is before or after
-  const checkBeforeorAfter = useCallback(
+  const addLateorLeft = useCallback(
     (dueDate: Date) => {
       let presentDate = currentDate;
       let dueDateMain = new Date(dueDate);
@@ -102,6 +102,20 @@ export const useDateFuncs = () => {
     [brandColor, currentDate, redColor]
   );
 
+  // Check if date is before or after and add respective color
+  const isDateBefore = useCallback(
+    (dueDate: Date) => {
+      let presentDate = currentDate;
+      let dueDateMain = new Date(dueDate);
+      if (isBefore(dueDateMain, presentDate)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    [currentDate]
+  );
+
   // Get relative date
   const getRelativeDate = useCallback(
     (baseDate: Date, options?: optionsInterface) => {
@@ -109,7 +123,7 @@ export const useDateFuncs = () => {
       baseDate = new Date(baseDate);
       return Math.abs(differenceInDays(date, baseDate)) < 6
         ? formatRelative(baseDate, date, options)
-        : format(baseDate, `EEEE, do MMMM yyyy 'by' p`);
+        : format(baseDate, `'on' EEEE, do MMMM yyyy 'at' p`);
     },
     [currentDate]
   );
@@ -132,8 +146,9 @@ export const useDateFuncs = () => {
     currentDate,
     getShorthandDistanceDiff,
     isDateInputInvalidFunc,
-    checkBeforeorAfter,
+    addLateorLeft,
     addColorOnTask,
     getRelativeDate,
+    isDateBefore,
   };
 };
