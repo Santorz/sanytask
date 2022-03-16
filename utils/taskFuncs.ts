@@ -13,7 +13,7 @@ const getTaskWithID = async (specificTaskID: string) => {
   return taskToGet;
 };
 
-export const submitTask = async (taskData: TaskDataInterface) => {
+export const submitNewTask = async (taskData: TaskDataInterface) => {
   const { dueDate, details, title } = taskData;
   let tasktoSubmit = new Parse.Object('Task');
   tasktoSubmit.set('title', encrypt(title));
@@ -72,6 +72,29 @@ export const markTaskDone = async (id: string) => {
     return {
       status: 'success',
       message: 'Deletion successful',
+    };
+  } catch (err) {
+    return {
+      status: 'failure',
+      message: err.message,
+    };
+  }
+};
+
+export const submitEditedTask = async (
+  taskId: string,
+  taskData: TaskDataInterface
+) => {
+  const specificTask = await getTaskWithID(taskId);
+  const { title, details, dueDate } = taskData;
+  specificTask.set('title', title);
+  specificTask.set('dueDate', dueDate);
+  specificTask.set('details', details);
+  try {
+    await specificTask.save();
+    return {
+      status: 'success',
+      message: 'Task edited successfully',
     };
   } catch (err) {
     return {

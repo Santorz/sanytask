@@ -1,4 +1,10 @@
-import { createContext, FC, useCallback, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  FC,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { useRouter } from 'next/router';
 import {
   Modal,
@@ -10,10 +16,11 @@ import {
   useColorModeValue,
   IconButton,
 } from '@chakra-ui/react';
-import NewTaskForm from '../Tasks/NewTaskForm';
+import TaskForm from '../Tasks/TaskForm';
 import ModalTaskDetails from '../Tasks/ModalTaskDetails';
 import { FaTimes } from 'react-icons/fa';
 import { useSwipeable } from 'react-swipeable';
+import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 
 interface TaskModalGenericInterface {
   hash: 'new' | 'view' | 'edit';
@@ -47,13 +54,14 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const bgColor = useColorModeValue(
+    'rgba(240,240,240,0.75)',
+    'rgba(0,0,0,0.75)'
+  );
+  const overlayBgColor = useColorModeValue(
     'rgb(118 221 255 / 40%)',
     'rgb(0 96 128 / 40%)'
   );
-  const overlayBgColor = useColorModeValue(
-    'rgba(250,250,250,0.5)',
-    'rgba(0,0,0,0.5)'
-  );
+  const { isDesktopOnly } = useResponsiveSSR();
 
   // State Values
   const [handleViewModalSwipe, setHandler] = useState(
@@ -103,6 +111,8 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
       size='full'
     >
       <ModalOverlay
+        d='flex'
+        justifyContent='space-between'
         backgroundColor={overlayBgColor}
         backdropFilter='blur(7.5px) saturate(180%)'
       />
@@ -110,6 +120,7 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
       <ViewTaskModalSwipeHandlerContext.Provider
         value={{ handleViewModalSwipe, setViewModalSwipeHandler }}
       >
+        {/* Modal Content */}
         <ModalContent
           bgColor={bgColor}
           w={{
@@ -118,18 +129,20 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
           }}
           my={{ base: '0', lg: isHashNeworEdit ? '0' : '3' }}
           rounded={{ base: 'none', lg: 'xl' }}
-          shadow={{ base: 'none', lg: 'dark-lg' }}
+          shadow={{ base: 'none', lg: 'lg' }}
           maxW={isHashNeworEdit ? 'full' : '1200px'}
           backdropFilter='blur(11.5px) saturate(180%)'
           {...(isHashView ? swipeHandlers : {})}
+          py='0'
         >
           <ModalHeader
             pb='0'
-            py='1'
+            py='2'
             fontSize='1.35rem'
             d='flex'
             justifyContent='right'
             alignItems='center'
+            textAlign='right'
           >
             <IconButton
               onClick={onCloseMain}
@@ -140,9 +153,9 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
             />
           </ModalHeader>
 
-          <ModalBody px='1.5'>
+          <ModalBody px='1.5' pt='0'>
             {/* New task form */}
-            {hash === 'new' && <NewTaskForm />}
+            {isHashNeworEdit && <TaskForm formType={hash} />}
             {/*  */}
             {/* Task Details form */}
             {hash === 'view' && <ModalTaskDetails />}
@@ -160,7 +173,7 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
           </Button>
         </ModalFooter> */}
         </ModalContent>
-        {/*  */}
+        {/* Icon button on desktop to imitate swipe left */}
       </ViewTaskModalSwipeHandlerContext.Provider>
       {/* end of view-task modal swipe handler context provider */}
     </Modal>

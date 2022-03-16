@@ -5,6 +5,7 @@ import {
   ChangeEvent,
   ChangeEventHandler,
   useEffect,
+  useContext,
 } from 'react';
 import {
   Flex,
@@ -20,12 +21,15 @@ import {
   FormErrorMessage,
   Textarea,
 } from '@chakra-ui/react';
-import { submitNewTask } from '../../../utils/taskFuncs';
+import { useRouter } from 'next/router';
+import { TasksContext } from '../../general/TasksConfig';
+import { submitNewTask, submitEditedTask } from '../../../utils/taskFuncs';
 import { FaEdit } from 'react-icons/fa';
 import { useDateFuncs } from '../../../utils/dateFuncs';
 import { useCustomToast } from '../../../utils/useCustomToast';
 import CustomDateTimePicker from '../General/CustomDateTimePicker';
 import { useModalFuncs } from '../../../utils/modalFuncs';
+import { decrypt } from '../../../utils/crypto-js-utils';
 
 // Interfaces
 export interface TaskDataInterface {
@@ -33,9 +37,17 @@ export interface TaskDataInterface {
   details: string;
   dueDate: Date;
 }
+interface TaskFormInterface {
+  formType: 'new' | 'edit';
+}
 
-const NewTaskForm: FC = (props) => {
+// Main Component
+const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
   // Hooks
+  const { asPath } = useRouter();
+  const taskId = asPath.split('?taskId=')[1];
+  const { tasks } = useContext(TasksContext);
+  const specificTask = tasks && tasks.find((task) => task.id === taskId);
   const formBg = useColorModeValue(
     'rgba(255,255,255,0.65)',
     'rgba(5,5,5,0.65)'
@@ -46,11 +58,19 @@ const NewTaskForm: FC = (props) => {
   const { closeNewTaskModal } = useModalFuncs();
 
   //   State Values
-  const [taskData, setTaskData] = useState<TaskDataInterface>({
-    title: '',
-    details: '',
-    dueDate: new Date(),
-  });
+  const [taskData, setTaskData] = useState<TaskDataInterface>(
+    (formType === 'new' || !formType) && formType !== 'edit'
+      ? {
+          title: '',
+          details: '',
+          dueDate: new Date(),
+        }
+      : {
+          title: specificTask ? decrypt(specificTask.title) : '',
+          details: specificTask ? decrypt(specificTask.details) : '',
+          dueDate: specificTask ? new Date(specificTask.dueDate) : new Date(),
+        }
+  );
   const [submissionStarted, setSubmissionStarted] = useState(false);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [submissionFailed, setSubmissionFailed] = useState(false);
@@ -60,10 +80,12 @@ const NewTaskForm: FC = (props) => {
   const { title, details, dueDate } = taskData;
 
   // Invalid bools
-  const isDetailsInvalid = !details
-    .trim()
-    .match(/^[a-zA-Z0-9 \W|_/]{30,2000}$/);
-  const isTitleInvalid = !title.trim().match(/^[a-zA-Z0-9 \W|_/]{2,30}$/);
+  const isDetailsInvalid = !(
+    details && details.trim().match(/^[a-zA-Z0-9 \W|_/]{30,2000}$/)
+  );
+  const isTitleInvalid = !(
+    title && title.trim().match(/^[a-zA-Z0-9 \W|_/]{2,30}$/)
+  );
   const isDateInputInvalid = isDateInputInvalidFunc(dueDate);
 
   //   Funcs
@@ -74,7 +96,10 @@ const NewTaskForm: FC = (props) => {
     setFailureMsg('');
     if (!isDetailsInvalid && !isTitleInvalid && !isDateInputInvalid) {
       setSubmissionStarted(true);
-      const responseObj = await submitNewTask(taskData);
+      const responseObj =
+        formType === 'new'
+          ? await submitNewTask(taskData)
+          : await submitEditedTask(specificTask.id, taskData);
       const { status } = responseObj;
       if (status === 'success') {
         setFailureMsg('');
@@ -84,7 +109,11 @@ const NewTaskForm: FC = (props) => {
         setSubmissionSuccess(true);
         setSubmissionStarted(false);
         setSubmissionFailed(true);
-        setFailureMsg('An error occured while creating task.');
+        setFailureMsg(
+          `An error occured while ${
+            formType === 'new' ? 'creating' : 'submitting edited'
+          } task.`
+        );
       }
       // If every input is valid
     } else {
@@ -108,12 +137,18 @@ const NewTaskForm: FC = (props) => {
   useEffect(() => {
     if (submissionStarted) {
       closeAllToasts();
-      showCustomToast('process2', 'Creating task...');
+      showCustomToast(
+        'process2',
+        `${formType === 'new' ? 'Creating' : 'Submitting edited'} task...`
+      );
     }
     if (submissionSuccess) {
       closeAllToasts();
       closeNewTaskModal().then(() => {
-        showCustomToast('success2', 'Task created successfully.');
+        showCustomToast(
+          'success2',
+          `Task ${formType === 'new' ? 'created' : 'edited'} successfully.`
+        );
       });
       //   Perform onCloseMain function
     }
@@ -132,6 +167,7 @@ const NewTaskForm: FC = (props) => {
     submissionFailed,
     failureMsg,
     closeNewTaskModal,
+    formType,
   ]);
 
   //
@@ -154,7 +190,7 @@ const NewTaskForm: FC = (props) => {
         userSelect='none'
       >
         <Heading size='lg' my='1'>
-          Create new task
+          {formType === 'new' ? `Create new task` : `Edit task`}
         </Heading>
 
         <form
@@ -178,7 +214,7 @@ const NewTaskForm: FC = (props) => {
               gap: '15px',
             }}
           >
-            {/* Email form control element */}
+            {/* Task title form control element */}
             <FormControl isInvalid={isTitleInvalid} w='full' isRequired>
               <FormLabel htmlFor='email' fontFamily='heading' fontWeight='bold'>
                 Task title:
@@ -253,13 +289,17 @@ const NewTaskForm: FC = (props) => {
             <CustomDateTimePicker
               disabled={submissionStarted}
               borderColor={borderColor}
-              value={new Date(new Date(taskData.dueDate))}
+              value={
+                isDateInputInvalid
+                  ? new Date()
+                  : new Date(new Date(taskData.dueDate))
+              }
               onChange={handleChange}
               name='dueDate'
             />
           </section>
 
-          {/* Sign in button element */}
+          {/* Submission button element */}
           <Button
             loadingText='Please wait...'
             spinnerPlacement='start'
@@ -271,7 +311,7 @@ const NewTaskForm: FC = (props) => {
             isLoading={submissionStarted}
             disabled={isTitleInvalid || isDetailsInvalid || isDateInputInvalid}
           >
-            Create task
+            {formType === 'new' ? `Create task` : `Submit edited task`}
           </Button>
           {/*  */}
         </form>
@@ -280,4 +320,4 @@ const NewTaskForm: FC = (props) => {
   );
 };
 
-export default NewTaskForm;
+export default TaskForm;
