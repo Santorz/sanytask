@@ -87,9 +87,11 @@ export const submitEditedTask = async (
 ) => {
   const specificTask = await getTaskWithID(taskId);
   const { title, details, dueDate } = taskData;
-  specificTask.set('title', title);
-  specificTask.set('dueDate', dueDate);
-  specificTask.set('details', details);
+  specificTask.set('title', encrypt(title));
+  specificTask.set('dueDate', new Date(dueDate).toUTCString());
+  specificTask.set('details', encrypt(details));
+  console.log(specificTask);
+
   try {
     await specificTask.save();
     return {

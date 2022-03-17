@@ -25,6 +25,7 @@ export type toastType =
   | 'success2'
   | 'info'
   | 'info2'
+  | 'process'
   | 'process2';
 type toastMsg = string;
 
@@ -65,6 +66,8 @@ export const useCustomToast = () => {
           return inversePrimaryColor;
         case 'info2':
           return infoColor;
+        case 'process':
+          return inversePrimaryColor;
         case 'process2':
           return brandColor;
         default:
@@ -102,6 +105,8 @@ export const useCustomToast = () => {
         case 'info':
           return infoColor;
         case 'info2':
+        case 'process':
+          return brandColor;
         case 'process2':
           return inversePrimaryColor;
         default:
@@ -277,6 +282,15 @@ const toastContentSwitcher: (
           <Icon as={BsInfoCircle} boxSize='1.5rem' mr='0.5' />
           <Heading fontSize='1.175rem' fontWeight='semibold'>
             {toastMsg ? toastMsg : 'Error'}
+          </Heading>
+        </HStack>
+      );
+    case 'process':
+      return (
+        <HStack as='section'>
+          <Spinner boxSize='1.5rem' mr='0.5' />
+          <Heading fontSize='1.175rem' fontWeight='semibold'>
+            {toastMsg ? toastMsg : 'Processing...'}
           </Heading>
         </HStack>
       );

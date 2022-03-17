@@ -81,7 +81,7 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
 
   // Invalid bools
   const isDetailsInvalid = !(
-    details && details.trim().match(/^[a-zA-Z0-9 \W|_/]{30,2000}$/)
+    details && details.trim().match(/^[a-zA-Z0-9 \W|_/]{30,}$/)
   );
   const isTitleInvalid = !(
     title && title.trim().match(/^[a-zA-Z0-9 \W|_/]{2,30}$/)
@@ -138,7 +138,7 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
     if (submissionStarted) {
       closeAllToasts();
       showCustomToast(
-        'process2',
+        'process',
         `${formType === 'new' ? 'Creating' : 'Submitting edited'} task...`
       );
     }
@@ -146,7 +146,7 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
       closeAllToasts();
       closeNewTaskModal().then(() => {
         showCustomToast(
-          'success2',
+          'success',
           `Task ${formType === 'new' ? 'created' : 'edited'} successfully.`
         );
       });
@@ -155,7 +155,7 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
     if (submissionFailed) {
       closeAllToasts();
       showCustomToast(
-        'error2',
+        'error',
         `${failureMsg.includes(':') ? failureMsg.split(':')[1] : failureMsg}`
       );
     }
@@ -265,6 +265,7 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
                 Details:
               </FormLabel>
               <Textarea
+                value={details}
                 disabled={submissionStarted}
                 borderColor={borderColor}
                 _hover={{ borderColor: `${borderColor} !important` }}
@@ -287,6 +288,7 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
             {/*  */}
             {/* Custom DateTime Picker */}
             <CustomDateTimePicker
+              isInvalid={isDateInputInvalid}
               disabled={submissionStarted}
               borderColor={borderColor}
               value={
@@ -309,7 +311,12 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
             variant='solid'
             fontSize='1.2rem'
             isLoading={submissionStarted}
-            disabled={isTitleInvalid || isDetailsInvalid || isDateInputInvalid}
+            disabled={
+              isTitleInvalid ||
+              isDetailsInvalid ||
+              isDateInputInvalid ||
+              submissionStarted
+            }
           >
             {formType === 'new' ? `Create task` : `Submit edited task`}
           </Button>

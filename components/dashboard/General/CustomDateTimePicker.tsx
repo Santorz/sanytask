@@ -14,15 +14,21 @@ interface CustomDateTimePickerInterface {
   onChange: ChangeEventHandler<Element>;
   name: string;
   borderColor: string;
+  isInvalid: boolean;
 }
 // Main Component
 const CustomDateTimePicker: FC<CustomDateTimePickerInterface> = (props) => {
   // Props
-  const { value: dateValue, onChange, name, borderColor, disabled } = props;
+  const {
+    value: dateValue,
+    onChange,
+    name,
+    borderColor,
+    disabled,
+    isInvalid,
+  } = props;
 
   // Hooks
-  const { isDateInputInvalidFunc } = useDateFuncs();
-  const isDateInputInvalid = isDateInputInvalidFunc(dateValue);
 
   // refs
   const todaysDate = useRef(new Date());
@@ -34,7 +40,7 @@ const CustomDateTimePicker: FC<CustomDateTimePickerInterface> = (props) => {
 
   // Main JSX
   return (
-    <FormControl isRequired isInvalid={isDateInputInvalid}>
+    <FormControl isRequired isInvalid={isInvalid}>
       <FormLabel
         fontWeight='bold'
         fontFamily='heading'
@@ -67,7 +73,7 @@ const CustomDateTimePicker: FC<CustomDateTimePickerInterface> = (props) => {
         onChange={onChange}
         disabled={disabled}
       />
-      {isDateInputInvalid && (
+      {isInvalid && (
         <FormErrorMessage>
           Enter a date later than the present date
         </FormErrorMessage>

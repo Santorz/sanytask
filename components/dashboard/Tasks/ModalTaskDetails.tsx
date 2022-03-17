@@ -26,7 +26,7 @@ const ModalTaskDetails: FC = () => {
   const { setViewModalSwipeHandler } = useContext(
     ViewTaskModalSwipeHandlerContext
   );
-  const brandColor = useColorModeValue('brand.500', 'brand.200');
+  const brandColor = useColorModeValue('brand.500', 'brand.100');
 
   //   Task properties
   const { id, dueDate, title, details } = specificTask || {};

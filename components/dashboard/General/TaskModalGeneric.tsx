@@ -20,7 +20,6 @@ import TaskForm from '../Tasks/TaskForm';
 import ModalTaskDetails from '../Tasks/ModalTaskDetails';
 import { FaTimes } from 'react-icons/fa';
 import { useSwipeable } from 'react-swipeable';
-import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 
 interface TaskModalGenericInterface {
   hash: 'new' | 'view' | 'edit';
@@ -48,6 +47,8 @@ export const ViewTaskModalSwipeHandlerContext =
   );
 // End of view modal handler stuffs
 
+//
+//
 // Main Component
 const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
   // Hooks
@@ -61,7 +62,6 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
     'rgb(118 221 255 / 40%)',
     'rgb(0 96 128 / 40%)'
   );
-  const { isDesktopOnly } = useResponsiveSSR();
 
   // State Values
   const [handleViewModalSwipe, setHandler] = useState(
@@ -99,6 +99,22 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
   useEffect(() => {
     onOpen();
   }, [onOpen]);
+
+  // Arrow key handler useEffect
+  useEffect(() => {
+    function changeTaskonArrowKeyPress(ev: globalThis.KeyboardEvent) {
+      if (ev.key === 'ArrowRight' && isHashView) {
+        handleViewModalSwipe('left');
+      }
+      if (ev.key === 'ArrowLeft' && isHashView) {
+        handleViewModalSwipe('right');
+      }
+    }
+    window.addEventListener('keydown', changeTaskonArrowKeyPress);
+
+    return () =>
+      window.removeEventListener('keydown', changeTaskonArrowKeyPress);
+  }, [handleViewModalSwipe, isHashView]);
 
   // Main JSX
   return (
