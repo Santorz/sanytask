@@ -1,4 +1,4 @@
-import { TaskDataInterface } from '../components/dashboard/Tasks/NewTaskForm';
+import { TaskDataInterface } from '../components/dashboard/Tasks/TaskForm';
 import Parse from 'parse';
 import { encrypt } from './crypto-js-utils';
 
