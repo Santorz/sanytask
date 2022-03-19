@@ -56,6 +56,7 @@ const LoginForm: FC = (props) => {
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [signupFailed, setSignupFailed] = useState(false);
   const [failureMsg, setFailureMsg] = useState('');
+  const [secondPassword, setSecondPassword] = useState('');
 
   const { email, password, fName, lName } = signupDetails;
 
@@ -64,6 +65,8 @@ const LoginForm: FC = (props) => {
   const isPasswordInvalid = password && !password.match(passwordRegex);
   const isFNameInvalid = fName && !fName.trim().match(nameRegex);
   const isLNameInvalid = lName && !lName.trim().match(nameRegex);
+  const arePasswordsSame = password === secondPassword;
+
   //   Funcs
   const processSignupInputFinal = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -78,7 +81,8 @@ const LoginForm: FC = (props) => {
       !isFNameInvalid &&
       !isLNameInvalid &&
       !isEmailInvalid &&
-      !isPasswordInvalid
+      !isPasswordInvalid &&
+      arePasswordsSame
     ) {
       setSignupStarted(true);
       // Perform main signup action
@@ -89,7 +93,7 @@ const LoginForm: FC = (props) => {
             setSignupFailed(false);
             setSignupSuccess(true);
             setTimeout(async () => {
-              await router.push(`/email-confirmation?email=${email}`);
+              await router.replace(`/signup/email-confirmation?fName=${fName}`);
             });
           }
           // If signup was unsuccessful
@@ -340,7 +344,43 @@ const LoginForm: FC = (props) => {
                   _hover={{ borderColor: `${borderColor} !important` }}
                 />
               </InputGroup>
-              <FormErrorMessage>Invalid password format</FormErrorMessage>
+              {isPasswordInvalid && (
+                <FormErrorMessage>Invalid password format</FormErrorMessage>
+              )}
+              {!arePasswordsSame && (
+                <FormErrorMessage>Passwords are not the same</FormErrorMessage>
+              )}
+            </FormControl>
+            {/*  */}
+
+            {/* Second Password form control element */}
+            <FormControl isInvalid={!arePasswordsSame} w='full' isRequired>
+              <FormLabel
+                htmlFor='second-password'
+                fontFamily='heading'
+                fontWeight='bold'
+              >
+                Repeat Password:
+              </FormLabel>
+              <InputGroup d='flex' alignItems='center'>
+                <InputLeftElement pointerEvents='none' top='unset'>
+                  <Icon as={MdLock} boxSize='1.5rem' />
+                </InputLeftElement>
+
+                <Input
+                  disabled={signUpStarted}
+                  type='password'
+                  name='second-password'
+                  isRequired
+                  value={secondPassword}
+                  placeholder='Input your password again...'
+                  onChange={(e) => setSecondPassword(e.target.value)}
+                  size='lg'
+                  borderColor={borderColor}
+                  _hover={{ borderColor: `${borderColor} !important` }}
+                />
+              </InputGroup>
+              <FormErrorMessage>Passwords are not the same</FormErrorMessage>
             </FormControl>
             {/*  */}
           </section>

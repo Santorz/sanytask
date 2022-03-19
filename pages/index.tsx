@@ -43,6 +43,22 @@ const Home: NextPage = () => {
           {isUserLoggedInDecrypted ? 'Dashboard' : 'Log in'}
         </ChakraLink>
       </Link>{' '}
+      {!isUserLoggedInDecrypted && (
+        <Link href={'/signup'} passHref>
+          <ChakraLink
+            d='inline-block'
+            rounded='lg'
+            my='3'
+            p='2'
+            mx='4'
+            position='relative'
+            bg='#00b2b8'
+            color='white'
+          >
+            Sign up
+          </ChakraLink>
+        </Link>
+      )}{' '}
       &nbsp;&nbsp;
       <Button onClick={toggleColorMode} colorScheme='brand' shadow='base'>
         Switch Theme

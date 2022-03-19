@@ -76,10 +76,10 @@ const SignupPage: NextPage = () => {
             align='center'
             bgColor={flexBg}
             userSelect='none'
-            gap='5'
+            gap='1.5'
             px='4'
             backdropFilter='blur(3px)'
-            mt='-7rem'
+            mt='-2rem'
           >
             {/* Logo on signup page */}
             <Logo logoType='white' />
