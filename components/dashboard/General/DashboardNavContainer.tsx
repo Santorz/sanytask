@@ -32,7 +32,7 @@ const NavContainer = forwardRef<HTMLDivElement>((props, ref) => {
         transition='background-color .2s ease'
       >
         {/* Logo with either horizontal or verical text */}
-        <Logo isResponsive />
+        <Logo isResponsive logoType='normal' />
         {/* End of Logo */}
         <Container
           d='flex'

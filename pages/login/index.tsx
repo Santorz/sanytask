@@ -5,10 +5,18 @@ import { useRouter } from 'next/router';
 import { decryptWithoutUserData } from '../../utils/crypto-js-utils';
 import { UserLoginStateContext } from '../../components/general/UserLoginState';
 import { useCustomToast } from '../../utils/useCustomToast';
-import { Container, Flex, useColorModeValue } from '@chakra-ui/react';
+import {
+  Container,
+  Flex,
+  useColorModeValue,
+  Heading,
+  VStack,
+  chakra,
+} from '@chakra-ui/react';
 import LoginForm from '../../components/login/LoginForm';
 import BackdropImage from '../../components/general/BackdropImage';
 import Logo from '../../components/general/Logo';
+import CustomLink from '../../components/general/CustomLink';
 
 const LoginPage: NextPage = () => {
   // Hooks
@@ -16,10 +24,8 @@ const LoginPage: NextPage = () => {
   const { encLoggedInString } = userLoginState;
   const router = useRouter();
   const { showCustomToast } = useCustomToast();
-  const flexBg = useColorModeValue(
-    'rgba(55,55,55,0.25)',
-    'rgba(55,55,55,0.35)'
-  );
+  const flexBg = useColorModeValue('rgba(250,250,250,0.5)', 'rgba(0,0,0,0.7)');
+  const brandColor = useColorModeValue('brand.500', 'brand.100');
 
   // useEffects
   useEffect(() => {
@@ -60,7 +66,6 @@ const LoginPage: NextPage = () => {
           h='100vh'
         >
           <BackdropImage />
-          {/* The login form goes in here */}
           <Flex
             as='section'
             position='absolute'
@@ -76,12 +81,24 @@ const LoginPage: NextPage = () => {
             userSelect='none'
             gap='5'
             px='4'
-            backdropFilter='blur(3px)'
-            mt='-10rem'
+            backdropFilter='blur(15px)'
+            mt='-5rem'
           >
             {/* Logo on login page */}
-            <Logo logoType='white' />
+            <Logo logoType='normal' />
+
+            {/* The login form goes in here */}
             <LoginForm {...userLoginState} />
+
+            {/* Other links on login page */}
+            <VStack>
+              <Heading as='h3' fontSize='1.1rem'>
+                Don&#39;t have an account?{' '}
+                <chakra.span color={brandColor}>
+                  <CustomLink href='/signup'>Sign up</CustomLink>{' '}
+                </chakra.span>
+              </Heading>
+            </VStack>
           </Flex>
         </Container>
         {/*  */}

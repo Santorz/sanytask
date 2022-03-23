@@ -40,7 +40,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
   } = props;
 
   // Hooks
-  const formBg = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(5,5,5,0.65)');
+  const formBg = useColorModeValue('rgba(250,250,250,0.75)', 'rgba(5,5,5,0.7)');
   const borderColor = useColorModeValue('#006080', 'brand.400');
   const { showCustomToast, closeAllToasts } = useCustomToast();
 
@@ -209,6 +209,9 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
                       'white'
                     )}`,
                   }}
+                  _placeholder={{
+                    color: `${useColorModeValue('#575757', 'gray')}`,
+                  }}
                 />
               </InputGroup>
               <FormErrorMessage>Invalid email format</FormErrorMessage>
@@ -240,6 +243,9 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
                   size='lg'
                   borderColor={borderColor}
                   _hover={{ borderColor: `${borderColor} !important` }}
+                  _placeholder={{
+                    color: `${useColorModeValue('#575757', 'gray')}`,
+                  }}
                 />
               </InputGroup>
               <FormErrorMessage>Invalid password format</FormErrorMessage>

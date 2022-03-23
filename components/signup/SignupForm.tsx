@@ -38,9 +38,9 @@ interface loginDetailsInterface {
   lName: string;
 }
 
-const LoginForm: FC = (props) => {
+const SignupForm: FC = (props) => {
   // Hooks
-  const formBg = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(5,5,5,0.7)');
+  const formBg = useColorModeValue('rgba(250,250,250,0.75)', 'rgba(5,5,5,0.7)');
   const borderColor = useColorModeValue('#006080', 'brand.400');
   const { showCustomToast, closeAllToasts } = useCustomToast();
   const router = useRouter();
@@ -86,29 +86,37 @@ const LoginForm: FC = (props) => {
     ) {
       setSignupStarted(true);
       // Perform main signup action
-      registerNewUser(fName.trim(), lName.trim(), email.trim(), password)
-        .then((resp) => {
-          // If signup was successful
-          if (resp.status === 'success') {
-            setSignupFailed(false);
-            setSignupSuccess(true);
-            setTimeout(async () => {
-              await router.replace(`/signup/email-confirmation?fName=${fName}`);
-            });
-          }
-          // If signup was unsuccessful
-          else if (resp.status === 'failure') {
+      try {
+        registerNewUser(fName.trim(), lName.trim(), email.trim(), password)
+          .then((resp) => {
+            // If signup was successful
+            if (resp.status === 'success') {
+              setSignupFailed(false);
+              setSignupSuccess(true);
+              setTimeout(async () => {
+                await router.replace(
+                  `/signup/email-confirmation?fName=${fName}`
+                );
+              });
+            }
+            // If signup was unsuccessful
+            else if (resp.status === 'failure') {
+              setSignupStarted(false);
+              setSignupFailed(true);
+              setFailureMsg(resp.message);
+            }
+          })
+          .catch((err: Error | any) => {
+            // If signup was unsuccessful
             setSignupStarted(false);
             setSignupFailed(true);
-            setFailureMsg(resp.message);
-          }
-        })
-        .catch((err: Error | any) => {
-          // If signup was unsuccessful
-          setSignupStarted(false);
-          setSignupFailed(true);
-          setFailureMsg(err.message);
-        });
+            setFailureMsg(err.message);
+          });
+      } catch (err: Error | any) {
+        setSignupStarted(false);
+        setSignupFailed(true);
+        setFailureMsg(err.message);
+      }
     } else {
       // If one of the inputs is invalid
     }
@@ -173,7 +181,7 @@ const LoginForm: FC = (props) => {
           fontWeight='normal'
           fontFamily='body'
         >
-          Sign up to access a new world of task management.
+          Welcome a new world of task management.
         </Heading>
 
         <form
@@ -317,71 +325,79 @@ const LoginForm: FC = (props) => {
             </FormControl>
             {/*  */}
 
-            {/* Password form control element */}
-            <FormControl isInvalid={isPasswordInvalid} w='full' isRequired>
-              <FormLabel
-                htmlFor='password'
-                fontFamily='heading'
-                fontWeight='bold'
-              >
-                Password:
-              </FormLabel>
-              <InputGroup d='flex' alignItems='center'>
-                <InputLeftElement pointerEvents='none' top='unset'>
-                  <Icon as={MdLock} boxSize='1.5rem' />
-                </InputLeftElement>
+            <Flex
+              direction={{ base: 'column', md: 'row' }}
+              gap={{ base: 'unset', md: '2' }}
+            >
+              {/* Password form control element */}
+              <FormControl isInvalid={isPasswordInvalid} w='full' isRequired>
+                <FormLabel
+                  htmlFor='password'
+                  fontFamily='heading'
+                  fontWeight='bold'
+                >
+                  Password:
+                </FormLabel>
+                <InputGroup d='flex' alignItems='center'>
+                  <InputLeftElement pointerEvents='none' top='unset'>
+                    <Icon as={MdLock} boxSize='1.5rem' />
+                  </InputLeftElement>
 
-                <Input
-                  disabled={signUpStarted}
-                  type='password'
-                  name='password'
-                  isRequired
-                  value={password}
-                  placeholder='Input your password here...'
-                  onChange={handleChange}
-                  size='lg'
-                  borderColor={borderColor}
-                  _hover={{ borderColor: `${borderColor} !important` }}
-                />
-              </InputGroup>
-              {isPasswordInvalid && (
-                <FormErrorMessage>Invalid password format</FormErrorMessage>
-              )}
-              {!arePasswordsSame && (
+                  <Input
+                    disabled={signUpStarted}
+                    type='password'
+                    name='password'
+                    isRequired
+                    value={password}
+                    placeholder='Input your password here...'
+                    onChange={handleChange}
+                    size='lg'
+                    borderColor={borderColor}
+                    _hover={{ borderColor: `${borderColor} !important` }}
+                  />
+                </InputGroup>
+                {isPasswordInvalid && (
+                  <FormErrorMessage>Invalid password format</FormErrorMessage>
+                )}
+                {!arePasswordsSame && (
+                  <FormErrorMessage>
+                    Passwords are not the same
+                  </FormErrorMessage>
+                )}
+              </FormControl>
+              {/*  */}
+
+              {/* Second Password form control element */}
+              <FormControl isInvalid={!arePasswordsSame} w='full' isRequired>
+                <FormLabel
+                  htmlFor='second-password'
+                  fontFamily='heading'
+                  fontWeight='bold'
+                >
+                  Repeat Password:
+                </FormLabel>
+                <InputGroup d='flex' alignItems='center'>
+                  <InputLeftElement pointerEvents='none' top='unset'>
+                    <Icon as={MdLock} boxSize='1.5rem' />
+                  </InputLeftElement>
+
+                  <Input
+                    disabled={signUpStarted}
+                    type='password'
+                    name='second-password'
+                    isRequired
+                    value={secondPassword}
+                    placeholder='Repeat your password...'
+                    onChange={(e) => setSecondPassword(e.target.value)}
+                    size='lg'
+                    borderColor={borderColor}
+                    _hover={{ borderColor: `${borderColor} !important` }}
+                  />
+                </InputGroup>
                 <FormErrorMessage>Passwords are not the same</FormErrorMessage>
-              )}
-            </FormControl>
-            {/*  */}
+              </FormControl>
+            </Flex>
 
-            {/* Second Password form control element */}
-            <FormControl isInvalid={!arePasswordsSame} w='full' isRequired>
-              <FormLabel
-                htmlFor='second-password'
-                fontFamily='heading'
-                fontWeight='bold'
-              >
-                Repeat Password:
-              </FormLabel>
-              <InputGroup d='flex' alignItems='center'>
-                <InputLeftElement pointerEvents='none' top='unset'>
-                  <Icon as={MdLock} boxSize='1.5rem' />
-                </InputLeftElement>
-
-                <Input
-                  disabled={signUpStarted}
-                  type='password'
-                  name='second-password'
-                  isRequired
-                  value={secondPassword}
-                  placeholder='Input your password again...'
-                  onChange={(e) => setSecondPassword(e.target.value)}
-                  size='lg'
-                  borderColor={borderColor}
-                  _hover={{ borderColor: `${borderColor} !important` }}
-                />
-              </InputGroup>
-              <FormErrorMessage>Passwords are not the same</FormErrorMessage>
-            </FormControl>
             {/*  */}
           </section>
 
@@ -416,4 +432,4 @@ const LoginForm: FC = (props) => {
   );
 };
 
-export default LoginForm;
+export default SignupForm;

@@ -13,7 +13,7 @@ import { useRouter } from 'next/router';
 import useResponsiveSSR from '../../utils/useResponsiveSSR';
 
 interface LogoInterface {
-  logoType?: 'normal' | 'white';
+  logoType: 'normal' | 'white';
   isResponsive?: boolean;
 }
 const Logo: FC<LogoInterface> = (props) => {
@@ -35,15 +35,17 @@ const Logo: FC<LogoInterface> = (props) => {
 };
 
 const LogoImage: FC<LogoInterface> = (props) => {
-  const { logoType, isResponsive } = props;
+  const { logoType } = props;
   const { colorMode } = useColorMode();
   return (
     <>
-      {(logoType === 'normal' || (!logoType && colorMode === 'light')) && (
-        <DynamicImage src='/media/logo.svg' isResponsive={isResponsive} />
+      {logoType === 'normal' && colorMode === 'light' && (
+        <DynamicImage src='/media/logo.svg' {...props} />
       )}
-      {(logoType === 'white' || (!logoType && colorMode === 'dark')) && (
-        <DynamicImage src='/media/logo-white.svg' isResponsive={isResponsive} />
+      {((colorMode === 'dark' &&
+        (logoType === 'white' || logoType === 'normal')) ||
+        (colorMode === 'light' && logoType === 'white')) && (
+        <DynamicImage src='/media/logo-white.svg' {...props} />
       )}
     </>
   );
@@ -52,18 +54,19 @@ const LogoImage: FC<LogoInterface> = (props) => {
 interface DynamicImageInterface extends LogoInterface {
   src: string;
 }
-const DynamicImage: FC<DynamicImageInterface> = ({ src, isResponsive }) => {
+const DynamicImage: FC<DynamicImageInterface> = (props) => {
   // Hooks
+  const { isResponsive, logoType } = props;
   const { isMobile } = useResponsiveSSR();
   const logoTextColor = useColorModeValue(
-    isResponsive ? 'brand.500' : 'white',
+    logoType === 'normal' ? 'brand.500' : 'white',
     'gray.50'
   );
   return (
     <>
       {isMobile && isResponsive && (
         <VStack>
-          <MainImage src={src} />
+          <MainImage {...props} />
           <Heading size='sm' mt='0 !important' color={logoTextColor}>
             my-next-task
           </Heading>
@@ -71,7 +74,7 @@ const DynamicImage: FC<DynamicImageInterface> = ({ src, isResponsive }) => {
       )}
       {((!isMobile && isResponsive) || !isResponsive) && (
         <HStack spacing='2'>
-          <MainImage src={src} />
+          <MainImage {...props} />
           <Heading
             size={isResponsive ? 'md' : 'lg'}
             mt='0 !important'
@@ -90,7 +93,7 @@ const MainImage: FC<DynamicImageInterface> = ({ src, isResponsive }) => (
     draggable={false}
     boxSize={{
       base: isResponsive ? '3rem' : '4rem',
-      sm: isResponsive ? '3rem' : '4rem',
+      sm: isResponsive ? '3.75rem' : '4.75rem',
     }}
     alt='my-next-task logo'
     src={src}

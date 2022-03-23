@@ -90,7 +90,6 @@ export const submitEditedTask = async (
   specificTask.set('title', encrypt(title));
   specificTask.set('dueDate', new Date(dueDate).toUTCString());
   specificTask.set('details', encrypt(details));
-  console.log(specificTask);
 
   try {
     await specificTask.save();

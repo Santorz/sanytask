@@ -5,10 +5,18 @@ import { useRouter } from 'next/router';
 import { decryptWithoutUserData } from '../../utils/crypto-js-utils';
 import { UserLoginStateContext } from '../../components/general/UserLoginState';
 import { useCustomToast } from '../../utils/useCustomToast';
-import { Container, Flex, useColorModeValue } from '@chakra-ui/react';
+import {
+  Container,
+  Flex,
+  useColorModeValue,
+  VStack,
+  Heading,
+  chakra,
+} from '@chakra-ui/react';
 import SignupForm from '../../components/signup/SignupForm';
 import BackdropImage from '../../components/general/BackdropImage';
 import Logo from '../../components/general/Logo';
+import CustomLink from '../../components/general/CustomLink';
 
 const SignupPage: NextPage = () => {
   // Hooks
@@ -16,10 +24,8 @@ const SignupPage: NextPage = () => {
   const { encLoggedInString } = userLoginState;
   const router = useRouter();
   const { showCustomToast } = useCustomToast();
-  const flexBg = useColorModeValue(
-    'rgba(55,55,55,0.25)',
-    'rgba(55,55,55,0.35)'
-  );
+  const flexBg = useColorModeValue('rgba(250,250,250,0.5)', 'rgba(0,0,0,0.7)');
+  const brandColor = useColorModeValue('brand.500', 'brand.100');
 
   // useEffects
   useEffect(() => {
@@ -41,11 +47,12 @@ const SignupPage: NextPage = () => {
       {/* Signup SEO Section */}
       <Head>
         <title>
-          Sign Up to access a new world of task planning | my-next-task
+          Sign up to gain access and explore a new world of task management |
+          my-next-task
         </title>
         <meta
           name='description'
-          content='Sign up to access a new world of task planning and task management'
+          content='Sign up to gain access and explore a new world of task management'
         />
       </Head>
       {/*  */}
@@ -62,7 +69,6 @@ const SignupPage: NextPage = () => {
           h='100vh'
         >
           <BackdropImage />
-          {/* The signup form goes in here */}
           <Flex
             as='section'
             position='absolute'
@@ -76,14 +82,27 @@ const SignupPage: NextPage = () => {
             align='center'
             bgColor={flexBg}
             userSelect='none'
-            gap='1.5'
+            gap='2'
             px='4'
-            backdropFilter='blur(3px)'
+            backdropFilter='blur(15px)'
             mt='-2rem'
           >
             {/* Logo on signup page */}
             <Logo logoType='white' />
+
+            {/* The signup form goes in here */}
+
             <SignupForm {...userLoginState} />
+
+            {/* Other links on login page */}
+            <VStack mt='3'>
+              <Heading as='h3' fontSize='1.1rem'>
+                Already have an account?{' '}
+                <chakra.span color={brandColor}>
+                  <CustomLink href='/login'>Log in</CustomLink>{' '}
+                </chakra.span>
+              </Heading>
+            </VStack>
           </Flex>
         </Container>
         {/*  */}

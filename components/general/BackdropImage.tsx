@@ -5,7 +5,7 @@ const BackdropImage: FC = (props) => {
   return (
     //   background by SVGBackgrounds.com
     <Image
-      alt='login backdrop image'
+      alt='Backdrop image'
       src='/media/sun-tornado.svg'
       h='inherit'
       w='inherit'
