@@ -85,7 +85,6 @@ const SignupPage: NextPage = () => {
             gap='2'
             px='4'
             backdropFilter='blur(15px)'
-            mt='-2rem'
           >
             {/* Logo on signup page */}
             <Logo logoType='white' />
@@ -95,7 +94,7 @@ const SignupPage: NextPage = () => {
             <SignupForm {...userLoginState} />
 
             {/* Other links on login page */}
-            <VStack mt='3'>
+            <VStack mt='1'>
               <Heading as='h3' fontSize='1.1rem'>
                 Already have an account?{' '}
                 <chakra.span color={brandColor}>

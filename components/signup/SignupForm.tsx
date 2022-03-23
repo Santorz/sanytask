@@ -327,7 +327,7 @@ const SignupForm: FC = (props) => {
 
             <Flex
               direction={{ base: 'column', md: 'row' }}
-              gap={{ base: 'unset', md: '2' }}
+              gap={{ base: '4', md: '2' }}
             >
               {/* Password form control element */}
               <FormControl isInvalid={isPasswordInvalid} w='full' isRequired>
