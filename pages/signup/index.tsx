@@ -24,8 +24,8 @@ const SignupPage: NextPage = () => {
   const { encLoggedInString } = userLoginState;
   const router = useRouter();
   const { showCustomToast } = useCustomToast();
-  const flexBg = useColorModeValue('rgba(250,250,250,0.5)', 'rgba(0,0,0,0.7)');
-  const brandColor = useColorModeValue('brand.500', 'brand.100');
+  const flexBg = useColorModeValue('rgba(255,255,255,0.65)', 'rgba(0,0,0,0.7)');
+  const brandColor = useColorModeValue('brand.600', 'brand.50');
 
   // useEffects
   useEffect(() => {
@@ -46,10 +46,7 @@ const SignupPage: NextPage = () => {
     <>
       {/* Signup SEO Section */}
       <Head>
-        <title>
-          Sign up to gain access and explore a new world of task management |
-          my-next-task
-        </title>
+        <title>Sign up for a new world of task management | my-next-task</title>
         <meta
           name='description'
           content='Sign up to gain access and explore a new world of task management'
@@ -84,10 +81,10 @@ const SignupPage: NextPage = () => {
             userSelect='none'
             gap='2'
             px='4'
-            backdropFilter='blur(15px)'
+            backdropFilter='blur(12px)'
           >
             {/* Logo on signup page */}
-            <Logo logoType='white' />
+            <Logo logoType='normal' />
 
             {/* The signup form goes in here */}
 

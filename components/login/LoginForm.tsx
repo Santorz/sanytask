@@ -146,7 +146,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
         py={['4', '5', '7', '6']}
       >
         <Heading size='lg' my='1'>
-          Sign in
+          Log in
         </Heading>
         <Heading
           as='h1'
@@ -155,7 +155,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
           fontWeight='normal'
           fontFamily='body'
         >
-          Log in to manage your tasks.
+          Sign in to manage your tasks.
         </Heading>
 
         <form

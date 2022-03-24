@@ -385,6 +385,7 @@ const SignupForm: FC = (props) => {
                     disabled={signUpStarted}
                     type='password'
                     name='second-password'
+                    id='second-password'
                     isRequired
                     value={secondPassword}
                     placeholder='Repeat your password...'

@@ -24,8 +24,8 @@ const LoginPage: NextPage = () => {
   const { encLoggedInString } = userLoginState;
   const router = useRouter();
   const { showCustomToast } = useCustomToast();
-  const flexBg = useColorModeValue('rgba(250,250,250,0.5)', 'rgba(0,0,0,0.7)');
-  const brandColor = useColorModeValue('brand.500', 'brand.100');
+  const flexBg = useColorModeValue('rgba(255,255,255,0.65)', 'rgba(0,0,0,0.7)');
+  const brandColor = useColorModeValue('brand.600', 'brand.50');
 
   // useEffects
   useEffect(() => {
@@ -46,7 +46,7 @@ const LoginPage: NextPage = () => {
     <>
       {/* Login SEO Section */}
       <Head>
-        <title>Login | my-next-task</title>
+        <title>Log in | my-next-task</title>
         <meta
           name='description'
           content='Login to view and manage your next tasks.'
@@ -79,9 +79,9 @@ const LoginPage: NextPage = () => {
             align='center'
             bgColor={flexBg}
             userSelect='none'
-            gap='5'
+            gap='3'
             px='4'
-            backdropFilter='blur(15px)'
+            backdropFilter='blur(12px)'
             mt='-5rem'
           >
             {/* Logo on login page */}

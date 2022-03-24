@@ -30,6 +30,7 @@ import { useCustomToast } from '../../../utils/useCustomToast';
 import CustomDateTimePicker from '../General/CustomDateTimePicker';
 import { useModalFuncs } from '../../../utils/modalFuncs';
 import { decrypt } from '../../../utils/crypto-js-utils';
+import isEqual from 'react-fast-compare';
 
 // Interfaces
 export interface TaskDataInterface {
@@ -78,15 +79,24 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
 
   //   Vars
   const { title, details, dueDate } = taskData;
+  const taskDataCopy =
+    formType === 'edit'
+      ? {
+          title: specificTask ? decrypt(specificTask.title) : '',
+          details: specificTask ? decrypt(specificTask.details) : '',
+          dueDate: specificTask ? new Date(specificTask.dueDate) : new Date(),
+        }
+      : null;
 
   // Invalid bools
   const isDetailsInvalid = !(
     details && details.trim().match(/^[a-zA-Z0-9 \W|_/]{30,}$/)
   );
   const isTitleInvalid = !(
-    title && title.trim().match(/^[a-zA-Z0-9 \W|_/]{2,30}$/)
+    title && title.trim().match(/^[a-zA-Z0-9 \W|_/]{2,50}$/)
   );
   const isDateInputInvalid = isDateInputInvalidFunc(dueDate);
+  const areBothTaskDataSame = isEqual(taskData, taskDataCopy);
 
   //   Funcs
   const processNewTaskInputFinal = async (e: FormEvent<HTMLFormElement>) => {
@@ -265,6 +275,8 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
                 Details:
               </FormLabel>
               <Textarea
+                rows={5}
+                resize='none'
                 value={details}
                 disabled={submissionStarted}
                 borderColor={borderColor}
@@ -315,7 +327,8 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
               isTitleInvalid ||
               isDetailsInvalid ||
               isDateInputInvalid ||
-              submissionStarted
+              submissionStarted ||
+              (formType === 'edit' && areBothTaskDataSame)
             }
           >
             {formType === 'new' ? `Create task` : `Submit edited task`}

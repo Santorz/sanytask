@@ -55,12 +55,12 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const bgColor = useColorModeValue(
-    'rgba(240,240,240,0.75)',
-    'rgba(0,0,0,0.75)'
+    'rgba(255,255,255,0.85)',
+    'rgba(55,55,55,0.75)'
   );
   const overlayBgColor = useColorModeValue(
-    'rgb(118 221 255 / 40%)',
-    'rgb(0 96 128 / 40%)'
+    'rgb(0 0 0 / 50%)',
+    'rgb(0 0 0 / 50%)'
   );
 
   // State Values
@@ -130,7 +130,7 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
         d='flex'
         justifyContent='space-between'
         backgroundColor={overlayBgColor}
-        backdropFilter='blur(7.5px) saturate(180%)'
+        backdropFilter='blur(12px) saturate(180%)'
       />
       {/* view-task modal swipe handler context provider */}
       <ViewTaskModalSwipeHandlerContext.Provider

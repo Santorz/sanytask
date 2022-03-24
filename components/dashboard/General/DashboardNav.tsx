@@ -21,8 +21,8 @@ const DashboardNav: FC = (props) => {
   const { isMobile, isTabletAndAbove, isTabletOnly } = useResponsiveSSR();
   const { setFixedNavHeight } = useContext(FixedMobileNavHeightContext);
   const navShadow = useColorModeValue(
-    '0 .2px 5px rgba(0,0,0,0.29)',
-    '0 .2px 5px rgba(200,200,200,0.29)'
+    '0 .2px 3.5px rgba(0,0,0,0.29)',
+    '0 .2px 3.5px rgba(200,200,200,0.29)'
   );
   const bgColor = useColorModeValue('gray.50', '#111111');
   const fixedNavRef = useRef<HTMLDivElement & HTMLUListElement>(null);
@@ -117,7 +117,7 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
           mb='1.5'
           _hover={{ textDecoration: doesHashMatch ? 'none' : 'underline' }}
         >
-          <Icon fontSize='22.5px' as={icon} />
+          <Icon fontSize='20px' as={icon} />
           <h3>{children}</h3>
         </ChakraLink>
       </Link>

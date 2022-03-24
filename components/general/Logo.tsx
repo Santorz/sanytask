@@ -15,6 +15,7 @@ import useResponsiveSSR from '../../utils/useResponsiveSSR';
 interface LogoInterface {
   logoType: 'normal' | 'white';
   isResponsive?: boolean;
+  isSmall?: boolean;
 }
 const Logo: FC<LogoInterface> = (props) => {
   const { asPath } = useRouter();
@@ -56,7 +57,7 @@ interface DynamicImageInterface extends LogoInterface {
 }
 const DynamicImage: FC<DynamicImageInterface> = (props) => {
   // Hooks
-  const { isResponsive, logoType } = props;
+  const { isResponsive, logoType, isSmall } = props;
   const { isMobile } = useResponsiveSSR();
   const logoTextColor = useColorModeValue(
     logoType === 'normal' ? 'brand.500' : 'white',
@@ -65,18 +66,20 @@ const DynamicImage: FC<DynamicImageInterface> = (props) => {
   return (
     <>
       {isMobile && isResponsive && (
-        <VStack>
+        <VStack userSelect='none'>
           <MainImage {...props} />
           <Heading size='sm' mt='0 !important' color={logoTextColor}>
             my-next-task
           </Heading>
         </VStack>
       )}
-      {((!isMobile && isResponsive) || !isResponsive) && (
-        <HStack spacing='2'>
+      {((!isMobile && isResponsive) ||
+        !isResponsive ||
+        (isSmall && !isResponsive)) && (
+        <HStack spacing='2' userSelect='none'>
           <MainImage {...props} />
           <Heading
-            size={isResponsive ? 'md' : 'lg'}
+            fontSize={isResponsive || isSmall ? '1.2rem' : 'lg'}
             mt='0 !important'
             color={logoTextColor}
           >
@@ -92,8 +95,8 @@ const MainImage: FC<DynamicImageInterface> = ({ src, isResponsive }) => (
   <Image
     draggable={false}
     boxSize={{
-      base: isResponsive ? '3rem' : '4rem',
-      sm: isResponsive ? '3.75rem' : '4.75rem',
+      base: isResponsive ? '3.75rem' : '3.9rem',
+      md: isResponsive ? '4rem' : '4.35rem',
     }}
     alt='my-next-task logo'
     src={src}
