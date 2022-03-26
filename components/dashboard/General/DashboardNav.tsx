@@ -1,7 +1,7 @@
 import { useRef, FC, ReactNode, useContext, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useResponsiveSSR } from '../../../utils/useResponsiveSSR';
+import useResponsiveSSR from '../../../utils/useResponsiveSSR';
 import {
   Flex,
   useColorModeValue,

@@ -1,4 +1,4 @@
-import { FC, ReactNode, useRef } from 'react';
+import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 import MainNav from './MainNav';
 import { Container } from '@chakra-ui/react';
 
@@ -13,6 +13,22 @@ const GeneralPageWrapper: FC<GeneralPageWrapperInterface> = (props) => {
   // Refs
   const MainNavRef = useRef<HTMLDivElement>(null);
 
+  // States
+  const [mainNavHeight, setMainNavHeight] = useState(0);
+
+  // Funcs
+  const setHeight = () => {
+    setMainNavHeight(MainNavRef.current.clientHeight);
+  };
+  useEffect(() => {
+    setHeight();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', setHeight);
+    return () => window.removeEventListener('resize', setHeight);
+  }, []);
+
   // Main JSX
   return (
     <>
@@ -22,6 +38,7 @@ const GeneralPageWrapper: FC<GeneralPageWrapperInterface> = (props) => {
         maxW='full'
         as='nav'
         // px={['2', '4', '4', '8']}
+        mt={`${mainNavHeight}px`}
       >
         {children}
       </Container>
