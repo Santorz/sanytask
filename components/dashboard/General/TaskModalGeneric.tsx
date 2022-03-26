@@ -55,12 +55,12 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const bgColor = useColorModeValue(
-    'rgba(255,255,255,0.85)',
+    'rgba(255,255,255,0.7)',
     'rgba(55,55,55,0.75)'
   );
   const overlayBgColor = useColorModeValue(
-    'rgb(0 0 0 / 50%)',
-    'rgb(0 0 0 / 50%)'
+    'rgb(0 0 0 / 30%)',
+    'rgb(0 0 0 / 30%)'
   );
 
   // State Values
@@ -121,7 +121,7 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
     <Modal
       isOpen={isOpen}
       onClose={onCloseMain}
-      scrollBehavior='inside'
+      scrollBehavior={isHashView ? 'inside' : 'outside'}
       onEsc={onCloseMain}
       onOverlayClick={onCloseMain}
       size='full'
@@ -169,7 +169,7 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
             />
           </ModalHeader>
 
-          <ModalBody px='1.5' pt='0'>
+          <ModalBody p='1.5'>
             {/* New task form */}
             {isHashNeworEdit && <TaskForm formType={hash} />}
             {/*  */}

@@ -68,7 +68,11 @@ const DynamicImage: FC<DynamicImageInterface> = (props) => {
       {isMobile && isResponsive && (
         <VStack userSelect='none'>
           <MainImage {...props} />
-          <Heading size='sm' mt='0 !important' color={logoTextColor}>
+          <Heading
+            fontSize={isResponsive || isSmall ? '1rem' : 'lg'}
+            mt='0 !important'
+            color={logoTextColor}
+          >
             my-next-task
           </Heading>
         </VStack>
@@ -79,7 +83,7 @@ const DynamicImage: FC<DynamicImageInterface> = (props) => {
         <HStack spacing='2' userSelect='none'>
           <MainImage {...props} />
           <Heading
-            fontSize={isResponsive || isSmall ? '1.2rem' : 'lg'}
+            fontSize={isResponsive || isSmall ? '1.2rem' : '3xl'}
             mt='0 !important'
             color={logoTextColor}
           >
@@ -95,7 +99,7 @@ const MainImage: FC<DynamicImageInterface> = ({ src, isResponsive }) => (
   <Image
     draggable={false}
     boxSize={{
-      base: isResponsive ? '3.75rem' : '3.9rem',
+      base: isResponsive ? '3.8rem' : '3.95rem',
       md: isResponsive ? '4rem' : '4.35rem',
     }}
     alt='my-next-task logo'

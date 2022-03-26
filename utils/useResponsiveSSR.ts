@@ -1,7 +1,7 @@
 import { useState, useLayoutEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
-export function useResponsiveSSR() {
+function useResponsiveSSR() {
   const [isClient, setIsClient] = useState(false);
 
   const isMobile = useMediaQuery({

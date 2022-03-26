@@ -24,7 +24,7 @@ const LoginPage: NextPage = () => {
   const { encLoggedInString } = userLoginState;
   const router = useRouter();
   const { showCustomToast } = useCustomToast();
-  const flexBg = useColorModeValue('rgba(255,255,255,0.65)', 'rgba(0,0,0,0.7)');
+  const flexBg = useColorModeValue('rgba(255,255,255,0.7)', 'rgba(0,0,0,0.7)');
   const brandColor = useColorModeValue('brand.600', 'brand.50');
 
   // useEffects

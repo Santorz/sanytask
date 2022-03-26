@@ -5,6 +5,7 @@ import { Link as ChakraLink, LinkProps } from '@chakra-ui/react';
 interface CustomLinkInterface extends LinkProps {
   href: string;
   children?: ReactNode;
+  key?: number;
 }
 const CustomLink: FC<CustomLinkInterface> = (props) => {
   const { href, children, ...linkPropsObj } = { ...props };
