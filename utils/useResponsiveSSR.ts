@@ -26,9 +26,9 @@ function useResponsiveSSR() {
   }, []);
 
   return {
-    isDesktopOnly: isClient ? isDesktopOnly : true,
+    isDesktopOnly: isClient ? isDesktopOnly : false,
     isTabletOnly: isClient ? isTabletOnly : false,
-    isMobile: isClient ? isMobile : false,
+    isMobile: isClient ? isMobile : true,
     isTabletAndAbove: isClient ? isTabletAndAbove : false,
   };
 }

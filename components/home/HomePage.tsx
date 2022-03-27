@@ -1,67 +1,26 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import GeneralPageWrapper from '../general/GeneralPageWrapper';
-import Link from 'next/link';
-import { decryptWithoutUserData } from '../../utils/crypto-js-utils';
-import {
-  Heading,
-  Button,
-  Link as ChakraLink,
-  useColorMode,
-} from '@chakra-ui/react';
-import { UserLoginStateContext } from '../../components/general/UserLoginState';
 
 // Main Page Component */
 const HomePage: FC = (props) => {
   // Hooks
-  const { encLoggedInString, invokeSignOut } = useContext(
-    UserLoginStateContext
-  );
-  const isUserLoggedInDecrypted =
-    decryptWithoutUserData(encLoggedInString) === 'true';
-  const { toggleColorMode } = useColorMode();
 
   // Main JSX
   return (
     <GeneralPageWrapper foooterType='big'>
-      <Link href={isUserLoggedInDecrypted ? '/dashboard' : '/login'} passHref>
-        <ChakraLink
-          d='inline-block'
-          rounded='lg'
-          my='3'
-          p='2'
-          position='relative'
-          bg='#00b2b8'
-          color='white'
-        >
-          {isUserLoggedInDecrypted ? 'Dashboard' : 'Log in'}
-        </ChakraLink>
-      </Link>{' '}
-      {!isUserLoggedInDecrypted && (
-        <Link href={'/signup'} passHref>
-          <ChakraLink
-            d='inline-block'
-            rounded='lg'
-            my='3'
-            p='2'
-            mx='4'
-            position='relative'
-            bg='#00b2b8'
-            color='white'
-          >
-            Sign up
-          </ChakraLink>
-        </Link>
-      )}{' '}
-      &nbsp;&nbsp;
-      <Button onClick={toggleColorMode} colorScheme='brand' shadow='base'>
-        Switch Theme
-      </Button>
-      &nbsp;&nbsp;
-      {isUserLoggedInDecrypted && (
-        <Button onClick={invokeSignOut} colorScheme='red'>
-          Log out
-        </Button>
-      )}
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo quis, unde
+      vero provident nemo cum aperiam fuga nobis beatae quaerat? Consectetur,
+      totam tenetur fugiat placeat ab esse! Magnam quidem consequatur repellat
+      reprehenderit tempora nam odio omnis inventore. Sunt magni amet at
+      tempore, sint provident libero asperiores similique ab reiciendis!
+      Cupiditate, a dolores incidunt distinctio natus veniam necessitatibus
+      eaque odio, quidem eum excepturi. Accusantium placeat dolorum animi
+      laborum nesciunt. Neque, similique quaerat quo rem dicta delectus. Maiores
+      rerum nihil ab debitis itaque quae molestiae necessitatibus nemo facilis
+      aspernatur. Vel corporis laboriosam, inventore deserunt, aliquid eligendi
+      magni repudiandae eum, delectus sapiente excepturi totam esse odit quae
+      nostrum similique consequuntur natus impedit voluptatum dolor. Corrupti,
+      reprehenderit repellat possimus dignissimos soluta rem cum modi!
     </GeneralPageWrapper>
   );
 };

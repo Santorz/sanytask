@@ -1,4 +1,4 @@
-import { FC, forwardRef, useRef } from 'react';
+import { FC, forwardRef, useContext, useRef } from 'react';
 import {
   Container,
   Flex,
@@ -7,16 +7,23 @@ import {
   useColorModeValue,
   IconButton,
   useDisclosure,
-  SlideFade,
-  Box,
+  Collapse,
   FlexProps,
-  useOutsideClick,
+  Icon,
+  useColorMode,
+  Button,
+  Switch,
+  Heading,
 } from '@chakra-ui/react';
 import Logo from './Logo';
+import ActiveLink from './ActiveLink';
 import CustomLink from './CustomLink';
 import useResponsiveSSR from '../../utils/useResponsiveSSR';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes, FaPowerOff } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { BsDashLg } from 'react-icons/bs';
+import { UserLoginStateContext } from './UserLoginState';
+import { decryptWithoutUserData } from '../../utils/crypto-js-utils';
 
 //   Main Nav Component
 
@@ -29,25 +36,41 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
     'rgba(247,250,252,0.75)',
     'rgba(17,17,17,0.75)'
   );
-  const primaryColor = useColorModeValue('black', 'gray.50');
   const {
     isOpen: isMobileSubNavOpen,
-    onToggle: toggleMobileSubNav,
+    onOpen: openMobileSubNav,
     onClose: closeMobileSubNav,
-  } = useDisclosure();
+  } = useDisclosure({ defaultIsOpen: false });
 
   // Refs
   const subNavRef = useRef<HTMLDivElement>(null);
-  // Ouside-click handler for subNav
-  useOutsideClick({
-    ref: subNavRef,
-    handler: () => closeMobileSubNav(),
-  });
+
+  // // Funcs
+  // const closeOnOutsideClick = useCallback(
+  //   (e: Event) => {
+  //     if (
+  //       isMobileSubNavOpen &&
+  //       e.currentTarget !== subNavRef.current &&
+  //       !isDesktopOnly
+  //     ) {
+  //       alert('hello');
+  //       closeMobileSubNav();
+  //     }
+  //   },
+  //   [closeMobileSubNav, isDesktopOnly, isMobileSubNavOpen]
+  // );
+
+  // // useEffects
+  // useEffect(() => {
+  //   document.addEventListener('click', closeOnOutsideClick);
+  //   return () => document.removeEventListener('click', closeOnOutsideClick);
+  // }, [closeOnOutsideClick]);
 
   // Main JSX
   return (
     //   Main Nav Conatainer
     <Container
+      userSelect='none'
       maxW='full'
       px='0'
       as='nav'
@@ -57,7 +80,7 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
       bgColor={isTabletOnly ? 'transparent' : navBgColor}
       position='fixed'
       top='0'
-      zIndex='99'
+      zIndex='modal'
     >
       {/* All except mobile subNav */}
       <Flex
@@ -69,28 +92,39 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
         px={['2', '3', '8', '8']}
       >
         {/* Logo Container for all screens and page links for desktop only*/}
-        <HStack spacing='3rem'>
+        <HStack spacing={{ lg: '1.5rem', xl: '2rem' }}>
           {/* Logo */}
           <Logo logoType='normal' isSmall isResponsive />
+
+          {/* Vertical divider */}
+          {isDesktopOnly && (
+            <Icon
+              as={BsDashLg}
+              color={brandColor}
+              fontSize='2rem'
+              transform='rotate(90deg)'
+            />
+          )}
+
           {/* Page links for desktop only */}
           {isDesktopOnly && (
             <NormalPageLinks
               gap={{ lg: '1.5rem', xl: '3rem' }}
-              ml={{ lg: '3.75rem !important', xl: '7.5rem !important' }}
+              ml={{ lg: '1.5rem !important', xl: '3rem !important' }}
             />
           )}
         </HStack>
         {/* end of logo container */}
 
-        {/* // Signup , Login and Dashboard links on desktop only */}
-        {isDesktopOnly && <UserEntryPageLinks gap='3rem' />}
+        {/* // User-entry links on desktop only */}
+        {isDesktopOnly && <UserEntryPageLinks gap='1rem' />}
 
         {/* #322 => Container for login and dashboard links for tablet only  */}
         {/*  and subnav activator button for both mobile and tablet */}
         {!isDesktopOnly && (
           <HStack spacing={{ md: '2rem' }}>
             {/* // Signup , Login and Dashboard links on tablet only */}
-            {isTabletOnly && <UserEntryPageLinks gap='2rem' />}
+            {isTabletOnly && <UserEntryPageLinks gap='1rem' />}
 
             {/* Sub Nav Menu Button on Mobile and tablet */}
             {(isMobile || isTabletOnly) && (
@@ -99,7 +133,9 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
                 fontSize='1.75rem'
                 aria-label='Show Navbar Links'
                 icon={isMobileSubNavOpen ? <FaTimes /> : <GiHamburgerMenu />}
-                onClick={toggleMobileSubNav}
+                onClick={() =>
+                  isMobileSubNavOpen ? closeMobileSubNav() : openMobileSubNav()
+                }
               />
             )}
             {/* end of subnav activator button */}
@@ -112,8 +148,9 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
       {/*  */}
 
       {/* Mobile SubNav Component */}
-      {(isMobile || isTabletOnly) && isMobileSubNavOpen && (
-        <SlideFade
+      {(isMobile || isTabletOnly) && (
+        <Collapse
+          animateOpacity
           ref={subNavRef}
           in={isMobileSubNavOpen}
           unmountOnExit
@@ -126,18 +163,32 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
             backdropFilter: isTabletOnly ? 'blur(15px) saturate(180%)' : '',
           }}
         >
-          <HStack w='full' as='section' justifyContent='space-between'>
+          <HStack
+            w='full'
+            as='section'
+            justifyContent='space-between'
+            spacing='0'
+          >
             {/* Normal page links for mobile and tablet */}
-            <VStack spacing='4' alignItems='left' px='3' py='4'>
+            <VStack
+              spacing='4'
+              alignItems='left'
+              px='3'
+              my='4'
+              borderRight={isMobile ? '1px solid' : ''}
+              w='full'
+            >
               <NormalPageLinks direction='column' gap='3' ml={{ md: '5' }} />
             </VStack>
+
+            {/* User entry page links for mobile only */}
             {isMobile && (
-              <Flex direction='row' justify='center' px='7'>
-                <UserEntryPageLinks direction='column' align='center' gap='2' />
+              <Flex direction='row' justify='center' px='7' my='4' w='full'>
+                <UserEntryPageLinks direction='column' align='center' gap='4' />
               </Flex>
             )}
           </HStack>
-        </SlideFade>
+        </Collapse>
       )}
     </Container>
   );
@@ -161,11 +212,7 @@ const NormalPageLinks: FC<NormalPageLinksInterface> = (props) => {
     <Flex {...props}>
       {pageLinksArray.map((pageLink, index) => {
         const { link, text } = pageLink;
-        return (
-          <CustomLink fontWeight='bold' key={index} href={link}>
-            {text}
-          </CustomLink>
-        );
+        return <ActiveLink text={text} key={index} href={link} />;
       })}
     </Flex>
   );
@@ -176,24 +223,84 @@ interface UserEntryLinksInterface extends FlexProps {}
 const UserEntryPageLinks: FC<UserEntryLinksInterface> = (props) => {
   // Hooks
   const brandColor = useColorModeValue('brand.500', 'brand.50');
+  const { encLoggedInString, invokeSignOut } = useContext(
+    UserLoginStateContext
+  );
+  const isUserLoggedInDecrypted =
+    decryptWithoutUserData(encLoggedInString) === 'true';
+  const { colorMode, setColorMode } = useColorMode();
+
+  // Bools
+  const isLightTheme = colorMode === 'light';
 
   // Main JSX
   return (
-    <Flex {...props}>
-      <CustomLink fontWeight='bold' href='/login' p='2'>
-        Log in
-      </CustomLink>
-      <CustomLink
-        fontWeight='bold'
-        href='/signup'
-        border='2px solid'
-        px='5'
-        py='2'
-        rounded='3xl'
-        borderColor={brandColor}
-      >
-        Sign up
-      </CustomLink>
+    <Flex {...props} align='center'>
+      {/* If user isn't logged in, this shows */}
+      {!isUserLoggedInDecrypted && (
+        <>
+          <CustomLink fontWeight='bold' href='/login' p='2'>
+            Log in
+          </CustomLink>
+          <CustomLink
+            fontWeight='bold'
+            href='/signup'
+            border='2px solid'
+            px='5'
+            py='2'
+            rounded='3xl'
+            borderColor={brandColor}
+          >
+            Sign up
+          </CustomLink>
+        </>
+      )}
+
+      {/* If user is logged in, this shows */}
+      {isUserLoggedInDecrypted && (
+        <>
+          <CustomLink
+            fontWeight='bold'
+            href='/dashboard'
+            border='2px solid'
+            px='5'
+            py='2'
+            rounded='3xl'
+            borderColor={brandColor}
+          >
+            Dashboard
+          </CustomLink>
+
+          <Button
+            border='2px solid'
+            variant='outline'
+            rounded='3xl'
+            px='5'
+            py='2'
+            colorScheme='red'
+            onClick={invokeSignOut}
+          >
+            Log out &nbsp; <Icon as={FaPowerOff} />
+          </Button>
+        </>
+      )}
+
+      {/* Dark Mode switch */}
+      <HStack spacing='3'>
+        <Heading fontSize='1.2rem'>🔆</Heading>
+        <Switch
+          aria-label={`Activate ${isLightTheme ? 'dark' : 'light'} mode`}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setColorMode('dark');
+            } else {
+              setColorMode('light');
+            }
+          }}
+          colorScheme='brand'
+        />
+        <Heading fontSize='1.2rem'>🌙</Heading>
+      </HStack>
     </Flex>
   );
 };
