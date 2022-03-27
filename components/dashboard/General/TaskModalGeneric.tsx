@@ -55,12 +55,12 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const bgColor = useColorModeValue(
-    'rgba(255,255,255,0.7)',
+    'rgba(255,255,255,0.75)',
     'rgba(55,55,55,0.75)'
   );
   const overlayBgColor = useColorModeValue(
-    'rgb(0 0 0 / 30%)',
-    'rgb(0 0 0 / 30%)'
+    'rgb(100 100 100 / 20%)',
+    'rgb(0 0 0 / 20%)'
   );
 
   // State Values

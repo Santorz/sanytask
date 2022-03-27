@@ -31,11 +31,11 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
   // Hooks
   const { isMobile, isTabletOnly, isDesktopOnly, isTabletAndAbove } =
     useResponsiveSSR();
-  const brandColor = useColorModeValue('brand.500', 'brand.200');
   const navBgColor = useColorModeValue(
-    'rgba(247,250,252,0.75)',
-    'rgba(17,17,17,0.75)'
+    'rgba(247,250,252,0.7)',
+    'rgba(17,17,17,0.7)'
   );
+  const grayColor = useColorModeValue('gray.500', 'gray.400');
   const {
     isOpen: isMobileSubNavOpen,
     onOpen: openMobileSubNav,
@@ -76,11 +76,12 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
       as='nav'
       py={{ base: '0', md: '1' }}
       shadow={isMobileSubNavOpen && !isTabletAndAbove ? 'lg' : 'none'}
-      backdropFilter={isTabletOnly ? '' : 'blur(15px) saturate(180%)'}
-      bgColor={isTabletOnly ? 'transparent' : navBgColor}
+      backdropFilter='blur(15px) saturate(180%)'
+      bgColor={navBgColor}
       position='fixed'
       top='0'
       zIndex='modal'
+      transition='background-color .2s ease'
     >
       {/* All except mobile subNav */}
       <Flex
@@ -89,10 +90,10 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
         maxW='full'
         justify='space-between'
         align='center'
-        px={['2', '3', '8', '8']}
+        px={['2', '3', '4', '4', '8']}
       >
         {/* Logo Container for all screens and page links for desktop only*/}
-        <HStack spacing={{ lg: '1.5rem', xl: '2rem' }}>
+        <HStack spacing={{ lg: '0.35rem', xl: '2rem' }}>
           {/* Logo */}
           <Logo logoType='normal' isSmall isResponsive />
 
@@ -100,7 +101,7 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
           {isDesktopOnly && (
             <Icon
               as={BsDashLg}
-              color={brandColor}
+              color={grayColor}
               fontSize='2rem'
               transform='rotate(90deg)'
             />
@@ -109,15 +110,15 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
           {/* Page links for desktop only */}
           {isDesktopOnly && (
             <NormalPageLinks
-              gap={{ lg: '1.5rem', xl: '3rem' }}
-              ml={{ lg: '1.5rem !important', xl: '3rem !important' }}
+              gap={{ lg: '0.8rem', xl: '3rem' }}
+              ml={{ lg: '0.75rem !important', xl: '3rem !important' }}
             />
           )}
         </HStack>
         {/* end of logo container */}
 
         {/* // User-entry links on desktop only */}
-        {isDesktopOnly && <UserEntryPageLinks gap='1rem' />}
+        {isDesktopOnly && <UserEntryPageLinks gap='1.05rem' />}
 
         {/* #322 => Container for login and dashboard links for tablet only  */}
         {/*  and subnav activator button for both mobile and tablet */}
@@ -194,8 +195,6 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
   );
 });
 
-MainNav.displayName = 'Main Nav';
-
 // Normal Page Links Component
 interface NormalPageLinksInterface extends FlexProps {}
 const NormalPageLinks: FC<NormalPageLinksInterface> = (props) => {
@@ -232,14 +231,35 @@ const UserEntryPageLinks: FC<UserEntryLinksInterface> = (props) => {
 
   // Bools
   const isLightTheme = colorMode === 'light';
+  const isDarkTheme = colorMode === 'dark';
 
   // Main JSX
   return (
     <Flex {...props} align='center'>
+      {/* Dark Mode switch */}
+      <HStack spacing='3' align='center'>
+        <Heading fontSize='1.3rem'>🔆</Heading>
+        <Switch
+          size='md'
+          isChecked={isDarkTheme}
+          checked={isDarkTheme}
+          aria-label={`Activate ${isLightTheme ? 'dark' : 'light'} mode`}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setColorMode('dark');
+            } else {
+              setColorMode('light');
+            }
+          }}
+          colorScheme='brand'
+        />
+        <Heading fontSize='1.3rem'>🌙</Heading>
+      </HStack>
+
       {/* If user isn't logged in, this shows */}
       {!isUserLoggedInDecrypted && (
         <>
-          <CustomLink fontWeight='bold' href='/login' p='2'>
+          <CustomLink fontWeight='bold' fontSize='inherit' href='/login' p='2'>
             Log in
           </CustomLink>
           <CustomLink
@@ -250,6 +270,7 @@ const UserEntryPageLinks: FC<UserEntryLinksInterface> = (props) => {
             py='2'
             rounded='3xl'
             borderColor={brandColor}
+            fontSize='inherit'
           >
             Sign up
           </CustomLink>
@@ -267,11 +288,13 @@ const UserEntryPageLinks: FC<UserEntryLinksInterface> = (props) => {
             py='2'
             rounded='3xl'
             borderColor={brandColor}
+            fontSize='inherit'
           >
             Dashboard
           </CustomLink>
 
           <Button
+            fontSize='inherit'
             border='2px solid'
             variant='outline'
             rounded='3xl'
@@ -284,25 +307,9 @@ const UserEntryPageLinks: FC<UserEntryLinksInterface> = (props) => {
           </Button>
         </>
       )}
-
-      {/* Dark Mode switch */}
-      <HStack spacing='3'>
-        <Heading fontSize='1.2rem'>🔆</Heading>
-        <Switch
-          aria-label={`Activate ${isLightTheme ? 'dark' : 'light'} mode`}
-          onChange={(e) => {
-            if (e.target.checked) {
-              setColorMode('dark');
-            } else {
-              setColorMode('light');
-            }
-          }}
-          colorScheme='brand'
-        />
-        <Heading fontSize='1.2rem'>🌙</Heading>
-      </HStack>
     </Flex>
   );
 };
 
+MainNav.displayName = 'Main Nav';
 export default MainNav;

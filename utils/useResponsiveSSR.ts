@@ -9,8 +9,8 @@ function useResponsiveSSR() {
   });
 
   const isTabletOnly = useMediaQuery({
-    minWidth: '48em',
-    maxWidth: '62em',
+    minWidth: '48.1em',
+    maxWidth: '61.9em',
   });
 
   const isTabletAndAbove = useMediaQuery({

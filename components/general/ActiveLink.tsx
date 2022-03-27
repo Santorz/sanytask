@@ -27,10 +27,11 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
       fontFamily='heading'
       color={isCurrentPath ? brandColor : ''}
       href={href}
-      fontSize='1.15rem'
+      fontSize='1.05rem'
       pb='1px'
       borderBottom={isCurrentPath ? '2px solid currentColor' : ''}
       alignSelf={!isDesktopOnly ? 'start' : 'center'}
+      _hover={{ textDecoration: isCurrentPath ? 'none' : 'underline' }}
     >
       {text}
     </CustomLink>
