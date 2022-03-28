@@ -6,14 +6,21 @@ import {
   HStack,
   useColorModeValue,
   Heading,
+  keyframes,
+  usePrefersReducedMotion,
 } from '@chakra-ui/react';
 import { UserLoginStateContext } from '../general/UserLoginState';
 import { decryptWithoutUserData } from '../../utils/crypto-js-utils';
 import CustomLink from '../general/CustomLink';
 
+// Keyframes
+const moveBg = keyframes`0%{background-position: center;}
+50% {background-position: bottom right;}
+100% {background-position: center;}`;
+
 const Hero: FC = () => {
   // Hooks
-  const firstBgColor = useColorModeValue(
+  const firstBgImage = useColorModeValue(
     '/media/hero-gb-light.svg',
     '/media/hero-gb-dark.svg'
   );
@@ -24,6 +31,12 @@ const Hero: FC = () => {
   const { encLoggedInString } = useContext(UserLoginStateContext);
   const isUserLoggedInDecrypted =
     decryptWithoutUserData(encLoggedInString) === 'true';
+  const preferReducedMotion = usePrefersReducedMotion();
+
+  // In-component animations
+  const movingBgAnimation = preferReducedMotion
+    ? undefined
+    : `${moveBg} infinite 100s linear`;
 
   // Main JSX
   return (
@@ -38,8 +51,9 @@ const Hero: FC = () => {
         as='section'
         backgroundSize='cover'
         w='full'
-        backgroundImage={firstBgColor}
-        backgroundPosition='center'
+        backgroundImage={firstBgImage}
+        className='hero-text-container'
+        animation={movingBgAnimation}
       >
         <VStack
           spacing={{ base: '5', md: '7' }}
@@ -48,10 +62,13 @@ const Hero: FC = () => {
           pt={{ base: '4', sm: '5', lg: '12', xl: '14' }}
           userSelect='none'
         >
+          {/* Hero Header */}
           <Heading as='h1' fontSize='3rem' maxW='30rem'>
             Organize and manage your tasks with ease
           </Heading>
+          {/*  */}
 
+          {/* Short hero description text */}
           <VStack
             spacing='10'
             w='full'
@@ -61,7 +78,7 @@ const Hero: FC = () => {
             bgColor={bodyBgColor}
           >
             <Heading
-              as='h3'
+              as='h2'
               lineHeight='2.5rem'
               size='md'
               maxW='22.5rem'
@@ -72,7 +89,9 @@ const Hero: FC = () => {
               stress-free and reliable way to do it.
             </Heading>
           </VStack>
+          {/*  */}
 
+          {/* CTA Links */}
           <HStack
             transition='background-color .2s ease'
             bgColor={bodyBgColor}

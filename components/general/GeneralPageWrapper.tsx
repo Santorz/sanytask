@@ -14,7 +14,7 @@ const GeneralPageWrapper: FC<GeneralPageWrapperInterface> = (props) => {
   const MainNavRef = useRef<HTMLDivElement>(null);
 
   // States
-  const [mainNavHeight, setMainNavHeight] = useState(0);
+  const [mainNavHeight, setMainNavHeight] = useState(50);
 
   // Funcs
   const setHeight = useCallback(() => {
@@ -34,7 +34,14 @@ const GeneralPageWrapper: FC<GeneralPageWrapperInterface> = (props) => {
   return (
     <>
       <MainNav ref={MainNavRef} />
-      <Container w='full' maxW='full' as='nav' px='0' mt={`${mainNavHeight}px`}>
+      <Container
+        transition='margin-top .75s ease'
+        w='full'
+        maxW='full'
+        as='nav'
+        px='0'
+        mt={`${mainNavHeight}px`}
+      >
         {children}
       </Container>
     </>
