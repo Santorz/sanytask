@@ -13,7 +13,6 @@ import {
   VStack,
   Text,
 } from '@chakra-ui/react';
-import BackdropImage from '../../components/general/BackdropImage';
 import Logo from '../../components/general/Logo';
 import { MdMailOutline } from 'react-icons/md';
 
@@ -23,8 +22,8 @@ const EmailConfirmationPage: NextPage = () => {
   const { encLoggedInString } = userLoginState;
   const router = useRouter();
   const flexBg = useColorModeValue(
-    'rgba(55,55,55,0.25)',
-    'rgba(55,55,55,0.35)'
+    'rgba(255,255,255,0.825)',
+    'rgba(0,0,0,0.7)'
   );
   const formBg = useColorModeValue('rgba(255,255,255,0.8)', 'rgba(5,5,5,0.7)');
   const userFirstName = router.asPath.split('?fName=')[1];
@@ -60,33 +59,33 @@ const EmailConfirmationPage: NextPage = () => {
       <Container w='full' h='100vh' maxW='full' m='0' p='0' position='relative'>
         {/* Email confirmation page Form Container */}
         <Container
-          w='full'
+          w='100vw'
           maxW='full'
           m='0'
           p='0'
+          minH='100vh'
+          h='auto'
           position='relative'
-          h='100vh'
+          backgroundImage='/media/sun-tornado.svg'
+          backgroundSize='cover'
+          backgroundPosition={{ base: 'left', md: 'center' }}
         >
-          <BackdropImage />
           <Flex
             as='section'
-            position='absolute'
-            top='0'
-            bottom='0'
-            left='0'
-            right='0'
+            height='auto'
+            minH='100vh'
             w='full'
             direction='column'
             justify='center'
             align='center'
             bgColor={flexBg}
             userSelect='none'
-            gap='5'
+            gap='2'
             px='4'
-            backdropFilter='blur(3px)'
-            mt='-7rem'
+            backdropFilter='blur(12px)'
           >
-            <Logo logoType='white' />
+            <Logo logoType='normal' />
+
             <VStack
               as='main'
               minH='22rem'

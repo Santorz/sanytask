@@ -7,11 +7,11 @@ const BackdropImage: FC = (props) => {
     <Image
       alt='Backdrop image'
       src='/media/sun-tornado.svg'
-      h='inherit'
-      w='inherit'
+      w='100vw'
       objectFit='cover'
       backgroundRepeat='no-repeat'
       backgroundPosition={{ base: 'left', md: 'center' }}
+      zIndex='-1'
     />
   );
 };

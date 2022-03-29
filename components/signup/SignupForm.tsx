@@ -167,8 +167,8 @@ const SignupForm: FC = (props) => {
         w='full'
         maxW='550px'
         rounded='2xl'
-        shadow='md'
-        px={['6', '9', '11', '14']}
+        shadow='lg'
+        px={['6', '9', '9', '11', '14']}
         py={['4', '5', '7', '6']}
       >
         <Heading size='lg' my='1'>

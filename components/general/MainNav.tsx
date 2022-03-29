@@ -26,8 +26,13 @@ import { UserLoginStateContext } from './UserLoginState';
 import { decryptWithoutUserData } from '../../utils/crypto-js-utils';
 
 //   Main Nav Component
+interface MainNavInterface {
+  addShadowBool: boolean;
+}
+const MainNav = forwardRef<HTMLDivElement, MainNavInterface>((props, ref) => {
+  // Props
+  const { addShadowBool } = props;
 
-const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
   // Hooks
   const { isMobile, isTabletOnly, isDesktopOnly, isTabletAndAbove } =
     useResponsiveSSR();
@@ -36,6 +41,10 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
     'rgba(17,17,17,0.7)'
   );
   const grayColor = useColorModeValue('gray.500', 'gray.400');
+  const boxShadow = useColorModeValue(
+    '0 5.84px 8.75px -1.75px rgba(0, 0, 0, 0.225),0 2px 3px -1px rgba(0, 0, 0, 0.125)',
+    '0 10px 15px -3px rgba(0, 0, 0, 1),0 4px 6px -2px rgba(0, 0, 0, 0.5)'
+  );
   const {
     isOpen: isMobileSubNavOpen,
     onOpen: openMobileSubNav,
@@ -75,13 +84,13 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
       px='0'
       as='nav'
       py={{ base: '0', md: '1' }}
-      shadow={isMobileSubNavOpen && !isTabletAndAbove ? 'lg' : 'none'}
+      shadow={isMobileSubNavOpen || addShadowBool ? boxShadow : 'none'}
       backdropFilter='blur(15px) saturate(180%)'
       bgColor={navBgColor}
       position='fixed'
       top='0'
       zIndex='modal'
-      transition='background-color .2s ease'
+      transition='background-color .2s ease, box-shadow .5s ease'
     >
       {/* All except mobile subNav */}
       <Flex
@@ -110,7 +119,7 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
           {/* Page links for desktop only */}
           {isDesktopOnly && (
             <NormalPageLinks
-              gap={{ lg: '0.8rem', xl: '3rem' }}
+              gap={{ lg: '1.25rem', xl: '3rem' }}
               ml={{ lg: '0.75rem !important', xl: '3rem !important' }}
             />
           )}
@@ -158,10 +167,6 @@ const MainNav = forwardRef<HTMLDivElement>((props, ref) => {
           style={{
             width: isTabletOnly ? '320px' : '',
             marginLeft: isTabletOnly ? 'auto' : '',
-            boxShadow: isTabletOnly
-              ? '0 10px 15px -3px rgba(0, 0, 0, 0.1),0 4px 6px -2px rgba(0, 0, 0, 0.05)'
-              : '',
-            backdropFilter: isTabletOnly ? 'blur(15px) saturate(180%)' : '',
           }}
         >
           <HStack

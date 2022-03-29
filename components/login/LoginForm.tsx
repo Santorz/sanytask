@@ -141,8 +141,8 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
         w='full'
         maxW='500px'
         rounded='2xl'
-        shadow='md'
-        px={['6', '9', '11', '14']}
+        shadow='lg'
+        px={['6', '9', '9', '11', '14']}
         py={['4', '5', '7', '6']}
       >
         <Heading size='lg' my='1'>
@@ -167,6 +167,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
             marginTop: '25px',
             justifyContent: 'space-between',
             height: '100%',
+            gap: '3rem',
             paddingBottom: '1rem',
           }}
         >

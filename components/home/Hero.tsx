@@ -36,7 +36,7 @@ const Hero: FC = () => {
   // In-component animations
   const movingBgAnimation = preferReducedMotion
     ? undefined
-    : `${moveBg} infinite 100s linear`;
+    : `${moveBg} infinite 250s linear`;
 
   // Main JSX
   return (

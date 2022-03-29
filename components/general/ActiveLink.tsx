@@ -15,7 +15,7 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
 
   // Hooks
   const { asPath } = useRouter();
-  const brandColor = useColorModeValue('brand.500', 'brand.200');
+  const brandColor = useColorModeValue('brand.500', 'brand.100');
   const { isDesktopOnly } = useResponsiveSSR();
 
   //   Bools
