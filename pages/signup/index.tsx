@@ -76,12 +76,12 @@ const SignupPage: NextPage = () => {
           minH='100vh'
           w='full'
           direction='column'
-          justify='center'
           align='center'
           bgColor={flexBg}
           userSelect='none'
           gap='2'
           px='4'
+          py='5'
           backdropFilter='blur(12px)'
         >
           {/* Logo on signup page */}

@@ -76,12 +76,12 @@ const LoginPage: NextPage = () => {
           minH='100vh'
           w='full'
           direction='column'
-          justify='center'
           align='center'
           bgColor={flexBg}
           userSelect='none'
           gap='2'
           px='4'
+          py='20'
           backdropFilter='blur(12px)'
         >
           {/* Logo on login page */}

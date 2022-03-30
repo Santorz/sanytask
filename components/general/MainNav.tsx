@@ -83,7 +83,7 @@ const MainNav = forwardRef<HTMLDivElement, MainNavInterface>((props, ref) => {
       maxW='full'
       px='0'
       as='nav'
-      py={{ base: '0', md: '1' }}
+      py={{ base: '1', md: '1.5' }}
       shadow={isMobileSubNavOpen || addShadowBool ? boxShadow : 'none'}
       backdropFilter='blur(15px) saturate(180%)'
       bgColor={navBgColor}

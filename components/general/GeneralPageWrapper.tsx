@@ -15,7 +15,7 @@ const GeneralPageWrapper: FC<GeneralPageWrapperInterface> = (props) => {
   const PageContentContainerRef = useRef<HTMLDivElement>(null);
 
   // States
-  const [mainNavHeight, setMainNavHeight] = useState(60);
+  const [mainNavHeight, setMainNavHeight] = useState(75);
   const [addShadowBool, setAddShadowBool] = useState(false);
 
   // Funcs
