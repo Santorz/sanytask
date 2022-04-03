@@ -6,37 +6,20 @@ import {
   HStack,
   useColorModeValue,
   Heading,
-  keyframes,
-  usePrefersReducedMotion,
 } from '@chakra-ui/react';
 import { UserLoginStateContext } from '../general/UserLoginState';
 import { decryptWithoutUserData } from '../../utils/crypto-js-utils';
 import CustomLink from '../general/CustomLink';
-
-// Keyframes
-const moveBg = keyframes`0%{background-position: center;}
-50% {background-position: bottom right;}
-100% {background-position: center;}`;
+import HeroAnim from './HeroAnim';
 
 const Hero: FC = () => {
   // Hooks
-  const firstBgImage = useColorModeValue(
-    '/media/hero-gb-light.svg',
-    '/media/hero-gb-dark.svg'
-  );
   const brandColor = useColorModeValue('brand.500', 'brand.100');
-  const bodyBgColor = useColorModeValue('gray.50', '#111111');
   const inversePrimaryColor = useColorModeValue('gray.50', 'black');
   const primaryColor = useColorModeValue('black', 'gray.50');
   const { encLoggedInString } = useContext(UserLoginStateContext);
   const isUserLoggedInDecrypted =
     decryptWithoutUserData(encLoggedInString) === 'true';
-  const preferReducedMotion = usePrefersReducedMotion();
-
-  // In-component animations
-  const movingBgAnimation = preferReducedMotion
-    ? undefined
-    : `${moveBg} infinite 250s linear`;
 
   // Main JSX
   return (
@@ -45,21 +28,23 @@ const Hero: FC = () => {
       direction={{ base: 'column', md: 'row' }}
       as='main'
       maxW='full'
+      align='start'
+      pt={{ base: '4', sm: '5', lg: '8', xl: '10' }}
+      gap='2rem'
+      pb='2rem'
     >
       {/* Hero text */}
       <Box
         as='section'
         backgroundSize='cover'
         w='full'
-        backgroundImage={firstBgImage}
-        className='hero-text-container'
-        animation={movingBgAnimation}
+        id='hero-text-container'
+        pt={{ base: '0', sm: '2', lg: '6', xl: '8' }}
       >
         <VStack
           spacing={{ base: '5', md: '7' }}
           h='full'
           align='left'
-          pt={{ base: '4', sm: '5', lg: '12', xl: '14' }}
           userSelect='none'
         >
           {/* Hero Header */}
@@ -69,14 +54,7 @@ const Hero: FC = () => {
           {/*  */}
 
           {/* Short hero description text */}
-          <VStack
-            spacing='10'
-            w='full'
-            as='article'
-            align='left'
-            transition='background-color .2s ease'
-            bgColor={bodyBgColor}
-          >
+          <VStack spacing='10' w='full' as='article' align='left'>
             <Heading
               as='h2'
               lineHeight='2.5rem'
@@ -92,12 +70,7 @@ const Hero: FC = () => {
           {/*  */}
 
           {/* CTA Links */}
-          <HStack
-            transition='background-color .2s ease'
-            bgColor={bodyBgColor}
-            py='2'
-            spacing='7'
-          >
+          <HStack py='2' spacing='7'>
             {/* If user is logged in */}
             {isUserLoggedInDecrypted && (
               <CustomLink
@@ -126,6 +99,7 @@ const Hero: FC = () => {
                   fontWeight='bold'
                   rounded='3xl'
                   bgColor={brandColor}
+                  transition='color .2s ease'
                 >
                   Get Started
                 </CustomLink>
@@ -152,7 +126,8 @@ const Hero: FC = () => {
       {/* End of Hero text */}
 
       {/* Hero Animation */}
-      <Box as='section' minH='40rem' w='full'></Box>
+      <HeroAnim />
+      {/* End of hero animation */}
     </Flex>
   );
 };

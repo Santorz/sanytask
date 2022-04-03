@@ -15,13 +15,13 @@ const GeneralPageWrapper: FC<GeneralPageWrapperInterface> = (props) => {
   const PageContentContainerRef = useRef<HTMLDivElement>(null);
 
   // States
-  const [mainNavHeight, setMainNavHeight] = useState(75);
+  const [mainNavHeight, setMainNavHeight] = useState(77);
   const [addShadowBool, setAddShadowBool] = useState(false);
 
   // Funcs
   const setHeight = useCallback(() => {
-    setMainNavHeight(MainNavRef.current.offsetHeight + 4);
-  }, []);
+    setMainNavHeight(MainNavRef.current!.offsetHeight + 10);
+  }, [MainNavRef]);
 
   // useEffects
   // useEffect to monitor onscroll and add shadow to Navbar
