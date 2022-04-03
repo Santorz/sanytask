@@ -6,6 +6,7 @@ import {
   usePrefersReducedMotion,
 } from '@chakra-ui/react';
 import { FC, useEffect, useState } from 'react';
+import { useDateFuncs } from '../../utils/dateFuncs';
 
 // Keyframes
 const moveBg = keyframes`0%{background-position: center;}
@@ -21,20 +22,42 @@ const HeroAnim: FC = () => {
     '/media/hero-pattern-bg-dark.svg'
   );
   const preferReducedMotion = usePrefersReducedMotion();
+  const {
+    getShorthandDistanceDiff,
+    addLateorLeft,
+    addColorOnTask,
+    isDateBefore,
+  } = useDateFuncs();
 
   //   State Values
-  const [secondsArr, setSecondsArr] = useState<Array<number>>([0, 0, 0, 0]);
+  const [timeArray, setTimeArray] = useState<Array<Date>>([]);
 
   // useEffects
-  //   useEffect(() => {
-  //     const animationDuration = 30;
-  //     const generatedSecondsSum = secondsArr.reduce((a, b) => a + b);
-  //     const adjustment = animationDuration / generatedSecondsSum;
-  //     setSecondsArr((previousArr) =>
-  //       previousArr.map((eachSecValue) => Math.ceil((eachSecValue *= adjustment)))
-  //     );
-  //     console.log(secondsArr);
-  //   }, []);
+  useEffect(() => {
+    let secondsArr2 = Array.from({ length: 4 }, () =>
+      Math.ceil(Math.random() * 50)
+    );
+    const animationDuration = 120;
+    const generatedSecondsSum = secondsArr2.reduce((a, b) => a + b);
+    const adjustment = animationDuration / generatedSecondsSum;
+    secondsArr2 =
+      Math.min(...secondsArr2) >= 5
+        ? secondsArr2
+            .map((eachSecValue) => Math.ceil((eachSecValue *= adjustment)))
+            .sort((a, b) => a - b)
+        : secondsArr2
+            .map((eachSecValue) => Math.ceil((eachSecValue *= adjustment)) + 5)
+            .sort((a, b) => a - b);
+    setTimeArray(
+      secondsArr2.map(
+        (eachSecond) => new Date(new Date().getTime() + eachSecond * 1000)
+      )
+    );
+  }, []);
+
+  useEffect(() => {
+    console.log(timeArray);
+  }, [timeArray]);
 
   // In-component animations
   const movingBgAnimation = preferReducedMotion
@@ -62,17 +85,27 @@ const HeroAnim: FC = () => {
     >
       {Array(4)
         .fill(0)
-        .map((eachArr, index) => {
+        .map((each, index) => {
+          const isDueDateLater = !isDateBefore(timeArray[index]);
+
+          // Main JSX
           return (
-            <Box
-              rounded='2xl'
-              key={index}
-              w='full'
-              h={{ base: '70px', lg: '170px' }}
-              bgColor={animatedTasksBgColor}
-              shadow='dark-lg'
-              transition='background-color .2s ease'
-            />
+            isDueDateLater && (
+              <Box
+                rounded='2xl'
+                key={index}
+                w='full'
+                h={{ base: '70px', lg: '170px' }}
+                bgColor={animatedTasksBgColor}
+                shadow='dark-lg'
+                transition='background-color .2s ease'
+                p='.75rem'
+                color={addColorOnTask(timeArray[index])}
+              >
+                {getShorthandDistanceDiff(timeArray[index])}{' '}
+                {addLateorLeft(timeArray[index])}
+              </Box>
+            )
           );
         })}
     </SimpleGrid>
