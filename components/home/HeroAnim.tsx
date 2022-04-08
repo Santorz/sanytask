@@ -10,10 +10,12 @@ import {
   Heading,
   HStack,
   Icon,
+  Box,
 } from '@chakra-ui/react';
 import { useDateFuncs } from '../../utils/dateFuncs';
 import { AnimatePresence, motion } from 'framer-motion';
 import { GoPrimitiveDot } from 'react-icons/go';
+import useResponsiveSSR from '../../utils/useResponsiveSSR';
 
 // Keyframes
 const moveBg = keyframes`0%{background-position: center;}
@@ -27,6 +29,10 @@ const CustMotionSection = chakra(motion.section);
 const HeroAnim: FC = () => {
   // Hooks
   const animatedTasksBgColor = useColorModeValue('gray.200', '#222');
+  const orangeColor = useColorModeValue('orange.500', 'orange.300');
+  const cyanColor = useColorModeValue('cyan.500', 'cyan.300');
+  const grayColor = useColorModeValue('gray.600', 'gray.400');
+  const redColor = useColorModeValue('red.500', 'red.300');
   const patternedBgImage = useColorModeValue(
     '/media/hero-pattern-bg-light.svg',
     '/media/hero-pattern-bg-dark.svg'
@@ -38,6 +44,7 @@ const HeroAnim: FC = () => {
     addColorOnTask,
     isDateBefore,
   } = useDateFuncs();
+  const { isDesktopOnly } = useResponsiveSSR();
 
   // Refs
   const animContainerRef = useRef<HTMLDivElement>(null);
@@ -129,28 +136,68 @@ const HeroAnim: FC = () => {
               color={addColorOnTask(timeArray[index])}
               data-is-late={isDueDateLater ? undefined : true}
               userSelect='none'
-              cursor={'pointer'}
             >
               <Flex justify='space-between' align='center' w='full'>
-                <Heading size='sm'>
+                <Heading fontSize={{ base: 'md', lg: 'lg' }}>
                   {getShorthandDistanceDiff(timeArray[index])}{' '}
                   {addLateorLeft(timeArray[index])}
                 </Heading>
 
                 <HStack spacing='0'>
                   <Icon
-                    fontSize={{ base: '1.2rem', lg: '1.4rem' }}
+                    color={cyanColor}
+                    fontSize={{ base: '1.2rem', lg: '1.5rem' }}
                     as={GoPrimitiveDot}
                   />
-                  <Icon
-                    fontSize={{ base: '1.2rem', lg: '1.4rem' }}
-                    as={GoPrimitiveDot}
-                  />
-                  <Icon
-                    fontSize={{ base: '1.2rem', lg: '1.4rem' }}
-                    as={GoPrimitiveDot}
-                  />
+                  {isDesktopOnly && (
+                    <>
+                      <Icon
+                        fontSize={{ base: '1.2rem', lg: '1.5rem' }}
+                        as={GoPrimitiveDot}
+                        color={orangeColor}
+                      />
+                      <Icon
+                        fontSize={{ base: '1.2rem', lg: '1.5rem' }}
+                        as={GoPrimitiveDot}
+                        color={redColor}
+                      />
+                    </>
+                  )}
                 </HStack>
+              </Flex>
+              {/*  */}
+              <Flex
+                h='max-content'
+                w='full'
+                gap='20px'
+                direction='column'
+                mt={{ base: '2', lg: '6' }}
+              >
+                <Box
+                  bgColor={grayColor}
+                  rounded='full'
+                  h='12px'
+                  w={{ base: 'full', lg: '55%' }}
+                ></Box>
+                {isDesktopOnly && (
+                  <>
+                    {Array(2)
+                      .fill(0)
+                      .map((each, index) => {
+                        return (
+                          <>
+                            <Box
+                              key={index}
+                              bgColor={grayColor}
+                              rounded='full'
+                              h='12px'
+                              w={index === 0 ? '75%' : '95%'}
+                            />
+                          </>
+                        );
+                      })}
+                  </>
+                )}
               </Flex>
             </CustMotionSection>
           );
