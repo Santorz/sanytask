@@ -50,7 +50,9 @@ export const useDateFuncs = () => {
       const hours = Math.abs(differenceInHours(date1, date2));
       const days = Math.abs(differenceInDays(date1, date2));
       const months = Math.abs(differenceInMonths(date1, date2));
-      if (seconds < 60) {
+      if (seconds <= 1) {
+        result = `${seconds} sec `;
+      } else if (seconds > 1 && seconds < 60) {
         result = `${seconds} secs `;
       } else if (minutes === 1) {
         result = `${minutes} min`;

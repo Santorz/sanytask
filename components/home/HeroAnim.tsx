@@ -1,17 +1,27 @@
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import useMutationObservable from '../../utils/useMutationObservable';
 import {
-  Box,
   keyframes,
   SimpleGrid,
   useColorModeValue,
   usePrefersReducedMotion,
+  chakra,
+  Flex,
+  Heading,
+  HStack,
+  Icon,
 } from '@chakra-ui/react';
-import { FC, useEffect, useState } from 'react';
 import { useDateFuncs } from '../../utils/dateFuncs';
+import { AnimatePresence, motion } from 'framer-motion';
+import { GoPrimitiveDot } from 'react-icons/go';
 
 // Keyframes
 const moveBg = keyframes`0%{background-position: center;}
 50% {background-position: bottom;}
 100% {background-position: center;}`;
+
+// Chakra factory components
+const CustMotionSection = chakra(motion.section);
 
 /* Hero Animation Component Main */
 const HeroAnim: FC = () => {
@@ -29,15 +39,18 @@ const HeroAnim: FC = () => {
     isDateBefore,
   } = useDateFuncs();
 
+  // Refs
+  const animContainerRef = useRef<HTMLDivElement>(null);
+
   //   State Values
   const [timeArray, setTimeArray] = useState<Array<Date>>([]);
 
-  // useEffects
-  useEffect(() => {
+  // Custom Funcs
+  const createAnimationBoxes = useCallback(() => {
     let secondsArr2 = Array.from({ length: 4 }, () =>
       Math.ceil(Math.random() * 50)
     );
-    const animationDuration = 120;
+    const animationDuration = 200;
     const generatedSecondsSum = secondsArr2.reduce((a, b) => a + b);
     const adjustment = animationDuration / generatedSecondsSum;
     secondsArr2 =
@@ -55,9 +68,21 @@ const HeroAnim: FC = () => {
     );
   }, []);
 
+  const handleMutation = useCallback(() => {
+    const children = Array.from(animContainerRef.current.children);
+    const lastChild = children[3] as HTMLDivElement;
+    if (lastChild.dataset.isLate === 'true') {
+      createAnimationBoxes();
+    }
+  }, [createAnimationBoxes]);
+
+  // fire mutation observer hook here
+  useMutationObservable(animContainerRef!.current, handleMutation);
+
+  // useEffects
   useEffect(() => {
-    console.log(timeArray);
-  }, [timeArray]);
+    createAnimationBoxes();
+  }, [createAnimationBoxes]);
 
   // In-component animations
   const movingBgAnimation = preferReducedMotion
@@ -79,35 +104,58 @@ const HeroAnim: FC = () => {
       columns={{ base: 1, lg: 2 }}
       py='5'
       px={{ base: '3', md: '4', lg: '7' }}
-      justifyContent='center'
-      alignItems='center'
-      spacing='7'
+      gap={{ base: '2', lg: '7' }}
+      ref={animContainerRef}
     >
-      {Array(4)
-        .fill(0)
-        .map((each, index) => {
+      <AnimatePresence exitBeforeEnter={false}>
+        {[3, 4, 5, 9].map((each, index) => {
           const isDueDateLater = !isDateBefore(timeArray[index]);
 
           // Main JSX
           return (
-            isDueDateLater && (
-              <Box
-                rounded='2xl'
-                key={index}
-                w='full'
-                h={{ base: '70px', lg: '170px' }}
-                bgColor={animatedTasksBgColor}
-                shadow='dark-lg'
-                transition='background-color .2s ease'
-                p='.75rem'
-                color={addColorOnTask(timeArray[index])}
-              >
-                {getShorthandDistanceDiff(timeArray[index])}{' '}
-                {addLateorLeft(timeArray[index])}
-              </Box>
-            )
+            <CustMotionSection
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              rounded='2xl'
+              key={`anim-div-${index + 1}`}
+              w='full'
+              h={{ base: '70px', lg: '170px' }}
+              bgColor={animatedTasksBgColor}
+              shadow='dark-lg'
+              transition='background-color .2s ease'
+              py={{ base: '.8rem', lg: '.75rem' }}
+              px={{ base: '1rem', lg: '.75rem' }}
+              color={addColorOnTask(timeArray[index])}
+              data-is-late={isDueDateLater ? undefined : true}
+              userSelect='none'
+              cursor={'pointer'}
+            >
+              <Flex justify='space-between' align='center' w='full'>
+                <Heading size='sm'>
+                  {getShorthandDistanceDiff(timeArray[index])}{' '}
+                  {addLateorLeft(timeArray[index])}
+                </Heading>
+
+                <HStack spacing='0'>
+                  <Icon
+                    fontSize={{ base: '1.2rem', lg: '1.4rem' }}
+                    as={GoPrimitiveDot}
+                  />
+                  <Icon
+                    fontSize={{ base: '1.2rem', lg: '1.4rem' }}
+                    as={GoPrimitiveDot}
+                  />
+                  <Icon
+                    fontSize={{ base: '1.2rem', lg: '1.4rem' }}
+                    as={GoPrimitiveDot}
+                  />
+                </HStack>
+              </Flex>
+            </CustMotionSection>
           );
         })}
+      </AnimatePresence>
     </SimpleGrid>
   );
 };

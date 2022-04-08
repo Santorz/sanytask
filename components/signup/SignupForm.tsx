@@ -26,6 +26,7 @@ import {
   Button,
   HStack,
   FormErrorMessage,
+  Text,
 } from '@chakra-ui/react';
 import { MdMail, MdLock, MdPerson, MdPersonOutline } from 'react-icons/md';
 import { useCustomToast } from '../../utils/useCustomToast';
@@ -201,12 +202,12 @@ const SignupForm: FC = (props) => {
               display: 'flex',
               width: '100%',
               flexDirection: 'column',
-              gap: '15px',
+              gap: '12.5px',
               marginBottom: '2rem',
             }}
           >
             {/* First name and last name inputs */}
-            <HStack>
+            <HStack alignItems='start'>
               {/* First name form control element */}
               <FormControl isInvalid={isFNameInvalid} w='full' isRequired>
                 <FormLabel
@@ -399,6 +400,13 @@ const SignupForm: FC = (props) => {
               </FormControl>
             </Flex>
 
+            {!isPasswordInvalid && !password && (
+              <Text fontSize='sm'>
+                Password must be at least 8 characters and contain at least 1
+                capital letter, 1 number and one symbol.
+              </Text>
+            )}
+
             {/*  */}
           </section>
 
@@ -417,11 +425,12 @@ const SignupForm: FC = (props) => {
               !password ||
               !lName ||
               !fName ||
-              !lName.match(nameRegex) ||
-              !fName.match(nameRegex) ||
+              !nameRegex.test(lName) ||
+              !nameRegex.test(fName) ||
               !email.match(emailRegex) ||
               !password.match(passwordRegex) ||
-              signUpStarted
+              signUpStarted ||
+              !arePasswordsSame
             }
           >
             Sign up
