@@ -50,7 +50,7 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
   const { tasks } = useContext(TasksContext);
   const specificTask = tasks && tasks.find((task) => task.id === taskId);
   const formBg = useColorModeValue(
-    'rgba(255,255,255,0.65)',
+    'rgba(250,250,250,0.65)',
     'rgba(5,5,5,0.65)'
   );
   const borderColor = useColorModeValue('#006080', 'brand.400');
@@ -193,7 +193,7 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
         w='full'
         maxW='650px'
         rounded='2xl'
-        shadow={{ base: 'md', md: 'none' }}
+        shadow={{ base: 'md', md: 'dark-lg' }}
         px={['7', '9', '11', '14']}
         py={['2', '3', '4', '5']}
         mx='auto'

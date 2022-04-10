@@ -55,12 +55,16 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
   const bgColor = useColorModeValue(
-    'rgba(255,255,255,0.75)',
-    'rgba(55,55,55,0.75)'
+    'rgba(250,250,250,0.15)',
+    'rgba(55,55,55,0.15)'
+  );
+  const bgColor2 = useColorModeValue(
+    'rgba(250,250,250,0.75)',
+    'rgba(25,25,25,0.75)'
   );
   const overlayBgColor = useColorModeValue(
-    'rgb(100 100 100 / 20%)',
-    'rgb(0 0 0 / 20%)'
+    'rgb(8 51 85 / 10%)',
+    'rgb(0 56 88 / 10%)'
   );
 
   // State Values
@@ -138,14 +142,14 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
       >
         {/* Modal Content */}
         <ModalContent
-          bgColor={bgColor}
+          bgColor={isHashView ? bgColor2 : bgColor}
           w={{
             base: 'full',
             lg: isHashNeworEdit ? 'full' : '85%',
           }}
           my={{ base: '0', lg: isHashNeworEdit ? '0' : '3' }}
-          rounded={{ base: 'none', lg: 'xl' }}
-          shadow={{ base: 'none', lg: 'lg' }}
+          rounded={{ base: 'none', lg: isHashView ? 'xl' : 'none' }}
+          shadow={{ base: 'none', lg: 'dark-lg' }}
           maxW={isHashNeworEdit ? 'full' : '1200px'}
           backdropFilter='blur(11.5px) saturate(180%)'
           {...(isHashView ? swipeHandlers : {})}

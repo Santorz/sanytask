@@ -44,7 +44,7 @@ const HeroAnim: FC = () => {
     addColorOnTask,
     isDateBefore,
   } = useDateFuncs();
-  const { isDesktopOnly } = useResponsiveSSR();
+  const { isDesktopOnly, isMobile, isTabletOnly } = useResponsiveSSR();
 
   // Refs
   const animContainerRef = useRef<HTMLDivElement>(null);
@@ -101,25 +101,28 @@ const HeroAnim: FC = () => {
     <SimpleGrid
       as='section'
       backgroundImage={patternedBgImage}
-      h={{ base: '27.5rem', lg: '30rem' }}
+      h={{ base: '31rem', lg: '27.5rem' }}
       w='full'
       rounded='3xl'
       backgroundSize='cover'
-      alignSelf='center'
+      alignItems='center'
+      justifyItems='center'
       animation={movingBgAnimation}
       id='hero-image-animation-container'
       columns={{ base: 1, lg: 2 }}
-      py='5'
+      py={{ base: '4', lg: '5' }}
       px={{ base: '3', md: '4', lg: '7' }}
-      gap={{ base: '2', lg: '7' }}
+      spacing={{ base: '2', lg: '7' }}
       ref={animContainerRef}
     >
+      {/* Animation container */}
       <AnimatePresence exitBeforeEnter={false}>
         {[3, 4, 5, 9].map((each, index) => {
           const isDueDateLater = !isDateBefore(timeArray[index]);
 
           // Main JSX
           return (
+            // Each Illustration
             <CustMotionSection
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -127,7 +130,7 @@ const HeroAnim: FC = () => {
               rounded='2xl'
               key={`anim-div-${index + 1}`}
               w='full'
-              h={{ base: '70px', lg: '170px' }}
+              h={{ base: '98px', lg: '170px' }}
               bgColor={animatedTasksBgColor}
               shadow='dark-lg'
               transition='background-color .2s ease'
@@ -136,49 +139,59 @@ const HeroAnim: FC = () => {
               color={addColorOnTask(timeArray[index])}
               data-is-late={isDueDateLater ? undefined : true}
               userSelect='none'
+              maxW={{ base: '430px', lg: '315px' }}
             >
+              {/* Seconds left header with dots */}
               <Flex justify='space-between' align='center' w='full'>
+                {/*  */}
                 <Heading fontSize={{ base: 'md', lg: 'lg' }}>
                   {getShorthandDistanceDiff(timeArray[index])}{' '}
                   {addLateorLeft(timeArray[index])}
                 </Heading>
-
+                {/*  */}
                 <HStack spacing='0'>
                   <Icon
                     color={cyanColor}
                     fontSize={{ base: '1.2rem', lg: '1.5rem' }}
                     as={GoPrimitiveDot}
                   />
-                  {isDesktopOnly && (
-                    <>
-                      <Icon
-                        fontSize={{ base: '1.2rem', lg: '1.5rem' }}
-                        as={GoPrimitiveDot}
-                        color={orangeColor}
-                      />
-                      <Icon
-                        fontSize={{ base: '1.2rem', lg: '1.5rem' }}
-                        as={GoPrimitiveDot}
-                        color={redColor}
-                      />
-                    </>
-                  )}
+                  <Icon
+                    fontSize={{ base: '1.2rem', lg: '1.5rem' }}
+                    as={GoPrimitiveDot}
+                    color={orangeColor}
+                  />
+                  <Icon
+                    fontSize={{ base: '1.2rem', lg: '1.5rem' }}
+                    as={GoPrimitiveDot}
+                    color={redColor}
+                  />
                 </HStack>
               </Flex>
               {/*  */}
+
+              {/* Line divs */}
               <Flex
                 h='max-content'
                 w='full'
-                gap='20px'
+                gap={{ base: '15px', lg: '20px' }}
                 direction='column'
-                mt={{ base: '2', lg: '6' }}
+                mt={{ base: '2.5', lg: '6' }}
               >
+                {(isMobile || isTabletOnly) && (
+                  <Box
+                    bgColor={grayColor}
+                    rounded='full'
+                    h='12px'
+                    w={{ base: '75%', lg: '55%' }}
+                  />
+                )}
+
                 <Box
                   bgColor={grayColor}
                   rounded='full'
                   h='12px'
                   w={{ base: 'full', lg: '55%' }}
-                ></Box>
+                />
                 {isDesktopOnly && (
                   <>
                     {Array(2)
@@ -199,6 +212,7 @@ const HeroAnim: FC = () => {
                   </>
                 )}
               </Flex>
+              {/*  */}
             </CustMotionSection>
           );
         })}

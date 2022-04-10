@@ -31,10 +31,13 @@ const TaskAlertDialog: FC = () => {
   // Hooks
   const { setAlertDialogTrigger } = useContext(TaskAlertDialogTriggerContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const bgColor = useColorModeValue('rgba(250,250,250,0.6)', 'rgba(0,0,0,0.6)');
+  const bgColor = useColorModeValue(
+    'rgba(250,250,250,0.75)',
+    'rgba(0,0,0,0.6)'
+  );
   const overlayBgColor = useColorModeValue(
-    'rgb(118 221 255 / 10%)',
-    'rgb(0 96 128 / 10%)'
+    'rgb(8 51 85 / 25%)',
+    'rgb(0 56 88 / 10%)'
   );
   //   Refs
   const cancelRef = useRef();
@@ -72,7 +75,7 @@ const TaskAlertDialog: FC = () => {
         isCentered
       >
         <AlertDialogOverlay
-          backdropFilter='blur(10px)'
+          backdropFilter='blur(15px) saturate(180%)'
           backgroundColor={overlayBgColor}
         />
 
@@ -187,7 +190,12 @@ const CustomDialogButton: FC<custBtnInterface> = (props) => {
   // Main JSX
   return (
     <>
-      <Button ref={cancelRef} onClick={onClose}>
+      <Button
+        colorScheme=''
+        color={useColorModeValue('black', 'white.50')}
+        ref={cancelRef}
+        onClick={onClose}
+      >
         No
       </Button>
 

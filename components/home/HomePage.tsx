@@ -4,6 +4,7 @@ import GeneralPageWrapper from '../general/GeneralPageWrapper';
 
 // Dynamic Component Imports
 const Hero = dynamic(() => import('./Hero'));
+const SubHero = dynamic(() => import('./SubHero'));
 
 // Main Page Component */
 const HomePage: FC = (props) => {
@@ -13,6 +14,7 @@ const HomePage: FC = (props) => {
   return (
     <GeneralPageWrapper foooterType='big'>
       <Hero />
+      <SubHero />
     </GeneralPageWrapper>
   );
 };

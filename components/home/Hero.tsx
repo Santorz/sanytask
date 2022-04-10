@@ -39,7 +39,7 @@ const Hero: FC = () => {
         backgroundSize='cover'
         w='full'
         id='hero-text-container'
-        pt={{ base: '0', sm: '2', lg: '6', xl: '8' }}
+        pt={{ base: '0', sm: '2', lg: '3', xl: '5' }}
       >
         <VStack
           spacing={{ base: '5', md: '7' }}
@@ -48,7 +48,7 @@ const Hero: FC = () => {
           userSelect='none'
         >
           {/* Hero Header */}
-          <Heading as='h1' fontSize='3rem' maxW='30rem'>
+          <Heading as='h1' fontSize='3.3rem' maxW='35rem'>
             Organize and manage your tasks with ease
           </Heading>
           {/*  */}
@@ -59,12 +59,12 @@ const Hero: FC = () => {
               as='h2'
               lineHeight='2.5rem'
               size='md'
-              maxW='22.5rem'
+              maxW={{ base: '22.5rem', md: '27.5rem' }}
               fontWeight='normal'
               fontFamily='body'
             >
-              Get all your task planning done in one place. We offer you a
-              stress-free and reliable way to do it.
+              Get all your task planning done in one place. You&apos;ll be
+              amazed there&apos;s a stress-free and reliable way to do it.
             </Heading>
           </VStack>
           {/*  */}
