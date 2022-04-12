@@ -1,6 +1,8 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { chakra, useColorModeValue } from '@chakra-ui/react';
 
 const MyDocument = () => {
+  // Main Body JSX
   return (
     <Html lang='en' prefix='og: http://ogp.me/ns#'>
       <Head>
@@ -25,8 +27,22 @@ const MyDocument = () => {
           content='https://my-next-task.com/media/og-image.png'
         />
       </Head>
-      <body
-      // style={{ minHeight: '99vh' }}
+      <chakra.body
+        css={{
+          '&::-webkit-scrollbar': {
+            width: '10px',
+            maxHeight: '40px',
+          },
+          '&::-webkit-scrollbar-track': {
+            width: '12px',
+            marginTop: '3px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: '#b0b0b0',
+            borderRadius: '30px',
+          },
+        }}
+        // style={{ minHeight: '99vh' }}
       >
         <script
           defer
@@ -35,7 +51,7 @@ const MyDocument = () => {
         />
         <Main />
         <NextScript />
-      </body>
+      </chakra.body>
     </Html>
   );
 };
