@@ -1,8 +1,9 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { chakra, useColorModeValue } from '@chakra-ui/react';
+import { FC } from 'react';
+import { chakra } from '@chakra-ui/react';
 
 const MyDocument = () => {
-  // Main Body JSX
+  // Main JSX
   return (
     <Html lang='en' prefix='og: http://ogp.me/ns#'>
       <Head>
@@ -27,32 +28,45 @@ const MyDocument = () => {
           content='https://my-next-task.com/media/og-image.png'
         />
       </Head>
-      <chakra.body
-        css={{
-          '&::-webkit-scrollbar': {
-            width: '10px',
-            maxHeight: '40px',
-          },
-          '&::-webkit-scrollbar-track': {
-            width: '12px',
-            marginTop: '3px',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            background: '#b0b0b0',
-            borderRadius: '30px',
-          },
-        }}
-        // style={{ minHeight: '99vh' }}
-      >
-        <script
-          defer
-          src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7841386217905227'
-          crossOrigin='anonymous'
-        />
-        <Main />
-        <NextScript />
-      </chakra.body>
+      <BodyWithHooks />
     </Html>
+  );
+};
+
+// Main Body JSX
+const BodyWithHooks: FC = () => {
+  // Hooks
+
+  // Main JSX
+  return (
+    <chakra.body
+      css={{
+        '&::-webkit-scrollbar': {
+          width: '10px',
+          maxHeight: '40px',
+        },
+        '&::-webkit-scrollbar-track': {
+          width: '12px',
+          marginTop: '3px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: '#b0b0b0',
+          borderRadius: '30px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: '#707070',
+        },
+      }}
+      // style={{ minHeight: '99vh' }}
+    >
+      <script
+        defer
+        src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7841386217905227'
+        crossOrigin='anonymous'
+      />
+      <Main />
+      <NextScript />
+    </chakra.body>
   );
 };
 

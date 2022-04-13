@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import useMutationObservable from '../../utils/useMutationObservable';
 import {
   keyframes,
@@ -128,7 +128,7 @@ const HeroAnim: FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               rounded='2xl'
-              key={`anim-div-${index + 1}`}
+              key={`anim-div-${each}`}
               w='full'
               h={{ base: '98px', lg: '170px' }}
               bgColor={animatedTasksBgColor}
@@ -187,6 +187,7 @@ const HeroAnim: FC = () => {
                 )}
 
                 <Box
+                  key={`box-1`}
                   bgColor={grayColor}
                   rounded='full'
                   h='12px'
@@ -194,21 +195,18 @@ const HeroAnim: FC = () => {
                 />
                 {isDesktopOnly && (
                   <>
-                    {Array(2)
-                      .fill(0)
-                      .map((each, index) => {
-                        return (
-                          <>
-                            <Box
-                              key={index}
-                              bgColor={grayColor}
-                              rounded='full'
-                              h='12px'
-                              w={index === 0 ? '75%' : '95%'}
-                            />
-                          </>
-                        );
-                      })}
+                    {[4, 5].map((each, index) => {
+                      return (
+                        <React.Fragment key={each + 2}>
+                          <Box
+                            bgColor={grayColor}
+                            rounded='full'
+                            h='12px'
+                            w={index === 0 ? '75%' : '95%'}
+                          />
+                        </React.Fragment>
+                      );
+                    })}
                   </>
                 )}
               </Flex>

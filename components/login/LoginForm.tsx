@@ -19,10 +19,13 @@ import {
   InputGroup,
   InputLeftElement,
   Icon,
+  IconButton,
   Button,
   FormErrorMessage,
+  InputRightElement,
 } from '@chakra-ui/react';
 import { MdMail, MdLock } from 'react-icons/md';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useCustomToast } from '../../utils/useCustomToast';
 
 // Interfaces
@@ -53,6 +56,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
   const [failureMsg, setFailureMsg] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const { email, password } = loginDetails;
   //   Vars
@@ -235,7 +239,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
 
                 <Input
                   disabled={loginStarted}
-                  type='password'
+                  type={showPassword ? 'text' : 'password'}
                   name='password'
                   isRequired
                   value={password}
@@ -248,6 +252,27 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
                     color: `${useColorModeValue('#575757', 'gray')}`,
                   }}
                 />
+
+                <InputRightElement top='unset'>
+                  <IconButton
+                    fontSize='1.5rem'
+                    variant='ghost'
+                    mr='2'
+                    aria-label={
+                      showPassword ? 'Hide password' : 'Show password'
+                    }
+                    icon={
+                      showPassword ? (
+                        <AiOutlineEyeInvisible />
+                      ) : (
+                        <AiOutlineEye />
+                      )
+                    }
+                    onClick={() => setShowPassword(!showPassword)}
+                    _focus={{ border: 'none' }}
+                    _pressed={{ border: 'none' }}
+                  />
+                </InputRightElement>
               </InputGroup>
               <FormErrorMessage>Invalid password format</FormErrorMessage>
             </FormControl>

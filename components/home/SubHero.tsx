@@ -1,5 +1,4 @@
 import { FC, useCallback, useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
 import useResponsiveSSR from '../../utils/useResponsiveSSR';
 import {
   Flex,
@@ -18,14 +17,8 @@ const SubHero: FC = () => {
   const brandColor = useColorModeValue('brand.500', 'brand.200');
   const grayColor = useColorModeValue('gray.600', 'gray.300');
   const { isMobile, isTabletOnly, isDesktopOnly } = useResponsiveSSR();
-  const { ref, inView, entry } = useInView({
-    threshold: isMobile ? 0.2 : 0.35,
-    fallbackInView: true,
-    triggerOnce: true,
-  });
 
   // State Values
-  const [opacity, setOpacity] = useState(0.05);
   const [dimension, setDimension] = useState<number>(null);
 
   // Special Funcs
@@ -55,13 +48,6 @@ const SubHero: FC = () => {
     return () => document.removeEventListener('resize', setSubHeroImgWidth);
   }, [setSubHeroImgWidth]);
 
-  // set Opacity
-  useEffect(() => {
-    if (inView && opacity !== 1) {
-      setOpacity(1);
-    }
-  }, [inView, opacity]);
-
   // Main JSX
   return (
     <>
@@ -75,9 +61,7 @@ const SubHero: FC = () => {
           align='center'
           gap={{ base: '5', md: '2' }}
           justify='space-between'
-          opacity={opacity}
           transition='opacity .35s ease'
-          ref={ref}
         >
           {/* Sub - hero text */}
           <VStack
@@ -103,7 +87,6 @@ const SubHero: FC = () => {
 
           {/* Sub hero image */}
           <Image
-            loading='lazy'
             onContextMenu={(e) => e.preventDefault()}
             onDragStart={(e) => e.preventDefault()}
             alt='Productivity image'

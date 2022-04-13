@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import TasksConfig from '../components/general/TasksConfig';
-import UserLoginState from '../components/general/UserLoginState';
-import { isLocalUserPresentFunc } from '../parse-sdk/userVars';
-import customTheme from '../theme';
-import { useCustomToast } from '../utils/useCustomToast';
+import dynamic from 'next/dynamic';
 import { ChakraProvider, Container } from '@chakra-ui/react';
+import { useCustomToast } from '../utils/useCustomToast';
+import customTheme from '../theme';
+import { isLocalUserPresentFunc } from '../parse-sdk/userVars';
 import NProgress from 'nprogress';
+
+const TasksConfig = dynamic(() => import('../components/general/TasksConfig'));
+const UserLoginState = dynamic(
+  () => import('../components/general/UserLoginState')
+);
 
 // CSS
 import '../theme/styles.css';
