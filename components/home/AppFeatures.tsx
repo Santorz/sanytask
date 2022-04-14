@@ -103,7 +103,7 @@ const EachFeature: FC<EachFeatureInterface> = (props) => {
       >
         {heading}
       </Heading>
-      <Text fontSize='lg' color={grayColor}>
+      <Text fontSize='lg' color={grayColor} lineHeight='2rem'>
         {text}
       </Text>
     </VStack>

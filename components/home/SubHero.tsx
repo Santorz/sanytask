@@ -90,7 +90,7 @@ const SubHero: FC = () => {
             onContextMenu={(e) => e.preventDefault()}
             onDragStart={(e) => e.preventDefault()}
             alt='Productivity image'
-            src='/media/productivity.svg'
+            src='/media/home/productivity.svg'
             w={{ base: 'full', md: '50%', lg: '47.5%' }}
             htmlWidth={dimension}
             htmlHeight={dimension}

@@ -34,8 +34,8 @@ const HeroAnim: FC = () => {
   const grayColor = useColorModeValue('gray.600', 'gray.400');
   const redColor = useColorModeValue('red.500', 'red.300');
   const patternedBgImage = useColorModeValue(
-    '/media/hero-pattern-bg-light.svg',
-    '/media/hero-pattern-bg-dark.svg'
+    '/media/home/hero-pattern-bg-light.svg',
+    '/media/home/hero-pattern-bg-dark.svg'
   );
   const preferReducedMotion = usePrefersReducedMotion();
   const {
@@ -114,6 +114,8 @@ const HeroAnim: FC = () => {
       px={{ base: '3', md: '4', lg: '7' }}
       spacing={{ base: '2', lg: '7' }}
       ref={animContainerRef}
+      maxW={{ base: '500px', md: 'full' }}
+      mx='auto'
     >
       {/* Animation container */}
       <AnimatePresence exitBeforeEnter={false}>

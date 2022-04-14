@@ -6,6 +6,7 @@ import GeneralPageWrapper from '../general/GeneralPageWrapper';
 const Hero = dynamic(() => import('./Hero'));
 const SubHero = dynamic(() => import('./SubHero'));
 const AppFeatures = dynamic(() => import('./AppFeatures'));
+const BottomCTA = dynamic(() => import('./BottomCTA'));
 
 // Main Page Component */
 const HomePage: FC = () => {
@@ -17,6 +18,7 @@ const HomePage: FC = () => {
       <Hero />
       <SubHero />
       <AppFeatures />
+      <BottomCTA />
     </GeneralPageWrapper>
   );
 };
