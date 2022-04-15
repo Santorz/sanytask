@@ -1,15 +1,19 @@
 import { FC, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import MainNav from './MainNav';
 import { Container } from '@chakra-ui/react';
 
+// Dynamically Loaded Components
+const Footer = dynamic(() => import('./Footer'));
+
 interface GeneralPageWrapperInterface {
-  foooterType: 'small' | 'big';
+  footerType: 'small' | 'big';
   children?: ReactNode;
 }
 // Man Component
 const GeneralPageWrapper: FC<GeneralPageWrapperInterface> = (props) => {
   // Props
-  const { children } = props;
+  const { children, footerType } = props;
   // Refs
   const MainNavRef = useRef<HTMLDivElement>(null);
   const PageContentContainerRef = useRef<HTMLDivElement>(null);
@@ -59,13 +63,14 @@ const GeneralPageWrapper: FC<GeneralPageWrapperInterface> = (props) => {
         transition='margin-top .75s ease'
         w='full'
         maxW='full'
-        as='nav'
         px='0'
         mt={`${mainNavHeight}px`}
         ref={PageContentContainerRef}
+        minH='79vh'
       >
         {children}
       </Container>
+      <Footer footerType={footerType} />
     </>
   );
 };

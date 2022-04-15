@@ -9,7 +9,7 @@ const HomePage: FC = (props) => {
   // Hooks
 
   // Main JSX
-  return <GeneralPageWrapper foooterType='big'></GeneralPageWrapper>;
+  return <GeneralPageWrapper footerType='big'></GeneralPageWrapper>;
 };
 
 export default HomePage;

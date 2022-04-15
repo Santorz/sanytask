@@ -12,7 +12,7 @@ const Body = () => {
         <title>Page not found | my-next-task</title>
       </Head>
 
-      <GeneralPageWrapper foooterType='small'>
+      <GeneralPageWrapper footerType='small'>
         <Container w='full' userSelect='none'>
           <Heading mt='3' size='2xl' textAlign='center' fontWeight='normal'>
             Page not found

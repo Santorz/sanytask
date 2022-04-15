@@ -5,7 +5,7 @@ import { UserLoginStateContext } from '../general/UserLoginState';
 import CustomLink from '../general/CustomLink';
 
 const CTALinks: FC = () => {
-  const brandColor = useColorModeValue('brand.500', 'brand.100');
+  const brandColor = useColorModeValue('brand.500', 'brand.200');
   const inversePrimaryColor = useColorModeValue('gray.50', 'black');
   const primaryColor = useColorModeValue('black', 'gray.50');
   const { encLoggedInString } = useContext(UserLoginStateContext);

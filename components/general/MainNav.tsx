@@ -14,6 +14,7 @@ import {
   Button,
   Switch,
   Heading,
+  chakra,
 } from '@chakra-ui/react';
 import Logo from './Logo';
 import ActiveLink from './ActiveLink';
@@ -54,149 +55,137 @@ const MainNav = forwardRef<HTMLDivElement, MainNavInterface>((props, ref) => {
   // Refs
   const subNavRef = useRef<HTMLDivElement>(null);
 
-  // // Funcs
-  // const closeOnOutsideClick = useCallback(
-  //   (e: Event) => {
-  //     if (
-  //       isMobileSubNavOpen &&
-  //       e.currentTarget !== subNavRef.current &&
-  //       !isDesktopOnly
-  //     ) {
-  //       alert('hello');
-  //       closeMobileSubNav();
-  //     }
-  //   },
-  //   [closeMobileSubNav, isDesktopOnly, isMobileSubNavOpen]
-  // );
-
-  // // useEffects
-  // useEffect(() => {
-  //   document.addEventListener('click', closeOnOutsideClick);
-  //   return () => document.removeEventListener('click', closeOnOutsideClick);
-  // }, [closeOnOutsideClick]);
-
   // Main JSX
   return (
     //   Main Nav Conatainer
-    <Container
-      userSelect='none'
-      maxW='full'
-      px='0'
-      as='nav'
-      py={{ base: '1', md: '1.5' }}
-      shadow={isMobileSubNavOpen || addShadowBool ? boxShadow : 'none'}
-      backdropFilter='blur(15px) saturate(180%)'
-      bgColor={navBgColor}
-      position='fixed'
-      top='0'
-      zIndex='modal'
-      transition='background-color .2s ease, box-shadow .5s ease'
-    >
-      {/* All except mobile subNav */}
-      <Flex
-        ref={ref}
-        w='full'
+    <chakra.header w='full' h='auto'>
+      <Container
+        userSelect='none'
         maxW='full'
-        justify='space-between'
-        align='center'
-        px={['2', '3', '4', '4', '8']}
+        px='0'
+        as='nav'
+        py={{ base: '1', md: '1.5' }}
+        shadow={isMobileSubNavOpen || addShadowBool ? boxShadow : 'none'}
+        backdropFilter='blur(15px) saturate(180%)'
+        bgColor={navBgColor}
+        position='fixed'
+        top='0'
+        zIndex='modal'
+        role='navigation'
+        transition='background-color .2s ease, box-shadow .5s ease'
       >
-        {/* Logo Container for all screens and page links for desktop only*/}
-        <HStack spacing={{ lg: '0.35rem', xl: '2rem' }}>
-          {/* Logo */}
-          <Logo logoType='normal' isSmall isResponsive />
+        {/* All except mobile subNav */}
+        <Flex
+          ref={ref}
+          w='full'
+          maxW='full'
+          justify='space-between'
+          align='center'
+          px={['2', '3', '4', '4', '8']}
+        >
+          {/* Logo Container for all screens and page links for desktop only*/}
+          <HStack spacing={{ lg: '0.35rem', xl: '2rem' }}>
+            {/* Logo */}
+            <Logo logoType='normal' isSmall isResponsive />
 
-          {/* Vertical divider */}
-          {isDesktopOnly && (
-            <Icon
-              as={BsDashLg}
-              color={grayColor}
-              fontSize='2rem'
-              transform='rotate(90deg)'
-            />
-          )}
-
-          {/* Page links for desktop only */}
-          {isDesktopOnly && (
-            <NormalPageLinks
-              gap={{ lg: '1.25rem', xl: '3rem' }}
-              ml={{ lg: '0.75rem !important', xl: '3rem !important' }}
-            />
-          )}
-        </HStack>
-        {/* end of logo container */}
-
-        {/* // User-entry links on desktop only */}
-        {isDesktopOnly && <UserEntryPageLinks gap='1.05rem' />}
-
-        {/* #322 => Container for login and dashboard links for tablet only  */}
-        {/*  and subnav activator button for both mobile and tablet */}
-        {!isDesktopOnly && (
-          <HStack spacing={{ md: '2rem' }}>
-            {/* // Signup , Login and Dashboard links on tablet only */}
-            {isTabletOnly && <UserEntryPageLinks gap='1rem' />}
-
-            {/* Sub Nav Menu Button on Mobile and tablet */}
-            {(isMobile || isTabletOnly) && (
-              <IconButton
-                variant='ghost'
-                fontSize='1.75rem'
-                aria-label='Show Navbar Links'
-                icon={isMobileSubNavOpen ? <FaTimes /> : <GiHamburgerMenu />}
-                onClick={() =>
-                  isMobileSubNavOpen ? closeMobileSubNav() : openMobileSubNav()
-                }
+            {/* Vertical divider */}
+            {isDesktopOnly && (
+              <Icon
+                as={BsDashLg}
+                color={grayColor}
+                fontSize='2rem'
+                transform='rotate(90deg)'
               />
             )}
-            {/* end of subnav activator button */}
-          </HStack>
-        )}
-        {/*  end  of #322*/}
 
-        {/*  */}
-      </Flex>
-      {/*  */}
-
-      {/* Mobile SubNav Component */}
-      {(isMobile || isTabletOnly) && (
-        <Collapse
-          animateOpacity
-          ref={subNavRef}
-          in={isMobileSubNavOpen}
-          unmountOnExit
-          style={{
-            width: isTabletOnly ? '320px' : '',
-            marginLeft: isTabletOnly ? 'auto' : '',
-          }}
-        >
-          <HStack
-            w='full'
-            as='section'
-            justifyContent='space-between'
-            spacing='0'
-          >
-            {/* Normal page links for mobile and tablet */}
-            <VStack
-              spacing='4'
-              alignItems='left'
-              px='3'
-              my='4'
-              borderRight={isMobile ? '1px solid' : ''}
-              w='full'
-            >
-              <NormalPageLinks direction='column' gap='3' ml={{ md: '5' }} />
-            </VStack>
-
-            {/* User entry page links for mobile only */}
-            {isMobile && (
-              <Flex direction='row' justify='center' px='7' my='4' w='full'>
-                <UserEntryPageLinks direction='column' align='center' gap='4' />
-              </Flex>
+            {/* Page links for desktop only */}
+            {isDesktopOnly && (
+              <NormalPageLinks
+                gap={{ lg: '1.25rem', xl: '3rem' }}
+                ml={{ lg: '0.75rem !important', xl: '3rem !important' }}
+              />
             )}
           </HStack>
-        </Collapse>
-      )}
-    </Container>
+          {/* end of logo container */}
+
+          {/* // User-entry links on desktop only */}
+          {isDesktopOnly && <UserEntryPageLinks gap='1.05rem' />}
+
+          {/* #322 => Container for login and dashboard links for tablet only  */}
+          {/*  and subnav activator button for both mobile and tablet */}
+          {!isDesktopOnly && (
+            <HStack spacing={{ md: '2rem' }}>
+              {/* // Signup , Login and Dashboard links on tablet only */}
+              {isTabletOnly && <UserEntryPageLinks gap='1rem' />}
+
+              {/* Sub Nav Menu Button on Mobile and tablet */}
+              {(isMobile || isTabletOnly) && (
+                <IconButton
+                  variant='ghost'
+                  fontSize='1.75rem'
+                  aria-label='Show Navbar Links'
+                  icon={isMobileSubNavOpen ? <FaTimes /> : <GiHamburgerMenu />}
+                  onClick={() =>
+                    isMobileSubNavOpen
+                      ? closeMobileSubNav()
+                      : openMobileSubNav()
+                  }
+                />
+              )}
+              {/* end of subnav activator button */}
+            </HStack>
+          )}
+          {/*  end  of #322*/}
+
+          {/*  */}
+        </Flex>
+        {/*  */}
+
+        {/* Mobile SubNav Component */}
+        {(isMobile || isTabletOnly) && (
+          <Collapse
+            animateOpacity
+            ref={subNavRef}
+            in={isMobileSubNavOpen}
+            unmountOnExit
+            style={{
+              width: isTabletOnly ? '320px' : '',
+              marginLeft: isTabletOnly ? 'auto' : '',
+            }}
+          >
+            <HStack
+              w='full'
+              as='section'
+              justifyContent='space-between'
+              spacing='0'
+            >
+              {/* Normal page links for mobile and tablet */}
+              <VStack
+                spacing='4'
+                alignItems='left'
+                px='3'
+                my='4'
+                borderRight={isMobile ? '1px solid' : ''}
+                w='full'
+              >
+                <NormalPageLinks direction='column' gap='3' ml={{ md: '5' }} />
+              </VStack>
+
+              {/* User entry page links for mobile only */}
+              {isMobile && (
+                <Flex direction='row' justify='center' px='7' my='4' w='full'>
+                  <UserEntryPageLinks
+                    direction='column'
+                    align='center'
+                    gap='4'
+                  />
+                </Flex>
+              )}
+            </HStack>
+          </Collapse>
+        )}
+      </Container>
+    </chakra.header>
   );
 });
 

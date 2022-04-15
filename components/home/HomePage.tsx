@@ -14,7 +14,7 @@ const HomePage: FC = () => {
 
   // Main JSX
   return (
-    <GeneralPageWrapper foooterType='big'>
+    <GeneralPageWrapper footerType='big'>
       <Hero />
       <SubHero />
       <AppFeatures />
