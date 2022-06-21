@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import {
   chakra,
   Flex,
@@ -128,7 +128,7 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
   );
 };
 
-const ListHeader: FC = ({ children }) => {
+const ListHeader: FC<{children:ReactNode}> = ({ children }) => {
   return (
     <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
       {children}
@@ -139,6 +139,7 @@ const ListHeader: FC = ({ children }) => {
 interface SocialButtonInterface {
   label: string;
   href: string;
+  children: ReactNode;
 }
 const SocialButton: FC<SocialButtonInterface> = ({ label, href, children }) => {
   return (
