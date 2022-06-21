@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import HomePage from '../..//components/blog/HomePage';
+import BlogHomePage from '../../components/blog/BlogHomePage';
 
-const Home: NextPage = () => {
+const Blog: NextPage = () => {
   return (
     <>
       <Head>
@@ -13,10 +13,10 @@ const Home: NextPage = () => {
         />
       </Head>
 
-      {/* Main HomePage Component */}
-      <HomePage />
+      {/* Blog's Home page Component */}
+      <BlogHomePage />
     </>
   );
 };
 
-export default Home;
+export default Blog;

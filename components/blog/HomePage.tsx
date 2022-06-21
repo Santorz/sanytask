@@ -5,11 +5,11 @@ import GeneralPageWrapper from '../general/GeneralPageWrapper';
 // Dynamic Component Imports
 
 // Main Page Component */
-const HomePage: FC = (props) => {
+const BlogHomePage: FC = (props) => {
   // Hooks
 
   // Main JSX
   return <GeneralPageWrapper footerType='big'></GeneralPageWrapper>;
 };
 
-export default HomePage;
+export default BlogHomePage;
