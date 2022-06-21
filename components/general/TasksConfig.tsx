@@ -12,7 +12,7 @@ export interface TasksContextInterface {
 
 export const TasksContext = createContext<TasksContextInterface>(null);
 
-const TasksConfig: FC = (props) => {
+const TasksConfig: FC<{children:ReactNode}> = (props) => {
   const { tasks, isTasksLoading, isError, tasksError, triggerTasksFetch } =
     useTasksLiveQuery();
   const { children } = props;
