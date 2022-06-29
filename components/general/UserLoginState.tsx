@@ -32,7 +32,7 @@ export const UserLoginStateContext =
 // Vars
 
 // Main JSX
-const UserLoginState: FC<{children:ReactNode}> = (props) => {
+const UserLoginState: FC<{ children: ReactNode }> = (props) => {
   const { children } = props;
 
   // Hooks

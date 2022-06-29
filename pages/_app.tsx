@@ -7,10 +7,10 @@ import customTheme from '../theme';
 import { isLocalUserPresentFunc } from '../parse-sdk/userVars';
 import NProgress from 'nprogress';
 
-const TasksConfig = dynamic(() => import('../components/general/TasksConfig'));
-const UserLoginState = dynamic(
-  () => import('../components/general/UserLoginState')
+const UserLoginState = dynamic(() =>
+  import('../components/general/UserLoginState')
 );
+const TasksConfig = dynamic(() => import('../components/general/TasksConfig'));
 
 // CSS
 import '../theme/styles.css';
@@ -83,7 +83,7 @@ function MyApp({ Component, pageProps }) {
     <ChakraProvider theme={customTheme}>
       <UserLoginState>
         <TasksConfig>
-          <Container w='full' p='0' m='0' maxW='100%'>
+          <Container w="full" p="0" m="0" maxW="100%">
             <Component {...pageProps} />
           </Container>
         </TasksConfig>
