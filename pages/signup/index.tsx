@@ -89,7 +89,7 @@ const SignupPage: NextPage = () => {
 
           {/* The signup form goes in here */}
 
-          <SignupForm {...userLoginState} />
+          <SignupForm />
 
           {/* Other links on login page */}
           <VStack mt='1'>
