@@ -32,7 +32,7 @@ export const UserLoginStateContext =
 // Vars
 
 // Main JSX
-const UserLoginState: FC = (props) => {
+const UserLoginState: FC<{children:ReactN}> = (props) => {
   const { children } = props;
 
   // Hooks
