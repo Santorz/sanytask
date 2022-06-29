@@ -27,17 +27,17 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
   const footerBg = useColorModeValue('#0E1C21', '#060D10');
 
   return (
-    <chakra.footer w='full' bgColor={footerBg}>
+    <chakra.footer w="full" bgColor={footerBg}>
       {isFooterTypeBig && (
         <Flex
-          as='nav'
-          role='navigation'
-          w='full'
-          transition='background-color .2s ease'
-          justify='space-evenly'
+          as="nav"
+          role="navigation"
+          w="full"
+          transition="background-color .2s ease"
+          justify="space-evenly"
           direction={{ base: 'column', md: 'row' }}
-          align='flex-start'
-          p='2'
+          align="flex-start"
+          p="2"
           userSelect={'none'}
         >
           {/* Main footer */}
@@ -45,7 +45,7 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
             <SimpleGrid
               columns={{ base: 1, sm: 2, md: 4 }}
               spacing={8}
-              color='white'
+              color="white"
             >
               <Stack align={'flex-start'}>
                 <ListHeader>Company</ListHeader>
@@ -70,18 +70,18 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
 
               <Stack align={'flex-start'}>
                 <ListHeader>Install App</ListHeader>
-                <Stack position='relative' spacing='0'>
+                <Stack position="relative" spacing="0">
                   <AppStoreBadge />
                   <PlayStoreBadge />
                   <Flex
-                    position='absolute'
-                    w='full'
-                    h='full'
-                    align='center'
-                    justify='center'
-                    bg='rgba(0,0,0,.55)'
-                    rounded='md'
-                    backdropFilter='blur(2px)'
+                    position="absolute"
+                    w="full"
+                    h="full"
+                    align="center"
+                    justify="center"
+                    bg="rgba(0,0,0,.55)"
+                    rounded="md"
+                    backdropFilter="blur(2px)"
                   >
                     Coming Soon..
                   </Flex>
@@ -104,13 +104,14 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
           justify={{ md: 'space-between' }}
           align={{ md: 'center' }}
         >
-          <Text color='white'>
+          <Text color="white">
             © {new Date().getFullYear()} my-next-task . All rights reserved
           </Text>
           <Stack direction={'row'} spacing={6}>
             <SocialButton
               label={'Our facebook page'}
               href={'https://www.facebook.com/my.next.task'}
+              rel={'noreferrer'}
             >
               <FaFacebookF />
             </SocialButton>
@@ -128,7 +129,7 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
   );
 };
 
-const ListHeader: FC<{children:ReactNode}> = ({ children }) => {
+const ListHeader: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
       {children}
@@ -140,12 +141,18 @@ interface SocialButtonInterface {
   label: string;
   href: string;
   children: ReactNode;
+  rel?: string;
 }
-const SocialButton: FC<SocialButtonInterface> = ({ label, href, children }) => {
+const SocialButton: FC<SocialButtonInterface> = ({
+  label,
+  href,
+  children,
+  rel,
+}) => {
   return (
     <chakra.button
-      bg='blackAlpha.100'
-      color='white'
+      bg="blackAlpha.100"
+      color="white"
       rounded={'full'}
       w={8}
       h={8}
@@ -153,7 +160,8 @@ const SocialButton: FC<SocialButtonInterface> = ({ label, href, children }) => {
       as={'a'}
       aria-label={label}
       href={href}
-      target='_blank'
+      target="_blank"
+      rel={rel ? rel : undefined}
       display={'inline-flex'}
       alignItems={'center'}
       justifyContent={'center'}
