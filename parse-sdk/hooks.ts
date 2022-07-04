@@ -126,7 +126,6 @@ export const useTasksLiveQuery = () => {
       const { attributes } = task;
       const newTask = { id: task.id, ...attributes };
       const newTasks = [...tasks, newTask];
-      showNotif('success', 'Task added successfully');
       setTasks(
         newTasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
       );
@@ -139,7 +138,6 @@ export const useTasksLiveQuery = () => {
       const filteredTasks = tasks.filter((task) => task.id !== id);
       const newTask = { id: task.id, ...attributes };
       const newTasks = [...filteredTasks, newTask];
-      showNotif('success', 'Task updated successfully');
       setTasks(
         newTasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
       );
@@ -151,7 +149,6 @@ export const useTasksLiveQuery = () => {
       const { attributes, id } = task;
       const filteredTasks = tasks.filter((task) => task.id !== id);
       // const newTask = { id: task.id, ...attributes };
-      showNotif('info', 'Task successfully deleted');
       setTasks(
         filteredTasks.sort(
           (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate)
