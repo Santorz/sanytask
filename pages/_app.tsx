@@ -6,9 +6,21 @@ import { useCustomToast } from '../utils/useCustomToast';
 import customTheme from '../theme';
 import { isLocalUserPresentFunc } from '../parse-sdk/userVars';
 import NProgress from 'nprogress';
+import Parse from 'parse';
+import {
+  PARSE_APPLICATION_ID,
+  PARSE_JAVASCRIPT_KEY,
+  PARSE_HOST_URL,
+} from '../parse-sdk/config';
 
-const UserLoginState = dynamic(() =>
-  import('../components/general/UserLoginState')
+// Initialize Parse
+if (!Parse.applicationId) {
+  Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+  Parse.serverURL = PARSE_HOST_URL;
+}
+
+const UserLoginState = dynamic(
+  () => import('../components/general/UserLoginState')
 );
 const TasksConfig = dynamic(() => import('../components/general/TasksConfig'));
 
@@ -83,7 +95,7 @@ function MyApp({ Component, pageProps }) {
     <ChakraProvider theme={customTheme}>
       <UserLoginState>
         <TasksConfig>
-          <Container w="full" p="0" m="0" maxW="100%">
+          <Container w='full' p='0' m='0' maxW='100%'>
             <Component {...pageProps} />
           </Container>
         </TasksConfig>

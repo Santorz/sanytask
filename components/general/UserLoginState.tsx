@@ -6,10 +6,10 @@ import {
   useEffect,
   useCallback,
 } from 'react';
-import Parse from 'parse';
 import { useRouter } from 'next/router';
 import { useCustomToast } from '../../utils/useCustomToast';
 import { encryptWithoutUserData } from '../../utils/crypto-js-utils';
+import { getUserLoggedInStatus, logUserOut } from '../../parse-sdk/actions';
 
 // NB: When sending to the context, you should encrypt
 //     When receiving from the context, you should decrypt
@@ -52,7 +52,7 @@ const UserLoginState: FC<{ children: ReactNode }> = (props) => {
   );
   const [encLoggedInString, setIsLoggedIn] = useState(
     encryptWithoutUserData(
-      Parse.User.current() ? true.toString() : false.toString()
+      getUserLoggedInStatus() ? true.toString() : false.toString()
     )
   );
 
@@ -63,13 +63,13 @@ const UserLoginState: FC<{ children: ReactNode }> = (props) => {
         localStorage.removeItem('sessionExpDate');
         closeAllToasts();
         showCustomToast('logout');
-        await Parse.User.logOut();
+        await logUserOut();
         setIsLoggedIn(encryptWithoutUserData(false.toString()));
         closeAllToasts();
         await router.push('/');
       } catch (err) {
         localStorage.removeItem('sessionExpDate');
-        await Parse.User.logOut();
+        await logUserOut();
         setIsLoggedIn(encryptWithoutUserData(false.toString()));
         closeAllToasts();
         await router.push('/');

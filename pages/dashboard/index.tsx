@@ -114,26 +114,30 @@ const Dashboard = () => {
 
   // set encoded session expiry date
   useEffect(() => {
-    const isLoggedInBool =
-      encLoggedInString !== null &&
-      decryptWithoutUserData(encLoggedInString) === 'true';
+    async () => {
+      if (typeof window !== 'undefined') {
+        const isLoggedInBool =
+          encLoggedInString !== null &&
+          decryptWithoutUserData(encLoggedInString) === 'true';
 
-    if (!localStorage.getItem('sessionExpDate') && isLoggedInBool) {
-      // Set session expiry date in local storage
-      Parse.Session.current()
-        .then((session) => {
-          if (encLoggedInString) {
-            setSessionExpDate(
-              new Date(session.attributes.expiresAt).toISOString()
-            );
-          } else {
-            //
-          }
-        })
-        .catch((err: Error) => {
-          console.log(err.message);
-        });
-    }
+        if (!localStorage.getItem('sessionExpDate') && isLoggedInBool) {
+          // Set session expiry date in local storage
+          Parse.Session.current()
+            .then((session) => {
+              if (encLoggedInString) {
+                setSessionExpDate(
+                  new Date(session.attributes.expiresAt).toISOString()
+                );
+              } else {
+                //
+              }
+            })
+            .catch((err: Error) => {
+              console.log(err.message);
+            });
+        }
+      }
+    };
   }, [encLoggedInString, router, setSessionExpDate]);
 
   //usEffect to prevent hash change if user is not logged in

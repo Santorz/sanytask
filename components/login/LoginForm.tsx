@@ -87,6 +87,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
             setLoginStarted(false);
             setLoginFailed(true);
             setFailureMsg(resp.result);
+            console.log(resp);
           }
         })
         .catch((err: Error | any) => {
@@ -94,6 +95,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
           setLoginStarted(false);
           setLoginFailed(true);
           setFailureMsg(err.message);
+          console.log(err);
         });
     } else {
       // If one of the inputs is invalid

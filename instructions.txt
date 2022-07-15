@@ -1,0 +1,1 @@
+For stackblitz's package.json -> "@next/swc-wasm-nodejs": "latest",

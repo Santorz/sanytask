@@ -4,19 +4,8 @@ import { useRouter } from 'next/router';
 import { decryptWithoutUserData } from '../utils/crypto-js-utils';
 import { UserLoginStateContext } from '../components/general/UserLoginState';
 import { useCustomToast, toastType } from '../utils/useCustomToast';
-import {
-  PARSE_APPLICATION_ID,
-  PARSE_JAVASCRIPT_KEY,
-  PARSE_HOST_URL,
-} from './config';
 
-// Initialize Parse
-if (!Parse.applicationId) {
-  Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
-  Parse.serverURL = PARSE_HOST_URL;
-  Parse.liveQueryServerURL = 'wss://my-next-task.b4a.io';
-}
-
+// Interfaces
 export interface TaskInterface {
   id: string;
   createdAt: Date;
@@ -53,7 +42,7 @@ export const useTasksLiveQuery = () => {
   };
 
   const triggerTasksFetch = useCallback(() => {
-    if (!tasks) {
+    if (!tasks && router.asPath === '/dashboard') {
       if (decryptWithoutUserData(encLoggedInString) !== 'true') {
         showUserIsNotLoggedIn();
       } else if (decryptWithoutUserData(encLoggedInString) === 'true') {
@@ -101,8 +90,9 @@ export const useTasksLiveQuery = () => {
         showUserIsNotLoggedIn();
       }
     }
-  }, [encLoggedInString, invokeSignOut, tasks]);
+  }, [encLoggedInString, invokeSignOut, router.asPath, tasks]);
 
+  // Show notification func
   const showNotif = useCallback(
     (type: toastType, msg: string) => {
       if (router.asPath.includes('/dashboard')) {
@@ -130,7 +120,7 @@ export const useTasksLiveQuery = () => {
         newTasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
       );
     },
-    [showNotif, tasks]
+    [tasks]
   );
   const updateTask = useCallback(
     (task: Parse.Object<TaskInterface>) => {
@@ -142,7 +132,7 @@ export const useTasksLiveQuery = () => {
         newTasks.sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
       );
     },
-    [showNotif, tasks]
+    [tasks]
   );
   const deleteTask = useCallback(
     (task: Parse.Object<TaskInterface>) => {
@@ -155,19 +145,21 @@ export const useTasksLiveQuery = () => {
         )
       );
     },
-    [showNotif, tasks]
+    [tasks]
   );
 
   // useEffects
 
   // to be fired onLoad
   useEffect(() => {
-    if (decryptWithoutUserData(encLoggedInString) !== 'true') {
-      showUserIsNotLoggedIn();
-    } else if (decryptWithoutUserData(encLoggedInString) === 'true') {
-      triggerTasksFetch();
-    } else {
-      showUserIsNotLoggedIn();
+    if (typeof window !== 'undefined') {
+      if (decryptWithoutUserData(encLoggedInString) !== 'true') {
+        showUserIsNotLoggedIn();
+      } else if (decryptWithoutUserData(encLoggedInString) === 'true') {
+        triggerTasksFetch();
+      } else {
+        showUserIsNotLoggedIn();
+      }
     }
   }, [triggerTasksFetch, encLoggedInString]);
 

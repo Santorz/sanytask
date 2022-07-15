@@ -8,12 +8,13 @@ const Footer = dynamic(() => import('./Footer'));
 
 interface GeneralPageWrapperInterface {
   footerType: 'small' | 'big';
+  customBg?: string;
   children?: ReactNode;
 }
 // Man Component
 const GeneralPageWrapper: FC<GeneralPageWrapperInterface> = (props) => {
   // Props
-  const { children, footerType } = props;
+  const { children, footerType, customBg } = props;
   // Refs
   const MainNavRef = useRef<HTMLDivElement>(null);
   const PageContentContainerRef = useRef<HTMLDivElement>(null);
@@ -67,6 +68,9 @@ const GeneralPageWrapper: FC<GeneralPageWrapperInterface> = (props) => {
         mt={`${mainNavHeight}px`}
         ref={PageContentContainerRef}
         minH='79vh'
+        bg={customBg ? `url(${customBg})` : ''}
+        bgRepeat={customBg ? 'no-repeat' : undefined}
+        bgSize={customBg ? 'cover' : undefined}
       >
         {children}
       </Container>

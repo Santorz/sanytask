@@ -27,17 +27,17 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
   const footerBg = useColorModeValue('#0E1C21', '#060D10');
 
   return (
-    <chakra.footer w="full" bgColor={footerBg}>
+    <chakra.footer w='full' bgColor={footerBg}>
       {isFooterTypeBig && (
         <Flex
-          as="nav"
-          role="navigation"
-          w="full"
-          transition="background-color .2s ease"
-          justify="space-evenly"
+          as='nav'
+          role='navigation'
+          w='full'
+          transition='background-color .2s ease'
+          justify='space-evenly'
           direction={{ base: 'column', md: 'row' }}
-          align="flex-start"
-          p="2"
+          align='flex-start'
+          p='2'
           userSelect={'none'}
         >
           {/* Main footer */}
@@ -45,11 +45,11 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
             <SimpleGrid
               columns={{ base: 1, sm: 2, md: 4 }}
               spacing={8}
-              color="white"
+              color='white'
             >
               <Stack align={'flex-start'}>
                 <ListHeader>Company</ListHeader>
-                <CustomLink href={'/about'}>About Us</CustomLink>
+                <CustomLink href={'/about-us'}>About Us</CustomLink>
                 <CustomLink href={'/blog'}>Blog</CustomLink>
                 <CustomLink href={'/donate'}>Donate</CustomLink>
               </Stack>
@@ -70,18 +70,18 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
 
               <Stack align={'flex-start'}>
                 <ListHeader>Install App</ListHeader>
-                <Stack position="relative" spacing="0">
+                <Stack position='relative' spacing='0'>
                   <AppStoreBadge />
                   <PlayStoreBadge />
                   <Flex
-                    position="absolute"
-                    w="full"
-                    h="full"
-                    align="center"
-                    justify="center"
-                    bg="rgba(0,0,0,.55)"
-                    rounded="md"
-                    backdropFilter="blur(2px)"
+                    position='absolute'
+                    w='full'
+                    h='full'
+                    align='center'
+                    justify='center'
+                    bg='rgba(0,0,0,.55)'
+                    rounded='md'
+                    backdropFilter='blur(2px)'
                   >
                     Coming Soon..
                   </Flex>
@@ -104,7 +104,7 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
           justify={{ md: 'space-between' }}
           align={{ md: 'center' }}
         >
-          <Text color="white">
+          <Text color='white'>
             © {new Date().getFullYear()} my-next-task . All rights reserved
           </Text>
           <Stack direction={'row'} spacing={6}>
@@ -151,8 +151,8 @@ const SocialButton: FC<SocialButtonInterface> = ({
 }) => {
   return (
     <chakra.button
-      bg="blackAlpha.100"
-      color="white"
+      bg='blackAlpha.100'
+      color='white'
       rounded={'full'}
       w={8}
       h={8}
@@ -160,7 +160,7 @@ const SocialButton: FC<SocialButtonInterface> = ({
       as={'a'}
       aria-label={label}
       href={href}
-      target="_blank"
+      target='_blank'
       rel={rel ? rel : undefined}
       display={'inline-flex'}
       alignItems={'center'}
