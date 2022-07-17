@@ -17,7 +17,7 @@ const customTheme = extendTheme({
   },
 
   fonts: {
-    heading: `Maven Pro, ${base.fonts?.heading}`,
+    heading: `Montserrat, ${base.fonts?.heading}`,
     body: `Noto Sans, ${base.fonts?.body}`,
   },
 

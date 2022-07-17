@@ -27,6 +27,7 @@ const TasksConfig = dynamic(() => import('../components/general/TasksConfig'));
 // CSS
 import '../theme/styles.css';
 import '../styles/nprogress.css';
+import '../styles/global.css';
 
 function MyApp({ Component, pageProps }) {
   // Hooks

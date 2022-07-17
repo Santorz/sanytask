@@ -35,6 +35,7 @@ const AboutUsHomePage: FC = (props) => {
         w='full'
         minH='40rem'
         maxW='full'
+        px='0'
       >
         <Hero />
       </Container>

@@ -24,7 +24,7 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
   return (
     <CustomLink
       fontWeight='semibold'
-      fontFamily='heading'
+      fontFamily='body'
       color={isCurrentPath ? brandColor : ''}
       href={href}
       fontSize='1.05rem'

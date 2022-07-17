@@ -260,7 +260,7 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
                 />
               </InputGroup>
               <FormErrorMessage>
-                Title must be between 4 - 50 charaacters
+                Title must be between 4 - 50 characters
               </FormErrorMessage>
             </FormControl>
             {/*  */}
@@ -288,7 +288,7 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
                 }}
                 name='details'
                 onChange={handleChange}
-                placeholder='Enter a clear and consise decription here...'
+                placeholder='Enter a clear and concise decription here...'
               />
 
               <FormErrorMessage>

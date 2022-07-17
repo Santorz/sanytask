@@ -153,39 +153,46 @@ const CustomDialogButton: FC<custBtnInterface> = (props) => {
   const { showCustomToast, closeAllToasts } = useCustomToast();
 
   // Funcs
-  // main delete
-  const mainDelete = async (id: string) => {
-    showCustomToast(
-      'process2',
-      actionName === 'delete'
-        ? 'Deleting task'
-        : actionName === 'mark-done'
-        ? 'Marking task as done...'
-        : actionName
-    );
-    onClose();
-    const { status, message } = await deleteTask(id);
-    if (status === 'success') {
-      closeAllToasts();
-      showCustomToast('success', 'Task marked as done successfully');
-    } else {
-      closeAllToasts();
-      showCustomToast('error', 'Failed to delete task');
-    }
-  };
-  // main mark-done
-  const mainMarkDone = async (id: string) => {
-    showCustomToast('process2', 'Marking task as done...');
-    onClose();
-    const { status, message } = await markTaskDone(id);
-    if (status === 'success') {
-      closeAllToasts();
-      showCustomToast('success', 'Task marked as done successfully');
-    } else {
-      closeAllToasts();
-      showCustomToast('error', 'Failed to marked task as done ');
-    }
-  };
+  // main delete function
+  const mainDelete = useCallback(
+    async (id: string) => {
+      showCustomToast(
+        'process2',
+        actionName === 'delete'
+          ? 'Deleting task'
+          : actionName === 'mark-done'
+          ? 'Marking task as done...'
+          : actionName
+      );
+      onClose();
+      const { status, message } = await deleteTask(id);
+      if (status === 'success') {
+        closeAllToasts();
+        showCustomToast('success', 'Task deleted successfully');
+      } else {
+        closeAllToasts();
+        showCustomToast('error', 'Failed to delete task');
+      }
+    },
+    [actionName, closeAllToasts, onClose, showCustomToast]
+  );
+
+  // main mark-done function
+  const mainMarkDone = useCallback(
+    async (id: string) => {
+      showCustomToast('process2', 'Marking task as done...');
+      onClose();
+      const { status, message } = await markTaskDone(id);
+      if (status === 'success') {
+        closeAllToasts();
+        showCustomToast('success', 'Task marked as done successfully');
+      } else {
+        closeAllToasts();
+        showCustomToast('error', 'Failed to marked task as done ');
+      }
+    },
+    [closeAllToasts, onClose, showCustomToast]
+  );
 
   // Main JSX
   return (
