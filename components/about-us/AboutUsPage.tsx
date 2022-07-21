@@ -6,6 +6,7 @@ import { Container, useColorModeValue } from '@chakra-ui/react';
 
 // Dynamic Component Imports
 const Hero = dynamic(() => import('./Hero'));
+const OurTeam = dynamic(() => import('./OurTeam'));
 
 // Main Page Component */
 const AboutUsHomePage: FC = (props) => {
@@ -31,13 +32,14 @@ const AboutUsHomePage: FC = (props) => {
   return (
     <GeneralPageWrapper customBg={aboutUsPageBg} footerType='big'>
       <Container
-        backdropFilter='blur(25px) saturate(180%)'
+        backdropFilter='blur(50px) saturate(50%)'
         w='full'
         minH='40rem'
         maxW='full'
         px='0'
       >
         <Hero />
+        <OurTeam />
       </Container>
     </GeneralPageWrapper>
   );

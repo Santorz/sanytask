@@ -77,6 +77,7 @@ const Hero: FC = () => {
 
           <Box as='section' w={{ base: 'full' }}>
             <Image
+              loading='lazy'
               rounded='2xl'
               src='/media/about-us/hero1.jpg'
               alt='Task management hero image'

@@ -67,10 +67,9 @@ const GeneralPageWrapper: FC<GeneralPageWrapperInterface> = (props) => {
         px='0'
         mt={`${mainNavHeight}px`}
         ref={PageContentContainerRef}
-        minH='79vh'
         bg={customBg ? `url(${customBg})` : ''}
-        bgRepeat={customBg ? 'no-repeat' : undefined}
-        bgSize={customBg ? 'cover' : undefined}
+        bgRepeat={customBg ? 'repeat' : undefined}
+        bgSize={customBg ? 'contain !important' : undefined}
       >
         {children}
       </Container>

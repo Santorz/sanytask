@@ -1,3 +1,6 @@
 * {
   font-kerning: auto !important;
 }
+html {
+  scroll-behavior: smooth;
+}
