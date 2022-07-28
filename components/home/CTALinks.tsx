@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { useColorModeValue, HStack } from '@chakra-ui/react';
 import { decryptWithoutUserData } from '../../utils/crypto-js-utils';
 import { UserLoginStateContext } from '../general/UserLoginState';
@@ -9,8 +9,16 @@ const CTALinks: FC = () => {
   const inversePrimaryColor = useColorModeValue('gray.50', 'black');
   const primaryColor = useColorModeValue('black', 'gray.50');
   const { encLoggedInString } = useContext(UserLoginStateContext);
-  const isUserLoggedInDecrypted =
-    decryptWithoutUserData(encLoggedInString) === 'true';
+  const [isUserLoggedInDecrypted, setIsUserLoggedInDec] =
+    useState<boolean>(null);
+
+  useEffect(() => {
+    if (typeof window !== undefined) {
+      setIsUserLoggedInDec(
+        decryptWithoutUserData(encLoggedInString) === 'true'
+      );
+    }
+  }, [encLoggedInString]);
 
   //   Main JSX
   return (

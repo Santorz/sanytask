@@ -26,7 +26,7 @@ const UserCard: FC<UserCardInterface> = (props) => {
   const brandColor = useColorModeValue('brand.500', 'brand.300');
   const cardBgColor = useColorModeValue(
     'rgb(250 250 250 / 50%)',
-    'rgb(0 0 0 / 50%)'
+    'rgb(0 0 0 / 65%)'
   );
 
   // Main JSX
@@ -47,21 +47,30 @@ const UserCard: FC<UserCardInterface> = (props) => {
         htmlHeight='240px'
         htmlWidth='180px'
         objectFit='cover'
+        w='full'
+        h='full'
+        borderTopRadius='md'
       />
 
       {/* User's  name and position */}
       <VStack
-        shadow='dark-lg'
         roundedBottom='md'
         spacing='5px'
         p='1'
         bgColor={cardBgColor}
         backdropFilter='blur(15px) saturate(180%)'
+        w='full'
       >
         <Heading size='sm' as='h3'>
           {name}
         </Heading>
-        <Text fontSize='0.85rem' lineHeight='1.35' as='h6'>
+        <Text
+          w='full'
+          textAlign='center'
+          fontSize='0.85rem'
+          lineHeight='1.35'
+          as='h6'
+        >
           {position}
         </Text>
       </VStack>

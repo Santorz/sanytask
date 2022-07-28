@@ -22,7 +22,7 @@ interface optionsInterface {
 export const useDateFuncs = () => {
   // Hooks
   const brandColor = useColorModeValue('brand.500', 'brand.100');
-  const redColor = useColorModeValue('red.500', 'red.300');
+  const redColor = useColorModeValue('red.500', 'red.200');
 
   // state values
   const [currentDate, setCurrentDate] = useState(new Date());

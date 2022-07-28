@@ -58,7 +58,7 @@ const PaginationController: FC<PaginationControllerInterface> = (props) => {
             fontSize='3xl'
             opacity={currentPage <= 1 ? '0.3 !important' : '1'}
           />
-          <Heading size='sm'>
+          <Heading size='sm' fontFamily='body'>
             Showing {tasksOffset + 1} to{' '}
             {slicedTasks.length < tasksPerPage
               ? slicedTasks.length + tasksOffset

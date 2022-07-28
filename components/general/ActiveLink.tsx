@@ -15,7 +15,7 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
 
   // Hooks
   const { asPath } = useRouter();
-  const brandColor = useColorModeValue('brand.500', 'brand.100');
+  const brandColor = useColorModeValue('brand.500', 'brand.50');
   const { isDesktopOnly } = useResponsiveSSR();
 
   //   Bools
@@ -23,7 +23,7 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
 
   return (
     <CustomLink
-      fontWeight='semibold'
+      fontWeight={isCurrentPath ? 'semibold' : 'normal'}
       fontFamily='body'
       color={isCurrentPath ? brandColor : ''}
       href={href}

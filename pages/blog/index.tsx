@@ -1,8 +1,95 @@
-import { NextPage } from 'next';
+import { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
-import BlogHomePage from '../../components/blog/HomePage';
+import BlogHomePage from '../../components/blog/home/BlogHomePage';
+import sanityClient from '../../sanity/sanityClient';
+import { Post } from '../../sanity/exportedBlogSchema';
 
-const Blog: NextPage = () => {
+// Types and Interfaces
+export type PickedPostType = Pick<
+  Post,
+  'slug' | 'title' | '_id' | 'author' | 'mainImage' | 'excerpt' | '_createdAt'
+>;
+
+export interface BlogPostPreviewType extends PickedPostType {
+  estimatedReadingTime: number;
+}
+
+// Server side Props getter
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  // const query = encodeURIComponent(`*[ _type == "post" ]`);
+  // const url = `${process.env.SANITY_URL}query=${query}`;
+  // const data = await axios.get(url).then((response) => response);
+
+  const topPost = await sanityClient.query<BlogPostPreviewType>(
+    `*[_type == "post" &&  "top" in categories[]->title]{
+  slug,
+  title,
+  _id,
+  author,
+  mainImage,
+  excerpt,
+  "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
+}`
+  );
+  const featuredPosts = await sanityClient.query<BlogPostPreviewType>(
+    `*[_type == "post" &&  "featured" in categories[]->title]{
+  slug,
+  title,
+  _id,
+  author,
+  mainImage,
+  excerpt,
+  "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
+}`
+  );
+  const allOtherPosts = await sanityClient.query<BlogPostPreviewType>(
+    `*[_type == "post" &&  !("featured" in categories[]->title) && !("top" in categories[]->title)]{
+  slug,
+  title,
+  _id,
+  author,
+  mainImage,
+  excerpt,
+  "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
+}`
+  );
+
+  // Check for emptiness or undefined
+  if (
+    (!topPost || topPost.length === 0) &&
+    (!featuredPosts || featuredPosts.length === 0) &&
+    (!allOtherPosts || allOtherPosts.length === 0)
+  ) {
+    return {
+      props: {
+        topPost: [],
+      },
+    };
+  } else {
+    return {
+      props: {
+        topPost: topPost && topPost.length > 0 ? topPost : [],
+        featuredPosts:
+          featuredPosts && featuredPosts.length > 0 ? featuredPosts : [],
+        allOtherPosts:
+          allOtherPosts && allOtherPosts.length > 0 ? allOtherPosts : [],
+      },
+    };
+  }
+};
+
+// type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
+// type Props = UnwrapPromise<ReturnType<typeof getServerSideProps>>[];
+
+export interface BlogHomePagePostsInterface {
+  allOtherPosts: BlogPostPreviewType[];
+  featuredPosts: BlogPostPreviewType[];
+  topPost: BlogPostPreviewType;
+}
+const Blog: NextPage<BlogHomePagePostsInterface> = (props) => {
+  // Hooks
+
+  // Main JSX
   return (
     <>
       <Head>
@@ -14,7 +101,7 @@ const Blog: NextPage = () => {
       </Head>
 
       {/* Blog's Home page Component */}
-      <BlogHomePage />
+      <BlogHomePage {...props} />
     </>
   );
 };

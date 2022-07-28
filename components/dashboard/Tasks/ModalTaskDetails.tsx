@@ -86,7 +86,7 @@ const ModalTaskDetails: FC = () => {
             {title ? decrypt(title) : 'Task not found'}
           </Heading>
         )}
-        <Heading fontSize='1.1rem'>
+        <Heading fontSize='1.1rem' fontFamily='body' fontWeight='normal'>
           {/* hour left part */}
           <chakra.span color={addColorOnTask(new Date(dueDate))}>
             {dueDate && <TimeDiffShort dueDate={dueDate} />}

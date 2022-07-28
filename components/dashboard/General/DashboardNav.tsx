@@ -45,26 +45,26 @@ const DashboardNav: FC = (props) => {
     <Flex
       ref={fixedNavRef}
       justify={{ base: 'space-between', md: 'space-evenly' }}
-      w="full"
+      w='full'
       maxW={isMobile ? '100%' : isTabletOnly ? '300px' : '400px'}
       position={isMobile ? 'fixed' : 'relative'}
       bottom={isMobile ? '0' : 'unset'}
       boxShadow={navShadow}
       rounded={isTabletAndAbove ? '3xl' : 'none'}
-      mx="0"
-      as="ul"
+      mx='0'
+      as='ul'
       px={{ base: '4', md: '0' }}
       bgColor={{ base: bgColor, md: 'transparent' }}
       zIndex={isMobile ? '99' : 'inherit'}
-      transition="background-color .2s ease"
+      transition='background-color .2s ease'
     >
-      <ActiveLink href="/dashboard" hash="" icon={FaTasks}>
+      <ActiveLink href='/dashboard' hash='' icon={FaTasks}>
         Tasks
       </ActiveLink>
-      <ActiveLink href="/dashboard#calendar" hash="calendar" icon={ImCalendar}>
+      <ActiveLink href='/dashboard#calendar' hash='calendar' icon={ImCalendar}>
         Calendar
       </ActiveLink>
-      <ActiveLink href="/dashboard#account" hash="account" icon={FaUser}>
+      <ActiveLink href='/dashboard#account' hash='account' icon={FaUser}>
         Account
       </ActiveLink>
     </Flex>
@@ -104,20 +104,20 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
     <li style={{ listStyleType: 'none' }}>
       <Link href={href} passHref scroll={false}>
         <ChakraLink
-          pt="2"
+          pt='2'
           color={linkColor}
           fontWeight={doesHashMatch ? 'bold' : 'normal'}
-          fontFamily="Maven Pro"
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          fontSize="13.5px"
+          fontFamily='body'
+          display='flex'
+          flexDirection='column'
+          alignItems='center'
+          justifyContent='center'
+          fontSize='13.5px'
           borderBottom={doesHashMatch ? '1px solid currentColor' : 'none'}
-          mb="1.5"
+          mb='1.5'
           _hover={{ textDecoration: doesHashMatch ? 'none' : 'underline' }}
         >
-          <Icon fontSize="20px" as={icon} />
+          <Icon fontSize='20px' as={icon} />
           <h3>{children}</h3>
         </ChakraLink>
       </Link>

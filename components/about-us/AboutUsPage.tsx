@@ -32,7 +32,7 @@ const AboutUsHomePage: FC = (props) => {
   return (
     <GeneralPageWrapper customBg={aboutUsPageBg} footerType='big'>
       <Container
-        backdropFilter='blur(50px) saturate(50%)'
+        backdropFilter='blur(30px) saturate(50%)'
         w='full'
         minH='40rem'
         maxW='full'

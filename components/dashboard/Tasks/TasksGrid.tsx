@@ -14,7 +14,7 @@ const TasksGrid: FC<TasksGridInterface> = (props) => {
     <>
       <VStack spacing='3' alignItems='left'>
         <Flex alignItems='center' justify='space-between'>
-          <Heading size='lg' fontWeight='normal'>
+          <Heading size='lg' fontWeight='normal' fontFamily='body'>
             My Tasks
           </Heading>
         </Flex>

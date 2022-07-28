@@ -1,4 +1,4 @@
-import { Box, Heading, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
 import UserCard from './UserCard';
 import { FC } from 'react';
 
@@ -13,7 +13,7 @@ const OurTeam: FC = () => {
   // Hooks
 
   // Vars
-  const userInfoArray: Array<UserInfoInterface> = [
+  const userInfoArray: UserInfoInterface[] = [
     {
       name: 'Saint Tarila-Brisbe',
       position: 'Founder and Solo Developer',
@@ -33,8 +33,8 @@ const OurTeam: FC = () => {
         as='section'
         columns={{ base: 2, sm: 3, lg: 4 }}
         spacingY={{ base: '40px', sm: '60px' }}
-        justifyContent='space-around !important'
-        justifyItems='center !important'
+        alignContent='space-between'
+        justifyContent='space-around'
         mt='1.5rem !important'
         mb='2rem !important'
         mx='auto'

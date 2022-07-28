@@ -13,12 +13,12 @@ const TasksList: FC<TasksListInterface> = (props) => {
   return (
     <>
       <VStack spacing='1.5' alignItems='left'>
-        <Heading fontSize='1.3rem' pl='2' fontWeight='normal' fontFamily='body'>
+        <Heading fontFamily='body' fontSize='1.3rem' pl='2' fontWeight='normal'>
           My Tasks
         </Heading>
         <VStack as='main' spacing='4' px='0.5'>
           {tasksArr.map((task, index) => {
-            const { id, dueDate, title } = task;
+            const { id } = task;
             return <EachTaskMobile key={id} {...task} index={index} />;
           })}
         </VStack>
