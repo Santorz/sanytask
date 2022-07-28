@@ -23,7 +23,7 @@ const CreateButton: FC = () => {
       rounded='full'
       size='lg'
       fontSize='1.5rem'
-      d='flex'
+      display='flex'
       alignItems='center'
       gap='1.5'
       shadow='xl'

@@ -190,7 +190,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
               <FormLabel htmlFor='email' fontFamily='heading' fontWeight='bold'>
                 Email:
               </FormLabel>
-              <InputGroup d='flex' alignItems='center'>
+              <InputGroup display='flex' alignItems='center'>
                 <InputLeftElement pointerEvents='none' top='unset'>
                   <Icon as={MdMail} boxSize='1.5rem' />
                 </InputLeftElement>
@@ -234,7 +234,7 @@ const LoginForm: FC<UserLoginStateInterface> = (props) => {
               >
                 Password:
               </FormLabel>
-              <InputGroup d='flex' alignItems='center'>
+              <InputGroup display='flex' alignItems='center'>
                 <InputLeftElement pointerEvents='none' top='unset'>
                   <Icon as={MdLock} boxSize='1.5rem' />
                 </InputLeftElement>

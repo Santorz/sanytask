@@ -131,7 +131,7 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
       size='full'
     >
       <ModalOverlay
-        d='flex'
+        display='flex'
         justifyContent='space-between'
         backgroundColor={overlayBgColor}
         backdropFilter='blur(12px) saturate(180%)'
@@ -159,7 +159,7 @@ const TaskModalGeneric: FC<TaskModalGenericInterface> = ({ hash }) => {
             pb='0'
             py='2'
             fontSize='1.35rem'
-            d='flex'
+            display='flex'
             justifyContent='right'
             alignItems='center'
             textAlign='right'

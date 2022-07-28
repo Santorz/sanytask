@@ -52,7 +52,7 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
       w='full'
       rounded='xl'
       shadow='md'
-      d='flex'
+      display='flex'
       flexDirection='column'
       name={`Task ${index + 1}`}
       aria-label={decrypt(title)}
@@ -111,7 +111,7 @@ const EachTaskDesktop: FC<EachTaskDesktopInterface> = (props) => {
         fontWeight='normal'
         whiteSpace='normal'
         textAlign='left'
-        d='block'
+        display='block'
       >
         {fineTrimString(decrypt(details), 120)}...
       </Text>

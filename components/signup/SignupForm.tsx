@@ -161,27 +161,27 @@ const SignupForm: FC = () => {
   return (
     <>
       <Flex
-        as="main"
-        direction="column"
-        minH="27.5rem"
+        as='main'
+        direction='column'
+        minH='27.5rem'
         bgColor={formBg}
-        backdropFilter="blur(15px) saturate(180%)"
-        w="full"
-        maxW="550px"
-        rounded="2xl"
-        shadow="lg"
+        backdropFilter='blur(15px) saturate(180%)'
+        w='full'
+        maxW='550px'
+        rounded='2xl'
+        shadow='lg'
         px={['6', '9', '9', '11', '14']}
         py={['4', '5', '7', '6']}
       >
-        <Heading size="lg" my="1">
+        <Heading size='lg' my='1'>
           Sign Up
         </Heading>
         <Heading
-          as="h1"
-          fontSize="1.075rem"
-          my="1"
-          fontWeight="normal"
-          fontFamily="body"
+          as='h1'
+          fontSize='1.075rem'
+          my='1'
+          fontWeight='normal'
+          fontFamily='body'
         >
           Welcome a new world of task management.
         </Heading>
@@ -208,31 +208,31 @@ const SignupForm: FC = () => {
             }}
           >
             {/* First name and last name inputs */}
-            <HStack alignItems="start">
+            <HStack alignItems='start'>
               {/* First name form control element */}
-              <FormControl isInvalid={isFNameInvalid} w="full" isRequired>
+              <FormControl isInvalid={isFNameInvalid} w='full' isRequired>
                 <FormLabel
-                  htmlFor="fName"
-                  fontFamily="heading"
-                  fontWeight="bold"
+                  htmlFor='fName'
+                  fontFamily='heading'
+                  fontWeight='bold'
                 >
                   First Name:
                 </FormLabel>
-                <InputGroup d="flex" alignItems="center">
-                  <InputLeftElement pointerEvents="none" top="unset">
-                    <Icon as={MdPerson} boxSize="1.5rem" />
+                <InputGroup display='flex' alignItems='center'>
+                  <InputLeftElement pointerEvents='none' top='unset'>
+                    <Icon as={MdPerson} boxSize='1.5rem' />
                   </InputLeftElement>
 
                   <Input
                     spellCheck={false}
                     disabled={signUpStarted}
-                    name="fName"
+                    name='fName'
                     isRequired
                     value={fName}
-                    placeholder="First name..."
+                    placeholder='First name...'
                     onChange={handleChange}
-                    size="lg"
-                    id="fName-input"
+                    size='lg'
+                    id='fName-input'
                     borderColor={borderColor}
                     _hover={{ borderColor: `${borderColor} !important` }}
                     _autofill={{
@@ -249,29 +249,29 @@ const SignupForm: FC = () => {
               </FormControl>
               {/*  */}
               {/* Last name form control element */}
-              <FormControl isInvalid={isLNameInvalid} w="full" isRequired>
+              <FormControl isInvalid={isLNameInvalid} w='full' isRequired>
                 <FormLabel
-                  htmlFor="lName"
-                  fontFamily="heading"
-                  fontWeight="bold"
+                  htmlFor='lName'
+                  fontFamily='heading'
+                  fontWeight='bold'
                 >
                   Last Name:
                 </FormLabel>
-                <InputGroup d="flex" alignItems="center">
-                  <InputLeftElement pointerEvents="none" top="unset">
-                    <Icon as={MdPersonOutline} boxSize="1.5rem" />
+                <InputGroup display='flex' alignItems='center'>
+                  <InputLeftElement pointerEvents='none' top='unset'>
+                    <Icon as={MdPersonOutline} boxSize='1.5rem' />
                   </InputLeftElement>
 
                   <Input
                     spellCheck={false}
                     disabled={signUpStarted}
-                    name="lName"
+                    name='lName'
                     isRequired
                     value={lName}
-                    placeholder="Last name..."
+                    placeholder='Last name...'
                     onChange={handleChange}
-                    size="lg"
-                    id="lName-input"
+                    size='lg'
+                    id='lName-input'
                     borderColor={borderColor}
                     _hover={{ borderColor: `${borderColor} !important` }}
                     _autofill={{
@@ -291,26 +291,26 @@ const SignupForm: FC = () => {
             {/*  */}
 
             {/* Email form control element */}
-            <FormControl isInvalid={isEmailInvalid} w="full" isRequired>
-              <FormLabel htmlFor="email" fontFamily="heading" fontWeight="bold">
+            <FormControl isInvalid={isEmailInvalid} w='full' isRequired>
+              <FormLabel htmlFor='email' fontFamily='heading' fontWeight='bold'>
                 Email:
               </FormLabel>
-              <InputGroup d="flex" alignItems="center">
-                <InputLeftElement pointerEvents="none" top="unset">
-                  <Icon as={MdMail} boxSize="1.5rem" />
+              <InputGroup display='flex' alignItems='center'>
+                <InputLeftElement pointerEvents='none' top='unset'>
+                  <Icon as={MdMail} boxSize='1.5rem' />
                 </InputLeftElement>
 
                 <Input
                   spellCheck={false}
                   disabled={signUpStarted}
-                  type="email"
-                  name="email"
+                  type='email'
+                  name='email'
                   isRequired
                   value={email}
-                  placeholder="Input your email here..."
+                  placeholder='Input your email here...'
                   onChange={handleChange}
-                  size="lg"
-                  id="email-input"
+                  size='lg'
+                  id='email-input'
                   borderColor={borderColor}
                   _hover={{ borderColor: `${borderColor} !important` }}
                   _autofill={{
@@ -332,28 +332,28 @@ const SignupForm: FC = () => {
               gap={{ base: '4', md: '2' }}
             >
               {/* Password form control element */}
-              <FormControl isInvalid={isPasswordInvalid} w="full" isRequired>
+              <FormControl isInvalid={isPasswordInvalid} w='full' isRequired>
                 <FormLabel
-                  htmlFor="password"
-                  fontFamily="heading"
-                  fontWeight="bold"
+                  htmlFor='password'
+                  fontFamily='heading'
+                  fontWeight='bold'
                 >
                   Password:
                 </FormLabel>
-                <InputGroup d="flex" alignItems="center">
-                  <InputLeftElement pointerEvents="none" top="unset">
-                    <Icon as={MdLock} boxSize="1.5rem" />
+                <InputGroup display='flex' alignItems='center'>
+                  <InputLeftElement pointerEvents='none' top='unset'>
+                    <Icon as={MdLock} boxSize='1.5rem' />
                   </InputLeftElement>
 
                   <Input
                     disabled={signUpStarted}
-                    type="password"
-                    name="password"
+                    type='password'
+                    name='password'
                     isRequired
                     value={password}
-                    placeholder="Input your password here..."
+                    placeholder='Input your password here...'
                     onChange={handleChange}
-                    size="lg"
+                    size='lg'
                     borderColor={borderColor}
                     _hover={{ borderColor: `${borderColor} !important` }}
                   />
@@ -370,29 +370,29 @@ const SignupForm: FC = () => {
               {/*  */}
 
               {/* Second Password form control element */}
-              <FormControl isInvalid={!arePasswordsSame} w="full" isRequired>
+              <FormControl isInvalid={!arePasswordsSame} w='full' isRequired>
                 <FormLabel
-                  htmlFor="second-password"
-                  fontFamily="heading"
-                  fontWeight="bold"
+                  htmlFor='second-password'
+                  fontFamily='heading'
+                  fontWeight='bold'
                 >
                   Repeat Password:
                 </FormLabel>
-                <InputGroup d="flex" alignItems="center">
-                  <InputLeftElement pointerEvents="none" top="unset">
-                    <Icon as={MdLock} boxSize="1.5rem" />
+                <InputGroup display='flex' alignItems='center'>
+                  <InputLeftElement pointerEvents='none' top='unset'>
+                    <Icon as={MdLock} boxSize='1.5rem' />
                   </InputLeftElement>
 
                   <Input
                     disabled={signUpStarted}
-                    type="password"
-                    name="second-password"
-                    id="second-password"
+                    type='password'
+                    name='second-password'
+                    id='second-password'
                     isRequired
                     value={secondPassword}
-                    placeholder="Repeat your password..."
+                    placeholder='Repeat your password...'
                     onChange={(e) => setSecondPassword(e.target.value)}
-                    size="lg"
+                    size='lg'
                     borderColor={borderColor}
                     _hover={{ borderColor: `${borderColor} !important` }}
                   />
@@ -402,7 +402,7 @@ const SignupForm: FC = () => {
             </Flex>
 
             {!isPasswordInvalid && !password && (
-              <Text fontSize="sm">
+              <Text fontSize='sm'>
                 Password must be at least 8 characters and contain at least 1
                 capital letter, 1 number and one symbol.
               </Text>
@@ -413,13 +413,13 @@ const SignupForm: FC = () => {
 
           {/* Sign up button element */}
           <Button
-            loadingText="Please wait..."
-            spinnerPlacement="start"
-            type="submit"
-            w="full"
-            colorScheme="brand"
-            variant="solid"
-            fontSize="1.2rem"
+            loadingText='Please wait...'
+            spinnerPlacement='start'
+            type='submit'
+            w='full'
+            colorScheme='brand'
+            variant='solid'
+            fontSize='1.2rem'
             isLoading={signUpStarted}
             disabled={
               !email ||

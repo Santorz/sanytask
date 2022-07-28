@@ -229,7 +229,7 @@ const TaskForm: FC<TaskFormInterface> = ({ formType }) => {
               <FormLabel htmlFor='email' fontFamily='heading' fontWeight='bold'>
                 Task title:
               </FormLabel>
-              <InputGroup d='flex' alignItems='center'>
+              <InputGroup display='flex' alignItems='center'>
                 <InputLeftElement pointerEvents='none' top='unset'>
                   <Icon as={FaEdit} boxSize='1.5rem' />
                 </InputLeftElement>

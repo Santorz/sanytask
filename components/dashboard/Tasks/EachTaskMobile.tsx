@@ -28,7 +28,7 @@ const EachTaskMobile: FC<EachTaskMobileInterface> = (props) => {
       height='70px'
       w='full'
       rounded='xl'
-      d='flex'
+      display='flex'
       shadow='md'
       justifyContent='space-between'
       name={`Task ${index + 1}`}
