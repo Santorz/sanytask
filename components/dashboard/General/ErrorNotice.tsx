@@ -92,7 +92,7 @@ const ErrorNotice: FC<ErrorNoticeInterface> = (props) => {
           </VStack>
           <Button
             minW='120px'
-            d='flex'
+            display='flex'
             alignItems='center'
             onClick={() => triggerTasksFetch()}
             colorScheme='brand'
@@ -121,7 +121,7 @@ const CustLink: FC<CustLinkInterface> = (props) => {
   return (
     <Link href={href} passHref>
       <ChakraLink
-        d='inline-block'
+        display='inline-block'
         rounded='lg'
         my='3'
         py='3'
