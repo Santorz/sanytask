@@ -35,7 +35,7 @@ const NavContainer = forwardRef<HTMLDivElement>((props, ref) => {
         <Logo isResponsive logoType='normal' />
         {/* End of Logo */}
         <Container
-          d='flex'
+          display='flex'
           maxW='600px'
           w={{ base: 'auto', md: 'full' }}
           justifyContent='right'
