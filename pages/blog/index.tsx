@@ -12,6 +12,7 @@ export type PickedPostType = Pick<
 
 export interface BlogPostPreviewType extends PickedPostType {
   estimatedReadingTime: number;
+  tags: Array<{ label: string; value: string }>;
 }
 
 // Server side Props getter
@@ -20,39 +21,53 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // const url = `${process.env.SANITY_URL}query=${query}`;
   // const data = await axios.get(url).then((response) => response);
 
-  const topPost = await sanityClient.query<BlogPostPreviewType>(
-    `*[_type == "post" &&  "top" in categories[]->title]{
+  // Top post
+  const topPost = await sanityClient
+    .query<BlogPostPreviewType>(
+      `*[_type == "post" &&  "top" in categories[]->title]{
   slug,
   title,
   _id,
   author,
   mainImage,
   excerpt,
+  tags,
   "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
 }`
-  );
-  const featuredPosts = await sanityClient.query<BlogPostPreviewType>(
-    `*[_type == "post" &&  "featured" in categories[]->title]{
+    )
+    .catch((err) => console.log(err));
+
+  // Featured posts
+  const featuredPosts = await sanityClient
+    .query<BlogPostPreviewType>(
+      `*[_type == "post" &&  "featured" in categories[]->title]{
   slug,
   title,
   _id,
   author,
   mainImage,
   excerpt,
+  tags,
   "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
 }`
-  );
-  const allOtherPosts = await sanityClient.query<BlogPostPreviewType>(
-    `*[_type == "post" &&  !("featured" in categories[]->title) && !("top" in categories[]->title)]{
+    )
+    .catch((err) => console.log(err));
+
+  // All other posts
+  const allOtherPosts = await sanityClient
+    .query<BlogPostPreviewType>(
+      `*[_type == "post" &&  !("featured" in categories[]->title) && !("top" in categories[]->title)]{
   slug,
   title,
   _id,
   author,
   mainImage,
   excerpt,
+  tags,
   "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
 }`
-  );
+    )
+    .catch((err) => console.log(err));
 
   // Check for emptiness or undefined
   if (

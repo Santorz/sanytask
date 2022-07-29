@@ -7,10 +7,6 @@ const TopandFeaturedPosts: FC = () => {
   // Hooks
   const { topPost, featuredPosts } = useContext(BlogPagePostsContexts);
 
-  useEffect(() => {
-    console.log(topPost);
-  }, [topPost]);
-
   // Main JSX
   return (
     <Flex

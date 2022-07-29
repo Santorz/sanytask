@@ -5,8 +5,8 @@ const projectId = process.env.NEXT_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_SANITY_DATASET;
 
 export const nonTypedSanityClient = {
-  projectId: projectId, //Replace this with your project ID
-  dataset: dataset,
+  projectId: 'cvelh0ca', //Replace this with your project ID
+  dataset: 'production',
 };
 
 // This type parameter enables the client to be aware of your generated types

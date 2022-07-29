@@ -104,6 +104,13 @@ export interface Post extends SanityDocument {
    *
    */
   excerpt?: string;
+
+  /**
+   * Tags — `tags`
+   *
+   *
+   */
+  tags?: Tags;
 }
 
 /**
@@ -182,3 +189,10 @@ export type BlockContent = Array<
 >;
 
 export type Documents = Post | Author | Category;
+
+/**
+ * This interface is a stub. It was referenced in your sanity schema but
+ * the definition was not actually found. Future versions of
+ * sanity-codegen will let you type this explicity.
+ */
+type Tags = any;
