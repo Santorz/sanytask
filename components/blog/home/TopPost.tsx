@@ -43,14 +43,14 @@ const TopPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
   }, [mainImage]);
 
   //   Hooks
-  const bgColor = useColorModeValue('blackAlpha.200', 'whiteAlpha.300');
+  const bgColor = useColorModeValue('rgb(210, 210, 210)', 'rgb(35, 35,35)');
   const tagBgColor = useColorModeValue('blackAlpha.900', 'whiteAlpha.900');
   const tagColor = useColorModeValue('white', 'black');
   const borderColor = useColorModeValue('gray.600', 'whiteAlpha.600');
 
   // Main JSX
   return (
-    <Link href={`/article/${slug?.current ? slug?.current : ''}`} passHref>
+    <Link href={`/blog/article/${slug?.current ? slug?.current : ''}`} passHref>
       <ChakraLink _hover={{ textDecoration: 'none' }} w='full' maxW='27.5rem'>
         <Box
           as='article'
@@ -105,7 +105,7 @@ const TopPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
                 bgColor={tagBgColor}
                 color={tagColor}
                 fontWeight='bold'
-                letterSpacing='.75px'
+                letterSpacing='.5px'
               >
                 {tags ? tags[0].value : 'Uncategorized'}
               </Text>

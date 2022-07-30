@@ -16,10 +16,14 @@ export interface BlogPostPreviewType extends PickedPostType {
 }
 
 // Server side Props getter
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // const query = encodeURIComponent(`*[ _type == "post" ]`);
   // const url = `${process.env.SANITY_URL}query=${query}`;
   // const data = await axios.get(url).then((response) => response);
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=600, stale-while-revalidate=660'
+  );
 
   // Top post
   const topPost = await sanityClient

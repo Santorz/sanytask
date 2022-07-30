@@ -19,7 +19,12 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
   const { isDesktopOnly } = useResponsiveSSR();
 
   //   Bools
-  const isCurrentPath = asPath === href;
+  const isCurrentPath =
+    asPath === href
+      ? true
+      : asPath.includes(`${href}/`) && href !== '/'
+      ? asPath.includes(`${href}/`)
+      : false;
 
   return (
     <CustomLink
@@ -32,6 +37,7 @@ const ActiveLink: FC<ActiveLinkInterface> = (props) => {
       borderBottom={isCurrentPath ? '2px solid currentColor' : ''}
       alignSelf={!isDesktopOnly ? 'start' : 'center'}
       _hover={{ textDecoration: isCurrentPath ? 'none' : 'underline' }}
+      pointerEvents={asPath === href ? 'none' : 'all'}
     >
       {text}
     </CustomLink>
