@@ -8,6 +8,7 @@ import { Post } from '../../../sanity/exportedBlogSchema';
 import { Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import imageUrlBuilder from '@sanity/image-url';
+import { useRouter } from 'next/router';
 
 // Server side Action
 export const getServerSideProps: GetServerSideProps = async ({
@@ -53,6 +54,9 @@ const ArticleSlug: NextPage<Post> = (props) => {
     .size(1200, 700)
     .url();
 
+  // Hooks
+  const { asPath } = useRouter();
+
   // State values
 
   // UseEffects
@@ -64,7 +68,10 @@ const ArticleSlug: NextPage<Post> = (props) => {
       <Head>
         <title>{title} - Blog | my-next-task</title>
         <meta property='og:image:type' content='image/png' />
-        <meta property='og:url' content='https://my-next-task.com' />
+        <meta
+          property='og:url'
+          content={`https://my-next-task.com/${asPath}`}
+        />
         <meta property='og:type' content='website' />
         <meta property='og:title' content={title} />
         <meta property='og:description' content={excerpt} />
