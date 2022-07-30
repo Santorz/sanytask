@@ -48,22 +48,14 @@ const ArticleSlug: NextPage<Post> = (props) => {
   // Props destructuring
   const { _id, title, author, mainImage } = props || {};
 
+  const image = imageUrlBuilder(nonTypedSanityClient)
+    .image(mainImage)
+    .size(1200, 700)
+    .url();
+
   // State values
-  const [imageUrl, setImageUrl] = useState<string>(null);
 
   // UseEffects
-  useEffect(() => {
-    try {
-      const image = imageUrlBuilder(nonTypedSanityClient)
-        .image(mainImage)
-        .size(1200, 700)
-        .url();
-      setImageUrl(image);
-    } catch (err) {
-      setImageUrl(null);
-    }
-    console.log(author);
-  }, [author, mainImage]);
 
   // Main JSX
   return (
@@ -77,7 +69,8 @@ const ArticleSlug: NextPage<Post> = (props) => {
         <meta
           property='og:image'
           content={
-            imageUrl ? imageUrl : 'https://my-next-task.com/media/og-image.png'
+            image
+            // ? image : 'https://my-next-task.com/media/og-image.png'
           }
         />
       </Head>
