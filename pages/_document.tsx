@@ -1,4 +1,4 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Document, { Html, Main, NextScript } from 'next/document';
 import { FC } from 'react';
 import { chakra } from '@chakra-ui/react';
 
@@ -6,35 +6,6 @@ const MyDocument = () => {
   // Main JSX
   return (
     <Html lang='en' prefix='og: http://ogp.me/ns#'>
-      <Head>
-        <meta charSet='utf-8' />
-        <link
-          rel='apple-touch-icon'
-          sizes='180x180'
-          href='/favicon/apple-touch-icon.png'
-        />
-        <link
-          rel='icon'
-          type='image/png'
-          sizes='32x32'
-          href='/favicon/favicon-32x32.png'
-        />
-        <link
-          rel='icon'
-          type='image/png'
-          sizes='16x16'
-          href='/favicon/favicon-16x16.png'
-        />
-        <link rel='manifest' href='/favicon/site.webmanifest' />
-        <link rel='icon' href='/favicon/favicon.ico' type='image/x-icon' />
-        <meta property='og:image:type' content='image/png' />
-        <meta property='og:url' content='https://my-next-task.com' />
-        <meta property='og:type' content='website' />
-        <meta
-          property='og:image'
-          content='https://my-next-task.com/media/og-image.png'
-        />
-      </Head>
       <BodyWithHooks />
     </Html>
   );

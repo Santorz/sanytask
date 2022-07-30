@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 // Main Component
 const ArticleSlug: NextPage<Post> = (props) => {
   // Props destructuring
-  const { _id, title, author, mainImage } = props || {};
+  const { _id, title, author, mainImage, excerpt } = props || {};
 
   const image = imageUrlBuilder(nonTypedSanityClient)
     .image(mainImage)
@@ -66,6 +66,8 @@ const ArticleSlug: NextPage<Post> = (props) => {
         <meta property='og:image:type' content='image/png' />
         <meta property='og:url' content='https://my-next-task.com' />
         <meta property='og:type' content='website' />
+        <meta property='og:title' content={title} />
+        <meta property='og:description' content={excerpt} />
         <meta
           property='og:image'
           content={
