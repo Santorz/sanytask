@@ -12,6 +12,7 @@ import {
   PARSE_JAVASCRIPT_KEY,
   PARSE_HOST_URL,
 } from '../parse-sdk/config';
+import Head from 'next/head';
 
 // Initialize Parse
 if (!Parse.applicationId) {
@@ -28,7 +29,6 @@ const TasksConfig = dynamic(() => import('../components/general/TasksConfig'));
 import '../theme/styles.css';
 import '../styles/nprogress.css';
 import '../styles/global.css';
-import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
   // Hooks
@@ -96,6 +96,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       {/* SEO section */}
+      {/*  
       <Head>
         <meta charSet='utf-8' />
         <link
@@ -125,6 +126,7 @@ function MyApp({ Component, pageProps }) {
           content='https://my-next-task.com/media/og-image.png'
         />
       </Head>
+        */}
 
       {/* Main UI Components */}
       <ChakraProvider theme={customTheme}>

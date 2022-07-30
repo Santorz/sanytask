@@ -71,8 +71,7 @@ const ArticleSlug: NextPage<Post> = (props) => {
         <meta
           property='og:image'
           content={
-            image
-            // ? image : 'https://my-next-task.com/media/og-image.png'
+            image ? image : 'https://my-next-task.com/media/og-image.png'
           }
         />
       </Head>
