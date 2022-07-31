@@ -96,7 +96,6 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       {/* SEO section */}
-      {/*  
       <Head>
         <meta charSet='utf-8' />
         <link
@@ -126,7 +125,6 @@ function MyApp({ Component, pageProps }) {
           content='https://my-next-task.com/media/og-image.png'
         />
       </Head>
-        */}
 
       {/* Main UI Components */}
       <ChakraProvider theme={customTheme}>

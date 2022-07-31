@@ -51,7 +51,7 @@ const ArticleSlug: NextPage<Post> = (props) => {
 
   const image = imageUrlBuilder(nonTypedSanityClient)
     .image(mainImage)
-    .size(1200, 700)
+    .size(1200, 630)
     .url();
 
   // Hooks
@@ -67,6 +67,10 @@ const ArticleSlug: NextPage<Post> = (props) => {
       {/* // SEO part */}
       <Head>
         <title>{title} - Blog | my-next-task</title>
+        <meta
+          name='description'
+          content="We are happy to announce that we're now a verified Brave publisher."
+        />
         <meta property='og:image:type' content='image/png' />
         <meta
           property='og:url'
@@ -78,9 +82,28 @@ const ArticleSlug: NextPage<Post> = (props) => {
         <meta
           property='og:image'
           content={
-            image ? image : 'https://my-next-task.com/media/og-image.png'
+            image
+            // ? image : 'https://my-next-task.com/media/og-image.png'
           }
         />
+
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta property='twitter:domain' content='my-next-task.com' />
+        <meta
+          property='twitter:url'
+          content={`https://my-next-task.com/${asPath}`}
+        />
+        <meta name='twitter:title' content={title} />
+        <meta name='twitter:description' content={excerpt} />
+        <meta
+          name='twitter:image'
+          content={
+            image
+            // ? image : 'https://my-next-task.com/media/og-image.png'
+          }
+        />
+
+        {/* <!-- Meta Tags Generated via https://www.opengraph.xyz --> */}
       </Head>
 
       {/* // Main Body */}
