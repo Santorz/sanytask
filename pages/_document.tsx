@@ -27,13 +27,6 @@ const MyDocument = () => {
         />
         <link rel='manifest' href='/favicon/site.webmanifest' />
         <link rel='icon' href='/favicon/favicon.ico' type='image/x-icon' />
-        <meta property='og:image:type' content='image/png' />
-        <meta property='og:url' content='https://my-next-task.com' />
-        <meta property='og:type' content='website' />
-        <meta
-          property='og:image'
-          content='https://my-next-task.com/media/og-image.png'
-        />
       </Head>
       <BodyWithHooks />
     </Html>

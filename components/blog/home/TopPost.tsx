@@ -43,7 +43,7 @@ const TopPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
   }, [mainImage]);
 
   //   Hooks
-  const bgColor = useColorModeValue('rgb(210, 210, 210)', 'rgb(35, 35,35)');
+  const bgColor = useColorModeValue('rgb(225, 225, 225)', 'rgb(35, 35,35)');
   const tagBgColor = useColorModeValue('blackAlpha.900', 'whiteAlpha.900');
   const tagColor = useColorModeValue('white', 'black');
   const borderColor = useColorModeValue('gray.600', 'whiteAlpha.600');

@@ -12,7 +12,8 @@ import {
   PARSE_JAVASCRIPT_KEY,
   PARSE_HOST_URL,
 } from '../parse-sdk/config';
-import Head from 'next/head';
+import { DefaultSeo } from 'next-seo';
+import nextSeoDefaultConfig from '../next-seo.config';
 
 // Initialize Parse
 if (!Parse.applicationId) {
@@ -96,6 +97,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       {/* SEO section */}
+      <DefaultSeo {...nextSeoDefaultConfig} />
 
       {/* Main UI Components */}
       <ChakraProvider theme={customTheme}>

@@ -9,6 +9,7 @@ import { Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import imageUrlBuilder from '@sanity/image-url';
 import { useRouter } from 'next/router';
+import { NextSeo } from 'next-seo';
 
 // Server side Action
 export const getServerSideProps: GetServerSideProps = async ({
@@ -49,7 +50,7 @@ const ArticleSlug: NextPage<Post> = (props) => {
   // Props destructuring
   const { _id, title, author, mainImage, excerpt } = props || {};
 
-  const image = imageUrlBuilder(nonTypedSanityClient)
+  const imageUrl = imageUrlBuilder(nonTypedSanityClient)
     .image(mainImage)
     .size(1200, 630)
     .url();
@@ -65,46 +66,26 @@ const ArticleSlug: NextPage<Post> = (props) => {
   return (
     <>
       {/* // SEO part */}
-      <Head>
-        <title>{title} - Blog | my-next-task</title>
-        <meta
-          name='description'
-          content="We are happy to announce that we're now a verified Brave publisher."
-        />
-        <meta property='og:image:type' content='image/png' />
-        <meta
-          property='og:url'
-          content={`https://my-next-task.com/${asPath}`}
-        />
-        <meta property='og:type' content='website' />
-        <meta property='og:title' content={title} />
-        <meta property='og:description' content={excerpt} />
-        <meta
-          property='og:image'
-          content={
-            image
-            // ? image : 'https://my-next-task.com/media/og-image.png'
-          }
-        />
-
-        <meta name='twitter:card' content='summary_large_image' />
-        <meta property='twitter:domain' content='my-next-task.com' />
-        <meta
-          property='twitter:url'
-          content={`https://my-next-task.com/${asPath}`}
-        />
-        <meta name='twitter:title' content={title} />
-        <meta name='twitter:description' content={excerpt} />
-        <meta
-          name='twitter:image'
-          content={
-            image
-            // ? image : 'https://my-next-task.com/media/og-image.png'
-          }
-        />
-
-        {/* <!-- Meta Tags Generated via https://www.opengraph.xyz --> */}
-      </Head>
+      <NextSeo
+        title={`${title} - Blog | my-next-task`}
+        description={`We are happy to announce that we're now a verified Brave publisher.`}
+        openGraph={{
+          url: `https://my-next-task.com/${asPath}`,
+          title: `${title} - Blog | my-next-task`,
+          description: `${excerpt}`,
+          images: [
+            {
+              url: imageUrl,
+              alt: 'Main Og-Image',
+              type: 'image/png',
+            },
+          ],
+        }}
+        twitter={{
+          site: 'htps://my-next-task.com',
+          cardType: 'summary_large_image',
+        }}
+      />
 
       {/* // Main Body */}
       <GeneralPageWrapper footerType='big'>
