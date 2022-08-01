@@ -8,6 +8,7 @@ const MyDocument = () => {
     <Html lang='en' prefix='og: http://ogp.me/ns#'>
       <Head>
         <meta charSet='utf-8' />
+        <meta prefix='og: http://ogp.me/ns#' />
         <link
           rel='apple-touch-icon'
           sizes='180x180'

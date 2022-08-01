@@ -75,13 +75,14 @@ const ArticleSlug: NextPage<Post> = (props) => {
         title={`${title} - Blog | my-next-task`}
         description={`We are happy to announce that we're now a verified Brave publisher.`}
         openGraph={{
-          url: `https://my-next-task.com/${asPath}`,
+          url: `https://my-next-task.com${asPath}`,
           title: `${title} - Blog | my-next-task`,
           description: `${excerpt}`,
           type: 'article',
           article: {
             tags: tags.map((tag) => tag.value),
           },
+          site_name: `my-next-task's blog`,
           images: [
             {
               url: imageUrl,
@@ -91,7 +92,7 @@ const ArticleSlug: NextPage<Post> = (props) => {
           ],
         }}
         twitter={{
-          site: 'htps://my-next-task.com',
+          site: `htps://my-next-task.com${asPath}`,
           cardType: 'summary_large_image',
         }}
       />
