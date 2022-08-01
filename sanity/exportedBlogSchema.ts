@@ -15,7 +15,7 @@ import type {
   SanityImageDimensions,
   SanityImagePalette,
   SanityImagePaletteSwatch,
-} from "sanity-codegen";
+} from 'sanity-codegen';
 
 export type {
   SanityReference,
@@ -42,7 +42,7 @@ export type {
  *
  */
 export interface Post extends SanityDocument {
-  _type: "post";
+  _type: 'post';
 
   /**
    * Title — `string`
@@ -56,7 +56,7 @@ export interface Post extends SanityDocument {
    *
    *
    */
-  slug?: { _type: "slug"; current: string };
+  slug?: { _type: 'slug'; current: string };
 
   /**
    * Author — `reference`
@@ -71,7 +71,7 @@ export interface Post extends SanityDocument {
    *
    */
   mainImage?: {
-    _type: "image";
+    _type: 'image';
     asset: SanityReference<SanityImageAsset>;
     crop?: SanityImageCrop;
     hotspot?: SanityImageHotspot;
@@ -119,7 +119,7 @@ export interface Post extends SanityDocument {
  *
  */
 export interface Author extends SanityDocument {
-  _type: "author";
+  _type: 'author';
 
   /**
    * Name — `string`
@@ -133,7 +133,7 @@ export interface Author extends SanityDocument {
    *
    *
    */
-  slug?: { _type: "slug"; current: string };
+  slug?: { _type: 'slug'; current: string };
 
   /**
    * Image — `image`
@@ -141,7 +141,7 @@ export interface Author extends SanityDocument {
    *
    */
   image?: {
-    _type: "image";
+    _type: 'image';
     asset: SanityReference<SanityImageAsset>;
     crop?: SanityImageCrop;
     hotspot?: SanityImageHotspot;
@@ -161,7 +161,7 @@ export interface Author extends SanityDocument {
  *
  */
 export interface Category extends SanityDocument {
-  _type: "category";
+  _type: 'category';
 
   /**
    * Title — `string`
@@ -181,7 +181,7 @@ export interface Category extends SanityDocument {
 export type BlockContent = Array<
   | SanityKeyed<SanityBlock>
   | SanityKeyed<{
-      _type: "image";
+      _type: 'image';
       asset: SanityReference<SanityImageAsset>;
       crop?: SanityImageCrop;
       hotspot?: SanityImageHotspot;
@@ -195,4 +195,4 @@ export type Documents = Post | Author | Category;
  * the definition was not actually found. Future versions of
  * sanity-codegen will let you type this explicity.
  */
-type Tags = any;
+type Tags = Array<{ label: string; value: string }>;

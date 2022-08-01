@@ -3,7 +3,6 @@ import sanityClient, {
   nonTypedSanityClient,
 } from '../../../sanity/sanityClient';
 import GeneralPageWrapper from '../../../components/general/GeneralPageWrapper';
-import Head from 'next/head';
 import { Post } from '../../../sanity/exportedBlogSchema';
 import { Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
@@ -48,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 // Main Component
 const ArticleSlug: NextPage<Post> = (props) => {
   // Props destructuring
-  const { _id, title, author, mainImage, excerpt } = props || {};
+  const { _id, title, author, mainImage, excerpt, tags } = props || {};
 
   const imageUrl = imageUrlBuilder(nonTypedSanityClient)
     .image(mainImage)
@@ -67,12 +66,22 @@ const ArticleSlug: NextPage<Post> = (props) => {
     <>
       {/* // SEO part */}
       <NextSeo
+        additionalLinkTags={[
+          {
+            rel: 'canonical',
+            href: `https://my-next-task.com/${asPath}`,
+          },
+        ]}
         title={`${title} - Blog | my-next-task`}
         description={`We are happy to announce that we're now a verified Brave publisher.`}
         openGraph={{
           url: `https://my-next-task.com/${asPath}`,
           title: `${title} - Blog | my-next-task`,
           description: `${excerpt}`,
+          type: 'article',
+          article: {
+            tags: tags.map((tag) => tag.value),
+          },
           images: [
             {
               url: imageUrl,

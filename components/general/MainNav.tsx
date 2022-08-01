@@ -113,7 +113,7 @@ const MainNav = forwardRef<HTMLDivElement, MainNavInterface>((props, ref) => {
 
           {/* #322 => Container for login and dashboard links for tablet only  */}
           {/*  and subnav activator button for both mobile and tablet */}
-          {isMobile && (
+          {(isMobile || isTabletOnly) && (
             <HStack spacing={{ md: '2rem' }}>
               {/* // Signup , Login and Dashboard links on tablet only */}
               {isTabletOnly && <UserEntryPageLinks gap='1rem' />}
