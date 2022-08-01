@@ -69,7 +69,7 @@ const ArticleSlug: NextPage<Post> = (props) => {
         additionalLinkTags={[
           {
             rel: 'canonical',
-            href: `https://my-next-task.com/${asPath}`,
+            href: `https://my-next-task.com${asPath}`,
           },
         ]}
         title={`${title} - Blog | my-next-task`}
