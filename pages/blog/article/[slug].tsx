@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     .then((post) => post[0])
     .catch((err) => console.log(err));
 
-  if (!articleData || Object.values(articleData).length < 1) {
+  if (!articleData || (articleData && Object.values(articleData).length < 1)) {
     return {
       notFound: true,
     };
