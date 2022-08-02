@@ -5,7 +5,6 @@ import sanityClient, {
 import GeneralPageWrapper from '../../../components/general/GeneralPageWrapper';
 import { Post } from '../../../sanity/exportedBlogSchema';
 import { Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 import imageUrlBuilder from '@sanity/image-url';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';

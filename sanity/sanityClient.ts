@@ -1,5 +1,6 @@
 import { createClient } from 'sanity-codegen';
 import { Documents } from './exportedBlogSchema';
+import 'process';
 
 const projectId = process.env.NEXT_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_SANITY_DATASET;

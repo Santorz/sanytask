@@ -39,7 +39,10 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
 }`
     )
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
 
   // Featured posts
   const featuredPosts = await sanityClient
@@ -55,7 +58,10 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
 }`
     )
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
 
   // All other posts
   const allOtherPosts = await sanityClient
@@ -71,14 +77,18 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
 }`
     )
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
 
   // Check for emptiness or undefined
   try {
     if (
-      (!topPost || (topPost && topPost.length === 0)) &&
-      (!featuredPosts || (featuredPosts && featuredPosts.length === 0)) &&
-      (!allOtherPosts || (allOtherPosts && allOtherPosts.length === 0))
+      (!topPost || (topPost && Array(topPost).length === 0)) &&
+      (!featuredPosts ||
+        (featuredPosts && Array(featuredPosts).length === 0)) &&
+      (!allOtherPosts || (allOtherPosts && Array(allOtherPosts).length === 0))
     ) {
       return {
         props: {
@@ -88,11 +98,15 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     } else {
       return {
         props: {
-          topPost: topPost && topPost.length > 0 ? topPost : [],
+          topPost: topPost && Array(topPost).length > 0 ? topPost : [],
           featuredPosts:
-            featuredPosts && featuredPosts.length > 0 ? featuredPosts : [],
+            featuredPosts && Array(featuredPosts).length > 0
+              ? featuredPosts
+              : [],
           allOtherPosts:
-            allOtherPosts && allOtherPosts.length > 0 ? allOtherPosts : [],
+            allOtherPosts && Array(allOtherPosts).length > 0
+              ? allOtherPosts
+              : [],
         },
       };
     }
