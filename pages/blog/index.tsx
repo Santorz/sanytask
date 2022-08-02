@@ -74,26 +74,30 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     .catch((err) => console.log(err));
 
   // Check for emptiness or undefined
-  if (
-    (!topPost || topPost.length === 0) &&
-    (!featuredPosts || featuredPosts.length === 0) &&
-    (!allOtherPosts || allOtherPosts.length === 0)
-  ) {
-    return {
-      props: {
-        topPost: [],
-      },
-    };
-  } else {
-    return {
-      props: {
-        topPost: topPost && topPost.length > 0 ? topPost : [],
-        featuredPosts:
-          featuredPosts && featuredPosts.length > 0 ? featuredPosts : [],
-        allOtherPosts:
-          allOtherPosts && allOtherPosts.length > 0 ? allOtherPosts : [],
-      },
-    };
+  try {
+    if (
+      (!topPost || (topPost && topPost.length === 0)) &&
+      (!featuredPosts || (featuredPosts && featuredPosts.length === 0)) &&
+      (!allOtherPosts || (allOtherPosts && allOtherPosts.length === 0))
+    ) {
+      return {
+        props: {
+          topPost: [],
+        },
+      };
+    } else {
+      return {
+        props: {
+          topPost: topPost && topPost.length > 0 ? topPost : [],
+          featuredPosts:
+            featuredPosts && featuredPosts.length > 0 ? featuredPosts : [],
+          allOtherPosts:
+            allOtherPosts && allOtherPosts.length > 0 ? allOtherPosts : [],
+        },
+      };
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 
