@@ -5,7 +5,8 @@ const projectId = process.env.SANITY_PROJECT_ID;
 const dataset = process.env.SANITY_DATASET;
 
 console.log(
-  `\nThe project ID is ${projectId}, and the dataset is ${dataset}\n`
+  `\nThe project ID is ${projectId}, and the dataset is ${dataset}\n`,
+  process.env.NEXT_PUBLIC_PARSE_APPLICATION_ID
 );
 
 export const nonTypedSanityClient = {
