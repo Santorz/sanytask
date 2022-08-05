@@ -2,8 +2,8 @@ import { createClient } from 'sanity-codegen';
 import { Documents } from './exportedBlogSchema';
 import 'process';
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+const projectId = process.env.SANITY_PROJECT_ID;
+const dataset = process.env.SANITY_DATASET;
 
 console.log(
   `\nThe project ID is ${projectId}, and the dataset is ${dataset}\n`
