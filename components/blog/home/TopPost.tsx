@@ -51,7 +51,12 @@ const TopPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
   // Main JSX
   return (
     <Link href={`/blog/article/${slug?.current ? slug?.current : ''}`} passHref>
-      <ChakraLink _hover={{ textDecoration: 'none' }} w='full' maxW='27.5rem'>
+      <ChakraLink
+        id='topPost'
+        _hover={{ textDecoration: 'none' }}
+        w='full'
+        maxW='27.5rem'
+      >
         <Box
           as='article'
           rounded='xl'
@@ -72,6 +77,7 @@ const TopPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
             fadeDuration={3}
           >
             <Image
+              id='topPost-cover-image'
               w='full'
               maxH='282px'
               maxW='390px'

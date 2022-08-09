@@ -1,0 +1,7 @@
+#topPst .topPost-cover-image {
+  transition: 0.5s all ease;
+}
+
+#topPost:hover .topPost-cover-image {
+  transform: scale(1.5);
+}
