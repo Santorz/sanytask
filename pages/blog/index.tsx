@@ -2,7 +2,13 @@ import { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
 import BlogHomePage from '../../components/blog/home/BlogHomePage';
 import sanityClient from '../../sanity/sanityClient';
-import { Post } from '../../sanity/exportedBlogSchema';
+import {
+  Post,
+  SanityImageAsset,
+  SanityImageCrop,
+  SanityImageHotspot,
+  SanityReference,
+} from '../../sanity/exportedBlogSchema';
 
 // Types and Interfaces
 export type PickedPostType = Pick<
@@ -13,6 +19,13 @@ export type PickedPostType = Pick<
 export interface BlogPostPreviewType extends PickedPostType {
   estimatedReadingTime: number;
   tags: Array<{ label: string; value: string }>;
+  authorName: string;
+  authorImage: {
+    _type: 'image';
+    asset: SanityReference<SanityImageAsset>;
+    crop?: SanityImageCrop;
+    hotspot?: SanityImageHotspot;
+  };
 }
 
 // Server side Props getter
@@ -20,10 +33,10 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // const query = encodeURIComponent(`*[ _type == "post" ]`);
   // const url = `${process.env.SANITY_URL}query=${query}`;
   // const data = await axios.get(url).then((response) => response);
-  // res.setHeader(
-  //   'Cache-Control',
-  //   'public, s-maxage=600, stale-while-revalidate=660'
-  // );
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=1200, stale-while-revalidate=1320'
+  );
 
   // Top post
   const topPost = await sanityClient
@@ -36,7 +49,10 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     mainImage,
     excerpt,
     tags,
-    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
+    _createdAt,
+    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
+    "authorName": author->name,
+    "authorImage": author->image
   }`
     )
     .catch((err) => {
@@ -55,7 +71,10 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     mainImage,
     excerpt,
     tags,
-    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
+    _createdAt,
+    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
+    "authorName": author->name,
+    "authorImage": author->image
   }`
     )
     .catch((err) => {
@@ -74,7 +93,10 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     mainImage,
     excerpt,
     tags,
-    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
+    _createdAt,
+    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180),
+    "authorName": author->name,
+    "authorImage": author->image
   }`
     )
     .catch((err) => {

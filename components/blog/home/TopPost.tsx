@@ -26,9 +26,30 @@ const TopPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
     tags,
   } = post || {};
 
+  //   Hooks
+  const bgColor = useColorModeValue('rgb(225, 225, 225)', 'rgb(35, 35,35)');
+  const tagBgColor = useColorModeValue('blackAlpha.900', 'whiteAlpha.900');
+  const tagColor = useColorModeValue('white', 'black');
+  const borderColor = useColorModeValue('gray.600', 'whiteAlpha.600');
+  const boxShadowColor = useColorModeValue(
+    `0 0.5px 1px rgba(0,0,0,0.2), 
+                0 1px 1px rgba(0,0,0,0.2), 
+                0 2px 4px rgba(0,0,0,0.2), 
+                0 4px 8px rgba(0,0,0,0.2),
+                0 8px 16px rgba(0,0,0,0.2), 
+                0 16px 32px rgba(0,0,0,0.2);`,
+    `0 0.5px 1px rgba(180,180,180,0.15), 
+                0 1px 2px rgba(180,180,180,0.15), 
+                0 2px 4px rgba(180,180,180,0.15), 
+                0 4px 8px rgba(180,180,180,0.15),
+                0 8px 16px rgba(180,180,180,0.15), 
+                0 16px 32px rgba(180,180,180,0.15);`
+  );
+
   // State values
   const [imageUrl, setImageUrl] = useState<string>(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isTopPostHovered, setIsTopPostHovered] = useState(false);
 
   useEffect(() => {
     try {
@@ -42,20 +63,22 @@ const TopPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
     }
   }, [mainImage]);
 
-  //   Hooks
-  const bgColor = useColorModeValue('rgb(225, 225, 225)', 'rgb(35, 35,35)');
-  const tagBgColor = useColorModeValue('blackAlpha.900', 'whiteAlpha.900');
-  const tagColor = useColorModeValue('white', 'black');
-  const borderColor = useColorModeValue('gray.600', 'whiteAlpha.600');
-
   // Main JSX
   return (
     <Link href={`/blog/article/${slug?.current ? slug?.current : ''}`} passHref>
       <ChakraLink
+        cursor='pointer'
         id='topPost'
+        transition='0.5s transform, 0.15s box-shadow'
+        onMouseEnter={() => setIsTopPostHovered(true)}
+        onMouseLeave={() => setIsTopPostHovered(false)}
         _hover={{ textDecoration: 'none' }}
+        transform={isTopPostHovered ? 'scale(1.04)' : ''}
         w='full'
         maxW='27.5rem'
+        rounded='xl'
+        userSelect='none'
+        boxShadow={isTopPostHovered ? boxShadowColor : ''}
       >
         <Box
           as='article'

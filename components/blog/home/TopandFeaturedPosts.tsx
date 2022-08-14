@@ -1,7 +1,8 @@
-import { FC, useContext, useEffect } from 'react';
+import { FC, useContext } from 'react';
 import { Flex } from '@chakra-ui/react';
 import { BlogPagePostsContexts } from './BlogHomePage';
 import TopPost from './TopPost';
+import FeaturedPosts from './FeaturedPosts';
 
 const TopandFeaturedPosts: FC = () => {
   // Hooks
@@ -14,13 +15,14 @@ const TopandFeaturedPosts: FC = () => {
       w='full'
       as='main'
       maxW='full'
-      px={{ base: '4', sm: '16', md: '4', lg: '12', xl: '16' }}
+      px={{ base: '4', sm: '12', md: '4', lg: '8', xl: '12' }}
       py='16'
-      rowGap='35px'
+      gap={{ base: '90px', md: '35px', lg: '40px', xl: '100px' }}
       justify={{ base: 'center', md: 'space-around' }}
       align='center'
     >
       <TopPost post={topPost[0]} />
+      <FeaturedPosts featuredPosts={featuredPosts} />
     </Flex>
   );
 };
