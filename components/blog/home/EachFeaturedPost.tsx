@@ -3,7 +3,13 @@ import Link from 'next/link';
 import { BlogPostPreviewType } from '../../../pages/blog';
 import imageUrlBuilder from '@sanity/image-url';
 import { nonTypedSanityClient } from '../../../sanity/sanityClient';
-import { Heading, HStack, useColorModeValue, VStack } from '@chakra-ui/react';
+import {
+  Heading,
+  HStack,
+  Skeleton,
+  useColorModeValue,
+  VStack,
+} from '@chakra-ui/react';
 import { Image, Link as ChakraLink, Text } from '@chakra-ui/react';
 
 const EachFeaturedPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
@@ -24,6 +30,8 @@ const EachFeaturedPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
   // State Values
   const [postImageUrl, setPostImageUrl] = useState<string>(null);
   const [authorImageUrl, setAuthorImageUrl] = useState<string>(null);
+  const [isPostImageLoaded, setIsPostImageLoaded] = useState(false);
+  const [isAuthorImageLoaded, setIsAuthorImageLoaded] = useState(false);
 
   // Hooks
   const tagBgColor = useColorModeValue('blackAlpha.900', 'whiteAlpha.900');
@@ -41,7 +49,7 @@ const EachFeaturedPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
     } catch (err) {
       setPostImageUrl(null);
     }
-  }, [_createdAt, mainImage]);
+  }, [mainImage]);
 
   useEffect(() => {
     try {
@@ -56,7 +64,7 @@ const EachFeaturedPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
   }, [authorImage]);
 
   return (
-    <Link href={`/blog/article/${slug?.current ? slug?.current : ''}`} passHref>
+    <Link href={`/blog/article/${slug?.current}`} passHref>
       <ChakraLink cursor='pointer' w='full' userSelect='none'>
         <HStack
           justifyContent='left'
@@ -65,12 +73,22 @@ const EachFeaturedPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
           alignItems='stretch'
         >
           {/* Post Image */}
-          <Image
-            w='50%'
+          <Skeleton
+            w='full'
+            maxW='180px'
+            minH='135px'
+            isLoaded={isPostImageLoaded}
+            fadeDuration={3}
             rounded='lg'
-            src={postImageUrl}
-            alt={`${title} post cover image`}
-          />
+          >
+            <Image
+              w='full'
+              rounded='lg'
+              src={postImageUrl}
+              alt={`${title} post cover image`}
+              onLoad={() => setIsPostImageLoaded(true)}
+            />
+          </Skeleton>
 
           {/* Post details */}
           <VStack spacing='10px' alignItems='start'>
@@ -116,13 +134,24 @@ const EachFeaturedPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
               justifyContent='left'
               pt={{ base: '0', md: '2' }}
             >
-              <Image
-                borderRadius='full'
-                src={authorImageUrl}
-                alt={`${authorName} profile pic`}
-                borderColor={borderColor}
-                border='2px solid'
-              />
+              <Skeleton
+                h='40px'
+                w='40px'
+                isLoaded={isAuthorImageLoaded}
+                fadeDuration={3}
+                rounded='full'
+              >
+                <Image
+                  borderRadius='full'
+                  src={authorImageUrl}
+                  alt={`${authorName} profile pic`}
+                  borderColor={borderColor}
+                  border='2px solid'
+                  htmlWidth='40'
+                  htmlHeight='40'
+                  onLoad={() => setIsAuthorImageLoaded(true)}
+                />
+              </Skeleton>
               <VStack spacing='2.5px' alignItems='start'>
                 <Text fontWeight='semibold' fontSize={'.95rem'}>
                   {authorName}

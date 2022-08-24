@@ -73,7 +73,7 @@ const TopPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
         onMouseEnter={() => setIsTopPostHovered(true)}
         onMouseLeave={() => setIsTopPostHovered(false)}
         _hover={{ textDecoration: 'none' }}
-        transform={isTopPostHovered ? 'scale(1.04)' : ''}
+        transform={isTopPostHovered ? 'scale(1.03)' : ''}
         w='full'
         maxW='27.5rem'
         rounded='xl'

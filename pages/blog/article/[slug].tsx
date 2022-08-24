@@ -8,6 +8,7 @@ import { Text } from '@chakra-ui/react';
 import imageUrlBuilder from '@sanity/image-url';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
+import { findBestMatch } from 'string-similarity';
 
 // Server side Action
 export const getServerSideProps: GetServerSideProps = async ({
@@ -16,10 +17,10 @@ export const getServerSideProps: GetServerSideProps = async ({
 }: GetServerSidePropsContext) => {
   res.setHeader(
     'Cache-Control',
-    'public, s-maxage=600, stale-while-revalidate=660'
+    'public, s-maxage=1200, stale-while-revalidate=1320'
   );
 
-  const articleSlug = params.slug;
+  const articleSlug = params.slug as string;
 
   if (!articleSlug) {
     return {
@@ -27,20 +28,47 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   }
 
-  const articleData = await sanityClient
+  const articleDataOrStatus = await sanityClient
     .query<Post>(`*[_type == "post" && slug.current == "${articleSlug}"]`)
-    .then((post) => post[0])
-    .catch((err) => console.log(err));
+    .then((post) => {
+      if (post.length <= 0 || !post) {
+        throw new Error('No maching post');
+      } else {
+        return post[0];
+      }
+    })
+    .catch(async (err) => {
+      const allPostsSlugsAndIDs: Array<Pick<Post, '_id' | 'slug'>> =
+        await sanityClient.query(`*[_type == 'post']{_id, slug}`);
+      const allSlugs = allPostsSlugsAndIDs.map((post) => post.slug.current);
+      const closestMatch = findBestMatch(articleSlug, allSlugs);
+      const bestMatchRating = closestMatch.bestMatch.rating;
+      const bestMatchSlug = closestMatch.bestMatch.target;
 
-  if (!articleData || (articleData && Object.values(articleData).length < 1)) {
+      // const closestPostData = await sanityClient
+      //   .query<Post>(
+      //     `*[_type == "post" && slug.current == "${closestMatch.bestMatch.target}"]`
+      //   )
+      //   .then((post) => post[0]);
+      const returnObj = bestMatchRating > 0.5 ? bestMatchSlug : false;
+
+      return returnObj;
+    });
+
+  if (typeof articleDataOrStatus == 'boolean') {
     return {
       notFound: true,
     };
+  } else if (typeof articleDataOrStatus == 'string') {
+    return {
+      redirect: {
+        destination: `/blog/article/${articleDataOrStatus}`,
+        permanent: false,
+      },
+    };
   }
 
-  return {
-    props: articleData,
-  };
+  return { props: { ...articleDataOrStatus } };
 };
 
 // Main Component

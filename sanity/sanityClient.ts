@@ -23,5 +23,5 @@ export default createClient<Documents>({
 
   previewMode: false,
 
-  apiVersion: '2021-06-07',
+  apiVersion: '2022-08-18',
 });

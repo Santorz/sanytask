@@ -38,8 +38,8 @@ const MainNav = forwardRef<HTMLDivElement, MainNavInterface>((props, ref) => {
   const { isMobile, isTabletOnly, isDesktopOnly, isTabletAndAbove } =
     useResponsiveSSR();
   const navBgColor = useColorModeValue(
-    'rgba(247,250,252,0.7)',
-    'rgba(17,17,17,0.7)'
+    'rgba(247,250,252,0.8)',
+    'rgba(17,17,17,0.8)'
   );
   const grayColor = useColorModeValue('gray.500', 'gray.400');
   const boxShadow = useColorModeValue(
