@@ -21,7 +21,7 @@
     "@types/react-responsive": "^8.0.5",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.25.0",
-    "framer-motion": "^6.2.4",
+    "framer-motion": "^7.6.2",
     "next": "^12.2.4",
     "next-seo": "^5.5.0",
     "nprogress": "^1.0.0-1",
