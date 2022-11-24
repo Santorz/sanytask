@@ -64,7 +64,7 @@
     "@types/react": "^18.0.12",
     "@types/string-similarity": "^4.0.0",
     "eslint": "^8.12.0",
-    "eslint-config-next": "12.2.3",
+    "eslint-config-next": "13.0.5",
     "prettier": "^2.7.1",
     "sanity-codegen": "^0.9.8",
     "typescript": "^4.7.3"
