@@ -8,4 +8,4 @@ This app allows you to input tasks you have to complete in the nearest future an
 
 ## Netlify Status
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/1a347dd8-dc1a-4f66-896f-a6cedf37cd02/deploy-status)](https://app.netlify.com/sites/santorz-todo/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4b50846c-d909-4896-84ed-5708248adaaa/deploy-status)](https://app.netlify.com/sites/my-next-task/deploys)
