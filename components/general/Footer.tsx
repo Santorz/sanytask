@@ -105,7 +105,7 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
           align={{ md: 'center' }}
         >
           <Text color='white'>
-            © {new Date().getFullYear()} my-next-task . All rights reserved
+            © {new Date().getFullYear()} sanytask . All rights reserved
           </Text>
           <Stack direction={'row'} spacing={6}>
             <SocialButton
@@ -117,7 +117,7 @@ const Footer: FC<FooterInterface> = ({ footerType }) => {
             </SocialButton>
             <SocialButton
               label={'Our facebook page'}
-              href={'mailto:info@my-next-task.com'}
+              href={'mailto:info@sanytask.com'}
             >
               <FaEnvelope />
             </SocialButton>

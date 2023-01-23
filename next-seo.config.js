@@ -1,20 +1,20 @@
 const nextSEODefaultConfig = {
-  title: 'Home | my-next-task',
+  title: 'Home | sanytask',
   description: 'A personalised task management aplication',
   openGraph: {
     locale: 'en_US',
-    url: 'https://www.my-next-task.com',
-    site_name: 'my-next-task',
+    url: 'https://www.sanytask.com',
+    site_name: 'sanytask',
     images: [
       {
-        url: 'https://www.my-next-task.com/og-image.png',
+        url: 'https://www.sanytask.com/og-image.png',
         alt: 'Main Og-Image',
         type: 'image/png',
       },
     ],
   },
   twitter: {
-    site: 'https://my-next-task.com',
+    site: 'https://sanytask.com',
     cardType: 'summary_large_image',
   },
 };

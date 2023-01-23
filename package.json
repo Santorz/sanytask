@@ -1,5 +1,5 @@
 {
-  "name": "my-next-task",
+  "name": "sanytask",
   "version": "0.5.0",
   "private": true,
   "dependencies": {
@@ -25,7 +25,7 @@
     "next": "^12.2.4",
     "next-seo": "^5.5.0",
     "nprogress": "^1.0.0-1",
-    "parse": "latest",
+    "parse": "^3.5.1",
     "postcss": "^8.2.10",
     "react": "latest",
     "react-dom": "latest",

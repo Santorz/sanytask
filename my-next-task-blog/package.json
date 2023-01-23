@@ -1,5 +1,5 @@
 {
-  "name": "my-next-task-blog",
+  "name": "sanytask-blog",
   "private": true,
   "version": "1.0.0",
   "description": "This app allows you to input tasks you have to complete in the nearest future and reminds you of them",
@@ -32,6 +32,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Santorz/my-next-task.git"
+    "url": "git@github.com:Santorz/sanytask.git"
   }
 }

@@ -9,7 +9,7 @@ const Body = () => {
   return (
     <>
       <Head>
-        <title>Page not found | my-next-task</title>
+        <title>Page not found | sanytask</title>
       </Head>
 
       <GeneralPageWrapper footerType='small'>

@@ -49,7 +49,7 @@ const LoginPage: NextPage = () => {
     <>
       {/* Login SEO Section */}
       <Head>
-        <title>Log in | my-next-task</title>
+        <title>Log in | sanytask</title>
         <meta
           name='description'
           content='Login to view and manage your next tasks.'

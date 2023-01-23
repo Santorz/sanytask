@@ -6,10 +6,10 @@ const Blog: NextPage = () => {
   return (
     <>
       <Head>
-        <title>About Us | my-next-task</title>
+        <title>About Us | sanytask</title>
         <meta
-          name="description"
-          content={`Get to know about  my-next-task and the awesome team behind it. `}
+          name='description'
+          content={`Get to know about  sanytask and the awesome team behind it. `}
         />
       </Head>
 

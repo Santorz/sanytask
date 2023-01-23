@@ -96,20 +96,20 @@ const ArticleSlug: NextPage<Post> = (props) => {
         additionalLinkTags={[
           {
             rel: 'canonical',
-            href: `https://my-next-task.com${asPath}`,
+            href: `https://sanytask.com${asPath}`,
           },
         ]}
-        title={`${title} - Blog | my-next-task`}
+        title={`${title} - Blog | sanytask`}
         description={`We are happy to announce that we're now a verified Brave publisher.`}
         openGraph={{
-          url: `https://my-next-task.com${asPath}`,
-          title: `${title} - Blog | my-next-task`,
+          url: `https://sanytask.com${asPath}`,
+          title: `${title} - Blog | sanytask`,
           description: `${excerpt}`,
           type: 'article',
           article: {
             tags: tags.map((tag) => tag.value),
           },
-          site_name: `my-next-task's blog`,
+          site_name: `sanytask's blog`,
           images: [
             {
               url: imageUrl,
@@ -119,7 +119,7 @@ const ArticleSlug: NextPage<Post> = (props) => {
           ],
         }}
         twitter={{
-          site: `htps://my-next-task.com${asPath}`,
+          site: `htps://sanytask.com${asPath}`,
           cardType: 'summary_large_image',
         }}
       />

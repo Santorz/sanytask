@@ -49,7 +49,7 @@ const SignupPage: NextPage = () => {
     <>
       {/* Signup SEO Section */}
       <Head>
-        <title>Sign up for a new world of task management | my-next-task</title>
+        <title>Sign up for a new world of task management | sanytask</title>
         <meta
           name='description'
           content='Sign up to gain access and explore a new world of task management'

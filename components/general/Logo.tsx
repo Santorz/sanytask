@@ -73,7 +73,7 @@ const DynamicImage: FC<DynamicImageInterface> = (props) => {
             mt='0 !important'
             color={logoTextColor}
           >
-            my-next-task
+            sanytask
           </Heading>
         </VStack>
       )}
@@ -87,7 +87,7 @@ const DynamicImage: FC<DynamicImageInterface> = (props) => {
             mt='0 !important'
             color={logoTextColor}
           >
-            my-next-task
+            sanytask
           </Heading>
         </HStack>
       )}
@@ -102,7 +102,7 @@ const MainImage: FC<DynamicImageInterface> = ({ src, isResponsive }) => (
       base: isResponsive ? '3.8rem' : '3.95rem',
       md: isResponsive ? '4rem' : '4.35rem',
     }}
-    alt='my-next-task logo'
+    alt='sanytask logo'
     src={src}
     onContextMenu={(event: MouseEvent<HTMLImageElement>) => {
       event.preventDefault();

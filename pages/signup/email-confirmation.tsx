@@ -47,7 +47,7 @@ const EmailConfirmationPage: NextPage = () => {
     <>
       {/* Email confirmation page SEO Section */}
       <Head>
-        <title>A signup verification email has been sent | my-next-task</title>
+        <title>A signup verification email has been sent | sanytask</title>
         <meta
           name='description'
           content='A signup verification email has been sent'

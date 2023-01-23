@@ -160,10 +160,10 @@ const Blog: NextPage<BlogHomePagePostsInterface> = (props) => {
   return (
     <>
       <Head>
-        <title>Blog | my-next-task</title>
+        <title>Blog | sanytask</title>
         <meta
           name='description'
-          content={`Welcome to my-next-task's blog. Check out our detailed and rich aricles on how to plan, manage and utilize your time. Have a nice read. `}
+          content={`Welcome to sanytask's blog. Check out our detailed and rich aricles on how to plan, manage and utilize your time. Have a nice read. `}
         />
       </Head>
 
