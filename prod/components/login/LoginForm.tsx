@@ -27,6 +27,7 @@ import {
 import { MdMail, MdLock } from 'react-icons/md';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useCustomToast } from '../../utils/useCustomToast';
+import { log } from 'console';
 
 // Interfaces
 interface loginDetailsInterface {

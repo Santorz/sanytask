@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { useDateFuncs } from '../../utils/dateFuncs';
 import { AnimatePresence, motion } from 'framer-motion';
-import { GoPrimitiveDot } from 'react-icons/go';
+import { GoDotFill } from 'react-icons/go';
 import useResponsiveSSR from '../../utils/useResponsiveSSR';
 
 // Keyframes
@@ -118,7 +118,7 @@ const HeroAnim: FC = () => {
       mx='auto'
     >
       {/* Animation container */}
-      <AnimatePresence exitBeforeEnter={false}>
+      <AnimatePresence>
         {[3, 4, 5, 9].map((each, index) => {
           const isDueDateLater = !isDateBefore(timeArray[index]);
 
@@ -155,16 +155,16 @@ const HeroAnim: FC = () => {
                   <Icon
                     color={cyanColor}
                     fontSize={{ base: '1.2rem', lg: '1.5rem' }}
-                    as={GoPrimitiveDot}
+                    as={GoDotFill}
                   />
                   <Icon
                     fontSize={{ base: '1.2rem', lg: '1.5rem' }}
-                    as={GoPrimitiveDot}
+                    as={GoDotFill}
                     color={orangeColor}
                   />
                   <Icon
                     fontSize={{ base: '1.2rem', lg: '1.5rem' }}
-                    as={GoPrimitiveDot}
+                    as={GoDotFill}
                     color={redColor}
                   />
                 </HStack>

@@ -64,7 +64,7 @@ const EachFeaturedPost: FC<{ post: BlogPostPreviewType }> = ({ post }) => {
   }, [authorImage]);
 
   return (
-    <Link href={`/blog/article/${slug?.current}`} passHref>
+    <Link href={`/blog/article/${slug?.current}`} passHref legacyBehavior>
       <ChakraLink cursor='pointer' w='full' userSelect='none'>
         <HStack
           justifyContent='left'

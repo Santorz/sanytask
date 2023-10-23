@@ -20,19 +20,17 @@ interface LogoInterface {
 const Logo: FC<LogoInterface> = (props) => {
   const { asPath } = useRouter();
 
-  return (
-    <>
-      {asPath !== '/' ? (
-        <Link href='/' passHref>
-          <a>
-            <LogoImage {...props} />
-          </a>
-        </Link>
-      ) : (
+  return <>
+    {asPath !== '/' ? (
+      (<Link href='/' passHref>
+
         <LogoImage {...props} />
-      )}
-    </>
-  );
+
+      </Link>)
+    ) : (
+      <LogoImage {...props} />
+    )}
+  </>;
 };
 
 const LogoImage: FC<LogoInterface> = (props) => {
