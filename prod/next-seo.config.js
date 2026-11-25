@@ -1,6 +1,6 @@
 const nextSEODefaultConfig = {
   title: 'Home | sanytask',
-  description: 'A personalised task management aplication',
+  description: 'A personalized task management aplication',
   openGraph: {
     locale: 'en_US',
     url: 'https://www.sanytask.com',
